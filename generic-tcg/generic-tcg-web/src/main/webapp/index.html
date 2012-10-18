@@ -65,8 +65,13 @@
                     var secondLayoutCardContainer = $("#tabs-2");
                     var secondGroup = new AttachedCardsLayoutCardGroup(secondLayoutCardContainer,
                             function(cardDiv, cardId, props) {
-                                return true;
+                                return props["attach1"]==null;
                             });
+                    secondGroup.setZIndexBase(100);
+                    secondGroup.addAttachedGroup(-1/2, 0,
+                    function(cardDiv, cardId, props, cardDivAtt, cardIdAtt, propsAtt) {
+                        return propsAtt["attach1"] == cardId;
+                    });
 
                     gameUi2 = new SampleGameUi(secondLayoutCardContainer, secondGroup);
 
@@ -83,10 +88,11 @@
                     gameUi1.addCard("4", {});
                     gameUi1.addCard("5", {"hor":true});
 
-                    gameUi2.addCard("1", {});
-                    gameUi2.addCard("2", {});
+//                    gameUi2.addCard("1", {});
+//                    gameUi2.addCard("2", {});
                     gameUi2.addCard("3", {});
-                    gameUi2.addCard("4", {});
+                    gameUi2.addCard("4", {"attach1": "3"});
+//                    gameUi2.addCard("5", {"hor":true});
 
                     gameUi1.layoutCards();
                     gameUi2.layoutCards();
