@@ -44,6 +44,7 @@
     <script type="text/javascript" src="js/SampleGameUi.js"></script>
 
     <script type="text/javascript" src="js/RowCardLayoutCardGroup.js"></script>
+    <script type="text/javascript" src="js/AttachedCardsLayoutCardGroup.js"></script>
 
     <script type="text/javascript">
         var gameUi1;
@@ -54,7 +55,7 @@
                     $("#tabs").tabs();
 
                     var firstLayoutCardContainer = $("#tabs-1");
-                    var firstGroup = new RowCardLayoutCardGroup(this.cardContainerDiv,
+                    var firstGroup = new RowCardLayoutCardGroup(firstLayoutCardContainer,
                             function(cardDiv, cardId, props) {
                                 return true;
                             });
@@ -62,12 +63,12 @@
                     gameUi1 = new SampleGameUi(firstLayoutCardContainer, firstGroup);
 
                     var secondLayoutCardContainer = $("#tabs-2");
-                    var secondGroup = new RowCardLayoutCardGroup(this.cardContainerDiv,
+                    var secondGroup = new AttachedCardsLayoutCardGroup(secondLayoutCardContainer,
                             function(cardDiv, cardId, props) {
                                 return true;
                             });
 
-                    gameUi2 = new SampleGameUi(firstLayoutCardContainer, secondGroup);
+                    gameUi2 = new SampleGameUi(secondLayoutCardContainer, secondGroup);
 
                     $(window).resize(
                             function() {
@@ -81,6 +82,11 @@
                     gameUi1.addCard("3", {});
                     gameUi1.addCard("4", {});
                     gameUi1.addCard("5", {"hor":true});
+
+                    gameUi2.addCard("1", {});
+                    gameUi2.addCard("2", {});
+                    gameUi2.addCard("3", {});
+                    gameUi2.addCard("4", {});
 
                     gameUi1.layoutCards();
                     gameUi2.layoutCards();
