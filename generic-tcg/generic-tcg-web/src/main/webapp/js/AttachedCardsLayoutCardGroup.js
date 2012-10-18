@@ -29,11 +29,11 @@ var AttachedCardsLayoutCardGroup = RowCardLayoutCardGroup.extend({
                 });
     },
 
-    getCardScale: function(cardId, props) {
+    getCardHeightScale: function(cardDiv, cardId, props) {
         return 1;
     },
 
-    getCardRatio: function(cardDiv, cardId, props) {
+    getCardBoxRatio: function(cardDiv, cardId, props) {
         return cardDiv.data("widthToHeight")(cardId, props);
     },
 
