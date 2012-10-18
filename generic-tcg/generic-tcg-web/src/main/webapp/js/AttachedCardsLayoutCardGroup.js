@@ -38,8 +38,8 @@ var AttachedCardsLayoutCardGroup = RowCardLayoutCardGroup.extend({
 
         var minLeft = 0;
         var minTop = 0;
-        var maxRight = 1;
-        var maxBottom = 1 / cardDiv.data("widthToHeight")(cardId, props);
+        var maxRight = Math.min(1, cardDiv.data("widthToHeight")(cardId, props));
+        var maxBottom = Math.min(1, 1/cardDiv.data("widthToHeight")(cardId, props));
 
         for (var i = 0; i < this.attachedGroupsFinderFunc.length; i++) {
             var attachFunc = this.attachedGroupsFinderFunc[i];
@@ -70,15 +70,19 @@ var AttachedCardsLayoutCardGroup = RowCardLayoutCardGroup.extend({
 
     getCardBoxRatio: function(cardDiv, cardId, props) {
         var cardBox = this.getCardBox(cardDiv, cardId, props);
-        return (cardBox.right - cardBox.left) / (cardBox.bottom - cardBox.top);
+        var result = {};
+        result.x = cardBox.right-cardBox.left;
+        result.y = cardBox.bottom-cardBox.top;
+        return result;
     },
 
     layoutCardGroup: function(cardDiv, cardId, props, layout, zIndex, boxLeft, boxTop, boxWidth, boxHeight, scale) {
         var that = this;
         var cardBox = this.getCardBox(cardDiv, cardId, props);
-        var cardWidth = scale * boxWidth / (cardBox.right - cardBox.left);
-        var cardHeight = cardWidth / cardDiv.data("widthToHeight")(cardId, props);
-        var cardLeft = boxLeft - cardBox.left * cardWidth;
+        var cardRatio = cardDiv.data("widthToHeight")(cardId, props);
+        var cardWidth = boxWidth / ((cardBox.right - cardBox.left) / Math.min(1, cardRatio));
+        var cardHeight = cardWidth / cardRatio;
+        var cardLeft = boxLeft - cardBox.left * cardWidth / cardRatio;
         var cardTop = boxTop - cardBox.top * cardHeight + (boxHeight - cardHeight) / 2;
         this.layoutOneCard(cardDiv, cardId, props, layout, zIndex, cardLeft, cardTop, cardWidth, cardHeight);
 

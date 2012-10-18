@@ -15,7 +15,10 @@ var RowCardLayoutCardGroup = CardGroup.extend({
     },
 
     getCardBoxRatio: function(cardDiv, cardId, props) {
-        return Math.min(1, cardDiv.data("widthToHeight")(cardId, props));
+        var result = {};
+        result.x = Math.min(1, cardDiv.data("widthToHeight")(cardId, props));
+        result.y = Math.min(1, 1/cardDiv.data("widthToHeight")(cardId, props));
+        return result;
     },
 
     layoutCards: function() {
@@ -48,7 +51,7 @@ var RowCardLayoutCardGroup = CardGroup.extend({
         var row = 0;
         this.iterCards(
                 function(cardDiv, cardId, props, layout) {
-                    var cardWidth = ratios[cardId] * rowHeight * scale;
+                    var cardWidth = ratios[cardId].x * rowHeight * scale;
                     cardRowCount++;
                     if (cardRowCount == 1) {
                         ascentLeft += that.padding + cardWidth;
@@ -75,7 +78,7 @@ var RowCardLayoutCardGroup = CardGroup.extend({
         this.iterCards(
                 function(cardDiv, cardId, props, layout) {
                     var ratio = ratios[cardId];
-                    var boxWidth = ratio * rowHeight * scale;
+                    var boxWidth = ratio.x * rowHeight * scale;
                     cardRowCount++;
                     if (cardRowCount == 1) {
                         that.layoutCardBox(cardDiv, cardId, props, layout, that.left + ascentLeft, that.top + ascentTop, boxWidth, rowHeight, ratio, scale);
@@ -101,7 +104,7 @@ var RowCardLayoutCardGroup = CardGroup.extend({
         this.iterCards(
                 function(cardDiv, cardId, props, layout) {
                     cardCount++;
-                    totalRatio += ratios[cardId];
+                    totalRatio += ratios[cardId].x;
                 });
 
         var availableCardsWidth = this.width - this.padding * (cardCount - 1);
@@ -127,7 +130,7 @@ var RowCardLayoutCardGroup = CardGroup.extend({
         this.iterCards(
                 function(cardDiv, cardId, props, layout) {
                     var ratio = ratios[cardId];
-                    var boxWidth = ratio * rowHeight * scale;
+                    var boxWidth = ratio.x * rowHeight * scale;
 
                     that.layoutCardBox(cardDiv, cardId, props, layout, that.left + left, that.top, boxWidth, rowHeight, ratio, scale);
 
@@ -143,7 +146,7 @@ var RowCardLayoutCardGroup = CardGroup.extend({
         this.iterCards(
                 function(cardDiv, cardId, props, layout) {
                     var ratio = ratios[cardId];
-                    var boxWidth = ratio * that.height * scale;
+                    var boxWidth = ratio.x * that.height * scale;
 
                     that.layoutCardBox(cardDiv, cardId, props, layout, that.left + left, that.top, boxWidth, that.height, ratio, scale);
 
