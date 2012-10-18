@@ -167,17 +167,17 @@ var AttachedCardsLayoutCardGroup = CardGroup.extend({
                     var cardHeight = Math.min(1, 1 / scales[cardId]) * rowHeight;
                     cardRowCount++;
                     if (cardRowCount == 1) {
-                        that.layoutCard(cardDiv, cardId, props, layout, that.left + ascentLeft, that.top + ascentTop, cardWidth, cardHeight);
+                        that.layoutCardBox(cardDiv, cardId, props, layout, that.left + ascentLeft, that.top + ascentTop, cardWidth, cardHeight);
                         ascentLeft += that.padding + cardWidth;
                     } else {
                         if (ascentLeft + that.padding + cardWidth > that.width) {
                             ascentLeft = 0;
                             ascentTop += that.padding + rowHeight;
-                            that.layoutCard(cardDiv, cardId, props, layout, that.left + ascentLeft, that.top + ascentTop, cardWidth, cardHeight);
+                            that.layoutCardBox(cardDiv, cardId, props, layout, that.left + ascentLeft, that.top + ascentTop, cardWidth, cardHeight);
                             ascentLeft += that.padding + cardWidth;
                             cardRowCount = 1;
                         } else {
-                            that.layoutCard(cardDiv, cardId, props, layout, that.left + ascentLeft, that.top + ascentTop, cardWidth, cardHeight);
+                            that.layoutCardBox(cardDiv, cardId, props, layout, that.left + ascentLeft, that.top + ascentTop, cardWidth, cardHeight);
                             ascentLeft += that.padding + cardWidth;
                         }
                     }
@@ -223,7 +223,7 @@ var AttachedCardsLayoutCardGroup = CardGroup.extend({
                     var cardWidth = Math.min(1, scale) * height;
                     var cardHeight = Math.min(1, 1 / scale) * height;
 
-                    that.layoutCard(cardDiv, cardId, props, layout, that.left + left, that.top, cardWidth, cardHeight);
+                    that.layoutCardBox(cardDiv, cardId, props, layout, that.left + left, that.top, cardWidth, cardHeight);
 
                     left += cardWidth + that.padding;
                     index++;

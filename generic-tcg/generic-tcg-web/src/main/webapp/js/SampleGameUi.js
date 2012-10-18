@@ -14,10 +14,10 @@ var SampleGameUi = Class.extend({
             elem = $("<img class='cardImg' src='images/horizontal.png'>");
         else
             elem = $("<img class='cardImg' src='images/vertical.png'>");
-        this.cardContainer.addCard(elem, cardId, props, this.layoutCard, this.widthToHeightScale);
+        this.cardContainer.addCard(elem, cardId, props, this.layoutCardBox, this.widthToHeightScale);
     },
 
-    layoutCard: function(cardDiv, cardId, props, left, top, width, height) { 
+    layoutCardBox: function(cardDiv, cardId, props, left, top, width, height) {
     },
 
     widthToHeightScale: function(cardId, props) {
