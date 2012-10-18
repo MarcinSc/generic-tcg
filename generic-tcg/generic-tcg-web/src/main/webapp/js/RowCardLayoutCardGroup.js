@@ -10,18 +10,25 @@ var RowCardLayoutCardGroup = CardGroup.extend({
         this.zIndexBase = zIndexBase;
     },
 
+    getCardScale: function(cardId, props) {
+        return 1;
+    },
+
     layoutCards: function() {
+        var that = this;
         var ratios = {};
+        var scale = 1;
         this.iterCards(
                 function(cardDiv, cardId, props, layout, widthToHeightRatioFunc) {
                     ratios[cardId] = widthToHeightRatioFunc(cardId, props);
+                    scale = Math.min(scale, that.getCardScale(cardId, props));
                 });
 
-        if (!this.tryLayoutInOneRow(ratios)) {
+        if (!this.tryLayoutInOneRow(ratios, scale)) {
             var rows = 2;
             while (true) {
-                if (this.canLayoutInRows(ratios, rows)) {
-                    this.layoutInRows(ratios, rows);
+                if (this.canLayoutInRows(ratios, rows, scale)) {
+                    this.layoutInRows(ratios, rows, scale);
                     return;
                 }
                 rows++;
@@ -29,7 +36,7 @@ var RowCardLayoutCardGroup = CardGroup.extend({
         }
     },
 
-    canLayoutInRows: function(ratios, rows) {
+    canLayoutInRows: function(ratios, rows, scale) {
         var that = this;
         var rowHeight = this.height / rows - this.padding * (rows - 1);
         var ascentLeft = 0;
@@ -37,7 +44,7 @@ var RowCardLayoutCardGroup = CardGroup.extend({
         var row = 0;
         this.iterCards(
                 function(cardDiv, cardId, props, layout, widthToHeightRatioFunc) {
-                    var cardWidth = Math.min(1, ratios[cardId]) * rowHeight;
+                    var cardWidth = Math.min(1, ratios[cardId]) * rowHeight * scale;
                     cardRowCount++;
                     if (cardRowCount == 1) {
                         ascentLeft += that.padding + cardWidth;
@@ -55,7 +62,7 @@ var RowCardLayoutCardGroup = CardGroup.extend({
         return row < rows;
     },
 
-    layoutInRows: function(ratios, rows) {
+    layoutInRows: function(ratios, rows, scale) {
         var that = this;
         var rowHeight = this.height / rows - this.padding * (rows - 1);
         var ascentLeft = 0;
@@ -63,8 +70,8 @@ var RowCardLayoutCardGroup = CardGroup.extend({
         var cardRowCount = 0;
         this.iterCards(
                 function(cardDiv, cardId, props, layout, widthToHeightRatioFunc) {
-                    var cardWidth = Math.min(1, ratios[cardId]) * rowHeight;
-                    var cardHeight = Math.min(1, 1 / ratios[cardId]) * rowHeight;
+                    var cardWidth = Math.min(1, ratios[cardId]) * rowHeight * scale;
+                    var cardHeight = Math.min(1, 1 / ratios[cardId]) * rowHeight * scale;
                     cardRowCount++;
                     if (cardRowCount == 1) {
                         that.layoutCard(cardDiv, cardId, props, layout, that.left + ascentLeft, that.top + ascentTop, cardWidth, cardHeight, rowHeight);
@@ -84,7 +91,7 @@ var RowCardLayoutCardGroup = CardGroup.extend({
                 });
     },
 
-    tryLayoutInOneRow: function(ratios) {
+    tryLayoutInOneRow: function(ratios, scale) {
         var totalRatio = 0;
         var cardCount = 0;
         this.iterCards(
@@ -94,30 +101,30 @@ var RowCardLayoutCardGroup = CardGroup.extend({
                 });
 
         var availableCardsWidth = this.width - this.padding * (cardCount - 1);
-        var oneRowCardWidths = this.height * totalRatio;
+        var oneRowCardWidths = this.height * totalRatio * scale;
         if (oneRowCardWidths <= availableCardsWidth) {
-            this.layoutInOneFullRow(ratios);
+            this.layoutInOneFullRow(ratios, scale);
             return true;
         } else {
             var cardHeightInTwoRows = this.height / 2 - this.padding;
-            var cardHeightToFitAll = availableCardsWidth / totalRatio;
+            var cardHeightToFitAll = availableCardsWidth / (totalRatio * scale)
             if (cardHeightToFitAll >= cardHeightInTwoRows) {
-                this.layoutInOnePartialRow(ratios, cardHeightToFitAll);
+                this.layoutInOnePartialRow(ratios, cardHeightToFitAll, scale);
                 return true;
             }
         }
         return false;
     },
 
-    layoutInOnePartialRow: function(ratios, rowHeight) {
+    layoutInOnePartialRow: function(ratios, rowHeight, scale) {
         var that = this;
         var left = 0;
         var index = 0;
         this.iterCards(
                 function(cardDiv, cardId, props, layout, widthToHeightRatioFunc) {
                     var ratio = ratios[cardId];
-                    var cardWidth = Math.min(1, ratio) * rowHeight;
-                    var cardHeight = Math.min(1, 1 / ratio) * rowHeight;
+                    var cardWidth = Math.min(1, ratio) * rowHeight * scale;
+                    var cardHeight = Math.min(1, 1 / ratio) * rowHeight * scale;
 
                     that.layoutCard(cardDiv, cardId, props, layout, that.left + left, that.top, cardWidth, cardHeight, rowHeight);
 
@@ -126,15 +133,15 @@ var RowCardLayoutCardGroup = CardGroup.extend({
                 });
     },
 
-    layoutInOneFullRow: function(ratios) {
+    layoutInOneFullRow: function(ratios, scale) {
         var that = this;
         var left = 0;
         var index = 0;
         this.iterCards(
                 function(cardDiv, cardId, props, layout, widthToHeightRatioFunc) {
                     var ratio = ratios[cardId];
-                    var cardWidth = Math.min(1, ratio) * that.height;
-                    var cardHeight = Math.min(1, 1 / ratio) * that.height;
+                    var cardWidth = Math.min(1, ratio) * that.height * scale;
+                    var cardHeight = Math.min(1, 1 / ratio) * that.height * scale;
 
                     that.layoutCard(cardDiv, cardId, props, layout, that.left + left, that.top, cardWidth, cardHeight, that.height);
 
