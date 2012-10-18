@@ -19,9 +19,8 @@ var CardGroup = Class.extend({
                     var cardId = cardDiv.data("id");
                     var props = cardDiv.data("props");
                     var layout = cardDiv.data("layout");
-                    var widthToHeightScaleFunc = cardDiv.data("widthToHeight");
                     if (that.cardContainFunc(cardDiv, cardId, props))
-                        func(cardDiv, cardId, props, layout, widthToHeightScaleFunc);
+                        func(cardDiv, cardId, props, layout);
                 });
     },
 

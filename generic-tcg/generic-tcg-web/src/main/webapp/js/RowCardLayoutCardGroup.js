@@ -14,13 +14,17 @@ var RowCardLayoutCardGroup = CardGroup.extend({
         return 1;
     },
 
+    getCardRatio: function(cardDiv, cardId, props) {
+        return cardDiv.data("widthToHeight")(cardId, props);
+    },
+
     layoutCards: function() {
         var that = this;
         var ratios = {};
         var scale = 1;
         this.iterCards(
-                function(cardDiv, cardId, props, layout, widthToHeightRatioFunc) {
-                    ratios[cardId] = widthToHeightRatioFunc(cardId, props);
+                function(cardDiv, cardId, props, layout) {
+                    ratios[cardId] = that.getCardRatio(cardDiv, cardId, props);
                     scale = Math.min(scale, that.getCardScale(cardId, props));
                 });
 
@@ -43,7 +47,7 @@ var RowCardLayoutCardGroup = CardGroup.extend({
         var cardRowCount = 0;
         var row = 0;
         this.iterCards(
-                function(cardDiv, cardId, props, layout, widthToHeightRatioFunc) {
+                function(cardDiv, cardId, props, layout) {
                     var cardWidth = Math.min(1, ratios[cardId]) * rowHeight * scale;
                     cardRowCount++;
                     if (cardRowCount == 1) {
@@ -69,7 +73,7 @@ var RowCardLayoutCardGroup = CardGroup.extend({
         var ascentTop = 0;
         var cardRowCount = 0;
         this.iterCards(
-                function(cardDiv, cardId, props, layout, widthToHeightRatioFunc) {
+                function(cardDiv, cardId, props, layout) {
                     var cardWidth = Math.min(1, ratios[cardId]) * rowHeight * scale;
                     var cardHeight = Math.min(1, 1 / ratios[cardId]) * rowHeight * scale;
                     cardRowCount++;
@@ -95,7 +99,7 @@ var RowCardLayoutCardGroup = CardGroup.extend({
         var totalRatio = 0;
         var cardCount = 0;
         this.iterCards(
-                function(cardDiv, cardId, props, layout, widthToHeightRatioFunc) {
+                function(cardDiv, cardId, props, layout) {
                     cardCount++;
                     totalRatio += Math.min(1, ratios[cardId]);
                 });
@@ -121,7 +125,7 @@ var RowCardLayoutCardGroup = CardGroup.extend({
         var left = 0;
         var index = 0;
         this.iterCards(
-                function(cardDiv, cardId, props, layout, widthToHeightRatioFunc) {
+                function(cardDiv, cardId, props, layout) {
                     var ratio = ratios[cardId];
                     var cardWidth = Math.min(1, ratio) * rowHeight * scale;
                     var cardHeight = Math.min(1, 1 / ratio) * rowHeight * scale;
@@ -138,7 +142,7 @@ var RowCardLayoutCardGroup = CardGroup.extend({
         var left = 0;
         var index = 0;
         this.iterCards(
-                function(cardDiv, cardId, props, layout, widthToHeightRatioFunc) {
+                function(cardDiv, cardId, props, layout) {
                     var ratio = ratios[cardId];
                     var cardWidth = Math.min(1, ratio) * that.height * scale;
                     var cardHeight = Math.min(1, 1 / ratio) * that.height * scale;
