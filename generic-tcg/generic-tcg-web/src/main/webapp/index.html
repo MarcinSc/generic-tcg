@@ -67,11 +67,28 @@
                             function(cardDiv, cardId, props) {
                                 return props["attach1"]==null;
                             });
+
+                    var cardAttachedTo = function(cardId, rootCardId) {
+                        log("cardAttachedTo: "+cardId+", "+rootCardId);
+                        var cardProps = secondGroup.findCardPropsById(cardId);
+                        var attachedTo = cardProps["attach1"];
+                        if (attachedTo != null) {
+                            if (attachedTo == rootCardId)
+                                return true;
+                            else
+                                return cardAttachedTo(attachedTo, rootCardId);
+                        }
+                        return false;
+                    };
+
                     secondGroup.setZIndexBase(100);
                     secondGroup.addAttachedGroup(-1/2, 0,
-                    function(cardDiv, cardId, props, cardDivAtt, cardIdAtt, propsAtt) {
-                        return propsAtt["attach1"] == cardId;
-                    });
+                            function(cardDiv, cardId, props) {
+                                return props["attach1"]==null;
+                            },
+                            function(cardDiv, cardId, props, cardDivAtt, cardIdAtt, propsAtt) {
+                                return cardAttachedTo(cardIdAtt, cardId);
+                            });
 
                     gameUi2 = new SampleGameUi(secondLayoutCardContainer, secondGroup);
 
@@ -93,7 +110,8 @@
                     gameUi2.addCard("3", {});
                     gameUi2.addCard("4", {"attach1": "3"});
                     gameUi2.addCard("5", {"hor":true});
-//                    gameUi2.addCard("6", {"attach1": "3"});
+                    gameUi2.addCard("6", {"attach1": "4"});
+                    gameUi2.addCard("7", {"attach1": "6"});
 
                     gameUi1.layoutCards();
                     gameUi2.layoutCards();

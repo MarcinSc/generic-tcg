@@ -24,6 +24,19 @@ var CardGroup = Class.extend({
                 });
     },
 
+    findCardPropsById: function(cardId) {
+        var result = null;
+        $(".card", this.cardContainerDiv).each(
+          function() {
+              var cardDiv = $(this);
+              var foundCardId = cardDiv.data("id");
+              if (foundCardId == cardId)
+                result = cardDiv.data("props");
+          });
+        
+        return result;
+    },
+
     setLayout: function(left, top, width, height) {
         this.left = left;
         this.top = top;

@@ -2,21 +2,27 @@ var AttachedCardsLayoutCardGroup = RowCardLayoutCardGroup.extend({
     attachedGroupsLeft: null,
     attachedGroupsTop: null,
     attachedGroupsFinderFunc: null,
+    attachedGroupsRootRecognizeFunc: null,
 
     init: function (cardContainerDiv, cardContainFunc) {
         this._super(cardContainerDiv, cardContainFunc);
         this.attachedGroupsLeft = new Array();
         this.attachedGroupsTop = new Array();
         this.attachedGroupsFinderFunc = new Array();
+        this.attachedGroupsRootRecognizeFunc = new Array();
     },
 
-    addAttachedGroup: function(left, top, finderFunc) {
+    addAttachedGroup: function(left, top, rootRecognizeFunc, finderFunc) {
         this.attachedGroupsLeft.push(left);
         this.attachedGroupsTop.push(top);
+        this.attachedGroupsRootRecognizeFunc.push(rootRecognizeFunc);
         this.attachedGroupsFinderFunc.push(finderFunc);
     },
 
-    iterAttached: function(cardDiv, cardId, props, finderFunc, func) {
+    iterAttached: function(cardDiv, cardId, props, rootRecognizeFunc, finderFunc, func) {
+        if (!rootRecognizeFunc(cardDiv, cardId, props))
+            return;
+
         $(".card", this.cardContainerDiv).each(
             function() {
                 var cardDivAtt = $(this);
@@ -40,24 +46,27 @@ var AttachedCardsLayoutCardGroup = RowCardLayoutCardGroup.extend({
         var minTop = 0;
         var maxRight = Math.min(1, cardDiv.data("widthToHeight")(cardId, props));
         var maxBottom = Math.min(1, 1/cardDiv.data("widthToHeight")(cardId, props));
+        var cardWidth = maxRight;
+        var cardHeight = maxBottom;
 
         for (var i = 0; i < this.attachedGroupsFinderFunc.length; i++) {
             var attachFunc = this.attachedGroupsFinderFunc[i];
+            var rootRecognizeFunc = this.attachedGroupsRootRecognizeFunc[i];
             var attachLeft = this.attachedGroupsLeft[i];
             var attachTop = this.attachedGroupsTop[i];
 
-            this.iterAttached(cardDiv, cardId, props, attachFunc,
+            this.iterAttached(cardDiv, cardId, props, rootRecognizeFunc, attachFunc,
                 function(attCardDiv, attCardId, attProps, layout, attWidthToHeightRatioFunc) {
                     var attBox = that.getCardBox(attCardDiv, attCardId, attProps);
                     if (attachLeft < 0)
-                        minLeft += attachLeft * (attBox.right - attBox.left);
+                        minLeft += attachLeft * cardWidth;
                     else if (attachLeft > 0)
-                        maxRight += attachLeft * (attBox.right - attBox.left);
+                        maxRight += attachLeft * cardWidth;
 
                     if (attachTop < 0)
-                        minTop += attachTop * (attBox.bottom - attBox.top);
+                        minTop += attachTop * cardHeight;
                     else if (attachTop > 0)
-                        maxBottom = + attachTop * (attBox.bottom - attBox.top);
+                        maxBottom = + attachTop * cardHeight;
                 });
         }
         var result = {};
@@ -76,27 +85,35 @@ var AttachedCardsLayoutCardGroup = RowCardLayoutCardGroup.extend({
         return result;
     },
 
-    layoutCardGroup: function(cardDiv, cardId, props, layout, zIndex, boxLeft, boxTop, boxWidth, boxHeight, scale) {
+    layoutCardGroup: function(cardDiv, cardId, props, layout, zIndex, cardBox, boxLeft, boxTop, boxWidth, boxHeight, scale) {
         var that = this;
-        var cardBox = this.getCardBox(cardDiv, cardId, props);
         var cardRatio = cardDiv.data("widthToHeight")(cardId, props);
         var cardWidth = boxWidth / ((cardBox.right - cardBox.left) / Math.min(1, cardRatio));
         var cardHeight = cardWidth / cardRatio;
         var cardLeft = boxLeft - cardBox.left * cardWidth / cardRatio;
         var cardTop = boxTop - cardBox.top * cardHeight + (boxHeight - cardHeight) / 2;
+        log(cardId+": "+boxWidth+","+boxHeight);
         this.layoutOneCard(cardDiv, cardId, props, layout, zIndex, cardLeft, cardTop, cardWidth, cardHeight);
+
+        var maxSize = Math.max(cardWidth, cardHeight);
 
         zIndex--;
 
         for (var i = 0; i < this.attachedGroupsFinderFunc.length; i++) {
             var attachFunc = this.attachedGroupsFinderFunc[i];
+            var rootRecognizeFunc = this.attachedGroupsRootRecognizeFunc[i];
             var attachLeft = this.attachedGroupsLeft[i];
             var attachTop = this.attachedGroupsTop[i];
 
-            this.iterAttached(cardDiv, cardId, props, attachFunc,
+            var index = 0;
+            this.iterAttached(cardDiv, cardId, props, rootRecognizeFunc, attachFunc,
                 function(attCardDiv, attCardId, attProps, layout, attWidthToHeightRatioFunc) {
-                    that.layoutCardGroup(attCardDiv, attCardId, attProps, layout, zIndex, cardLeft + cardWidth * attachLeft, cardTop + cardHeight * attachTop,
-                        boxWidth - Math.abs(cardWidth * attachLeft), boxHeight - Math.abs(cardHeight*attachTop), scale);
+                    log("setup attached: "+attCardId);
+                    index++;
+                    var attCardBox = that.getCardBox(attCardDiv, attCardId, attProps);
+                    that.layoutOneCard(attCardDiv, attCardId, attProps, layout, zIndex, 
+                        cardLeft + index*cardWidth * attachLeft, cardTop + index*cardHeight * attachTop,
+                        boxWidth*(attCardBox.right-attCardBox.left)/(cardBox.right-cardBox.left), boxHeight*(attCardBox.bottom - attCardBox.top)/(cardBox.bottom-cardBox.top), scale);
                     zIndex--;
                 });
         }
@@ -105,6 +122,7 @@ var AttachedCardsLayoutCardGroup = RowCardLayoutCardGroup.extend({
     layoutCardBox: function(cardDiv, cardId, props, layout, boxLeft, boxTop, boxWidth, boxHeight, ratio, scale) {
         var that = this;
         var zIndex = this.zIndexBase;
-        this.layoutCardGroup(cardDiv, cardId, props, layout, zIndex, boxLeft, boxTop, boxWidth, boxHeight, scale);
+        var cardBox = this.getCardBox(cardDiv, cardId, props);
+        this.layoutCardGroup(cardDiv, cardId, props, layout, zIndex, cardBox, boxLeft, boxTop, boxWidth, boxHeight, scale);
     }
 });
