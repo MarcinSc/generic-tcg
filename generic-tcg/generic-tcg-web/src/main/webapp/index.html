@@ -49,6 +49,7 @@
     <script type="text/javascript">
         var gameUi1;
         var gameUi2;
+        var gameUi3;
 
         $(document).ready(
                 function () {
@@ -68,29 +69,57 @@
                                 return props["attach1"]==null;
                             });
 
-                    var cardAttachedTo = function(cardId, rootCardId) {
-                        log("cardAttachedTo: "+cardId+", "+rootCardId);
+                    var cardAttachedToSecondGroup = function(cardId, rootCardId) {
                         var cardProps = secondGroup.findCardPropsById(cardId);
                         var attachedTo = cardProps["attach1"];
                         if (attachedTo != null) {
                             if (attachedTo == rootCardId)
                                 return true;
                             else
-                                return cardAttachedTo(attachedTo, rootCardId);
+                                return cardAttachedToSecondGroup(attachedTo, rootCardId);
                         }
                         return false;
                     };
 
                     secondGroup.setZIndexBase(100);
-                    secondGroup.addAttachedGroup(-1/2, 0,
+                    secondGroup.addAttachedGroup(-1/3, 0,
                             function(cardDiv, cardId, props) {
                                 return props["attach1"]==null;
                             },
                             function(cardDiv, cardId, props, cardDivAtt, cardIdAtt, propsAtt) {
-                                return cardAttachedTo(cardIdAtt, cardId);
+                                return cardAttachedToSecondGroup(cardIdAtt, cardId);
                             });
 
                     gameUi2 = new SampleGameUi(secondLayoutCardContainer, secondGroup);
+
+                    var thirdLayoutCardContainer = $("#tabs-3");
+                    var thirdGroup = new AttachedCardsLayoutCardGroup(thirdLayoutCardContainer,
+                            function(cardDiv, cardId, props) {
+                                return props["attach1"]==null;
+                            });
+
+                    var cardAttachedToThirdGroup = function(cardId, rootCardId) {
+                        var cardProps = thirdGroup.findCardPropsById(cardId);
+                        var attachedTo = cardProps["attach1"];
+                        if (attachedTo != null) {
+                            if (attachedTo == rootCardId)
+                                return true;
+                            else
+                                return cardAttachedToThirdGroup(attachedTo, rootCardId);
+                        }
+                        return false;
+                    };
+
+                    thirdGroup.setZIndexBase(100);
+                    thirdGroup.addAttachedGroup(1/7, 0,
+                            function(cardDiv, cardId, props) {
+                                return props["attach1"]==null;
+                            },
+                            function(cardDiv, cardId, props, cardDivAtt, cardIdAtt, propsAtt) {
+                                return cardAttachedToThirdGroup(cardIdAtt, cardId);
+                            });
+
+                    gameUi3 = new SampleGameUi(thirdLayoutCardContainer, thirdGroup);
 
                     $(window).resize(
                             function() {
@@ -105,16 +134,21 @@
                     gameUi1.addCard("4", {});
                     gameUi1.addCard("5", {"hor":true});
 
-//                    gameUi2.addCard("1", {});
-//                    gameUi2.addCard("2", {});
                     gameUi2.addCard("3", {});
-                    gameUi2.addCard("4", {"attach1": "3"});
+                    gameUi2.addCard("4", {"attach1": "3", "hor": true});
                     gameUi2.addCard("5", {"hor":true});
-                    gameUi2.addCard("6", {"attach1": "4"});
+                    gameUi2.addCard("6", {"attach1": "4", "hor": true});
                     gameUi2.addCard("7", {"attach1": "6"});
+
+                    gameUi3.addCard("3", {});
+                    gameUi3.addCard("4", {"attach1": "3", "hor": true});
+                    gameUi3.addCard("5", {"hor":true});
+                    gameUi3.addCard("6", {"attach1": "4", "hor": true});
+                    gameUi3.addCard("7", {"attach1": "6"});
 
                     gameUi1.layoutCards();
                     gameUi2.layoutCards();
+                    gameUi3.layoutCards();
                 });
 
         function resize() {
@@ -141,6 +175,7 @@
             
             gameUi1.layoutGame(innerWidth, resultHeight);
             gameUi2.layoutGame(innerWidth, resultHeight);
+            gameUi3.layoutGame(innerWidth, resultHeight);
         }
 
     </script>
@@ -150,9 +185,11 @@
     <ul>
         <li><a href="#tabs-1">First layout</a></li>
         <li><a href="#tabs-2">Second layout</a></li>
+        <li><a href="#tabs-3">Third layout</a></li>
     </ul>
     <div id="tabs-1" style="position: relative"></div>
     <div id="tabs-2" style="position: relative"></div>
+    <div id="tabs-3" style="position: relative"></div>
 </div>
 </body>
 </html>

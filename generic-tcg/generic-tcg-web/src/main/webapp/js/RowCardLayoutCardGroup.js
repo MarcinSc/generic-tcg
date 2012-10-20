@@ -156,7 +156,6 @@ var RowCardLayoutCardGroup = CardGroup.extend({
     },
 
     layoutOneCard: function(cardDiv, cardId, props, layout, zIndex, cardLeft, cardTop, cardWidth, cardHeight) {
-        log("layoutOneCard: "+cardId+" - "+cardLeft+","+cardTop+","+cardWidth+","+cardHeight);
         cardDiv.css({"zIndex": zIndex,"left": cardLeft + "px", "top": cardTop + "px", "width": cardWidth, "height": cardHeight});
         layout(cardDiv, cardId, props, cardLeft, cardTop, cardWidth, cardHeight);
     },
