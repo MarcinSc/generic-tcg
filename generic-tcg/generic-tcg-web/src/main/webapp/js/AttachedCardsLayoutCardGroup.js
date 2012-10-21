@@ -129,12 +129,12 @@ var AttachedCardsLayoutCardGroup = RowCardLayoutCardGroup.extend({
                     var attHeight = boxHeight*(attCardBox.bottom - attCardBox.top)/(cardBox.bottom-cardBox.top);
 
                     var attLeft;
-                    if (attachLeft < 0)
+                    if (attachLeft <= 0)
                         attLeft = cardLeft + index * cardWidth * attachLeft;
                     else
                         attLeft = cardLeft + cardWidth - attWidth + index * cardWidth * attachLeft;
                     var attTop;
-                    if (attachTop < 0)
+                    if (attachTop <= 0)
                         attTop = cardTop + index * cardHeight * attachTop;
                     else
                         attTop = cardTop + cardHeight - attHeight + index * cardHeight * attachTop;
