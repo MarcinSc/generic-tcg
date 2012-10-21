@@ -51,6 +51,7 @@
         var gameUi2;
         var gameUi3;
         var gameUi4;
+        var gameUi5;
 
         function addFirstLayout() {
             var firstLayoutCardContainer = $("#tabs-1");
@@ -151,6 +152,57 @@
 
             gameUi4 = new SampleGameUi(thirdLayoutCardContainer, thirdGroup);
         }
+        function addFifthCardLayout() {
+            var thirdLayoutCardContainer = $("#tabs-5");
+            var thirdGroup = new AttachedCardsLayoutCardGroup(thirdLayoutCardContainer,
+                    function(cardDiv, cardId, props) {
+                        return props["attach1"] == null && props["attach2"] == null;
+                    });
+
+            thirdGroup.setZIndexBase(100);
+
+            var cardAttached1 = function(cardId, rootCardId) {
+                var cardProps = thirdGroup.findCardPropsById(cardId);
+                var attachedTo = cardProps["attach1"];
+                if (attachedTo != null) {
+                    if (attachedTo == rootCardId)
+                        return true;
+                    else
+                        return cardAttached1(attachedTo, rootCardId);
+                }
+                return false;
+            };
+
+            thirdGroup.addAttachedGroup(0, -1/5,
+                    function(cardDiv, cardId, props) {
+                        return props["attach1"] == null;
+                    },
+                    function(cardDiv, cardId, props, cardDivAtt, cardIdAtt, propsAtt) {
+                        return cardAttached1(cardIdAtt, cardId);
+                    });
+
+            var cardAttached2 = function(cardId, rootCardId) {
+                var cardProps = thirdGroup.findCardPropsById(cardId);
+                var attachedTo = cardProps["attach2"];
+                if (attachedTo != null) {
+                    if (attachedTo == rootCardId)
+                        return true;
+                    else
+                        return cardAttached2(attachedTo, rootCardId);
+                }
+                return false;
+            };
+
+            thirdGroup.addAttachedGroup(-1/5, 0,
+                    function(cardDiv, cardId, props) {
+                        return props["attach2"] == null;
+                    },
+                    function(cardDiv, cardId, props, cardDivAtt, cardIdAtt, propsAtt) {
+                        return cardAttached2(cardIdAtt, cardId);
+                    });
+
+            gameUi5 = new SampleGameUi(thirdLayoutCardContainer, thirdGroup);
+        }
 
         $(document).ready(
                 function () {
@@ -159,7 +211,8 @@
                     addSecondLayout();
                     addThirdCardLayout();
                     addFourthCardLayout();
-
+                    addFifthCardLayout();
+                    
                     $(window).resize(
                             function() {
                                 resize();
@@ -193,10 +246,16 @@
                     gameUi4.addCard("21", {"attach1": "20"});
                     gameUi4.addCard("22", {"attach1": "19"});
 
+                    gameUi5.addCard("23", {});
+                    gameUi5.addCard("24", {"attach1": "23"});
+                    gameUi5.addCard("25", {"attach2": "23"});
+                    gameUi5.addCard("26", {"hor": true});
+
                     gameUi1.layoutCards();
                     gameUi2.layoutCards();
                     gameUi3.layoutCards();
                     gameUi4.layoutCards();
+                    gameUi5.layoutCards();
                 });
 
         function resize() {
@@ -225,6 +284,7 @@
             gameUi2.layoutGame(innerWidth, resultHeight);
             gameUi3.layoutGame(innerWidth, resultHeight);
             gameUi4.layoutGame(innerWidth, resultHeight);
+            gameUi5.layoutGame(innerWidth, resultHeight);
         }
 
     </script>
@@ -232,15 +292,17 @@
 <body>
 <div id="tabs">
     <ul>
-        <li><a href="#tabs-1">First layout</a></li>
-        <li><a href="#tabs-2">Second layout</a></li>
-        <li><a href="#tabs-3">Third layout</a></li>
-        <li><a href="#tabs-4">Fourth layout</a></li>
+        <li><a href="#tabs-1">Simple layout</a></li>
+        <li><a href="#tabs-2">Attachment left layout</a></li>
+        <li><a href="#tabs-3">Attachment right layout</a></li>
+        <li><a href="#tabs-4">Attachment top layout</a></li>
+        <li><a href="#tabs-5">Attachment multiple layout</a></li>
     </ul>
     <div id="tabs-1" style="position: relative"></div>
     <div id="tabs-2" style="position: relative"></div>
     <div id="tabs-3" style="position: relative"></div>
     <div id="tabs-4" style="position: relative"></div>
+    <div id="tabs-5" style="position: relative"></div>
 </div>
 </body>
 </html>
