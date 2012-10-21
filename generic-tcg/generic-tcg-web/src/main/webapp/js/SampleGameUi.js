@@ -8,12 +8,17 @@ var SampleGameUi = Class.extend({
         this.cardContainer.addCardGroup("main", cardGroup);
     },
 
-    addCard: function(cardId, props) {
-        var elem;
+    getCardImg: function(cardId, props) {
         if (props["hor"]==true)
-            elem = $("<img class='cardImg' src='images/horizontal.png'>");
+            return "images/horizontal.png";
+//            return "http://lotrtcgwiki.com/wiki/_media/cards:lotr01331.jpg";
         else
-            elem = $("<img class='cardImg' src='images/vertical.png'>");
+            return "images/vertical.png";
+//            return "http://lotrtcgwiki.com/wiki/_media/cards:lotr01013.jpg";
+    },
+
+    addCard: function(cardId, props) {
+        var elem = $("<img class='cardImg' src='"+this.getCardImg(cardId, props)+"'>");
         this.cardContainer.addCard(elem, cardId, props, this.layoutCardBox, this.widthToHeightScale);
     },
 
