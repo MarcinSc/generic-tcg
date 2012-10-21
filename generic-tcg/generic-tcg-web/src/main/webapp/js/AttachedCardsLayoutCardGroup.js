@@ -105,10 +105,11 @@ var AttachedCardsLayoutCardGroup = RowCardLayoutCardGroup.extend({
     layoutCardGroup: function(cardDiv, cardId, props, layout, zIndex, cardBox, boxLeft, boxTop, boxWidth, boxHeight, scale) {
         var that = this;
         var cardRatio = cardDiv.data("widthToHeight")(cardId, props);
-        var cardWidth = boxWidth / ((cardBox.right - cardBox.left) / Math.min(1, cardRatio));
+        var pixelSize = boxWidth / (cardBox.right - cardBox.left);
+        var cardWidth = pixelSize * Math.min(1, cardRatio);
         var cardHeight = cardWidth / cardRatio;
         var cardLeft = boxLeft - cardBox.left * cardWidth / cardRatio;
-        var cardTop = boxTop - cardBox.top * cardHeight + (boxHeight - cardHeight) / 2;
+        var cardTop = boxTop - cardBox.top * cardHeight;
         this.layoutOneCard(cardDiv, cardId, props, layout, zIndex, cardLeft, cardTop, cardWidth, cardHeight);
 
         var maxSize = Math.max(cardWidth, cardHeight);
@@ -126,8 +127,8 @@ var AttachedCardsLayoutCardGroup = RowCardLayoutCardGroup.extend({
                 function(attCardDiv, attCardId, attProps, layout, attWidthToHeightRatioFunc) {
                     index++;
                     var attCardBox = that.getCardBox(attCardDiv, attCardId, attProps);
-                    var attWidth = boxWidth*(attCardBox.right-attCardBox.left)/(cardBox.right-cardBox.left);
-                    var attHeight = boxHeight*(attCardBox.bottom - attCardBox.top)/(cardBox.bottom-cardBox.top) * scale;
+                    var attWidth = pixelSize*(attCardBox.right-attCardBox.left);
+                    var attHeight = pixelSize*(attCardBox.bottom - attCardBox.top);
 
                     var attLeft;
                     if (attachLeft <= 0)

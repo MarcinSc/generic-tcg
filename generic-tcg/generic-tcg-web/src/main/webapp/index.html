@@ -154,7 +154,7 @@
 
         $(document).ready(
                 function () {
-                    $("#tabs").tabs();
+                    $("#tabs").tabs({selected: 0});
                     addFirstLayout();
                     addSecondLayout();
                     addThirdCardLayout();
@@ -188,6 +188,8 @@
                     gameUi4.addCard("16", {});
                     gameUi4.addCard("17", {"attach1": "16"});
                     gameUi4.addCard("18", {});
+                    gameUi4.addCard("19", {"hor": true});
+                    gameUi4.addCard("20", {"attach1": "19", "hor": true});
 
                     gameUi1.layoutCards();
                     gameUi2.layoutCards();
