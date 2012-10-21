@@ -140,7 +140,7 @@ var AttachedCardsLayoutCardGroup = RowCardLayoutCardGroup.extend({
                         attTop = cardTop + cardHeight - attHeight + index * cardHeight * attachTop;
                     that.layoutOneCard(attCardDiv, attCardId, attProps, layout, zIndex,
                         attLeft, attTop,
-                        attWidth, attHeight, scale);
+                        attWidth, attHeight);
                     zIndex--;
                 });
         }

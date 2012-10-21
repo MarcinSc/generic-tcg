@@ -163,7 +163,7 @@ var RowCardLayoutCardGroup = CardGroup.extend({
 
     layoutCardBox: function(cardDiv, cardId, props, layout, boxLeft, boxTop, boxWidth, boxHeight, ratio, scale) {
         var cardLeft = boxLeft;
-        var cardWidth = boxWidth * scale;
+        var cardWidth = boxWidth;
         var cardHeight = cardWidth / cardDiv.data("widthToHeight")(cardId, props);
         var cardTop = boxTop + (boxHeight - cardHeight)/2;
         this.layoutOneCard(cardDiv, cardId, props, layout, this.zIndexBase, cardLeft, cardTop, cardWidth, cardHeight);
