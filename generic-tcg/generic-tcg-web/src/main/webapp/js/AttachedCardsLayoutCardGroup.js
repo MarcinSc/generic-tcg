@@ -36,11 +36,21 @@ var AttachedCardsLayoutCardGroup = RowCardLayoutCardGroup.extend({
     },
 
     getCardHeightScale: function(cardDiv, cardId, props) {
-        var cardBox = this.getCardBox(cardDiv, cardId, props);
+        var cardBox = this.getCardGroupBox(cardDiv, cardId, props);
         return Math.min(1, 1 / (cardBox.bottom - cardBox.top));
     },
 
     getCardBox: function(cardDiv, cardId, props) {
+        var cardRatio = cardDiv.data("widthToHeight")(cardId, props);
+        var result = {};
+        result.left = 0;
+        result.top = 0;
+        result.right = Math.min(1, cardRatio);
+        result.bottom = Math.min(1, 1 / cardRatio);
+        return result;
+    },
+
+    getCardGroupBox: function(cardDiv, cardId, props) {
         var that = this;
 
         var minLeft = 0;
@@ -95,7 +105,7 @@ var AttachedCardsLayoutCardGroup = RowCardLayoutCardGroup.extend({
     },
 
     getCardBoxRatio: function(cardDiv, cardId, props) {
-        var cardBox = this.getCardBox(cardDiv, cardId, props);
+        var cardBox = this.getCardGroupBox(cardDiv, cardId, props);
         var result = {};
         result.x = cardBox.right - cardBox.left;
         result.y = cardBox.bottom - cardBox.top;
@@ -152,7 +162,7 @@ var AttachedCardsLayoutCardGroup = RowCardLayoutCardGroup.extend({
     layoutCardBox: function(cardDiv, cardId, props, layout, boxLeft, boxTop, boxWidth, boxHeight, ratio) {
         var that = this;
         var zIndex = this.zIndexBase;
-        var cardBox = this.getCardBox(cardDiv, cardId, props);
+        var cardBox = this.getCardGroupBox(cardDiv, cardId, props);
         this.layoutCardGroup(cardDiv, cardId, props, layout, zIndex, cardBox, boxLeft, boxTop, boxWidth, boxHeight);
     }
 });
