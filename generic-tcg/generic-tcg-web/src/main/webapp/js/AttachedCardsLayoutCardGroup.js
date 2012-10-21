@@ -126,7 +126,7 @@ var AttachedCardsLayoutCardGroup = RowCardLayoutCardGroup.extend({
                     index++;
                     var attCardBox = that.getCardBox(attCardDiv, attCardId, attProps);
                     var attWidth = boxWidth*(attCardBox.right-attCardBox.left)/(cardBox.right-cardBox.left);
-                    var attHeight = boxHeight*(attCardBox.bottom - attCardBox.top)/(cardBox.bottom-cardBox.top);
+                    var attHeight = boxHeight*(attCardBox.bottom - attCardBox.top)/(cardBox.bottom-cardBox.top) * scale;
 
                     var attLeft;
                     if (attachLeft <= 0)
