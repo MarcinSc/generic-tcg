@@ -36,7 +36,8 @@ var AttachedCardsLayoutCardGroup = RowCardLayoutCardGroup.extend({
     },
 
     getCardHeightScale: function(cardDiv, cardId, props) {
-        return 1;
+        var cardBox = this.getCardBox(cardDiv, cardId, props);
+        return Math.min(1, 1 / (cardBox.bottom - cardBox.top));
     },
 
     getCardBox: function(cardDiv, cardId, props) {
