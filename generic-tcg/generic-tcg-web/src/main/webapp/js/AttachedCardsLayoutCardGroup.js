@@ -64,13 +64,13 @@ var AttachedCardsLayoutCardGroup = RowCardLayoutCardGroup.extend({
                     if (attachLeft < 0) {
                         maxRight = Math.max(maxRight, attachLeft * cardWidth + attWidth);
                     } else if (attachLeft > 0) {
-                        minLeft = Math.min(minLeft, attachLeft * cardWidth - attWidth);
+                        minLeft = Math.min(minLeft, cardWidth + attachLeft * cardWidth - attWidth);
                     }
 
                     if (attachTop < 0) {
-                        maxBottom = Math.max(maxBottom, maxBottom + attachTop * cardHeight);
+                        maxBottom = Math.max(maxBottom, attachTop * cardHeight + attHeight);
                     } else if (attachTop > 0) {
-                        minTop = Math.min(minTop, minTop + attachTop * cardHeight);
+                        minTop = Math.min(minTop, cardHeight + attachTop * cardHeight - attHeight);
                     }
                     attIndex++;
                 });
@@ -78,12 +78,12 @@ var AttachedCardsLayoutCardGroup = RowCardLayoutCardGroup.extend({
             if (attachLeft < 0)
                 minLeft = Math.min(minLeft, attachLeft * cardWidth * attIndex);
             else
-                maxRight = Math.max(maxRight, attachLeft * cardWidth * attIndex);
+                maxRight = Math.max(maxRight, cardWidth + attachLeft * cardWidth * attIndex);
 
             if (attachTop < 0)
                 minTop = Math.min(minTop, attachTop * cardHeight * attIndex);
             else
-                maxBottom = Math.max(maxBottom, attachTop * cardHeight * attIndex);
+                maxBottom = Math.max(maxBottom, cardHeight + attachTop * cardHeight * attIndex);
         }
         var result = {};
         result.left = minLeft;
@@ -125,9 +125,22 @@ var AttachedCardsLayoutCardGroup = RowCardLayoutCardGroup.extend({
                 function(attCardDiv, attCardId, attProps, layout, attWidthToHeightRatioFunc) {
                     index++;
                     var attCardBox = that.getCardBox(attCardDiv, attCardId, attProps);
-                    that.layoutOneCard(attCardDiv, attCardId, attProps, layout, zIndex, 
-                        cardLeft + index*cardWidth * attachLeft, cardTop + index*cardHeight * attachTop,
-                        boxWidth*(attCardBox.right-attCardBox.left)/(cardBox.right-cardBox.left), boxHeight*(attCardBox.bottom - attCardBox.top)/(cardBox.bottom-cardBox.top), scale);
+                    var attWidth = boxWidth*(attCardBox.right-attCardBox.left)/(cardBox.right-cardBox.left);
+                    var attHeight = boxHeight*(attCardBox.bottom - attCardBox.top)/(cardBox.bottom-cardBox.top);
+
+                    var attLeft;
+                    if (attachLeft < 0)
+                        attLeft = cardLeft + index * cardWidth * attachLeft;
+                    else
+                        attLeft = cardLeft + cardWidth - attWidth + index * cardWidth * attachLeft;
+                    var attTop;
+                    if (attachTop < 0)
+                        attTop = cardTop + index * cardHeight * attachTop;
+                    else
+                        attTop = cardTop + cardHeight - attHeight + index * cardHeight * attachTop;
+                    that.layoutOneCard(attCardDiv, attCardId, attProps, layout, zIndex,
+                        attLeft, attTop,
+                        attWidth, attHeight, scale);
                     zIndex--;
                 });
         }
