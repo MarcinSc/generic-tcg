@@ -104,15 +104,16 @@ var AttachedCardsLayoutCardGroup = RowCardLayoutCardGroup.extend({
 
     layoutCardGroup: function(cardDiv, cardId, props, layout, zIndex, cardBox, boxLeft, boxTop, boxWidth, boxHeight, scale) {
         var that = this;
-        var cardRatio = cardDiv.data("widthToHeight")(cardId, props);
         var pixelSize = boxWidth / (cardBox.right - cardBox.left);
+        var cardGroupHeight = pixelSize * (cardBox.bottom - cardBox.top);
+        var cardGroupWidth = pixelSize * (cardBox.right - cardBox.left);
+
+        var cardRatio = cardDiv.data("widthToHeight")(cardId, props);
         var cardWidth = pixelSize * Math.min(1, cardRatio);
         var cardHeight = cardWidth / cardRatio;
-        var cardLeft = boxLeft - cardBox.left * cardWidth / cardRatio;
-        var cardTop = boxTop - cardBox.top * cardHeight;
+        var cardLeft = boxLeft - cardBox.left * pixelSize;
+        var cardTop = boxTop - cardBox.top * pixelSize;
         this.layoutOneCard(cardDiv, cardId, props, layout, zIndex, cardLeft, cardTop, cardWidth, cardHeight);
-
-        var maxSize = Math.max(cardWidth, cardHeight);
 
         zIndex--;
 
