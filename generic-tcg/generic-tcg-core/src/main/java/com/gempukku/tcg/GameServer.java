@@ -2,11 +2,23 @@ package com.gempukku.tcg;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class GameServer {
-    private Map<String, XmlGame> _games = new ConcurrentHashMap<String, XmlGame>();
+    private Map<String, GameMediator> _gameMediators = new ConcurrentHashMap<String, GameMediator>();
+    private AtomicInteger _gameId = new AtomicInteger(0);
 
-    public XmlGame getGame(String gameId) {
-        return _games.get(gameId);
+    public GameMediator getGameMediator(String gameId) {
+        return _gameMediators.get(gameId);
+    }
+
+    public String addGameMediator(GameMediator gameMediator) {
+        String gameId = String.valueOf(_gameId.incrementAndGet());
+        _gameMediators.put(gameId, gameMediator);
+        return gameId;
+    }
+
+    public void removeGameMediator(String gameId) {
+        _gameMediators.remove(gameId);
     }
 }

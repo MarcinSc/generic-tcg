@@ -1,4 +1,4 @@
-package com.gempukku.tcg.generic;
+package com.gempukku.tcg;
 
 public interface DecisionCallback {
     public void sendDecision(String player, AwaitingDecision awaitingDecision);

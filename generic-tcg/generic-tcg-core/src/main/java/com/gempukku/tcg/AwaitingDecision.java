@@ -1,6 +1,4 @@
-package com.gempukku.tcg.generic;
-
-import com.gempukku.tcg.InvalidDecisionException;
+package com.gempukku.tcg;
 
 public interface AwaitingDecision {
     public void playerDecided(String answer) throws InvalidDecisionException;
