@@ -5,41 +5,34 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
-    <bean id="questRootAction" class="com.gempukku.tcg.generic.actions.LoopAction">
-        <property name="actions">
+    <bean id="questRootAction" class="com.gempukku.tcg.generic.actions.EventAction">
+        <property name="events">
             <util:list>
-                <bean class="com.gempukku.tcg.generic.actions.EventAction">
-                    <property name="events">
-                        <util:list>
-                            <bean class="com.gempukku.tcg.generic.events.SetGameObjectEvent">
-                                <property name="gameObjectName"><util:constant static-field="com.gempukku.tcg.generic.mtg.MtgConstants.CARD_CONTAINER"/></property>
-                                <property name="value" ref="questCardContainer"/>
-                            </bean>
-                            <bean class="com.gempukku.tcg.generic.events.SetGameObjectEvent">
-                                <property name="gameObjectName"><util:constant static-field="com.gempukku.tcg.quest.QuestConstants.CARD_ID_MANAGER"/></property>
-                                <property name="value">
-                                    <bean class="com.gempukku.tcg.generic.objects.CardIdManager"/>
-                                </property>
-                            </bean>
-                            <bean class="com.gempukku.tcg.quest.SetupQuestGame">
-                                <property name="deckLocation" value="deck"/>
-                                <property name="playersLocation" value="players"/>
-                            </bean>
-                        </util:list>
+                <bean class="com.gempukku.tcg.generic.events.SetGameObjectEvent">
+                    <property name="gameObjectName">
+                        <util:constant static-field="com.gempukku.tcg.generic.mtg.MtgConstants.CARD_CONTAINER"/>
+                    </property>
+                    <property name="value" ref="questCardContainer"/>
+                </bean>
+                <bean class="com.gempukku.tcg.generic.events.SetGameObjectEvent">
+                    <property name="gameObjectName">
+                        <util:constant static-field="com.gempukku.tcg.quest.QuestConstants.CARD_ID_MANAGER"/>
+                    </property>
+                    <property name="value">
+                        <bean class="com.gempukku.tcg.generic.objects.CardIdManager"/>
                     </property>
                 </bean>
-                <bean class="com.gempukku.tcg.generic.mtg.actions.TurnOrderSetupAction">
-                    <constructor-arg value="players"/>
+                <bean class="com.gempukku.tcg.quest.SetupQuestGame">
+                    <property name="deckLocation" value="deck"/>
+                    <property name="playersLocation" value="players"/>
+                </bean>
+                <bean class="com.gempukku.tcg.generic.mtg.events.TurnOrderSetupEvent">
+                    <property name="objectName" value="players"/>
                 </bean>
             </util:list>
         </property>
-        <property name="loopFinishCondition">
-            <bean class="com.gempukku.tcg.generic.conditions.ConstantCondition">
-                <property name="value" value="false"/>
-            </bean>
-        </property>
     </bean>
-    
+
     <bean id="questCardContainer" class="com.gempukku.tcg.generic.objects.CardContainer">
         <property name="sharedZoneNames">
             <util:set>
@@ -63,6 +56,6 @@
     </bean>
 
     <bean id="questGameStateObserver" class="com.gempukku.tcg.quest.QuestGameStateObserver" scope="prototype">
-        
+
     </bean>
 </beans>

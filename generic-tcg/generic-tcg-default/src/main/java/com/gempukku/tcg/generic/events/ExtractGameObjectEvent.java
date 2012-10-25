@@ -9,7 +9,7 @@ import com.gempukku.tcg.generic.actions.EventAction;
 public abstract class ExtractGameObjectEvent implements Event {
     private String _objectName;
 
-    public ExtractGameObjectEvent(String objectName) {
+    public void setObjectName(String objectName) {
         _objectName = objectName;
     }
 
