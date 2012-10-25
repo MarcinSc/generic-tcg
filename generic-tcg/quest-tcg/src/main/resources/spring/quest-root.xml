@@ -12,31 +12,14 @@
                     <property name="events">
                         <util:list>
                             <bean class="com.gempukku.tcg.generic.events.SetGameObjectEvent">
-                                <constructor-arg><util:constant static-field="com.gempukku.tcg.generic.mtg.MtgConstants.CARD_CONTAINER"/></constructor-arg>
-                                <constructor-arg>
-                                    <bean class="com.gempukku.tcg.generic.objects.CardContainer">
-                                        <property name="sharedZoneNames">
-                                            <util:set>
-                                                <value>play</value>
-                                            </util:set>
-                                        </property>
-                                        <property name="playerZoneNames">
-                                            <util:set>
-                                                <value>hand</value>
-                                                <value>deck</value>
-                                                <value>locationDeck</value>
-                                                <value>discard</value>
-                                                <value>sideboard</value>
-                                            </util:set>
-                                        </property>
-                                    </bean>
-                                </constructor-arg>
+                                <property name="gameObjectName"><util:constant static-field="com.gempukku.tcg.generic.mtg.MtgConstants.CARD_CONTAINER"/></property>
+                                <property name="value" ref="questCardContainer"/>
                             </bean>
                             <bean class="com.gempukku.tcg.generic.events.SetGameObjectEvent">
-                                <constructor-arg><util:constant static-field="com.gempukku.tcg.quest.QuestConstants.CARD_ID_MANAGER"/></constructor-arg>
-                                <constructor-arg>
+                                <property name="gameObjectName"><util:constant static-field="com.gempukku.tcg.quest.QuestConstants.CARD_ID_MANAGER"/></property>
+                                <property name="value">
                                     <bean class="com.gempukku.tcg.generic.objects.CardIdManager"/>
-                                </constructor-arg>
+                                </property>
                             </bean>
                             <bean class="com.gempukku.tcg.quest.SetupQuestGame">
                                 <property name="deckLocation" value="deck"/>
@@ -57,6 +40,23 @@
         </property>
     </bean>
     
+    <bean id="questCardContainer" class="com.gempukku.tcg.generic.objects.CardContainer">
+        <property name="sharedZoneNames">
+            <util:set>
+                <value>play</value>
+            </util:set>
+        </property>
+        <property name="playerZoneNames">
+            <util:set>
+                <value>hand</value>
+                <value>deck</value>
+                <value>locationDeck</value>
+                <value>discard</value>
+                <value>sideboard</value>
+            </util:set>
+        </property>
+    </bean>
+
     <bean id="questFinishCondition" class="com.gempukku.tcg.generic.conditions.GameObjectEqualsCondition">
         <property name="gameObject" value="finished"/>
         <property name="value" value="true"/>

@@ -10,8 +10,19 @@ public class SetGameObjectEvent implements Event {
     private String _gameObjectName;
     private Object _value;
 
+    public SetGameObjectEvent() {
+    }
+
     public SetGameObjectEvent(String gameObjectName, Object value) {
         _gameObjectName = gameObjectName;
+        _value = value;
+    }
+
+    public void setGameObjectName(String gameObjectName) {
+        _gameObjectName = gameObjectName;
+    }
+
+    public void setValue(Object value) {
         _value = value;
     }
 
