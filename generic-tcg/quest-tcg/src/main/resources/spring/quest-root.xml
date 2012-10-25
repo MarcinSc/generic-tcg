@@ -40,7 +40,7 @@
     </bean>
 
     <bean id="questTriggerManager" class="com.gempukku.tcg.generic.mtg.objects.TriggerManager" scope="prototype">
-        <property name="triggerListeners">
+        <property name="gameEventListeners">
             <util:set>
 
             </util:set>

@@ -8,23 +8,23 @@ import java.util.Set;
 public class TriggerManager {
     private TriggerContainer _triggerContainer = new TriggerContainer();
 
-    private List<TriggerListener> _triggerListeners = new LinkedList<TriggerListener>();
+    private List<GameEventListener> _gameEventListeners = new LinkedList<GameEventListener>();
 
-    public void setTriggerListeners(Set<TriggerListener> triggerListeners) {
-        _triggerListeners.addAll(triggerListeners);
+    public void setGameEventListeners(Set<GameEventListener> gameEventListeners) {
+        _gameEventListeners.addAll(gameEventListeners);
     }
 
-    public void addTriggerListener(TriggerListener triggerListener) {
-        _triggerListeners.add(triggerListener);
+    public void addGameEventListener(GameEventListener gameEventListener) {
+        _gameEventListeners.add(gameEventListener);
     }
 
-    public void removeTriggerListener(TriggerListener triggerListener) {
-        _triggerListeners.remove(triggerListener);
+    public void removeGameEventListener(GameEventListener gameEventListener) {
+        _gameEventListeners.remove(gameEventListener);
     }
 
-    public void distributeTrigger(String type, Map<String, String> params) {
-        for (TriggerListener triggerListener : _triggerListeners)
-            triggerListener.triggerHappened(_triggerContainer, type, params);
+    public void distributeGameEvent(String type, Map<String, String> params) {
+        for (GameEventListener gameEventListener : _gameEventListeners)
+            gameEventListener.triggerHappened(_triggerContainer, type, params);
     }
 
     public Set<Trigger> consumeAwaitingTriggers() {
