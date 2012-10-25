@@ -24,10 +24,6 @@ public class EventAction implements Action {
         _events.add(0, event);
     }
 
-    public void setNextAction(Action nextAction) {
-        _nextAction = nextAction;
-    }
-
     @Override
     public void processNextStep(ActionStack actionStack, GameState gameState, DecisionCallback decisionCallback) {
         Event event = _events.remove(0);
@@ -41,6 +37,6 @@ public class EventAction implements Action {
 
     @Override
     public Action getNextAction(ActionStack actionStack, GameState gameState, DecisionCallback decisionCallback) {
-        return _nextAction;
+        return null;
     }
 }
