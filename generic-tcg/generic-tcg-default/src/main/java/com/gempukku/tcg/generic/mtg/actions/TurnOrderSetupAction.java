@@ -14,15 +14,9 @@ import com.gempukku.tcg.generic.mtg.objects.TurnOrder;
 import java.util.*;
 
 public class TurnOrderSetupAction extends EventAction {
-    private String _playersLocation;
-
-    public void setPlayersLocation(String playersLocation) {
-        _playersLocation = playersLocation;
-    }
-
-    public TurnOrderSetupAction() {
+    public TurnOrderSetupAction(String playersLocation) {
         addEvent(
-                new ExtractGameObjectEvent(_playersLocation) {
+                new ExtractGameObjectEvent(playersLocation) {
                     @Override
                     protected void objectExtracted(Object object, EventAction action, ActionStack actionStack, GameState gameState, DecisionCallback decisionCallback) {
                         final Set<String> players = new HashSet<String>((Collection<String>) object);

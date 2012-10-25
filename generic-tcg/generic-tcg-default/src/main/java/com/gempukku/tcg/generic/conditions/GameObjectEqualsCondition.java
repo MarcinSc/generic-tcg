@@ -7,8 +7,11 @@ public class GameObjectEqualsCondition implements Condition {
     private String _gameObject;
     private String _value;
 
-    public GameObjectEqualsCondition(String gameObject, String value) {
+    public void setGameObject(String gameObject) {
         _gameObject = gameObject;
+    }
+
+    public void setValue(String value) {
         _value = value;
     }
 

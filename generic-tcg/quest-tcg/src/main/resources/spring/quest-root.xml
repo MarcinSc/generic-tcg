@@ -7,7 +7,62 @@
 
     <bean id="questRootAction" class="com.gempukku.tcg.generic.actions.LoopAction">
         <property name="actions">
-            <
+            <util:list>
+                <bean class="com.gempukku.tcg.generic.actions.EventAction">
+                    <property name="events">
+                        <util:list>
+                            <bean class="com.gempukku.tcg.generic.events.SetGameObjectEvent">
+                                <constructor-arg><util:constant static-field="com.gempukku.tcg.generic.mtg.MtgConstants.CARD_CONTAINER"/></constructor-arg>
+                                <constructor-arg>
+                                    <bean class="com.gempukku.tcg.generic.objects.CardContainer">
+                                        <property name="sharedZoneNames">
+                                            <util:set>
+                                                <value>play</value>
+                                            </util:set>
+                                        </property>
+                                        <property name="playerZoneNames">
+                                            <util:set>
+                                                <value>hand</value>
+                                                <value>deck</value>
+                                                <value>locationDeck</value>
+                                                <value>discard</value>
+                                                <value>sideboard</value>
+                                            </util:set>
+                                        </property>
+                                    </bean>
+                                </constructor-arg>
+                            </bean>
+                            <bean class="com.gempukku.tcg.generic.events.SetGameObjectEvent">
+                                <constructor-arg><util:constant static-field="com.gempukku.tcg.quest.QuestConstants.CARD_ID_MANAGER"/></constructor-arg>
+                                <constructor-arg>
+                                    <bean class="com.gempukku.tcg.generic.objects.CardIdManager"/>
+                                </constructor-arg>
+                            </bean>
+                            <bean class="com.gempukku.tcg.quest.SetupQuestGame">
+                                <property name="deckLocation" value="deck"/>
+                                <property name="playersLocation" value="players"/>
+                            </bean>
+                        </util:list>
+                    </property>
+                </bean>
+                <bean class="com.gempukku.tcg.generic.mtg.actions.TurnOrderSetupAction">
+                    <constructor-arg value="players"/>
+                </bean>
+            </util:list>
         </property>
+        <property name="loopFinishCondition">
+            <bean class="com.gempukku.tcg.generic.conditions.ConstantCondition">
+                <property name="value" value="false"/>
+            </bean>
+        </property>
+    </bean>
+    
+    <bean id="questFinishCondition" class="com.gempukku.tcg.generic.conditions.GameObjectEqualsCondition">
+        <property name="gameObject" value="finished"/>
+        <property name="value" value="true"/>
+    </bean>
+
+    <bean id="questGameStateObserver" class="com.gempukku.tcg.quest.QuestGameStateObserver" scope="prototype">
+        
     </bean>
 </beans>
