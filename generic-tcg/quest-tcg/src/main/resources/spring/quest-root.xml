@@ -10,7 +10,7 @@
             <util:list>
                 <bean class="com.gempukku.tcg.generic.events.SetGameObjectEvent">
                     <property name="gameObjectName">
-                        <util:constant static-field="com.gempukku.tcg.generic.mtg.MtgConstants.CARD_CONTAINER"/>
+                        <util:constant static-field="com.gempukku.tcg.quest.QuestConstants.CARD_CONTAINER"/>
                     </property>
                     <property name="value" ref="questCardContainer"/>
                 </bean>
