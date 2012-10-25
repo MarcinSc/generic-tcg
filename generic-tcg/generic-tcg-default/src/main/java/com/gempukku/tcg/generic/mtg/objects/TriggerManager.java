@@ -7,8 +7,12 @@ import java.util.Set;
 
 public class TriggerManager {
     private TriggerContainer _triggerContainer = new TriggerContainer();
-    
+
     private List<TriggerListener> _triggerListeners = new LinkedList<TriggerListener>();
+
+    public void setTriggerListeners(Set<TriggerListener> triggerListeners) {
+        _triggerListeners.addAll(triggerListeners);
+    }
 
     public void addTriggerListener(TriggerListener triggerListener) {
         _triggerListeners.add(triggerListener);

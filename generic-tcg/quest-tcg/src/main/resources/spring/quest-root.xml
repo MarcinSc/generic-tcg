@@ -5,7 +5,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
-    <bean id="questRootAction" class="com.gempukku.tcg.generic.actions.EventAction">
+    <bean id="questRootAction" class="com.gempukku.tcg.generic.actions.EventAction" scope="prototype">
         <property name="events">
             <util:list>
                 <bean class="com.gempukku.tcg.generic.events.SetGameObjectEvent">
@@ -22,6 +22,12 @@
                         <bean class="com.gempukku.tcg.generic.objects.CardIdManager"/>
                     </property>
                 </bean>
+                <bean class="com.gempukku.tcg.generic.events.SetGameObjectEvent">
+                    <property name="gameObjectName">
+                        <util:constant static-field="com.gempukku.tcg.quest.QuestConstants.TRIGGER_MANAGER"/>
+                    </property>
+                    <property name="value" ref="questTriggerManager"/>
+                </bean>
                 <bean class="com.gempukku.tcg.quest.SetupQuestGame">
                     <property name="deckLocation" value="deck"/>
                     <property name="playersLocation" value="players"/>
@@ -33,7 +39,15 @@
         </property>
     </bean>
 
-    <bean id="questCardContainer" class="com.gempukku.tcg.generic.objects.CardContainer">
+    <bean id="questTriggerManager" class="com.gempukku.tcg.generic.mtg.objects.TriggerManager" scope="prototype">
+        <property name="triggerListeners">
+            <util:set>
+
+            </util:set>
+        </property>
+    </bean>
+
+    <bean id="questCardContainer" class="com.gempukku.tcg.generic.objects.CardContainer" scope="prototype">
         <property name="sharedZoneNames">
             <util:set>
                 <value>play</value>
