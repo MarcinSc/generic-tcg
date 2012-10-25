@@ -7,8 +7,8 @@ import java.util.Set;
 
 public class CardIdManager {
     private Set<String> _usedCardIds = new HashSet<String>();
-    private char[] _allowedChars = "abcdefghijklmnopqrstuvwxyz0123456789".toCharArray();
-    private int _cardIdLength = 5;
+    private static final char[] ALLOWED_CHARS = "abcdefghijklmnopqrstuvwxyz0123456789".toCharArray();
+    private static final int CARD_ID_LENGTH = 5;
 
     public void addNewCardToZone(CardZone cardZone, Map<String, String> properties) {
         String cardId = generateNewId();
@@ -43,9 +43,9 @@ public class CardIdManager {
         Random rnd = new Random();
         String newId;
         do {
-            char[] idChar = new char[_cardIdLength];
-            for (int i=0; i<_cardIdLength; i++)
-                idChar[i] = _allowedChars[rnd.nextInt(_allowedChars.length)];
+            char[] idChar = new char[CARD_ID_LENGTH];
+            for (int i=0; i< CARD_ID_LENGTH; i++)
+                idChar[i] = ALLOWED_CHARS[rnd.nextInt(ALLOWED_CHARS.length)];
             newId = new String(idChar);
         } while (_usedCardIds.contains(newId));
         return newId;
