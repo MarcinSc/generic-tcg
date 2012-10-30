@@ -1,5 +1,5 @@
 package com.gempukku.tcg;
 
-public interface GameMediatorVisitor<T extends GameStateObserver> {
+public interface GameMediatorVisitor<T> {
     public void consumeChanges(T gameStateObserver);
 }

@@ -1,5 +1,6 @@
 package com.gempukku.tcg.generic.objects;
 
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -11,8 +12,8 @@ public class CardZone {
         _cards.add(card);
     }
 
-    public Iterator<Card> iterateCards() {
-        return _cards.iterator();
+    public Set<Card> getCards() {
+        return Collections.unmodifiableSet(_cards);
     }
 
     public Card getCard(String cardId) {
@@ -24,7 +25,7 @@ public class CardZone {
     }
 
     public boolean removeCard(String cardId) {
-        Iterator<Card> cardIterator = iterateCards();
+        Iterator<Card> cardIterator = _cards.iterator();
         while (cardIterator.hasNext()) {
             Card card = cardIterator.next();
             if (card.getCardId().equals(cardId)) {

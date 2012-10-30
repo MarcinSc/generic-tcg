@@ -22,4 +22,8 @@ public class UserFeedback implements DecisionCallback {
     public AwaitingDecision removePlayerDecision(String player) {
         return _playerAwaitingDecisions.remove(player);
     }
+
+    public Map<String, AwaitingDecision> getDecisions() {
+        return new HashMap<String, AwaitingDecision>(_playerAwaitingDecisions);
+    }
 }

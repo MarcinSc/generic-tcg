@@ -28,6 +28,18 @@
                     </property>
                     <property name="value" ref="questTriggerManager"/>
                 </bean>
+                <bean class="com.gempukku.tcg.generic.events.SetGameObjectEvent">
+                    <property name="gameObjectName">
+                        <util:constant static-field="com.gempukku.tcg.generic.mtg.MtgConstants.TURN_ORDER"/>
+                    </property>
+                    <property name="value" ref="questTurnOrder"/>
+                </bean>
+                <bean class="com.gempukku.tcg.generic.events.SetGameObjectEvent">
+                    <property name="gameObjectName">
+                        <util:constant static-field="com.gempukku.tcg.generic.mtg.MtgConstants.MESSAGE_DISPLAY"/>
+                    </property>
+                    <property name="value" ref="questMessageDisplay"/>
+                </bean>
                 <bean class="com.gempukku.tcg.quest.SetupQuestGame">
                     <property name="deckLocation" value="deck"/>
                     <property name="playersLocation" value="players"/>
@@ -35,8 +47,15 @@
                 <bean class="com.gempukku.tcg.generic.mtg.events.TurnOrderSetupEvent">
                     <property name="objectName" value="players"/>
                 </bean>
+                <bean class="com.gempukku.tcg.generic.events.StackActionEvent">
+                    <property name="action" ref="questGameLoopAction"/>
+                </bean>
             </util:list>
         </property>
+    </bean>
+
+    <bean id="questGameLoopAction" class="com.gempukku.tcg.quest.QuestGameLoopAction">
+
     </bean>
 
     <bean id="questTriggerManager" class="com.gempukku.tcg.generic.mtg.objects.TriggerManager" scope="prototype">
@@ -69,7 +88,11 @@
         <property name="value" value="true"/>
     </bean>
 
-    <bean id="questGameStateObserver" class="com.gempukku.tcg.quest.QuestGameStateObserver" scope="prototype">
+    <bean id="questGameStateEvaluator" class="com.gempukku.tcg.quest.QuestGameStateEvaluator" scope="prototype"/>
 
-    </bean>
+    <bean id="questGameStateObserverFactory" class="com.gempukku.tcg.quest.QuestGameStateObserverFactory"/>
+
+    <bean id="questTurnOrder" class="com.gempukku.tcg.generic.mtg.objects.TurnOrder" scope="prototype"/>
+
+    <bean id="questMessageDisplay" class="com.gempukku.tcg.generic.objects.MessageDisplay" scope="prototype"/>
 </beans>

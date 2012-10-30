@@ -18,12 +18,13 @@ public class TurnOrder {
         return _currentPlayer;
     }
 
-    public void nextTurn() {
+    public String nextTurn() {
         String potentialPlayer;
         while (_skipTurns.contains(potentialPlayer = getNextPotentialPlayer()))
             _skipTurns.remove(potentialPlayer);
 
         _currentPlayer = potentialPlayer;
+        return _currentPlayer;
     }
 
     private String getNextPotentialPlayer() {
