@@ -2,294 +2,296 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Generic-TCG test</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <meta http-equiv="pragma" content="no-cache"/>
-    <meta http-equiv="Cache-Control" content="no-cache"/>
-    <meta http-equiv="Expires" content="-1">
+<title>Generic-TCG test</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<meta http-equiv="pragma" content="no-cache"/>
+<meta http-equiv="Cache-Control" content="no-cache"/>
+<meta http-equiv="Expires" content="-1">
 
-    <style type="text/css">
-        body {
-            font-size: 12px;
-            background-color: #000000;
+<style type="text/css">
+    body {
+        font-size: 12px;
+        background-color: #000000;
+    }
+
+    .tabs {
+        overflow: hidden;
+    }
+
+    .card {
+        position: absolute;
+    }
+
+    .cardImg {
+        width: 100%;
+        height: 100%;
+    }
+</style>
+<link rel="stylesheet" type="text/css" href="css/dark-hive/jquery-ui-1.8.16.custom.css">
+
+<script type="text/javascript" src="js/jquery/jquery-1.6.2.js"></script>
+<script type="text/javascript" src="js/jquery/jquery-ui-1.8.16.custom.min.js"></script>
+<script type="text/javascript" src="js/jquery/jquery-sizes.js"></script>
+
+<script type="text/javascript" src="js/common.js"></script>
+<script type="text/javascript" src="js/inheritance.js"></script>
+
+<script type="text/javascript" src="js/CardContainer.js"></script>
+<script type="text/javascript" src="js/CardGroup.js"></script>
+
+<script type="text/javascript" src="js/SampleGameUi.js"></script>
+
+<script type="text/javascript" src="js/RowCardLayoutCardGroup.js"></script>
+<script type="text/javascript" src="js/AttachedCardsLayoutCardGroup.js"></script>
+
+<script type="text/javascript">
+var gameUi1;
+var gameUi2;
+var gameUi3;
+var gameUi4;
+var gameUi5;
+
+function addFirstLayout() {
+    var firstLayoutCardContainer = $("#tabs-1");
+    var firstGroup = new RowCardLayoutCardGroup(firstLayoutCardContainer,
+            function(cardDiv, cardId, props) {
+                return true;
+            });
+    firstGroup.setMaxCardHeight(100);
+
+    gameUi1 = new SampleGameUi(firstLayoutCardContainer, firstGroup);
+}
+function addSecondLayout() {
+    var secondLayoutCardContainer = $("#tabs-2");
+    var secondGroup = new AttachedCardsLayoutCardGroup(secondLayoutCardContainer,
+            function(cardDiv, cardId, props) {
+                return props["attach1"] == null;
+            });
+    secondGroup.setMaxCardHeight(100);
+
+    var cardAttached = function(cardId, rootCardId) {
+        var cardProps = secondGroup.findCardPropsById(cardId);
+        var attachedTo = cardProps["attach1"];
+        if (attachedTo != null) {
+            if (attachedTo == rootCardId)
+                return true;
+            else
+                return cardAttached(attachedTo, rootCardId);
         }
+        return false;
+    };
 
-        .tabs {
-            overflow: hidden;
+    secondGroup.setZIndexBase(100);
+    secondGroup.addAttachedGroup(-1 / 5, 0,
+            function(cardDiv, cardId, props) {
+                return props["attach1"] == null;
+            },
+            function(cardDiv, cardId, props, cardDivAtt, cardIdAtt, propsAtt) {
+                return cardAttached(cardIdAtt, cardId);
+            });
+
+    gameUi2 = new SampleGameUi(secondLayoutCardContainer, secondGroup);
+}
+function addThirdCardLayout() {
+    var thirdLayoutCardContainer = $("#tabs-3");
+    var thirdGroup = new AttachedCardsLayoutCardGroup(thirdLayoutCardContainer,
+            function(cardDiv, cardId, props) {
+                return props["attach1"] == null;
+            });
+
+    var cardAttached = function(cardId, rootCardId) {
+        var cardProps = thirdGroup.findCardPropsById(cardId);
+        var attachedTo = cardProps["attach1"];
+        if (attachedTo != null) {
+            if (attachedTo == rootCardId)
+                return true;
+            else
+                return cardAttached(attachedTo, rootCardId);
         }
+        return false;
+    };
 
-        .card {
-            position: absolute;
+    thirdGroup.setZIndexBase(100);
+    thirdGroup.addAttachedGroup(1 / 5, 0,
+            function(cardDiv, cardId, props) {
+                return props["attach1"] == null;
+            },
+            function(cardDiv, cardId, props, cardDivAtt, cardIdAtt, propsAtt) {
+                return cardAttached(cardIdAtt, cardId);
+            });
+
+    gameUi3 = new SampleGameUi(thirdLayoutCardContainer, thirdGroup);
+}
+function addFourthCardLayout() {
+    var thirdLayoutCardContainer = $("#tabs-4");
+    var thirdGroup = new AttachedCardsLayoutCardGroup(thirdLayoutCardContainer,
+            function(cardDiv, cardId, props) {
+                return props["attach1"] == null;
+            });
+
+    var cardAttached = function(cardId, rootCardId) {
+        var cardProps = thirdGroup.findCardPropsById(cardId);
+        var attachedTo = cardProps["attach1"];
+        if (attachedTo != null) {
+            if (attachedTo == rootCardId)
+                return true;
+            else
+                return cardAttached(attachedTo, rootCardId);
         }
+        return false;
+    };
 
-        .cardImg {
-            width: 100%;
-            height: 100%;
+    thirdGroup.setZIndexBase(100);
+    thirdGroup.addAttachedGroup(0, -1 / 5,
+            function(cardDiv, cardId, props) {
+                return props["attach1"] == null;
+            },
+            function(cardDiv, cardId, props, cardDivAtt, cardIdAtt, propsAtt) {
+                return cardAttached(cardIdAtt, cardId);
+            });
+
+    gameUi4 = new SampleGameUi(thirdLayoutCardContainer, thirdGroup);
+}
+function addFifthCardLayout() {
+    var thirdLayoutCardContainer = $("#tabs-5");
+    var thirdGroup = new AttachedCardsLayoutCardGroup(thirdLayoutCardContainer,
+            function(cardDiv, cardId, props) {
+                return props["attach1"] == null && props["attach2"] == null;
+            });
+
+    thirdGroup.setZIndexBase(100);
+
+    var cardAttached1 = function(cardId, rootCardId) {
+        var cardProps = thirdGroup.findCardPropsById(cardId);
+        var attachedTo = cardProps["attach1"];
+        if (attachedTo != null) {
+            if (attachedTo == rootCardId)
+                return true;
+            else
+                return cardAttached1(attachedTo, rootCardId);
         }
-    </style>
-    <link rel="stylesheet" type="text/css" href="css/dark-hive/jquery-ui-1.8.16.custom.css">
+        return false;
+    };
 
-    <script type="text/javascript" src="js/jquery/jquery-1.6.2.js"></script>
-    <script type="text/javascript" src="js/jquery/jquery-ui-1.8.16.custom.min.js"></script>
-    <script type="text/javascript" src="js/jquery/jquery-sizes.js"></script>
+    thirdGroup.addAttachedGroup(0, -1 / 5,
+            function(cardDiv, cardId, props) {
+                return props["attach1"] == null;
+            },
+            function(cardDiv, cardId, props, cardDivAtt, cardIdAtt, propsAtt) {
+                return cardAttached1(cardIdAtt, cardId);
+            });
 
-    <script type="text/javascript" src="js/common.js"></script>
-    <script type="text/javascript" src="js/inheritance.js"></script>
+    var cardAttached2 = function(cardId, rootCardId) {
+        var cardProps = thirdGroup.findCardPropsById(cardId);
+        var attachedTo = cardProps["attach2"];
+        if (attachedTo != null) {
+            if (attachedTo == rootCardId)
+                return true;
+            else
+                return cardAttached2(attachedTo, rootCardId);
+        }
+        return false;
+    };
 
-    <script type="text/javascript" src="js/CardContainer.js"></script>
-    <script type="text/javascript" src="js/CardGroup.js"></script>
+    thirdGroup.addAttachedGroup(-1 / 5, 0,
+            function(cardDiv, cardId, props) {
+                return props["attach2"] == null;
+            },
+            function(cardDiv, cardId, props, cardDivAtt, cardIdAtt, propsAtt) {
+                return cardAttached2(cardIdAtt, cardId);
+            });
 
-    <script type="text/javascript" src="js/SampleGameUi.js"></script>
+    gameUi5 = new SampleGameUi(thirdLayoutCardContainer, thirdGroup);
+}
 
-    <script type="text/javascript" src="js/RowCardLayoutCardGroup.js"></script>
-    <script type="text/javascript" src="js/AttachedCardsLayoutCardGroup.js"></script>
+$(document).ready(
+        function () {
+            $("#tabs").tabs({selected: 0});
+            addFirstLayout();
+            addSecondLayout();
+            addThirdCardLayout();
+            addFourthCardLayout();
+            addFifthCardLayout();
 
-    <script type="text/javascript">
-        var gameUi1;
-        var gameUi2;
-        var gameUi3;
-        var gameUi4;
-        var gameUi5;
-
-        function addFirstLayout() {
-            var firstLayoutCardContainer = $("#tabs-1");
-            var firstGroup = new RowCardLayoutCardGroup(firstLayoutCardContainer,
-                    function(cardDiv, cardId, props) {
-                        return true;
+            $(window).resize(
+                    function() {
+                        resize();
                     });
 
-            gameUi1 = new SampleGameUi(firstLayoutCardContainer, firstGroup);
-        }
-        function addSecondLayout() {
-            var secondLayoutCardContainer = $("#tabs-2");
-            var secondGroup = new AttachedCardsLayoutCardGroup(secondLayoutCardContainer,
-                    function(cardDiv, cardId, props) {
-                        return props["attach1"] == null;
-                    });
+            resize();
 
-            var cardAttached = function(cardId, rootCardId) {
-                var cardProps = secondGroup.findCardPropsById(cardId);
-                var attachedTo = cardProps["attach1"];
-                if (attachedTo != null) {
-                    if (attachedTo == rootCardId)
-                        return true;
-                    else
-                        return cardAttached(attachedTo, rootCardId);
-                }
-                return false;
-            };
+            gameUi1.addCard("1", {});
+            gameUi1.addCard("2", {});
+            gameUi1.addCard("3", {});
+            gameUi1.addCard("3a", {});
+            gameUi1.addCard("3b", {});
+            gameUi1.addCard("3c", {});
+            gameUi1.addCard("3d", {});
+            gameUi1.addCard("4", {});
+            gameUi1.addCard("5", {"hor":true});
 
-            secondGroup.setZIndexBase(100);
-            secondGroup.addAttachedGroup(-1 / 5, 0,
-                    function(cardDiv, cardId, props) {
-                        return props["attach1"] == null;
-                    },
-                    function(cardDiv, cardId, props, cardDivAtt, cardIdAtt, propsAtt) {
-                        return cardAttached(cardIdAtt, cardId);
-                    });
+            gameUi2.addCard("6", {});
+            gameUi2.addCard("7", {"attach1": "6"});
+            gameUi2.addCard("8", {"hor":true});
+            gameUi2.addCard("9", {"attach1": "7", "hor": true});
+            gameUi2.addCard("10", {"attach1": "9"});
 
-            gameUi2 = new SampleGameUi(secondLayoutCardContainer, secondGroup);
-        }
-        function addThirdCardLayout() {
-            var thirdLayoutCardContainer = $("#tabs-3");
-            var thirdGroup = new AttachedCardsLayoutCardGroup(thirdLayoutCardContainer,
-                    function(cardDiv, cardId, props) {
-                        return props["attach1"] == null;
-                    });
+            gameUi3.addCard("11", {});
+            gameUi3.addCard("12", {"attach1": "11"});
+            gameUi3.addCard("13", {"hor":true});
+            gameUi3.addCard("14", {"attach1": "12", "hor": true});
+            gameUi3.addCard("15", {"attach1": "14"});
 
-            var cardAttached = function(cardId, rootCardId) {
-                var cardProps = thirdGroup.findCardPropsById(cardId);
-                var attachedTo = cardProps["attach1"];
-                if (attachedTo != null) {
-                    if (attachedTo == rootCardId)
-                        return true;
-                    else
-                        return cardAttached(attachedTo, rootCardId);
-                }
-                return false;
-            };
+            gameUi4.addCard("16", {});
+            gameUi4.addCard("17", {"attach1": "16"});
+            gameUi4.addCard("18", {});
+            gameUi4.addCard("19", {"hor": true});
+            gameUi4.addCard("20", {"attach1": "19", "hor": true});
+            gameUi4.addCard("21", {"attach1": "20"});
+            gameUi4.addCard("22", {"attach1": "19"});
 
-            thirdGroup.setZIndexBase(100);
-            thirdGroup.addAttachedGroup(1 / 5, 0,
-                    function(cardDiv, cardId, props) {
-                        return props["attach1"] == null;
-                    },
-                    function(cardDiv, cardId, props, cardDivAtt, cardIdAtt, propsAtt) {
-                        return cardAttached(cardIdAtt, cardId);
-                    });
+            gameUi5.addCard("23", {});
+            gameUi5.addCard("24", {"attach1": "23"});
+            gameUi5.addCard("25", {"attach2": "23"});
+            gameUi5.addCard("26", {"hor": true});
 
-            gameUi3 = new SampleGameUi(thirdLayoutCardContainer, thirdGroup);
-        }
-        function addFourthCardLayout() {
-            var thirdLayoutCardContainer = $("#tabs-4");
-            var thirdGroup = new AttachedCardsLayoutCardGroup(thirdLayoutCardContainer,
-                    function(cardDiv, cardId, props) {
-                        return props["attach1"] == null;
-                    });
+            gameUi1.layoutCards();
+            gameUi2.layoutCards();
+            gameUi3.layoutCards();
+            gameUi4.layoutCards();
+            gameUi5.layoutCards();
+        });
 
-            var cardAttached = function(cardId, rootCardId) {
-                var cardProps = thirdGroup.findCardPropsById(cardId);
-                var attachedTo = cardProps["attach1"];
-                if (attachedTo != null) {
-                    if (attachedTo == rootCardId)
-                        return true;
-                    else
-                        return cardAttached(attachedTo, rootCardId);
-                }
-                return false;
-            };
+function resize() {
+    var width = $(window).width();
+    var height = $(window).height();
 
-            thirdGroup.setZIndexBase(100);
-            thirdGroup.addAttachedGroup(0, -1/5,
-                    function(cardDiv, cardId, props) {
-                        return props["attach1"] == null;
-                    },
-                    function(cardDiv, cardId, props, cardDivAtt, cardIdAtt, propsAtt) {
-                        return cardAttached(cardIdAtt, cardId);
-                    });
+    var border = $("#tabs").border();
 
-            gameUi4 = new SampleGameUi(thirdLayoutCardContainer, thirdGroup);
-        }
-        function addFifthCardLayout() {
-            var thirdLayoutCardContainer = $("#tabs-5");
-            var thirdGroup = new AttachedCardsLayoutCardGroup(thirdLayoutCardContainer,
-                    function(cardDiv, cardId, props) {
-                        return props["attach1"] == null && props["attach2"] == null;
-                    });
+    width = width - border.left - border.right;
+    height = height - border.top - border.bottom;
 
-            thirdGroup.setZIndexBase(100);
+    var innerWidth = width - 30;
+    var innerHeight = height - 30;
 
-            var cardAttached1 = function(cardId, rootCardId) {
-                var cardProps = thirdGroup.findCardPropsById(cardId);
-                var attachedTo = cardProps["attach1"];
-                if (attachedTo != null) {
-                    if (attachedTo == rootCardId)
-                        return true;
-                    else
-                        return cardAttached1(attachedTo, rootCardId);
-                }
-                return false;
-            };
+    if (innerHeight < 300)
+        innerHeight = 300;
+    if (innerWidth < 400)
+        innerWidth = 400;
 
-            thirdGroup.addAttachedGroup(0, -1/5,
-                    function(cardDiv, cardId, props) {
-                        return props["attach1"] == null;
-                    },
-                    function(cardDiv, cardId, props, cardDivAtt, cardIdAtt, propsAtt) {
-                        return cardAttached1(cardIdAtt, cardId);
-                    });
+    $("#tabs").css({"width": innerWidth, "height": innerHeight});
 
-            var cardAttached2 = function(cardId, rootCardId) {
-                var cardProps = thirdGroup.findCardPropsById(cardId);
-                var attachedTo = cardProps["attach2"];
-                if (attachedTo != null) {
-                    if (attachedTo == rootCardId)
-                        return true;
-                    else
-                        return cardAttached2(attachedTo, rootCardId);
-                }
-                return false;
-            };
+    var resultHeight = innerHeight - $("ul", $("#tabs")).height();
+    resultHeight = resultHeight - 3;
 
-            thirdGroup.addAttachedGroup(-1/5, 0,
-                    function(cardDiv, cardId, props) {
-                        return props["attach2"] == null;
-                    },
-                    function(cardDiv, cardId, props, cardDivAtt, cardIdAtt, propsAtt) {
-                        return cardAttached2(cardIdAtt, cardId);
-                    });
+    gameUi1.layoutGame(innerWidth, resultHeight);
+    gameUi2.layoutGame(innerWidth, resultHeight);
+    gameUi3.layoutGame(innerWidth, resultHeight);
+    gameUi4.layoutGame(innerWidth, resultHeight);
+    gameUi5.layoutGame(innerWidth, resultHeight);
+}
 
-            gameUi5 = new SampleGameUi(thirdLayoutCardContainer, thirdGroup);
-        }
-
-        $(document).ready(
-                function () {
-                    $("#tabs").tabs({selected: 0});
-                    addFirstLayout();
-                    addSecondLayout();
-                    addThirdCardLayout();
-                    addFourthCardLayout();
-                    addFifthCardLayout();
-
-                    $(window).resize(
-                            function() {
-                                resize();
-                            });
-
-                    resize();
-
-                    gameUi1.addCard("1", {});
-                    gameUi1.addCard("2", {});
-                    gameUi1.addCard("3", {});
-                    gameUi1.addCard("3a", {});
-                    gameUi1.addCard("3b", {});
-                    gameUi1.addCard("3c", {});
-                    gameUi1.addCard("3d", {});
-                    gameUi1.addCard("4", {});
-                    gameUi1.addCard("5", {"hor":true});
-
-                    gameUi2.addCard("6", {});
-                    gameUi2.addCard("7", {"attach1": "6"});
-                    gameUi2.addCard("8", {"hor":true});
-                    gameUi2.addCard("9", {"attach1": "7", "hor": true});
-                    gameUi2.addCard("10", {"attach1": "9"});
-
-                    gameUi3.addCard("11", {});
-                    gameUi3.addCard("12", {"attach1": "11"});
-                    gameUi3.addCard("13", {"hor":true});
-                    gameUi3.addCard("14", {"attach1": "12", "hor": true});
-                    gameUi3.addCard("15", {"attach1": "14"});
-
-                    gameUi4.addCard("16", {});
-                    gameUi4.addCard("17", {"attach1": "16"});
-                    gameUi4.addCard("18", {});
-                    gameUi4.addCard("19", {"hor": true});
-                    gameUi4.addCard("20", {"attach1": "19", "hor": true});
-                    gameUi4.addCard("21", {"attach1": "20"});
-                    gameUi4.addCard("22", {"attach1": "19"});
-
-                    gameUi5.addCard("23", {});
-                    gameUi5.addCard("24", {"attach1": "23"});
-                    gameUi5.addCard("25", {"attach2": "23"});
-                    gameUi5.addCard("26", {"hor": true});
-
-                    gameUi1.layoutCards();
-                    gameUi2.layoutCards();
-                    gameUi3.layoutCards();
-                    gameUi4.layoutCards();
-                    gameUi5.layoutCards();
-                });
-
-        function resize() {
-            var width = $(window).width();
-            var height = $(window).height();
-
-            var border = $("#tabs").border();
-
-            width = width - border.left - border.right;
-            height = height - border.top - border.bottom;
-
-            var innerWidth = width - 30;
-            var innerHeight = height - 30;
-
-            if (innerHeight < 300)
-                innerHeight = 300;
-            if (innerWidth < 400)
-                innerWidth = 400;
-
-            $("#tabs").css({"width": innerWidth, "height": innerHeight});
-
-            var resultHeight = innerHeight-$("ul", $("#tabs")).height();
-            resultHeight = resultHeight - 3;
-            
-            gameUi1.layoutGame(innerWidth, resultHeight);
-            gameUi2.layoutGame(innerWidth, resultHeight);
-            gameUi3.layoutGame(innerWidth, resultHeight);
-            gameUi4.layoutGame(innerWidth, resultHeight);
-            gameUi5.layoutGame(innerWidth, resultHeight);
-        }
-
-    </script>
+</script>
 </head>
 <body>
 <div id="tabs" class="tabs">
