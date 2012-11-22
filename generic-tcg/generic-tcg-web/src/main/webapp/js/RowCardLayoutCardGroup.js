@@ -39,7 +39,7 @@ var RowCardLayoutCardGroup = CardGroup.extend({
         if (!this.tryLayoutInOneRow(ratios, scale)) {
             var rows = 2;
             if (this.maxCardHeight != null)
-                rows = Math.max(rows, Math.floor((this.height + this.padding) / (this.maxCardHeight + this.padding)));
+                rows = Math.max(rows, Math.ceil((this.height + this.padding) / (this.maxCardHeight + this.padding)));
             while (true) {
                 if (this.canLayoutInRows(ratios, rows, scale)) {
                     this.layoutInRows(ratios, rows, scale);
