@@ -66,6 +66,9 @@ function addSecondLayout() {
     var secondGroup = new AttachedCardsLayoutCardGroup(secondLayoutCardContainer,
             function(cardDiv, cardId, props) {
                 return props["attach1"] == null;
+            },
+            function(cardDiv, cardId, props) {
+                return props["attach1"] == null;
             });
     secondGroup.setMaxCardHeight(100);
 
@@ -95,6 +98,9 @@ function addSecondLayout() {
 function addThirdCardLayout() {
     var thirdLayoutCardContainer = $("#tabs-3");
     var thirdGroup = new AttachedCardsLayoutCardGroup(thirdLayoutCardContainer,
+            function(cardDiv, cardId, props) {
+                return props["attach1"] == null;
+            },
             function(cardDiv, cardId, props) {
                 return props["attach1"] == null;
             });
@@ -127,6 +133,9 @@ function addFourthCardLayout() {
     var thirdGroup = new AttachedCardsLayoutCardGroup(thirdLayoutCardContainer,
             function(cardDiv, cardId, props) {
                 return props["attach1"] == null;
+            },
+            function(cardDiv, cardId, props) {
+                return props["attach1"] == null;
             });
 
     var cardAttached = function(cardId, rootCardId) {
@@ -155,6 +164,9 @@ function addFourthCardLayout() {
 function addFifthCardLayout() {
     var thirdLayoutCardContainer = $("#tabs-5");
     var thirdGroup = new AttachedCardsLayoutCardGroup(thirdLayoutCardContainer,
+            function(cardDiv, cardId, props) {
+                return props["attach1"] == null && props["attach2"] == null;
+            },
             function(cardDiv, cardId, props) {
                 return props["attach1"] == null && props["attach2"] == null;
             });

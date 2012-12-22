@@ -4,12 +4,24 @@ var AttachedCardsLayoutCardGroup = RowCardLayoutCardGroup.extend({
     attachedGroupsFinderFunc: null,
     attachedGroupsRootRecognizeFunc: null,
 
-    init: function (cardContainerDiv, cardContainFunc) {
+    rootRecognizeFunc: null,
+
+    /**
+     * Root recognize function is call to find all root cards, parameters
+     * cardDiv, cardId, props
+     *
+     * @param cardContainerDiv
+     * @param cardContainFunc
+     * @param rootRecognizeFunc
+     */
+    init: function (cardContainerDiv, cardContainFunc, rootRecognizeFunc) {
         this._super(cardContainerDiv, cardContainFunc);
         this.attachedGroupsLeft = new Array();
         this.attachedGroupsTop = new Array();
         this.attachedGroupsFinderFunc = new Array();
         this.attachedGroupsRootRecognizeFunc = new Array();
+
+        this.rootRecognizeFunc = rootRecognizeFunc;
     },
 
     addAttachedGroup: function(left, top, rootRecognizeFunc, finderFunc) {
@@ -17,6 +29,16 @@ var AttachedCardsLayoutCardGroup = RowCardLayoutCardGroup.extend({
         this.attachedGroupsTop.push(top);
         this.attachedGroupsRootRecognizeFunc.push(rootRecognizeFunc);
         this.attachedGroupsFinderFunc.push(finderFunc);
+    },
+
+    iterCardBoxes: function(func) {
+        var that = this;
+
+        this.iterCards(
+                function(cardDiv, cardId, props, layout) {
+                    if (that.rootRecognizeFunc(cardDiv, cardId, props))
+                        func(cardDiv, cardId, props, layout);
+                });
     },
 
     iterAttached: function(cardDiv, cardId, props, rootRecognizeFunc, finderFunc, func) {
