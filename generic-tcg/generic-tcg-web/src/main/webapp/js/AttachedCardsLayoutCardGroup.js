@@ -2,7 +2,6 @@ var AttachedCardsLayoutCardGroup = RowCardLayoutCardGroup.extend({
     attachedGroupsLeft: null,
     attachedGroupsTop: null,
     attachedGroupsFinderFunc: null,
-    attachedGroupsRootRecognizeFunc: null,
 
     rootRecognizeFunc: null,
 
@@ -19,15 +18,13 @@ var AttachedCardsLayoutCardGroup = RowCardLayoutCardGroup.extend({
         this.attachedGroupsLeft = new Array();
         this.attachedGroupsTop = new Array();
         this.attachedGroupsFinderFunc = new Array();
-        this.attachedGroupsRootRecognizeFunc = new Array();
 
         this.rootRecognizeFunc = rootRecognizeFunc;
     },
 
-    addAttachedGroup: function(left, top, rootRecognizeFunc, finderFunc) {
+    addAttachedGroup: function(left, top, finderFunc) {
         this.attachedGroupsLeft.push(left);
         this.attachedGroupsTop.push(top);
-        this.attachedGroupsRootRecognizeFunc.push(rootRecognizeFunc);
         this.attachedGroupsFinderFunc.push(finderFunc);
     },
 
@@ -41,10 +38,7 @@ var AttachedCardsLayoutCardGroup = RowCardLayoutCardGroup.extend({
                 });
     },
 
-    iterAttached: function(cardDiv, cardId, props, rootRecognizeFunc, finderFunc, func) {
-        if (!rootRecognizeFunc(cardDiv, cardId, props))
-            return;
-
+    iterAttached: function(cardDiv, cardId, props, finderFunc, func) {
         $(".card", this.cardContainerDiv).each(
             function() {
                 var cardDivAtt = $(this);
@@ -84,12 +78,11 @@ var AttachedCardsLayoutCardGroup = RowCardLayoutCardGroup.extend({
 
         for (var i = 0; i < this.attachedGroupsFinderFunc.length; i++) {
             var attachFunc = this.attachedGroupsFinderFunc[i];
-            var rootRecognizeFunc = this.attachedGroupsRootRecognizeFunc[i];
             var attachLeft = this.attachedGroupsLeft[i];
             var attachTop = this.attachedGroupsTop[i];
 
             var attIndex = 0;
-            this.iterAttached(cardDiv, cardId, props, rootRecognizeFunc, attachFunc,
+            this.iterAttached(cardDiv, cardId, props, attachFunc,
                 function(attCardDiv, attCardId, attProps, layout, attWidthToHeightRatioFunc) {
                     attIndex++;
                     var attBox = that.getCardBox(attCardDiv, attCardId, attProps);
@@ -151,12 +144,11 @@ var AttachedCardsLayoutCardGroup = RowCardLayoutCardGroup.extend({
 
         for (var i = 0; i < this.attachedGroupsFinderFunc.length; i++) {
             var attachFunc = this.attachedGroupsFinderFunc[i];
-            var rootRecognizeFunc = this.attachedGroupsRootRecognizeFunc[i];
             var attachLeft = this.attachedGroupsLeft[i];
             var attachTop = this.attachedGroupsTop[i];
 
             var index = 0;
-            this.iterAttached(cardDiv, cardId, props, rootRecognizeFunc, attachFunc,
+            this.iterAttached(cardDiv, cardId, props, attachFunc,
                 function(attCardDiv, attCardId, attProps, layout, attWidthToHeightRatioFunc) {
                     index++;
                     var attCardBox = that.getCardBox(attCardDiv, attCardId, attProps);
