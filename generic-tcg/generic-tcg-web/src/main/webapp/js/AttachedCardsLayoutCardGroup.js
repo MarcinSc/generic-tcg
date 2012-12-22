@@ -39,12 +39,12 @@ var AttachedCardsLayoutCardGroup = RowCardLayoutCardGroup.extend({
     },
 
     iterAttached: function(cardDiv, cardId, props, finderFunc, func) {
-        $(".card", this.cardContainerDiv).each(
-            function() {
-                var cardDivAtt = $(this);
-                var cardIdAtt = cardDivAtt.data("id");
-                var propsAtt = cardDivAtt.data("props");
-                var layout = cardDivAtt.data("layout");
+        var that = this;
+        this.iterCards(
+            function(cardDivAtt, cardIdAtt, propsAtt, layout) {
+                if (that.rootRecognizeFunc(cardDivAtt, cardIdAtt, propsAtt))
+                    return;
+                
                 var widthToHeightScaleFunc = cardDivAtt.data("widthToHeight");
                 if (finderFunc(cardDiv, cardId, props, cardDivAtt, cardIdAtt, propsAtt))
                     func(cardDivAtt, cardIdAtt, propsAtt, layout, widthToHeightScaleFunc);

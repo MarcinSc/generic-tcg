@@ -65,7 +65,7 @@ function addSecondLayout() {
     var secondLayoutCardContainer = $("#tabs-2");
     var secondGroup = new AttachedCardsLayoutCardGroup(secondLayoutCardContainer,
             function(cardDiv, cardId, props) {
-                return props["attach1"] == null;
+                return true;
             },
             function(cardDiv, cardId, props) {
                 return props["attach1"] == null;
