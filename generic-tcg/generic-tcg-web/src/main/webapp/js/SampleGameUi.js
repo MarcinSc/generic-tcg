@@ -28,17 +28,7 @@ var SampleGameUi = Class.extend({
     widthToHeightScale: function(cardId, props) {
         if (props["hor"]==true)
             return 500/360;
-        else        var width = $(window).width();
-        var height = $(window).height();
-
-        var innerWidth = width - 6;
-        var innerHeight = height - 6;
-
-        if (innerHeight < 300)
-            innerHeight = 300;
-        if (innerWidth < 400)
-            innerWidth = 400;
-
+        else
             return 360/500;
     },
 
