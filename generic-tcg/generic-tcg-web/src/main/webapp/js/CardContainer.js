@@ -34,6 +34,10 @@ var CardContainer = Class.extend({
         cardDiv.data("widthToHeight", widthToHeightScaleFunc);
     },
 
+    removeCards: function() {
+        $(".card", this.cardContainerDiv).remove();
+    },
+
     addCardGroup: function(name, cardGroup) {
         this.cardGroups[name] = cardGroup;
     },
