@@ -6,11 +6,24 @@ var CardGroup = Class.extend({
     width: null,
     height: null,
 
+    /**
+     * Card contain function called to figure out, if a specified card (by parameters) belongs to the group, parameters:
+     * cardDiv, cardId, props
+     * 
+     * @param cardContainerDiv
+     * @param cardContainFunc
+     */
     init: function(cardContainerDiv, cardContainFunc) {
         this.cardContainerDiv = cardContainerDiv;
         this.cardContainFunc = cardContainFunc;
     },
 
+    /**
+     * Function called for each card that belongs to the group, parameters:
+     * cardDiv, cardId, props, layoutFunc
+     * 
+     * @param func
+     */
     iterCards: function(func) {
         var that = this;
         $(".card", this.cardContainerDiv).each(

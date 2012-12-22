@@ -11,6 +11,19 @@ var CardContainer = Class.extend({
         this.layoutFunc = layoutFunc;
     },
 
+    /**
+     * Layout function called when card is layed out on screen, parameters:
+     * cardDiv, cardId, props, cardLeft, cardTop, cardWidth, cardHeight
+     *
+     * Width to height scale function called to figure out the proportions of the card, parameters:
+     * cardId, props
+     * 
+     * @param elem
+     * @param cardId
+     * @param props
+     * @param layoutFunc
+     * @param widthToHeightScaleFunc
+     */
     addCard: function(elem, cardId, props, layoutFunc, widthToHeightScaleFunc) {
         var cardDiv = $("<div class='card'></div>");
         cardDiv.append(elem);
@@ -34,5 +47,26 @@ var CardContainer = Class.extend({
                 function (groupName, cardGroup) {
                     cardGroup.layoutCards();
                 });
+    },
+
+    /**
+     * Function called for each card in the CardContainer, parameters:
+     * cardDiv, cardId, props and layout function
+     * 
+     * @param func
+     */
+    iterCards: function(func) {
+        $(".card", this.cardContainerDiv).each(
+                function() {
+                    var cardDiv = $(this);
+                    var cardId = cardDiv.data("id");
+                    var props = cardDiv.data("props");
+                    var layout = cardDiv.data("layout");
+                    func(cardDiv, cardId, props, layout);
+                });
+    },
+
+    getCardsCount: function() {
+        return $(".card", this.cardContainerDiv).length;
     }
 });
