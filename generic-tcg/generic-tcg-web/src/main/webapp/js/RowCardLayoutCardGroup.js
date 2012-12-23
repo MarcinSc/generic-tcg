@@ -19,13 +19,6 @@ var RowCardLayoutCardGroup = CardGroup.extend({
         return 1;
     },
 
-    getCardGroupBoxRatio: function(cardDiv, cardId, props) {
-        var result = {};
-        result.x = Math.min(1, cardDiv.data("widthToHeight")(cardId, props));
-        result.y = Math.min(1, 1 / cardDiv.data("widthToHeight")(cardId, props));
-        return result;
-    },
-
     iterCardGroupBoxes: function(func) {
         this.iterCards(func);
     },

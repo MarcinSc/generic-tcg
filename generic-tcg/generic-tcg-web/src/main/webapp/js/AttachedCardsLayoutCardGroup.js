@@ -119,14 +119,6 @@ var AttachedCardsLayoutCardGroup = RowCardLayoutCardGroup.extend({
         return result;
     },
 
-    getCardGroupBoxRatio: function(cardDiv, cardId, props) {
-        var cardBox = this.getCardGroupBoxSize(cardDiv, cardId, props);
-        var result = {};
-        result.x = cardBox.right - cardBox.left;
-        result.y = cardBox.bottom - cardBox.top;
-        return result;
-    },
-
     layoutCardGroup: function(cardDiv, cardId, props, layout, zIndex, cardBox, boxLeft, boxTop, boxWidth, boxHeight) {
         var that = this;
         var pixelSize = boxWidth / (cardBox.right - cardBox.left);
