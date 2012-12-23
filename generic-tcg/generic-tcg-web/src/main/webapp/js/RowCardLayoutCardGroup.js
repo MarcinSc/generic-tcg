@@ -15,7 +15,7 @@ var RowCardLayoutCardGroup = CardGroup.extend({
         this.zIndexBase = zIndexBase;
     },
 
-    getCardHeightScale: function(cardDiv, cardId, props) {
+    getCardHeightScale: function(cardGroupBoxSize) {
         return 1;
     },
 
@@ -30,14 +30,27 @@ var RowCardLayoutCardGroup = CardGroup.extend({
         this.iterCards(func);
     },
 
+    getCardGroupBoxSize: function(cardDiv, cardId, props) {
+        var proportions = cardDiv.data("widthToHeight")(cardId, props);
+        var result = {};
+        result.left = 0;
+        result.top = 0;
+        result.right = Math.min(1, proportions);
+        result.bottom = Math.min(1, 1 / proportions);
+        return result;
+    },
+
     layoutCards: function() {
         var that = this;
         var ratios = {};
         var scale = 1;
+        var cardGroupBoxSizes = {};
         this.iterCardGroupBoxes(
             function(cardDiv, cardId, props, layout) {
+                var cardGroupBoxSize = that.getCardGroupBoxSize(cardDiv, cardId, props);
+                cardGroupBoxSizes[cardId] = cardGroupBoxSize;
                 ratios[cardId] = that.getCardGroupBoxRatio(cardDiv, cardId, props);
-                scale = Math.min(scale, that.getCardHeightScale(cardDiv, cardId, props));
+                scale = Math.min(scale, that.getCardHeightScale(cardGroupBoxSize));
             });
 
         if (!this.tryLayoutInOneRow(ratios, scale)) {
