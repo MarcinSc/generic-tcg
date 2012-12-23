@@ -34,6 +34,22 @@ var CardContainer = Class.extend({
         cardDiv.data("widthToHeight", widthToHeightScaleFunc);
     },
 
+    removeCard: function(cardIdToRemove) {
+        var cardDivToRemove = null;
+        this.iterCards(
+                function(cardDiv, cardId, props, layoutFunc) {
+                    if (cardId == cardIdToRemove)
+                        cardDivToRemove = cardDiv;
+                });
+
+        if (cardDivToRemove != null) {
+            cardDivToRemove.remove();
+            return true;
+        } else {
+            return false;
+        }
+    },
+
     removeCards: function() {
         $(".card", this.cardContainerDiv).remove();
     },
@@ -47,6 +63,7 @@ var CardContainer = Class.extend({
     },
 
     layoutCards: function() {
+        log("CardContainer::layoutCards()");
         iterObj(this.cardGroups,
                 function (groupName, cardGroup) {
                     cardGroup.layoutCards();

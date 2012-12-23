@@ -28,7 +28,7 @@ var AttachedCardsLayoutCardGroup = RowCardLayoutCardGroup.extend({
         this.attachedGroupsFinderFunc.push(finderFunc);
     },
 
-    iterCardBoxes: function(func) {
+    iterCardGroupBoxes: function(func) {
         var that = this;
 
         this.iterCards(
@@ -39,6 +39,7 @@ var AttachedCardsLayoutCardGroup = RowCardLayoutCardGroup.extend({
     },
 
     iterAttached: function(cardDiv, cardId, props, finderFunc, func) {
+        log("AttachedCardsLayoutCardGroup::iterAttached");
         var that = this;
         this.iterCards(
             function(cardDivAtt, cardIdAtt, propsAtt, layout) {
