@@ -23,17 +23,22 @@ var RowCardLayoutCardGroup = CardGroup.extend({
         this.iterCards(func);
     },
 
-    getCardGroupBoxSize: function(cardDiv, cardId, props) {
-        var proportions = cardDiv.data("widthToHeight")(cardId, props);
+    getCardBox: function(cardDiv, cardId, props) {
+        var cardRatio = cardDiv.data("widthToHeight")(cardId, props);
         var result = {};
         result.left = 0;
         result.top = 0;
-        result.right = Math.min(1, proportions);
-        result.bottom = Math.min(1, 1 / proportions);
+        result.right = Math.min(1, cardRatio);
+        result.bottom = Math.min(1, 1 / cardRatio);
         return result;
     },
 
+    getCardGroupBoxSize: function(cardDiv, cardId, props) {
+        return this.getCardBox(cardDiv, cardId, props);
+    },
+
     layoutCards: function() {
+        log("RowCardLayoutCardGroup::layoutCards");
         var that = this;
         var scale = 1;
         var cardGroupBoxSizes = {};
