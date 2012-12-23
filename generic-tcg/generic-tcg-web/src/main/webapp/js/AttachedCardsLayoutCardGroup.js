@@ -120,7 +120,7 @@ var AttachedCardsLayoutCardGroup = RowCardLayoutCardGroup.extend({
         return result;
     },
 
-    getCardBoxRatio: function(cardDiv, cardId, props) {
+    getCardGroupBoxRatio: function(cardDiv, cardId, props) {
         var cardBox = this.getCardGroupBox(cardDiv, cardId, props);
         var result = {};
         result.x = cardBox.right - cardBox.left;
@@ -174,7 +174,7 @@ var AttachedCardsLayoutCardGroup = RowCardLayoutCardGroup.extend({
         }
     },
 
-    layoutCardBox: function(cardDiv, cardId, props, layout, boxLeft, boxTop, boxWidth, boxHeight, ratio) {
+    layoutCardGroupBox: function(cardDiv, cardId, props, layout, boxLeft, boxTop, boxWidth, boxHeight, ratio) {
         var that = this;
         var zIndex = this.zIndexBase;
         var cardBox = this.getCardGroupBox(cardDiv, cardId, props);
