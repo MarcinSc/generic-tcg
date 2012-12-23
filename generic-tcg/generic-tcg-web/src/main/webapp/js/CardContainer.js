@@ -50,6 +50,17 @@ var CardContainer = Class.extend({
         }
     },
 
+    hasCardId: function(cardIdToFind) {
+        var found = false;
+        this.iterCards(
+                function(cardDiv, cardId, props, layout) {
+                    if (cardId == cardIdToFind)
+                        found = true;
+                });
+
+        return found;
+    },
+
     removeCards: function() {
         $(".card", this.cardContainerDiv).remove();
     },
