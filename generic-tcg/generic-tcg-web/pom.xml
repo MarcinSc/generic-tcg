@@ -11,6 +11,9 @@
     <artifactId>generic-tcg-web</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
+    <build>
+        <finalName>generic-tcg</finalName>
+    </build>
     <dependencies>
     </dependencies>
 </project>
