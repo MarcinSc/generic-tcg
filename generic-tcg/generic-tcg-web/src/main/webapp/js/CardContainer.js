@@ -72,6 +72,7 @@ var CardContainer = Class.extend({
 
     setLayout: function(left, top, width, height) {
         this.layoutFunc(this.cardGroups, left, top, width, height);
+        this.layoutCards();
     },
 
     layoutCards: function() {
