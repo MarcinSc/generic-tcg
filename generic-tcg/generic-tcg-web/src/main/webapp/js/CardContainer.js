@@ -5,12 +5,14 @@ var CardContainer = Class.extend({
     cardGroups: null,
     layoutFunc: null,
     cardLayoutFunc: null,
+    widthToHeightFunc: null,
 
-    init: function(cardContainerDiv, layoutFunc, cardLayoutFunc) {
+    init: function(cardContainerDiv, layoutFunc, cardLayoutFunc, widthToHeightFunc) {
         this.cardContainerDiv = cardContainerDiv;
         this.cardGroups = {};
         this.layoutFunc = layoutFunc;
         this.cardLayoutFunc = cardLayoutFunc;
+        this.widthToHeightFunc = widthToHeightFunc;
     },
 
     /**
@@ -25,13 +27,12 @@ var CardContainer = Class.extend({
      * @param props
      * @param widthToHeightScaleFunc
      */
-    addCard: function(elem, cardId, props, widthToHeightScaleFunc) {
+    addCard: function(elem, cardId, props) {
         var cardDiv = $("<div class='card'></div>");
         cardDiv.append(elem);
         this.cardContainerDiv.append(cardDiv);
         cardDiv.data("id", cardId);
         cardDiv.data("props", props);
-        cardDiv.data("widthToHeight", widthToHeightScaleFunc);
     },
 
     removeCard: function(cardIdToRemove) {
@@ -81,6 +82,9 @@ var CardContainer = Class.extend({
                     cardGroup.layoutCards(
                             function(cardDiv, cardId, props, zIndex, left, top, width, height) {
                                 that.layoutCard(cardDiv, cardId, props, zIndex, left, top, width, height);
+                            },
+                            function(cardId, props) {
+                                return that.widthToHeightFunc(cardId, props);
                             });
                 });
     },

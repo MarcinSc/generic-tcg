@@ -4,7 +4,7 @@ var SampleGameUi = Class.extend({
 
     init: function(cardContainerDiv, cardGroup) {
         this.cardContainerDiv = cardContainerDiv;
-        this.cardContainer = new CardContainer(this.cardContainerDiv, this.cardContainerLayoutFunction, this.layoutCard);
+        this.cardContainer = new CardContainer(this.cardContainerDiv, this.cardContainerLayoutFunction, this.layoutCard, this.widthToHeightScale);
         this.cardContainer.addCardGroup("main", cardGroup);
     },
 
@@ -19,7 +19,7 @@ var SampleGameUi = Class.extend({
 
     addCard: function(cardId, props) {
         var elem = $("<img class='cardImg' src='"+this.getCardImg(cardId, props)+"'>");
-        this.cardContainer.addCard(elem, cardId, props, this.widthToHeightScale);
+        this.cardContainer.addCard(elem, cardId, props);
     },
 
     layoutCard: function(cardDiv, cardId, props, zIndex, left, top, width, height) {

@@ -54,8 +54,6 @@ var CardGroup = Class.extend({
         this.top = top;
         this.width = width;
         this.height = height;
-
-        this.layoutCards();
     },
 
     /**
@@ -63,7 +61,7 @@ var CardGroup = Class.extend({
      * cardDiv, cardId, props, zIndex, left, top, width, height
      * @param layoutFunc
      */
-    layoutCards: function(layoutFunc) {
+    layoutCards: function(layoutFunc, widthToHeightFunc) {
         log("CardGroup::layoutCards - This method should be overriden");
     }
 });
