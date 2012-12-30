@@ -20,7 +20,7 @@ var CardGroup = Class.extend({
 
     /**
      * Function called for each card that belongs to the group, parameters:
-     * cardDiv, cardId, props, layoutFunc
+     * cardDiv, cardId, props
      * 
      * @param func
      */
@@ -31,9 +31,8 @@ var CardGroup = Class.extend({
                     var cardDiv = $(this);
                     var cardId = cardDiv.data("id");
                     var props = cardDiv.data("props");
-                    var layout = cardDiv.data("layout");
                     if (that.cardContainFunc(cardDiv, cardId, props))
-                        func(cardDiv, cardId, props, layout);
+                        func(cardDiv, cardId, props);
                 });
     },
 
@@ -59,7 +58,12 @@ var CardGroup = Class.extend({
         this.layoutCards();
     },
 
-    layoutCards: function() {
+    /**
+     * Function called to layout cards in group, the function parameters:
+     * cardDiv, cardId, props, zIndex, left, top, width, height
+     * @param layoutFunc
+     */
+    layoutCards: function(layoutFunc) {
         log("CardGroup::layoutCards - This method should be overriden");
     }
 });

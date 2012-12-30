@@ -4,11 +4,13 @@ var CardContainer = Class.extend({
     cardContainerDiv: null,
     cardGroups: null,
     layoutFunc: null,
+    cardLayoutFunc: null,
 
-    init: function(cardContainerDiv, layoutFunc) {
+    init: function(cardContainerDiv, layoutFunc, cardLayoutFunc) {
         this.cardContainerDiv = cardContainerDiv;
         this.cardGroups = {};
         this.layoutFunc = layoutFunc;
+        this.cardLayoutFunc = cardLayoutFunc;
     },
 
     /**
@@ -17,27 +19,25 @@ var CardContainer = Class.extend({
      *
      * Width to height scale function called to figure out the proportions of the card, parameters:
      * cardId, props
-     * 
+     *
      * @param elem
      * @param cardId
      * @param props
-     * @param layoutFunc
      * @param widthToHeightScaleFunc
      */
-    addCard: function(elem, cardId, props, layoutFunc, widthToHeightScaleFunc) {
+    addCard: function(elem, cardId, props, widthToHeightScaleFunc) {
         var cardDiv = $("<div class='card'></div>");
         cardDiv.append(elem);
         this.cardContainerDiv.append(cardDiv);
         cardDiv.data("id", cardId);
         cardDiv.data("props", props);
-        cardDiv.data("layout", layoutFunc);
         cardDiv.data("widthToHeight", widthToHeightScaleFunc);
     },
 
     removeCard: function(cardIdToRemove) {
         var cardDivToRemove = null;
         this.iterCards(
-                function(cardDiv, cardId, props, layoutFunc) {
+                function(cardDiv, cardId, props) {
                     if (cardId == cardIdToRemove)
                         cardDivToRemove = cardDiv;
                 });
@@ -53,7 +53,7 @@ var CardContainer = Class.extend({
     hasCardId: function(cardIdToFind) {
         var found = false;
         this.iterCards(
-                function(cardDiv, cardId, props, layout) {
+                function(cardDiv, cardId, props) {
                     if (cardId == cardIdToFind)
                         found = true;
                 });
@@ -74,17 +74,27 @@ var CardContainer = Class.extend({
     },
 
     layoutCards: function() {
+        var that = this;
         log("CardContainer::layoutCards()");
         iterObj(this.cardGroups,
                 function (groupName, cardGroup) {
-                    cardGroup.layoutCards();
+                    cardGroup.layoutCards(
+                            function(cardDiv, cardId, props, zIndex, left, top, width, height) {
+                                that.layoutCard(cardDiv, cardId, props, zIndex, left, top, width, height);
+                            });
                 });
+    },
+
+    layoutCard: function(cardDiv, cardId, props, zIndex, left, top, width, height) {
+        //log("layout card "+cardId+": "+cardLeft+","+cardTop+"    "+cardWidth+"x"+cardHeight);
+        cardDiv.css({"zIndex": zIndex,"left": left + "px", "top": top + "px", "width": width, "height": height});
+        this.cardLayoutFunc(cardDiv, cardId, props, zIndex, left, top, width, height);
     },
 
     /**
      * Function called for each card in the CardContainer, parameters:
-     * cardDiv, cardId, props and layout function
-     * 
+     * cardDiv, cardId and props function
+     *
      * @param func
      */
     iterCards: function(func) {
@@ -93,8 +103,7 @@ var CardContainer = Class.extend({
                     var cardDiv = $(this);
                     var cardId = cardDiv.data("id");
                     var props = cardDiv.data("props");
-                    var layout = cardDiv.data("layout");
-                    func(cardDiv, cardId, props, layout);
+                    func(cardDiv, cardId, props);
                 });
     },
 

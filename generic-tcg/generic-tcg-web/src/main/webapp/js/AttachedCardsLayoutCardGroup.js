@@ -33,9 +33,9 @@ var AttachedCardsLayoutCardGroup = RowCardLayoutCardGroup.extend({
         var that = this;
 
         this.iterCards(
-                function(cardDiv, cardId, props, layout) {
+                function(cardDiv, cardId, props) {
                     if (that.rootRecognizeFunc(cardDiv, cardId, props))
-                        func(cardDiv, cardId, props, layout);
+                        func(cardDiv, cardId, props);
                 });
     },
 
@@ -43,13 +43,13 @@ var AttachedCardsLayoutCardGroup = RowCardLayoutCardGroup.extend({
         log("AttachedCardsLayoutCardGroup::iterAttached "+cardId);
         var that = this;
         this.iterCards(
-            function(cardDivAtt, cardIdAtt, propsAtt, layout) {
+            function(cardDivAtt, cardIdAtt, propsAtt) {
                 if (that.rootRecognizeFunc(cardDivAtt, cardIdAtt, propsAtt))
                     return;
                 
                 var widthToHeightScaleFunc = cardDivAtt.data("widthToHeight");
                 if (finderFunc(cardDiv, cardId, props, cardDivAtt, cardIdAtt, propsAtt))
-                    func(cardDivAtt, cardIdAtt, propsAtt, layout, widthToHeightScaleFunc);
+                    func(cardDivAtt, cardIdAtt, propsAtt, widthToHeightScaleFunc);
             });
     },
 
@@ -75,7 +75,7 @@ var AttachedCardsLayoutCardGroup = RowCardLayoutCardGroup.extend({
 
             var attIndex = 0;
             this.iterAttached(cardDiv, cardId, props, attachFunc,
-                function(attCardDiv, attCardId, attProps, layout, attWidthToHeightRatioFunc) {
+                function(attCardDiv, attCardId, attProps, attWidthToHeightRatioFunc) {
                     attIndex++;
                     var attBox = that.getCardBox(attCardDiv, attCardId, attProps);
                     var attWidth = attBox.right - attBox.left;
@@ -111,7 +111,7 @@ var AttachedCardsLayoutCardGroup = RowCardLayoutCardGroup.extend({
         return result;
     },
 
-    layoutCardGroup: function(cardDiv, cardId, props, layout, zIndex, cardBox, boxLeft, boxTop, boxWidth, boxHeight) {
+    layoutCardGroup: function(layoutFunc, cardDiv, cardId, props, zIndex, cardBox, boxLeft, boxTop, boxWidth, boxHeight) {
         log("AttachedCardsLayoutCardGroup::layoutCardGroup "+cardId);
 
         var that = this;
@@ -124,7 +124,7 @@ var AttachedCardsLayoutCardGroup = RowCardLayoutCardGroup.extend({
         var cardHeight = cardWidth / cardRatio;
         var cardLeft = boxLeft - cardBox.left * pixelSize;
         var cardTop = boxTop - cardBox.top * pixelSize + (boxHeight - cardGroupHeight) / 2;
-        this.layoutOneCard(cardDiv, cardId, props, layout, zIndex, cardLeft, cardTop, cardWidth, cardHeight);
+        layoutFunc(cardDiv, cardId, props, zIndex, cardLeft, cardTop, cardWidth, cardHeight);
 
         zIndex--;
 
@@ -135,7 +135,7 @@ var AttachedCardsLayoutCardGroup = RowCardLayoutCardGroup.extend({
 
             var index = 0;
             this.iterAttached(cardDiv, cardId, props, attachFunc,
-                function(attCardDiv, attCardId, attProps, layout, attWidthToHeightRatioFunc) {
+                function(attCardDiv, attCardId, attProps, attWidthToHeightRatioFunc) {
                     index++;
                     var attCardBox = that.getCardBox(attCardDiv, attCardId, attProps);
                     var attWidth = pixelSize * (attCardBox.right - attCardBox.left);
@@ -151,7 +151,7 @@ var AttachedCardsLayoutCardGroup = RowCardLayoutCardGroup.extend({
                         attTop = cardTop + index * pixelSize * attachTop;
                     else
                         attTop = cardTop + cardHeight - attHeight + index * pixelSize * attachTop;
-                    that.layoutOneCard(attCardDiv, attCardId, attProps, layout, zIndex,
+                    layoutFunc(attCardDiv, attCardId, attProps, zIndex,
                         attLeft, attTop,
                         attWidth, attHeight);
                     zIndex--;
@@ -159,9 +159,8 @@ var AttachedCardsLayoutCardGroup = RowCardLayoutCardGroup.extend({
         }
     },
 
-    layoutCardGroupBox: function(cardDiv, cardId, props, layout, boxLeft, boxTop, boxWidth, boxHeight, cardBox) {
-        var that = this;
+    layoutCardGroupBox: function(layoutFunc, cardDiv, cardId, props, boxLeft, boxTop, boxWidth, boxHeight, cardBox) {
         var zIndex = this.zIndexBase;
-        this.layoutCardGroup(cardDiv, cardId, props, layout, zIndex, cardBox, boxLeft, boxTop, boxWidth, boxHeight);
+        this.layoutCardGroup(layoutFunc, cardDiv, cardId, props, zIndex, cardBox, boxLeft, boxTop, boxWidth, boxHeight);
     }
 });
