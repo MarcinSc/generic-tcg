@@ -25,7 +25,6 @@ var CardContainer = Class.extend({
      * @param elem
      * @param cardId
      * @param props
-     * @param widthToHeightScaleFunc
      */
     addCard: function(elem, cardId, props) {
         var cardDiv = $("<div class='card'></div>");
