@@ -50,6 +50,7 @@ var gameUi2;
 var gameUi3;
 var gameUi4;
 var gameUi5;
+var containerUi6;
 
 function addFirstLayout() {
     var firstLayoutCardContainer = $("#tabs-1");
@@ -200,6 +201,71 @@ function addFifthCardLayout() {
 
     gameUi5 = new SampleGameUi(thirdLayoutCardContainer, thirdGroup);
 }
+function addSixthCardLayout() {
+    var sixthLayoutCardContainer = $("#tabs-6");
+
+    var layoutGroups = function(cardGroups, left, top, width, height) {
+        var padding = 3;
+        var groupWidth = (width-3*padding)/2;
+        var groupHeight = (height-5*padding)/4;
+
+        cardGroups["1"].setLayout(left+padding, top+padding, groupWidth, groupHeight);
+        cardGroups["2"].setLayout(left+padding, top+2*padding+groupHeight, groupWidth, groupHeight);
+        cardGroups["3"].setLayout(left+padding, top+3*padding+2*groupHeight, groupWidth, groupHeight);
+        cardGroups["4"].setLayout(left+padding, top+4*padding+3*groupHeight, groupWidth, groupHeight);
+
+        cardGroups["5"].setLayout(left+2*padding+groupWidth, top+padding, groupWidth, groupHeight);
+        cardGroups["6"].setLayout(left+2*padding+groupWidth, top+2*padding+groupHeight, groupWidth, groupHeight);
+        cardGroups["7"].setLayout(left+2*padding+groupWidth, top+3*padding+2*groupHeight, groupWidth, groupHeight);
+        cardGroups["8"].setLayout(left+2*padding+groupWidth, top+4*padding+3*groupHeight, groupWidth, groupHeight);
+    };
+
+    var layoutCard = function(cardDiv, cardId, props, zIndex, left, top, width, height) {
+    };
+
+    var widthToHeightScale = function(cardId, props) {
+        if (props["hor"]==true)
+            return 500/360;
+        else
+            return 360/500;
+    };
+
+    var cardContainer = new CardContainer(sixthLayoutCardContainer, layoutGroups, layoutCard, widthToHeightScale);
+    cardContainer.addCardGroup("1", new RowCardLayoutCardGroup(sixthLayoutCardContainer,
+            function(cardDiv, cardId, props) {
+                return props["group"]=="1";
+            }));
+    cardContainer.addCardGroup("2", new RowCardLayoutCardGroup(sixthLayoutCardContainer,
+            function(cardDiv, cardId, props) {
+                return props["group"]=="2";
+            }));
+    cardContainer.addCardGroup("3", new RowCardLayoutCardGroup(sixthLayoutCardContainer,
+            function(cardDiv, cardId, props) {
+                return props["group"]=="3";
+            }));
+    cardContainer.addCardGroup("4", new RowCardLayoutCardGroup(sixthLayoutCardContainer,
+            function(cardDiv, cardId, props) {
+                return props["group"]=="4";
+            }));
+    cardContainer.addCardGroup("5", new RowCardLayoutCardGroup(sixthLayoutCardContainer,
+            function(cardDiv, cardId, props) {
+                return props["group"]=="5";
+            }));
+    cardContainer.addCardGroup("6", new RowCardLayoutCardGroup(sixthLayoutCardContainer,
+            function(cardDiv, cardId, props) {
+                return props["group"]=="6";
+            }));
+    cardContainer.addCardGroup("7", new RowCardLayoutCardGroup(sixthLayoutCardContainer,
+            function(cardDiv, cardId, props) {
+                return props["group"]=="7";
+            }));
+    cardContainer.addCardGroup("8", new RowCardLayoutCardGroup(sixthLayoutCardContainer,
+            function(cardDiv, cardId, props) {
+                return props["group"]=="8";
+            }));
+
+    containerUi6 = cardContainer;
+}
 
 $(document).ready(
         function () {
@@ -209,6 +275,7 @@ $(document).ready(
             addThirdCardLayout();
             addFourthCardLayout();
             addFifthCardLayout();
+            addSixthCardLayout();
 
             $(window).resize(
                     function() {
@@ -252,11 +319,23 @@ $(document).ready(
             gameUi5.addCard("25", {"attach2": "23"});
             gameUi5.addCard("26", {"hor": true});
 
+            for (var i=0; i<10; i++) {
+                containerUi6.addCard($("<img class='cardImg' src='images/vertical.png'>"), 31+i*8, {"group":"1"});
+                containerUi6.addCard($("<img class='cardImg' src='images/vertical.png'>"), 32+i*8, {"group":"2"});
+                containerUi6.addCard($("<img class='cardImg' src='images/vertical.png'>"), 33+i*8, {"group":"3"});
+                containerUi6.addCard($("<img class='cardImg' src='images/vertical.png'>"), 34+i*8, {"group":"4"});
+                containerUi6.addCard($("<img class='cardImg' src='images/vertical.png'>"), 35+i*8, {"group":"5"});
+                containerUi6.addCard($("<img class='cardImg' src='images/vertical.png'>"), 36+i*8, {"group":"6"});
+                containerUi6.addCard($("<img class='cardImg' src='images/vertical.png'>"), 37+i*8, {"group":"7"});
+                containerUi6.addCard($("<img class='cardImg' src='images/vertical.png'>"), 38+i*8, {"group":"8"});
+            }
+
             gameUi1.layoutCards();
             gameUi2.layoutCards();
             gameUi3.layoutCards();
             gameUi4.layoutCards();
             gameUi5.layoutCards();
+            containerUi6.layoutCards();
         });
 
 function resize() {
@@ -286,6 +365,7 @@ function resize() {
     gameUi3.layoutGame(innerWidth, resultHeight);
     gameUi4.layoutGame(innerWidth, resultHeight);
     gameUi5.layoutGame(innerWidth, resultHeight);
+    containerUi6.setLayout(0, 0, innerWidth, resultHeight);
 }
 
 </script>
@@ -298,12 +378,14 @@ function resize() {
         <li><a href="#tabs-3">Attachment right layout</a></li>
         <li><a href="#tabs-4">Attachment top layout</a></li>
         <li><a href="#tabs-5">Attachment multiple layout</a></li>
+        <li><a href="#tabs-6">Multiple groups</a></li>
     </ul>
     <div id="tabs-1" style="position: relative"></div>
     <div id="tabs-2" style="position: relative"></div>
     <div id="tabs-3" style="position: relative"></div>
     <div id="tabs-4" style="position: relative"></div>
     <div id="tabs-5" style="position: relative"></div>
+    <div id="tabs-6" style="position: relative"></div>
 </div>
 </body>
 </html>
