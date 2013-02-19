@@ -1,4 +1,4 @@
-package com.gempukku.tcg;
+package com.gempukku.tcg.generic;
 
 import java.util.HashMap;
 import java.util.Iterator;

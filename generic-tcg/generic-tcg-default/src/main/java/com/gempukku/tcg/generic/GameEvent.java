@@ -1,4 +1,4 @@
-package com.gempukku.tcg;
+package com.gempukku.tcg.generic;
 
 public class GameEvent {
     private String _type;
