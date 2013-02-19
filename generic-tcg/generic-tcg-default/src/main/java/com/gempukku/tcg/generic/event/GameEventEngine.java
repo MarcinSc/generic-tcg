@@ -1,4 +1,4 @@
-package com.gempukku.tcg.generic;
+package com.gempukku.tcg.generic.event;
 
 import java.util.Set;
 

@@ -1,4 +1,4 @@
-package com.gempukku.tcg.generic;
+package com.gempukku.tcg.generic.modifier;
 
 public interface GameModifierConsumer<T extends GameModifier> {
     public void registerModifier(T gameModifier);

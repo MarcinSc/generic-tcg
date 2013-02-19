@@ -1,4 +1,8 @@
-package com.gempukku.tcg.generic;
+package com.gempukku.tcg.generic.modifier;
+
+import com.gempukku.tcg.generic.event.GameEvent;
+import com.gempukku.tcg.generic.event.GameEventCondition;
+import com.gempukku.tcg.generic.event.GameEventListener;
 
 import java.util.HashMap;
 import java.util.Iterator;
