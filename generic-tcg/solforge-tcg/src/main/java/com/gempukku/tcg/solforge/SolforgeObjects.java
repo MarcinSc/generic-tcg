@@ -6,9 +6,10 @@ import com.gempukku.tcg.generic.decision.DecisionHolder;
 import com.gempukku.tcg.generic.event.GameEventCollector;
 import com.gempukku.tcg.generic.event.GameEventEngine;
 import com.gempukku.tcg.generic.modifier.GameModifierEngine;
-import com.gempukku.tcg.generic.object.Counter;
-import com.gempukku.tcg.generic.object.Property;
+import com.gempukku.tcg.generic.object.GameObjectManager;
 import com.gempukku.tcg.generic.object.Zone;
+import com.gempukku.tcg.generic.other.Counter;
+import com.gempukku.tcg.generic.other.Property;
 
 public class SolforgeObjects {
     public static final SolforgeObject<GameEventEngine> GAME_EVENT_ENGINE = new SolforgeObject<GameEventEngine>("gameEventEngine");
@@ -22,9 +23,13 @@ public class SolforgeObjects {
     public static final SolforgeObject<Zone> PLAY_ZONE = new SolforgeObject<Zone>("play");
 
     public static final SolforgeObject<Property> PLAYER_TURN = new SolforgeObject<Property>("playerTurn");
+    public static final SolforgeObject<Property> PLAYER_ORDER = new SolforgeObject<Property>("playerOrder");
+    public static final SolforgeObject<Property> TURN_PHASE = new SolforgeObject<Property>("turnPhase");
 
     public static final SolforgeObject<GameEventCollector> TURN_EVENT_COLLECTOR = new SolforgeObject<GameEventCollector>("turnEventCollector");
     public static final SolforgeObject<PerPlayerObject<DecisionHolder>> DECISION_HOLDER = new SolforgeObject<PerPlayerObject<DecisionHolder>>("decisionHolder");
+
+    public static final SolforgeObject<GameObjectManager> GAME_OBJECT_MANAGER = new SolforgeObject<GameObjectManager>("gameObjectManager");
 
     public static <T> T extractGameObject(GameState gameState, SolforgeObject<T> object) {
         return (T) gameState.getGameObject(object._name);

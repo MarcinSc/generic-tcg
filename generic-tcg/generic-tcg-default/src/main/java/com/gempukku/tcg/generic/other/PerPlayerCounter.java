@@ -1,4 +1,4 @@
-package com.gempukku.tcg.generic.object;
+package com.gempukku.tcg.generic.other;
 
 import com.gempukku.tcg.generic.PerPlayerObjectImpl;
 

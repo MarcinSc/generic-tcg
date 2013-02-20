@@ -6,6 +6,7 @@ import com.gempukku.tcg.GameState;
 import com.gempukku.tcg.generic.PlayerDeckGameProcessor;
 import com.gempukku.tcg.generic.decision.DecisionHolder;
 import com.gempukku.tcg.generic.decision.YesNoDecision;
+import org.apache.commons.lang.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,6 +27,8 @@ public class SetupSolforgeGameGameProcessor implements PlayerDeckGameProcessor {
 
     @Override
     public void startProcessing(final GameState gameState, Map<String, GameDeck> gameDeckMap) {
+        SolforgeObjects.extractGameObject(gameState, SolforgeObjects.TURN_PHASE).setValue("startOfTurn");
+
         List<String> players = new ArrayList<String>(gameDeckMap.keySet());
 
         Collections.shuffle(players);
@@ -37,18 +40,19 @@ public class SetupSolforgeGameGameProcessor implements PlayerDeckGameProcessor {
                 new YesNoDecision("Would you like to start?") {
                     @Override
                     protected void yes() {
-                        setStartingPlayer(gameState, choosingPlayer);
+                        setPlayerOrder(gameState, choosingPlayer, otherPlayer);
                     }
 
                     @Override
                     protected void no() {
-                        setStartingPlayer(gameState, otherPlayer);
+                        setPlayerOrder(gameState, otherPlayer, choosingPlayer);
                     }
                 }
         );
     }
 
-    private void setStartingPlayer(GameState gameState, String player) {
-        SolforgeObjects.extractGameObject(gameState, SolforgeObjects.PLAYER_TURN).setValue(player);
+    private void setPlayerOrder(GameState gameState, String... playerOrder) {
+        SolforgeObjects.extractGameObject(gameState, SolforgeObjects.PLAYER_ORDER).setValue(StringUtils.join(playerOrder, ","));
+        SolforgeObjects.extractGameObject(gameState, SolforgeObjects.PLAYER_TURN).setValue(playerOrder[0]);
     }
 }

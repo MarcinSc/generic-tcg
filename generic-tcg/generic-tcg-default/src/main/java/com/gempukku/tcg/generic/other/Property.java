@@ -1,4 +1,4 @@
-package com.gempukku.tcg.generic.object;
+package com.gempukku.tcg.generic.other;
 
 public class Property {
     public String _value;

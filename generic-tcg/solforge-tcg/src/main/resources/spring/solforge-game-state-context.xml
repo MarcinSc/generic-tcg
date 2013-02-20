@@ -15,8 +15,11 @@
                 <entry key="hand" value-ref="handZone"/>
                 <entry key="play" value-ref="playZone"/>
                 <entry key="playerTurn" value-ref="playerTurn"/>
+                <entry key="playerOrder" value-ref="playerOrder"/>
                 <entry key="turnEventCollector" value-ref="turnEventCollector"/>
                 <entry key="decisionHolder" value-ref="decisionHolder"/>
+                <entry key="turnPhase" value-ref="turnPhase"/>
+                <entry key="gameObjectManager" value-ref="gameObjectManager"/>
             </util:map>
         </property>
     </bean>
@@ -34,6 +37,10 @@
         <property name="gameActionStack" ref="gameActionStack"/>
     </bean>
 
+    <bean id="gameObjectManager" class="com.gempukku.tcg.generic.object.GameObjectManager">
+        <property name="zoneMoveChangesId" value="true"/>
+    </bean>
+
     <bean id="gameActionStack" class="com.gempukku.tcg.generic.action.GameActionStack">
         <property name="rootGameAction" ref="rootGameAction"/>
     </bean>
@@ -48,7 +55,10 @@
 
     <bean id="playZone" class="com.gempukku.tcg.generic.object.Zone"/>
 
-    <bean id="playerTurn" class="com.gempukku.tcg.generic.object.Property"/>
+    <bean id="playerTurn" class="com.gempukku.tcg.generic.other.Property"/>
+    <bean id="playerOrder" class="com.gempukku.tcg.generic.other.Property"/>
+
+    <bean id="turnPhase" class="com.gempukku.tcg.generic.other.Property"/>
 
     <bean id="turnEventCollector" class="com.gempukku.tcg.generic.event.GameEventCollector">
         <property name="resetCondition">
@@ -76,11 +86,11 @@
         </property>
     </bean>
 
-    <bean id="healthCounter" class="com.gempukku.tcg.generic.object.PerPlayerCounter">
+    <bean id="healthCounter" class="com.gempukku.tcg.generic.other.PerPlayerCounter">
         <property name="defaultValue" value="100"/>
     </bean>
 
-    <bean id="levelCounter" class="com.gempukku.tcg.generic.object.PerPlayerCounter">
+    <bean id="levelCounter" class="com.gempukku.tcg.generic.other.PerPlayerCounter">
         <property name="defaultValue" value="1"/>
     </bean>
 </beans>

@@ -11,6 +11,8 @@ public class SolforgeRootGameAction implements GameAction {
 
     @Override
     public void processNextGameEffect(GameState gameState) {
+        final String turnPhase = SolforgeObjects.extractGameObject(gameState, SolforgeObjects.TURN_PHASE).getValue();
+        if (turnPhase.equals("startOfTurn"))
         // TODO
     }
 }
