@@ -1,34 +1,29 @@
 package com.gempukku.tcg;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class GameState {
-    private Map<String, Object> _gameObjects = new HashMap<String, Object>();
-    private Map<String, Map<String, Object>> _playerObjects = new HashMap<String, Map<String, Object>>();
+    private Map<String, Object> _gameObjects;
 
-    public void setPlayerObject(String playerName, String name, Object object) {
-        ensurePlayerExists(playerName);
-        _playerObjects.get(playerName).put(name, object);
-    }
-
-    private void ensurePlayerExists(String playerName) {
-        if (!_playerObjects.containsKey(playerName))
-            _playerObjects.put(playerName, new HashMap<String, Object>());
-    }
-
-    public Object getPlayerObject(String playerName, String name) {
-        ensurePlayerExists(playerName);
-        return _playerObjects.get(playerName).get(name);
-    }
-
-    public void setGameObject(String name, Object object) {
-        _gameObjects.put(name, object);
+    public void setGameObjects(Map<String, Object> gameObjects) {
+        _gameObjects = gameObjects;
     }
 
     public Object getGameObject(String name) {
-        return _gameObjects.get(name);
+        final Object result = _gameObjects.get(name);
+        if (result == null)
+            throw new IllegalArgumentException("Object of name " + name + " not found");
+        return result;
     }
 
-    
+    public Object getPlayerObject(String player, String name) {
+        final Object result = _gameObjects.get(name);
+        if (result instanceof PerPlayerObject) {
+            final Object value = ((PerPlayerObject) result).getObject(player);
+            if (value == null)
+                throw new IllegalArgumentException("Object of name " + name + " for player " + player + " not found");
+            return value;
+        }
+        throw new IllegalArgumentException("Object of name " + name + " for player " + player + " not found");
+    }
 }

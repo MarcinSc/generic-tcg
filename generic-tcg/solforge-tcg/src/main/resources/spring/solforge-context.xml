@@ -12,33 +12,7 @@
     </bean>
 
     <bean id="solforgeGameStateBuilder" class="com.gempukku.tcg.generic.SpringGameStateBuilder">
-        <property name="gameObjects">
-            <util:map>
-                <entry value="solforgeGameEventEngine">
-                    <key>
-                        <util:constant static-field="com.gempukku.tcg.solforge.SolforgeObjects.GAME_EVENT_ENGINE"/>
-                    </key>
-                </entry>
-                <entry value="solforgeModifierEngine">
-                    <key>
-                        <util:constant static-field="com.gempukku.tcg.solforge.SolforgeObjects.GAME_MODIFIER_ENGINE"/>
-                    </key>
-                </entry>
-            </util:map>
-        </property>
-        <property name="playerObjects">
-            <util:map>
-
-            </util:map>
-        </property>
-    </bean>
-
-    <bean id="solforgeGameEventEngine" class="com.gempukku.tcg.generic.event.GameEventEngine" scope="prototype">
-
-    </bean>
-
-    <bean id="solforgeGameModifierEngine" class="com.gempukku.tcg.generic.modifier.GameModifierEngine"
-          scope="prototype">
-
+        <property name="contextPath" value="/spring/solforge-game-state-context.xml"/>
+        <property name="gameStateBeanName" value="gameState"/>
     </bean>
 </beans>
