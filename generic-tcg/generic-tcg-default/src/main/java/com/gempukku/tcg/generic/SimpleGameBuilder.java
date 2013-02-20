@@ -1,5 +1,6 @@
 package com.gempukku.tcg.generic;
 
+import com.gempukku.tcg.GameBuilder;
 import com.gempukku.tcg.GameProcessor;
 import com.gempukku.tcg.GameState;
 

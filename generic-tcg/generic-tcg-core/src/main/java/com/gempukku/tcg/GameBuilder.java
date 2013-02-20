@@ -1,7 +1,4 @@
-package com.gempukku.tcg.generic;
-
-import com.gempukku.tcg.GameProcessor;
-import com.gempukku.tcg.GameState;
+package com.gempukku.tcg;
 
 public interface GameBuilder {
     public GameState getGameState();

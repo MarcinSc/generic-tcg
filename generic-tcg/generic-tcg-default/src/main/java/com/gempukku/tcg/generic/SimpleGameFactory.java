@@ -1,7 +1,10 @@
 package com.gempukku.tcg.generic;
 
+import com.gempukku.tcg.GameBuilder;
+import com.gempukku.tcg.GameDeck;
+import com.gempukku.tcg.GameFactory;
+
 import java.util.Map;
-import java.util.Set;
 
 public class SimpleGameFactory implements GameFactory {
     private Map<String, GameBuilderFactory> _gameBuilderMap;
@@ -11,7 +14,7 @@ public class SimpleGameFactory implements GameFactory {
     }
 
     @Override
-    public GameBuilder createNewGameBuilder(String format, Set<String> players) {
-        return _gameBuilderMap.get(format).createGameBuilder(players);
+    public GameBuilder createNewGameBuilder(String format, Map<String, GameDeck> playersAndDecks) {
+        return _gameBuilderMap.get(format).createGameBuilder(playersAndDecks);
     }
 }
