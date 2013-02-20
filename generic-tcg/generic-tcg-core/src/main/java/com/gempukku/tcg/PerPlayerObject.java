@@ -1,5 +1,9 @@
 package com.gempukku.tcg;
 
-public interface PerPlayerObject {
-    public Object getObject(String player);
+import java.util.Collection;
+
+public interface PerPlayerObject<T> {
+    public T getObject(String player);
+
+    public Collection<T> getAllObjects();
 }

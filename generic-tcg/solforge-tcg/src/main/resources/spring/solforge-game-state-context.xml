@@ -6,61 +6,41 @@
     <bean id="gameState" class="com.gempukku.tcg.GameState">
         <property name="gameObjects">
             <util:map>
-                <entry value-ref="gameEventEngine">
-                    <key>
-                        <util:constant static-field="com.gempukku.tcg.solforge.SolforgeObjects.GAME_EVENT_ENGINE"/>
-                    </key>
-                </entry>
-                <entry value-ref="gameModifierEngine">
-                    <key>
-                        <util:constant static-field="com.gempukku.tcg.solforge.SolforgeObjects.GAME_MODIFIER_ENGINE"/>
-                    </key>
-                </entry>
-                <entry value-ref="healthCounter">
-                    <key>
-                        <util:constant static-field="com.gempukku.tcg.solforge.SolforgeObjects.HEALTH_COUNTER"/>
-                    </key>
-                </entry>
-                <entry value-ref="levelCounter">
-                    <key>
-                        <util:constant static-field="com.gempukku.tcg.solforge.SolforgeObjects.LEVEL_COUNTER"/>
-                    </key>
-                </entry>
-                <entry value-ref="deckZone">
-                    <key>
-                        <util:constant static-field="com.gempukku.tcg.solforge.SolforgeObjects.DECK_ZONE"/>
-                    </key>
-                </entry>
-                <entry value-ref="discardZone">
-                    <key>
-                        <util:constant static-field="com.gempukku.tcg.solforge.SolforgeObjects.DISCARD_ZONE"/>
-                    </key>
-                </entry>
-                <entry value-ref="handZone">
-                    <key>
-                        <util:constant static-field="com.gempukku.tcg.solforge.SolforgeObjects.HAND_ZONE"/>
-                    </key>
-                </entry>
-                <entry value-ref="playZone">
-                    <key>
-                        <util:constant static-field="com.gempukku.tcg.solforge.SolforgeObjects.PLAY_ZONE"/>
-                    </key>
-                </entry>
-                <entry value-ref="playerTurn">
-                    <key>
-                        <util:constant static-field="com.gempukku.tcg.solforge.SolforgeObjects.PLAYER_TURN"/>
-                    </key>
-                </entry>
-                <entry value-ref="turnEventCollector">
-                    <key>
-                        <util:constant static-field="com.gempukku.tcg.solforge.SolforgeObjects.TURN_EVENT_COLLECTOR"/>
-                    </key>
-                </entry>
+                <entry key="gameEventEngine" value-ref="gameEventEngine"/>
+                <entry key="gameModifierEngine" value-ref="gameModifierEngine"/>
+                <entry key="healthCounter" value-ref="healthCounter"/>
+                <entry key="levelCounter" value-ref="levelCounter"/>
+                <entry key="deck" value-ref="deckZone"/>
+                <entry key="discard" value-ref="discardZone"/>
+                <entry key="hand" value-ref="handZone"/>
+                <entry key="play" value-ref="playZone"/>
+                <entry key="playerTurn" value-ref="playerTurn"/>
+                <entry key="turnEventCollector" value-ref="turnEventCollector"/>
+                <entry key="decisionHolder" value-ref="decisionHolder"/>
             </util:map>
         </property>
     </bean>
 
-    <bean id="gameProcessor" class="com.gempukku.tcg.solforge.SolforgeGameProcessor"/>
+    <bean id="gameProcessor" class="com.gempukku.tcg.solforge.SetupSolforgeGameGameProcessor">
+        <property name="gameProcessor">
+            <bean class="com.gempukku.tcg.generic.DecisionHolderBasedGameProcessor">
+                <property name="decisionHolderPerPlayer" ref="decisionHolder"/>
+                <property name="gameFlow" ref="gameFlow"/>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="gameFlow" class="com.gempukku.tcg.generic.GameActionStackFlow">
+        <property name="gameActionStack" ref="gameActionStack"/>
+    </bean>
+
+    <bean id="gameActionStack" class="com.gempukku.tcg.generic.action.GameActionStack">
+        <property name="rootGameAction" ref="rootGameAction"/>
+    </bean>
+
+    <bean id="rootGameAction" class="com.gempukku.tcg.solforge.SolforgeRootGameAction"/>
+
+    <bean id="decisionHolder" class="com.gempukku.tcg.generic.decision.PerPlayerDecisionHolder"/>
 
     <bean id="deckZone" class="com.gempukku.tcg.generic.object.PerPlayerZone"/>
     <bean id="discardZone" class="com.gempukku.tcg.generic.object.PerPlayerZone"/>

@@ -1,11 +1,8 @@
 package com.gempukku.tcg.generic.object;
 
-import com.gempukku.tcg.PerPlayerObject;
+import com.gempukku.tcg.generic.PerPlayerObjectImpl;
 
-import java.util.Map;
-
-public class PerPlayerCounter implements PerPlayerObject {
-    private Map<String, Counter> _values;
+public class PerPlayerCounter extends PerPlayerObjectImpl<Counter> {
     private int _defaultValue;
 
     public void setDefaultValue(int defaultValue) {
@@ -13,13 +10,9 @@ public class PerPlayerCounter implements PerPlayerObject {
     }
 
     @Override
-    public Object getObject(String player) {
-        Counter counter = _values.get(player);
-        if (counter == null) {
-            counter = new Counter();
-            counter.setValue(_defaultValue);
-            _values.put(player, counter);
-        }
+    protected Counter createInitialObject(String player) {
+        final Counter counter = new Counter();
+        counter.setValue(_defaultValue);
         return counter;
     }
 }

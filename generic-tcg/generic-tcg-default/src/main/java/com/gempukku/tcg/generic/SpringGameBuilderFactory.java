@@ -2,7 +2,6 @@ package com.gempukku.tcg.generic;
 
 import com.gempukku.tcg.GameBuilder;
 import com.gempukku.tcg.GameDeck;
-import com.gempukku.tcg.GameProcessor;
 import com.gempukku.tcg.GameState;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -29,7 +28,8 @@ public class SpringGameBuilderFactory implements GameBuilderFactory {
     public GameBuilder createGameBuilder(Map<String, GameDeck> playersAndDecks) {
         ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext(_contextPath);
         GameState gameState = applicationContext.getBean(_gameStateBeanName, GameState.class);
-        GameProcessor gameProcessor = applicationContext.getBean(_gameProcessorBeanName, GameProcessor.class);
+        PlayerDeckGameProcessor gameProcessor = applicationContext.getBean(_gameProcessorBeanName, PlayerDeckGameProcessor.class);
+        gameProcessor.startProcessing(gameState, playersAndDecks);
 
         return new SimpleGameBuilder(gameState, gameProcessor);
     }
