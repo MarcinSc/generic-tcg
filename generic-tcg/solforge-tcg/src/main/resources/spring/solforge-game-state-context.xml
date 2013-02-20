@@ -60,6 +60,8 @@
         </property>
     </bean>
 
+    <bean id="gameProcessor" class="com.gempukku.tcg.solforge.SolforgeGameProcessor"/>
+
     <bean id="deckZone" class="com.gempukku.tcg.generic.object.PerPlayerZone"/>
     <bean id="discardZone" class="com.gempukku.tcg.generic.object.PerPlayerZone"/>
     <bean id="handZone" class="com.gempukku.tcg.generic.object.PerPlayerZone"/>

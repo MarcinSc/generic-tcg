@@ -1,0 +1,34 @@
+package com.gempukku.tcg.generic;
+
+import com.gempukku.tcg.GameProcessor;
+import com.gempukku.tcg.GameState;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import java.util.Set;
+
+public class SpringGameBuilderFactory implements GameBuilderFactory {
+    private String _contextPath;
+    private String _gameStateBeanName;
+    private String _gameProcessorBeanName;
+
+    public void setContextPath(String contextPath) {
+        _contextPath = contextPath;
+    }
+
+    public void setGameStateBeanName(String gameStateBeanName) {
+        _gameStateBeanName = gameStateBeanName;
+    }
+
+    public void setGameProcessorBeanName(String gameProcessorBeanName) {
+        _gameProcessorBeanName = gameProcessorBeanName;
+    }
+
+    @Override
+    public GameBuilder createGameBuilder(Set<String> players) {
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext(_contextPath);
+        GameState gameState = applicationContext.getBean(_gameStateBeanName, GameState.class);
+        GameProcessor gameProcessor = applicationContext.getBean(_gameProcessorBeanName, GameProcessor.class);
+
+        return new SimpleGameBuilder(gameState, gameProcessor);
+    }
+}

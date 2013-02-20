@@ -3,16 +3,17 @@
        xmlns:util="http://www.springframework.org/schema/util"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
             http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
-    <bean id="solforgeGameStateFactory" class="com.gempukku.tcg.generic.SimpleGameStateFactory">
-        <property name="gameStateBuilderMap">
+    <bean id="solforgeGameStateFactory" class="com.gempukku.tcg.generic.SimpleGameFactory">
+        <property name="gameBuilderMap">
             <util:map>
                 <entry key="standard" value-ref="solforgeGameStateBuilder"/>
             </util:map>
         </property>
     </bean>
 
-    <bean id="solforgeGameStateBuilder" class="com.gempukku.tcg.generic.SpringGameStateBuilder">
+    <bean id="solforgeGameStateBuilder" class="com.gempukku.tcg.generic.SpringGameBuilderFactory">
         <property name="contextPath" value="/spring/solforge-game-state-context.xml"/>
         <property name="gameStateBeanName" value="gameState"/>
+        <property name="gameProcessorBeanName" value="gameProcessor"/>
     </bean>
 </beans>
