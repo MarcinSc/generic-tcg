@@ -46,6 +46,11 @@
                         <util:constant static-field="com.gempukku.tcg.solforge.SolforgeObjects.PLAY_ZONE"/>
                     </key>
                 </entry>
+                <entry value-ref="playerTurn">
+                    <key>
+                        <util:constant static-field="com.gempukku.tcg.solforge.SolforgeObjects.PLAYER_TURN"/>
+                    </key>
+                </entry>
             </util:map>
         </property>
     </bean>
@@ -55,6 +60,8 @@
     <bean id="handZone" class="com.gempukku.tcg.generic.object.PerPlayerZone"/>
 
     <bean id="playZone" class="com.gempukku.tcg.generic.object.Zone"/>
+
+    <bean id="playerTurn" class="com.gempukku.tcg.generic.object.Property"/>
 
     <bean id="gameEventEngine" class="com.gempukku.tcg.generic.event.GameEventEngine">
         <property name="gameEventListeners">

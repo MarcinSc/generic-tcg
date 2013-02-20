@@ -10,4 +10,6 @@ public class SolforgeObjects {
     public static final String DISCARD_ZONE = "discard";
     public static final String HAND_ZONE = "hand";
     public static final String PLAY_ZONE = "play";
+
+    public static final String PLAYER_TURN = "playerTurn";
 }
