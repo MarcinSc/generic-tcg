@@ -51,6 +51,11 @@
                         <util:constant static-field="com.gempukku.tcg.solforge.SolforgeObjects.PLAYER_TURN"/>
                     </key>
                 </entry>
+                <entry value-ref="turnEventCollector">
+                    <key>
+                        <util:constant static-field="com.gempukku.tcg.solforge.SolforgeObjects.TURN_EVENT_COLLECTOR"/>
+                    </key>
+                </entry>
             </util:map>
         </property>
     </bean>
@@ -62,6 +67,16 @@
     <bean id="playZone" class="com.gempukku.tcg.generic.object.Zone"/>
 
     <bean id="playerTurn" class="com.gempukku.tcg.generic.object.Property"/>
+
+    <bean id="turnEventCollector" class="com.gempukku.tcg.generic.event.GameEventCollector">
+        <property name="resetCondition">
+            <bean class="com.gempukku.tcg.generic.event.condition.EventTypeCondition">
+                <property name="type">
+                    <util:constant static-field="com.gempukku.tcg.generic.event.type.GenericEventType.PLAYER_TURN_END"/>
+                </property>
+            </bean>
+        </property>
+    </bean>
 
     <bean id="gameEventEngine" class="com.gempukku.tcg.generic.event.GameEventEngine">
         <property name="gameEventListeners">

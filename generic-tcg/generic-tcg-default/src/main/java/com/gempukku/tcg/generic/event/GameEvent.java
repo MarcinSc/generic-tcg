@@ -1,6 +1,6 @@
 package com.gempukku.tcg.generic.event;
 
-public class GameEvent {
+public abstract class GameEvent {
     private String _type;
 
     public GameEvent(String type) {
