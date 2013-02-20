@@ -1,5 +1,7 @@
 package com.gempukku.tcg.generic.object;
 
+import com.gempukku.tcg.PerPlayerObject;
+
 import java.util.*;
 
 public class GameObjectManager {
@@ -10,9 +12,14 @@ public class GameObjectManager {
 
     private boolean _zoneMoveChangesId;
     private List<Zone> _zones;
+    private List<PerPlayerObject<Zone>> _perPlayerZones;
 
     public void setZoneMoveChangesId(boolean zoneMoveChangesId) {
         _zoneMoveChangesId = zoneMoveChangesId;
+    }
+
+    public void setZonesPerPlayer(List<PerPlayerObject<Zone>> perPlayerZones) {
+        _perPlayerZones = perPlayerZones;
     }
 
     public void setZones(List<Zone> zones) {
@@ -53,9 +60,18 @@ public class GameObjectManager {
     public void visitGameObjects(GameObjectVisitor gameObjectVisitor) {
         for (Zone zone : _zones) {
             for (GameObject gameObject : zone.getGameObjects()) {
-                final boolean stop = gameObjectVisitor.visitGameObject(gameObject);
+                final boolean stop = gameObjectVisitor.visitGameObject(zone, gameObject);
                 if (stop)
                     return;
+            }
+        }
+        for (PerPlayerObject<Zone> perPlayerZone : _perPlayerZones) {
+            for (Zone zone : perPlayerZone.getAllObjects()) {
+                for (GameObject gameObject : zone.getGameObjects()) {
+                    final boolean stop = gameObjectVisitor.visitGameObject(zone, gameObject);
+                    if (stop)
+                        return;
+                }
             }
         }
     }

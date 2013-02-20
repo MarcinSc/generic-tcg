@@ -7,5 +7,5 @@ public interface GameObjectVisitor {
      * @param gameObject
      * @return
      */
-    public boolean visitGameObject(GameObject gameObject);
+    public boolean visitGameObject(Zone zone, GameObject gameObject);
 }

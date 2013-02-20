@@ -2,6 +2,7 @@ package com.gempukku.tcg.solforge;
 
 import com.gempukku.tcg.*;
 import com.gempukku.tcg.generic.decision.DecisionHolder;
+import com.gempukku.tcg.generic.decision.InvalidAnswerException;
 import org.junit.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -13,7 +14,7 @@ import static org.junit.Assert.assertNotNull;
 
 public class CreateSolforgeGame {
     @Test
-    public void createGame() {
+    public void createGame() throws InvalidAnswerException {
         ClassPathXmlApplicationContext ac = new ClassPathXmlApplicationContext("/spring/solforge-context.xml");
         final GameFactory gameStateFactory = ac.getBean("solforgeGameStateFactory", GameFactory.class);
         Map<String, GameDeck> playerDecks = new HashMap<String, GameDeck>();
@@ -32,5 +33,8 @@ public class CreateSolforgeGame {
                 decisionCount++;
         }
         assertEquals(1, decisionCount);
+
+        gameProcessor.playerSentDecision(gameState, "P1", "yes");
+        gameProcessor.playerSentDecision(gameState, "P2", "yes");
     }
 }

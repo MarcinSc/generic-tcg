@@ -39,6 +39,18 @@
 
     <bean id="gameObjectManager" class="com.gempukku.tcg.generic.object.GameObjectManager">
         <property name="zoneMoveChangesId" value="true"/>
+        <property name="zones">
+            <util:list>
+                <ref bean="playZone"/>
+            </util:list>
+        </property>
+        <property name="zonesPerPlayer">
+            <util:list>
+                <ref bean="deckZone"/>
+                <ref bean="discardZone"/>
+                <ref bean="handZone"/>
+            </util:list>
+        </property>
     </bean>
 
     <bean id="gameActionStack" class="com.gempukku.tcg.generic.action.GameActionStack">
@@ -49,11 +61,19 @@
 
     <bean id="decisionHolder" class="com.gempukku.tcg.generic.decision.PerPlayerDecisionHolder"/>
 
-    <bean id="deckZone" class="com.gempukku.tcg.generic.object.PerPlayerZone"/>
-    <bean id="discardZone" class="com.gempukku.tcg.generic.object.PerPlayerZone"/>
-    <bean id="handZone" class="com.gempukku.tcg.generic.object.PerPlayerZone"/>
+    <bean id="deckZone" class="com.gempukku.tcg.generic.object.PerPlayerZone">
+        <property name="name" value="deck"/>
+    </bean>
+    <bean id="discardZone" class="com.gempukku.tcg.generic.object.PerPlayerZone">
+        <property name="name" value="discard"/>
+    </bean>
+    <bean id="handZone" class="com.gempukku.tcg.generic.object.PerPlayerZone">
+        <property name="name" value="hand"/>
+    </bean>
 
-    <bean id="playZone" class="com.gempukku.tcg.generic.object.Zone"/>
+    <bean id="playZone" class="com.gempukku.tcg.generic.object.Zone">
+        <property name="name" value="play"/>
+    </bean>
 
     <bean id="playerTurn" class="com.gempukku.tcg.generic.other.Property"/>
     <bean id="playerOrder" class="com.gempukku.tcg.generic.other.Property"/>
