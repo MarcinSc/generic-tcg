@@ -4,16 +4,13 @@ import com.gempukku.tcg.*;
 import com.gempukku.tcg.generic.decision.AwaitingDecision;
 import com.gempukku.tcg.generic.decision.DecisionHolder;
 import com.gempukku.tcg.generic.decision.InvalidAnswerException;
+import com.gempukku.tcg.generic.object.GameObject;
 import org.junit.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 public class CreateSolforgeGame {
 
@@ -47,13 +44,33 @@ public class CreateSolforgeGame {
         String activePlayer = SolforgeObjects.extractGameObject(gameState, SolforgeObjects.PLAYER_TURN).getValue();
         AwaitingDecision decision = decisionHolder.getObject(activePlayer).getDecision();
         assertEquals("CHOOSE_POSSIBLE_ACTION", decision.getType());
-        assertEquals("battle,Battle!", decision.getParameters().get("0"));
+        assertTrue(decision.getParameters(gameState).get("0").endsWith("Play Air Spirit"));
+        assertEquals("battle,Battle!", decision.getParameters(gameState).get("1"));
 
+        // Play Air Spirit
+        gameProcessor.playerSentDecision(gameState, activePlayer, "0");
+
+        final Collection<GameObject> inDiscard = SolforgeObjects.extractPlayerObject(gameState, SolforgeObjects.DISCARD_ZONE, activePlayer).getGameObjects();
+        assertEquals(1, inDiscard.size());
+        assertEquals("2", inDiscard.iterator().next().getProperty("level"));
+
+        final Collection<GameObject> inPlay = SolforgeObjects.extractGameObject(gameState, SolforgeObjects.PLAY_ZONE).getGameObjects();
+        assertEquals(1, inPlay.size());
+        assertEquals("token", inPlay.iterator().next().getProperty("type"));
+        assertEquals(activePlayer, inPlay.iterator().next().getProperty("owner"));
+        assertEquals("card_1", inPlay.iterator().next().getProperty("blueprintId"));
+        assertEquals("1", inPlay.iterator().next().getProperty("level"));
+
+        decision = decisionHolder.getObject(activePlayer).getDecision();
+        assertEquals("CHOOSE_POSSIBLE_ACTION", decision.getType());
+        assertEquals("battle,Battle!", decision.getParameters(gameState).get("0"));
+
+        // Go to Battle
         gameProcessor.playerSentDecision(gameState, activePlayer, "0");
 
         decision = decisionHolder.getObject(activePlayer).getDecision();
         assertEquals("CHOOSE_POSSIBLE_ACTION", decision.getType());
-        assertEquals("pass,Pass", decision.getParameters().get("0"));
+        assertEquals("pass,Pass", decision.getParameters(gameState).get("0"));
 
         System.out.println("Finished");
     }

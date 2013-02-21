@@ -1,5 +1,7 @@
 package com.gempukku.tcg.generic.decision;
 
+import com.gempukku.tcg.GameState;
+
 import java.util.Collections;
 import java.util.Map;
 
@@ -16,7 +18,7 @@ public abstract class YesNoDecision implements AwaitingDecision {
     }
 
     @Override
-    public Map<String, String> getParameters() {
+    public Map<String, String> getParameters(GameState gameState) {
         return Collections.singletonMap("message", _question);
     }
 

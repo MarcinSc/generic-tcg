@@ -29,6 +29,10 @@ public class Zone {
         _gameObjects.remove(gameObject);
     }
 
+    public List<GameObject> getTopMostObjects(int count) {
+        return new ArrayList<GameObject>(_gameObjects.subList(0, Math.min(count, _gameObjects.size())));
+    }
+
     public Collection<GameObject> getGameObjects() {
         return _gameObjects;
     }

@@ -2,6 +2,7 @@ package com.gempukku.tcg.solforge;
 
 import com.gempukku.tcg.GameState;
 import com.gempukku.tcg.generic.action.GameActionPossibility;
+import com.gempukku.tcg.generic.action.GameObjectActionSource;
 import com.gempukku.tcg.generic.event.GameEvent;
 import com.gempukku.tcg.generic.modifier.ActionModifier;
 import com.gempukku.tcg.generic.object.GameObject;
@@ -28,9 +29,11 @@ public class PlayCardsFromHandActionDefinition implements ActionModifier {
                 for (GameObject gameObject : cardsInHand) {
                     final String blueprintId = gameObject.getProperty("blueprintId");
                     final SolforgeCardBlueprint cardBlueprint = solforgeCardBlueprintResolver.getCardBlueprint(blueprintId);
-                    final Collection<String> playCardActionIds = cardBlueprint.getPlayCardActionIds();
+                    final String cardLevelBlueprintId = cardBlueprint.getCardLevelBlueprintId(Integer.parseInt(gameObject.getProperty("level")));
+                    final Collection<String> playCardActionIds = solforgeCardBlueprintResolver.getCardLevelBlueprint(cardLevelBlueprintId).getPlayCardActionIds();
                     for (String playCardActionId : playCardActionIds) {
-                        final GameActionPossibility gameActionPossibility = solforgeCardBlueprintResolver.getCardActionBlueprint(playCardActionId)
+                        final GameObjectActionSource cardActionBlueprint = solforgeCardBlueprintResolver.getCardActionBlueprint(playCardActionId);
+                        final GameActionPossibility gameActionPossibility = cardActionBlueprint
                                 .getGameActionPossibility(gameState, gameObject);
                         if (gameActionPossibility != null)
                             possibleActions.add(gameActionPossibility);

@@ -6,6 +6,7 @@ import com.gempukku.tcg.GameState;
 import com.gempukku.tcg.generic.PlayerDeckGameProcessor;
 import com.gempukku.tcg.generic.decision.DecisionHolder;
 import com.gempukku.tcg.generic.decision.YesNoDecision;
+import com.gempukku.tcg.generic.object.GameObject;
 import com.gempukku.tcg.generic.object.GameObjectManager;
 import com.gempukku.tcg.generic.object.Zone;
 import org.apache.commons.lang.StringUtils;
@@ -43,6 +44,8 @@ public class SetupSolforgeGameProcessor implements PlayerDeckGameProcessor {
                 Map<String, String> properties = new HashMap<String, String>();
                 properties.put("blueprintId", cardInDeck);
                 properties.put("owner", player);
+                properties.put("level", "1");
+                properties.put("type", "card");
                 gameObjectManager.createObjectInZone(deckZone, properties);
             }
 
@@ -72,5 +75,15 @@ public class SetupSolforgeGameProcessor implements PlayerDeckGameProcessor {
     private void setPlayerOrder(GameState gameState, String... playerOrder) {
         SolforgeObjects.extractGameObject(gameState, SolforgeObjects.PLAYER_ORDER).setValue(StringUtils.join(playerOrder, ","));
         SolforgeObjects.extractGameObject(gameState, SolforgeObjects.PLAYER_TURN).setValue(playerOrder[0]);
+
+        final GameObjectManager gameObjectManager = SolforgeObjects.extractGameObject(gameState, SolforgeObjects.GAME_OBJECT_MANAGER);
+        for (String player : playerOrder) {
+            final Zone deckZone = SolforgeObjects.extractPlayerObject(gameState, SolforgeObjects.DECK_ZONE, player);
+            final Zone handZone = SolforgeObjects.extractPlayerObject(gameState, SolforgeObjects.HAND_ZONE, player);
+
+            final List<GameObject> cardsInDeck = deckZone.getTopMostObjects(5);
+            for (GameObject gameObject : cardsInDeck)
+                gameObjectManager.moveObjectBetweenZones(deckZone, handZone, gameObject);
+        }
     }
 }

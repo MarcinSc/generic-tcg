@@ -1,5 +1,7 @@
 package com.gempukku.tcg.generic.decision;
 
+import com.gempukku.tcg.GameState;
+
 import java.util.Map;
 
 public interface AwaitingDecision {
@@ -7,5 +9,5 @@ public interface AwaitingDecision {
 
     public String getType();
 
-    public Map<String, String> getParameters();
+    public Map<String, String> getParameters(GameState gameState);
 }

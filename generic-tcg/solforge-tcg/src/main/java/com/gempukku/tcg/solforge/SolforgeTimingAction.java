@@ -7,15 +7,12 @@ import com.gempukku.tcg.generic.decision.ChooseGameObjectDecision;
 import com.gempukku.tcg.generic.decision.ChoosePossibleGameActionDecision;
 import com.gempukku.tcg.generic.decision.DecisionHolder;
 import com.gempukku.tcg.generic.object.GameObject;
+import com.gempukku.tcg.generic.object.GameObjectManager;
 import com.gempukku.tcg.generic.object.Zone;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 public class SolforgeTimingAction implements GameAction {
-    private boolean _passed;
-
     @Override
     public boolean hasNextGameEffect(GameState gameState) {
         final Collection<GameObject> waitingTriggers = SolforgeObjects.extractGameObject(gameState, SolforgeObjects.WAITING_TRIGGERS_ZONE).getGameObjects();
@@ -41,9 +38,10 @@ public class SolforgeTimingAction implements GameAction {
             return;
         }
 
-        final Collection<GameObject> objectsOnStack = SolforgeObjects.extractGameObject(gameState, SolforgeObjects.STACK_ZONE).getGameObjects();
+        final Zone stackZone = SolforgeObjects.extractGameObject(gameState, SolforgeObjects.STACK_ZONE);
+        final Collection<GameObject> objectsOnStack = stackZone.getGameObjects();
         if (objectsOnStack.size() > 0) {
-            processNextActionOnStack(objectsOnStack, gameState);
+            processNextObjectOnStack(objectsOnStack, stackZone, gameState);
             return;
         }
 
@@ -65,18 +63,29 @@ public class SolforgeTimingAction implements GameAction {
                     @Override
                     protected void gameActionChosen(GameActionPossibility gameActionPossibility) {
                         SolforgeObjects.extractGameObject(gameState, SolforgeObjects.GAME_ACTION_STACK)
-                                .stackGameAction(gameActionPossibility.createGameAction());
+                                .stackGameAction(gameActionPossibility.createGameAction(gameState));
                     }
                 });
     }
 
-    private void processNextActionOnStack(Collection<GameObject> objectsOnStack, GameState gameState) {
-        GameObject stackedAction = getLast(objectsOnStack);
-        final String actionId = stackedAction.getProperty("actionId");
-        final GameActionPossibility gameActionPossibility = SolforgeObjects.extractGameObject(gameState, SolforgeObjects.OBJECT_RESOLVER).getCardActionBlueprint(actionId)
-                .getGameActionPossibility(gameState, stackedAction);
-        SolforgeObjects.extractGameObject(gameState, SolforgeObjects.GAME_ACTION_STACK)
-                .stackGameAction(gameActionPossibility.createGameAction());
+    private void processNextObjectOnStack(Collection<GameObject> objectsOnStack, Zone stackZone, GameState gameState) {
+        GameObject stackedObject = getLast(objectsOnStack);
+        final String type = stackedObject.getProperty("type");
+        if (type.equals("card")) {
+            final Map<String, String> copiedProperties = new HashMap<String, String>(stackedObject.getAllProperties());
+            copiedProperties.put("type", "token");
+            final Zone playZone = SolforgeObjects.extractGameObject(gameState, SolforgeObjects.PLAY_ZONE);
+            final GameObjectManager gameObjectManager = SolforgeObjects.extractGameObject(gameState, SolforgeObjects.GAME_OBJECT_MANAGER);
+            gameObjectManager.createObjectInZone(playZone, copiedProperties);
+
+            final int level = Integer.parseInt(stackedObject.getProperty("level"));
+            if (level < 3)
+                stackedObject.setProperty("level", String.valueOf(level + 1));
+            final Zone discardZone = SolforgeObjects.extractPlayerObject(gameState, SolforgeObjects.DISCARD_ZONE, stackedObject.getProperty("owner"));
+            gameObjectManager.moveObjectBetweenZones(stackZone, discardZone, stackedObject);
+        } else {
+            throw new IllegalStateException("Unknown type of object on stack:" + type);
+        }
     }
 
     private GameObject getLast(Collection<GameObject> objectsOnStack) {

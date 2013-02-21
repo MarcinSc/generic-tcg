@@ -3,4 +3,26 @@
        xmlns:util="http://www.springframework.org/schema/util"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
             http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <bean id="playCardAction" class="com.gempukku.tcg.solforge.play.PlayCardActionSource"/>
+
+    <bean id="default_card" class="com.gempukku.tcg.solforge.SimpleSolforgeCardBlueprint"/>
+
+    <bean id="default_card_level" class="com.gempukku.tcg.solforge.SimpleSolforgeCardLevelBlueprint">
+        <property name="playCardActionIds">
+            <util:list>
+                <value>playCardAction</value>
+            </util:list>
+        </property>
+    </bean>
+
+    <bean id="card_1" parent="default_card">
+        <property name="name" value="Air Spirit"/>
+        <property name="level1" value="card_1_1"/>
+        <property name="level2" value="card_1_2"/>
+        <property name="level3" value="card_1_3"/>
+    </bean>
+
+    <bean id="card_1_1" parent="default_card_level"/>
+
 </beans>

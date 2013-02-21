@@ -22,4 +22,8 @@ public class GameObject {
     public String getProperty(String name) {
         return _properties.get(name);
     }
+
+    public Map<String, String> getAllProperties() {
+        return _properties;
+    }
 }

@@ -18,6 +18,10 @@ public class SolforgeCardBlueprintResolver implements BeanFactoryAware {
         return _beanFactory.getBean(blueprintId, SolforgeCardBlueprint.class);
     }
 
+    public SolforgeCardLevelBlueprint getCardLevelBlueprint(String levelBlueprintId) {
+        return _beanFactory.getBean(levelBlueprintId, SolforgeCardLevelBlueprint.class);
+    }
+
     public GameObjectActionSource getCardActionBlueprint(String actionId) {
         return _beanFactory.getBean(actionId, GameObjectActionSource.class);
     }

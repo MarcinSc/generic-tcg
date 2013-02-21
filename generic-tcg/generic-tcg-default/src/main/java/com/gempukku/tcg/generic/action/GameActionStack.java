@@ -23,6 +23,8 @@ public class GameActionStack {
     }
 
     public void stackGameAction(GameAction gameAction) {
+        if (gameAction == null)
+            throw new IllegalArgumentException("Stacked game action cannot be null");
         _gameActionStack.add(gameAction);
     }
 
