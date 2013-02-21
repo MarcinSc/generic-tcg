@@ -122,7 +122,7 @@
     <bean id="gameModifierEngine" class="com.gempukku.tcg.generic.modifier.GameModifierEngine">
         <property name="gameModifierMap">
             <util:map>
-
+                <entry key="com.gempukku.tcg.generic.modifier.ActionModifier" value-ref="gameActionManager"/>
             </util:map>
         </property>
     </bean>

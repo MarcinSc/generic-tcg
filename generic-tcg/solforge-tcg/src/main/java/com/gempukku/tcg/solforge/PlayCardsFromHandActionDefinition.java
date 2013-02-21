@@ -15,9 +15,11 @@ public class PlayCardsFromHandActionDefinition implements ActionModifier {
     @Override
     public Collection<GameAction> getPossibleActions(GameState gameState) {
         String activePlayer = SolforgeObjects.extractGameObject(gameState, SolforgeObjects.PLAYER_TURN).getValue();
+        // Nothing is on stack and there is no waiting triggers
         if (SolforgeObjects.extractGameObject(gameState, SolforgeObjects.WAITING_TRIGGERS_ZONE).getGameObjects().size() == 0
                 && SolforgeObjects.extractGameObject(gameState, SolforgeObjects.STACK_ZONE).getGameObjects().size() == 0) {
             int playedCards = countPlayedCardsThisTurn(gameState);
+            // Maximum number of played cards is 2 (can be modifier, to add later)
             if (playedCards < 2) {
                 List<GameAction> possibleActions = new LinkedList<GameAction>();
 
