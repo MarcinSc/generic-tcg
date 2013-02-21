@@ -27,7 +27,7 @@ public class SetupSolforgeGameGameProcessor implements PlayerDeckGameProcessor {
 
     @Override
     public void startProcessing(final GameState gameState, Map<String, GameDeck> gameDeckMap) {
-        SolforgeObjects.extractGameObject(gameState, SolforgeObjects.TURN_PHASE).setValue("startOfTurn");
+        SolforgeObjects.extractGameObject(gameState, SolforgeObjects.TURN_PHASE).setValue("beforeStartOfTurn");
 
         List<String> players = new ArrayList<String>(gameDeckMap.keySet());
 
