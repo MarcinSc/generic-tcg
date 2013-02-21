@@ -4,11 +4,14 @@ import com.gempukku.tcg.GameState;
 import com.gempukku.tcg.generic.action.GameAction;
 import com.gempukku.tcg.generic.action.GameActionPossibility;
 import com.gempukku.tcg.generic.decision.ChooseGameObjectDecision;
+import com.gempukku.tcg.generic.decision.ChoosePossibleGameActionDecision;
 import com.gempukku.tcg.generic.decision.DecisionHolder;
 import com.gempukku.tcg.generic.object.GameObject;
 import com.gempukku.tcg.generic.object.Zone;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 public class SolforgeTimingAction implements GameAction {
     private boolean _passed;
@@ -56,8 +59,21 @@ public class SolforgeTimingAction implements GameAction {
         throw new IllegalStateException("Code should never go here");
     }
 
-    private void allowUserToPlayAction(Collection<GameActionPossibility> possibleActions, GameState gameState) {
-
+    private void allowUserToPlayAction(Collection<GameActionPossibility> possibleActions, final GameState gameState) {
+        List<GameActionPossibility> possibleActionsList = new ArrayList<GameActionPossibility>(possibleActions);
+        String activePlayer = SolforgeObjects.extractGameObject(gameState, SolforgeObjects.PLAYER_TURN).getValue();
+        final DecisionHolder decisionHolder = SolforgeObjects.extractPlayerObject(gameState, SolforgeObjects.DECISION_HOLDER, activePlayer);
+        decisionHolder.setDecision(
+                new ChoosePossibleGameActionDecision("Choose action to play or pass", possibleActionsList) {
+                    @Override
+                    protected void gameActionChosen(GameActionPossibility gameActionPossibility) {
+                        if (gameActionPossibility == null)
+                            _passed = true;
+                        else
+                            SolforgeObjects.extractGameObject(gameState, SolforgeObjects.GAME_ACTION_STACK)
+                                    .stackGameAction(gameActionPossibility.createGameAction());
+                    }
+                });
     }
 
     private void processNextActionOnStack(Collection<GameObject> objectsOnStack, GameState gameState) {
