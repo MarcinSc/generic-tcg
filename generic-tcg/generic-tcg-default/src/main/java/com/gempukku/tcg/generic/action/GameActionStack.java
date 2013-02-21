@@ -3,20 +3,19 @@ package com.gempukku.tcg.generic.action;
 import com.gempukku.tcg.GameState;
 
 import java.util.LinkedList;
-import java.util.Queue;
 
 public class GameActionStack {
-    private Queue<GameAction> _gameActionStack = new LinkedList<GameAction>();
+    private LinkedList<GameAction> _gameActionStack = new LinkedList<GameAction>();
 
     public void setRootGameAction(GameAction gameAction) {
-        _gameActionStack.offer(gameAction);
+        _gameActionStack.add(gameAction);
     }
 
     private GameAction getTopMostUnfinishedAction(GameState gameState) {
         GameAction topMostAction;
-        while ((topMostAction = _gameActionStack.peek()) != null) {
+        while ((topMostAction = _gameActionStack.getLast()) != null) {
             if (!topMostAction.hasNextGameEffect(gameState))
-                _gameActionStack.remove();
+                _gameActionStack.removeLast();
             else
                 return topMostAction;
         }

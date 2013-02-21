@@ -25,9 +25,6 @@ public class SolforgeTimingAction implements GameAction {
         if (objectsOnStack.size() > 0)
             return true;
 
-        if (_passed)
-            return true;
-
         final Collection<GameActionPossibility> possibleActions = SolforgeObjects.extractGameObject(gameState, SolforgeObjects.GAME_ACTION_MANAGER).getPossibleActions(gameState);
         if (possibleActions.size() > 0)
             return true;
@@ -64,14 +61,11 @@ public class SolforgeTimingAction implements GameAction {
         String activePlayer = SolforgeObjects.extractGameObject(gameState, SolforgeObjects.PLAYER_TURN).getValue();
         final DecisionHolder decisionHolder = SolforgeObjects.extractPlayerObject(gameState, SolforgeObjects.DECISION_HOLDER, activePlayer);
         decisionHolder.setDecision(
-                new ChoosePossibleGameActionDecision("Choose action to play or pass", possibleActionsList) {
+                new ChoosePossibleGameActionDecision("Choose action to play", possibleActionsList) {
                     @Override
                     protected void gameActionChosen(GameActionPossibility gameActionPossibility) {
-                        if (gameActionPossibility == null)
-                            _passed = true;
-                        else
-                            SolforgeObjects.extractGameObject(gameState, SolforgeObjects.GAME_ACTION_STACK)
-                                    .stackGameAction(gameActionPossibility.createGameAction());
+                        SolforgeObjects.extractGameObject(gameState, SolforgeObjects.GAME_ACTION_STACK)
+                                .stackGameAction(gameActionPossibility.createGameAction());
                     }
                 });
     }

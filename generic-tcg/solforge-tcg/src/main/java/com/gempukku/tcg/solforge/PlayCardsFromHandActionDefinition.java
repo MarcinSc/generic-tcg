@@ -14,7 +14,6 @@ import java.util.List;
 public class PlayCardsFromHandActionDefinition implements ActionModifier {
     @Override
     public Collection<GameActionPossibility> getPossibleActions(GameState gameState) {
-        String activePlayer = SolforgeObjects.extractGameObject(gameState, SolforgeObjects.PLAYER_TURN).getValue();
         // Nothing is on stack and there is no waiting triggers
         if (SolforgeObjects.extractGameObject(gameState, SolforgeObjects.WAITING_TRIGGERS_ZONE).getGameObjects().size() == 0
                 && SolforgeObjects.extractGameObject(gameState, SolforgeObjects.STACK_ZONE).getGameObjects().size() == 0) {
@@ -23,6 +22,7 @@ public class PlayCardsFromHandActionDefinition implements ActionModifier {
             if (playedCards < 2) {
                 List<GameActionPossibility> possibleActions = new LinkedList<GameActionPossibility>();
 
+                String activePlayer = SolforgeObjects.extractGameObject(gameState, SolforgeObjects.PLAYER_TURN).getValue();
                 final SolforgeCardBlueprintResolver solforgeCardBlueprintResolver = SolforgeObjects.extractGameObject(gameState, SolforgeObjects.OBJECT_RESOLVER);
                 Collection<GameObject> cardsInHand = SolforgeObjects.extractPlayerObject(gameState, SolforgeObjects.HAND_ZONE, activePlayer).getGameObjects();
                 for (GameObject gameObject : cardsInHand) {

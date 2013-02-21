@@ -10,6 +10,7 @@
                 <entry key="gameModifierEngine" value-ref="gameModifierEngine"/>
                 <entry key="healthCounter" value-ref="healthCounter"/>
                 <entry key="levelCounter" value-ref="levelCounter"/>
+                <entry key="passCounter" value-ref="passCounter"/>
                 <entry key="deck" value-ref="deckZone"/>
                 <entry key="discard" value-ref="discardZone"/>
                 <entry key="hand" value-ref="handZone"/>
@@ -27,6 +28,7 @@
                 <entry key="gameActionStack" value-ref="gameActionStack"/>
 
                 <entry key="playCardsFromHand" value-ref="playCardsFromHandActionDefinition"/>
+                <entry key="battleAction" value-ref="battleActionDefinition"/>
             </util:map>
         </property>
     </bean>
@@ -67,10 +69,18 @@
     </bean>
 
     <bean id="gameActionManager" class="com.gempukku.tcg.generic.action.GameActionManager">
-        <property name="actionModifiers" ref="playCardsFromHandActionDefinition"/>
+        <property name="actionModifiers">
+            <util:list>
+                <ref bean="playCardsFromHandActionDefinition"/>
+                <ref bean="battleActionDefinition"/>
+                <ref bean="passActionDefinition"/>
+            </util:list>
+        </property>
     </bean>
 
     <bean id="playCardsFromHandActionDefinition" class="com.gempukku.tcg.solforge.PlayCardsFromHandActionDefinition"/>
+    <bean id="battleActionDefinition" class="com.gempukku.tcg.solforge.battle.BattleActionDefinition"/>
+    <bean id="passActionDefinition" class="com.gempukku.tcg.solforge.pass.PassActionDefinition"/>
 
     <bean id="rootGameAction" class="com.gempukku.tcg.solforge.SolforgeTurnStructureAction"/>
 
@@ -117,6 +127,7 @@
         <property name="gameEventListeners">
             <util:set>
                 <ref bean="gameModifierEngine"/>
+                <ref bean="turnEventCollector"/>
             </util:set>
         </property>
     </bean>
@@ -135,5 +146,9 @@
 
     <bean id="levelCounter" class="com.gempukku.tcg.generic.other.PerPlayerCounter">
         <property name="defaultValue" value="1"/>
+    </bean>
+
+    <bean id="passCounter" class="com.gempukku.tcg.generic.other.Counter">
+        <property name="value" value="0"/>
     </bean>
 </beans>

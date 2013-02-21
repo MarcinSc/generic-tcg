@@ -27,16 +27,14 @@ public abstract class ChoosePossibleGameActionDecision implements AwaitingDecisi
             index++;
         }
 
-        return null;
+        return params;
     }
 
     @Override
     public void processAnswer(String answer) throws InvalidAnswerException {
         try {
             int index = Integer.parseInt(answer);
-            if (index == -1)
-                gameActionChosen(null);
-            else if (index < _gameActionPossibilities.size())
+            if (index >= 0 && index < _gameActionPossibilities.size())
                 gameActionChosen(_gameActionPossibilities.get(index));
             else
                 throw new InvalidAnswerException("Action with this index does not exist");
