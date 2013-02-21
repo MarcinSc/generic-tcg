@@ -6,6 +6,7 @@ import com.gempukku.tcg.generic.event.type.PlayerTurnStartEvent;
 import com.gempukku.tcg.generic.object.GameObject;
 import com.gempukku.tcg.generic.object.GameObjectVisitor;
 import com.gempukku.tcg.generic.object.Zone;
+
 import static com.gempukku.tcg.solforge.SolforgeObjects.*;
 
 public class SolforgeRootGameAction implements GameAction {
@@ -18,7 +19,7 @@ public class SolforgeRootGameAction implements GameAction {
     public void processNextGameEffect(GameState gameState) {
         final String turnPhase = SolforgeObjects.extractGameObject(gameState, SolforgeObjects.TURN_PHASE).getValue();
         if (turnPhase.equals("beforeStartOfTurn"))
-            processSetupTurn(gameState);        
+            processSetupTurn(gameState);
         else if (turnPhase.equals("startOfTurn"))
             processStartOfTurn(gameState);
         else if (turnPhase.equals("afterGoingOffensive"))
@@ -42,10 +43,11 @@ public class SolforgeRootGameAction implements GameAction {
         final String activePlayer = SolforgeObjects.extractGameObject(gameState, PLAYER_TURN).getValue();
         SolforgeObjects.extractGameObject(gameState, GAME_OBJECT_MANAGER)
                 .visitGameObjects(
+                        SolforgeObjects.extractGameObject(gameState, SolforgeObjects.PLAY_ZONE),
                         new GameObjectVisitor() {
                             @Override
                             public boolean visitGameObject(Zone zone, GameObject gameObject) {
-                                if (zone.getName().equals("play") && gameObject.getProperty("type").equals("creature")
+                                if (gameObject.getProperty("type").equals("creature")
                                         && gameObject.getProperty("owner").equals(activePlayer)) {
                                     gameObject.setProperty("offensive", "true");
                                 }

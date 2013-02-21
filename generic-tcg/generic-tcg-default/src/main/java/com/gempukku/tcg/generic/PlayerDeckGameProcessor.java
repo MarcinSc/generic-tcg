@@ -7,5 +7,5 @@ import com.gempukku.tcg.GameState;
 import java.util.Map;
 
 public interface PlayerDeckGameProcessor extends GameProcessor {
-    public void startProcessing(GameState gameState, Map<String, GameDeck> gameDeckMap);
+    public void startProcessing(GameState gameState, Object gameObjectsResolver, Map<String, GameDeck> gameDeckMap);
 }

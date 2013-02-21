@@ -2,6 +2,7 @@ package com.gempukku.tcg.solforge;
 
 import com.gempukku.tcg.GameState;
 import com.gempukku.tcg.PerPlayerObject;
+import com.gempukku.tcg.generic.action.GameActionManager;
 import com.gempukku.tcg.generic.decision.DecisionHolder;
 import com.gempukku.tcg.generic.event.GameEventCollector;
 import com.gempukku.tcg.generic.event.GameEventEngine;
@@ -21,6 +22,8 @@ public class SolforgeObjects {
     public static final SolforgeObject<PerPlayerObject<Zone>> DISCARD_ZONE = new SolforgeObject<PerPlayerObject<Zone>>("discard");
     public static final SolforgeObject<PerPlayerObject<Zone>> HAND_ZONE = new SolforgeObject<PerPlayerObject<Zone>>("hand");
     public static final SolforgeObject<Zone> PLAY_ZONE = new SolforgeObject<Zone>("play");
+    public static final SolforgeObject<Zone> STACK_ZONE = new SolforgeObject<Zone>("stack");
+    public static final SolforgeObject<Zone> WAITING_TRIGGERS_ZONE = new SolforgeObject<Zone>("waitingTriggers");
 
     public static final SolforgeObject<Property> PLAYER_TURN = new SolforgeObject<Property>("playerTurn");
     public static final SolforgeObject<Property> PLAYER_ORDER = new SolforgeObject<Property>("playerOrder");
@@ -30,6 +33,11 @@ public class SolforgeObjects {
     public static final SolforgeObject<PerPlayerObject<DecisionHolder>> DECISION_HOLDER = new SolforgeObject<PerPlayerObject<DecisionHolder>>("decisionHolder");
 
     public static final SolforgeObject<GameObjectManager> GAME_OBJECT_MANAGER = new SolforgeObject<GameObjectManager>("gameObjectManager");
+
+    public static final SolforgeObject<GameActionManager> GAME_ACTION_MANAGER = new SolforgeObject<GameActionManager>("gameActionManager");
+    public static final SolforgeObject<PlayCardsFromHandActionDefinition> PLAY_CARDS_FROM_HAND = new SolforgeObject<PlayCardsFromHandActionDefinition>("playCardsFromHand");
+
+    public static final SolforgeObject<SolforgeCardBlueprintResolver> OBJECT_RESOLVER = new SolforgeObject<SolforgeCardBlueprintResolver>("objectResolver");
 
     public static <T> T extractGameObject(GameState gameState, SolforgeObject<T> object) {
         return (T) gameState.getGameObject(object._name);

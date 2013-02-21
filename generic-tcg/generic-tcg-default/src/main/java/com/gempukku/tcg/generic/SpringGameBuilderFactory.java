@@ -11,6 +11,7 @@ public class SpringGameBuilderFactory implements GameBuilderFactory {
     private String _contextPath;
     private String _gameStateBeanName;
     private String _gameProcessorBeanName;
+    private Object _objectResolver;
 
     public void setContextPath(String contextPath) {
         _contextPath = contextPath;
@@ -24,12 +25,18 @@ public class SpringGameBuilderFactory implements GameBuilderFactory {
         _gameProcessorBeanName = gameProcessorBeanName;
     }
 
+    public void setObjectResolver(Object objectResolver) {
+        _objectResolver = objectResolver;
+    }
+
     @Override
     public GameBuilder createGameBuilder(Map<String, GameDeck> playersAndDecks) {
         ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext(_contextPath);
+
         GameState gameState = applicationContext.getBean(_gameStateBeanName, GameState.class);
         PlayerDeckGameProcessor gameProcessor = applicationContext.getBean(_gameProcessorBeanName, PlayerDeckGameProcessor.class);
-        gameProcessor.startProcessing(gameState, playersAndDecks);
+
+        gameProcessor.startProcessing(gameState, _objectResolver, playersAndDecks);
 
         return new SimpleGameBuilder(gameState, gameProcessor);
     }

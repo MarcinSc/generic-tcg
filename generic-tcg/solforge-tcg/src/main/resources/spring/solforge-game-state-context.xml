@@ -14,17 +14,22 @@
                 <entry key="discard" value-ref="discardZone"/>
                 <entry key="hand" value-ref="handZone"/>
                 <entry key="play" value-ref="playZone"/>
+                <entry key="waitingTriggers" value-ref="waitingTriggersZone"/>
+                <entry key="stack" value-ref="stackZone"/>
                 <entry key="playerTurn" value-ref="playerTurn"/>
                 <entry key="playerOrder" value-ref="playerOrder"/>
                 <entry key="turnEventCollector" value-ref="turnEventCollector"/>
                 <entry key="decisionHolder" value-ref="decisionHolder"/>
                 <entry key="turnPhase" value-ref="turnPhase"/>
                 <entry key="gameObjectManager" value-ref="gameObjectManager"/>
+                <entry key="gameActionManager" value-ref="gameActionManager"/>
+
+                <entry key="playCardsFromHand" value-ref="playCardsFromHandActionDefinition"/>
             </util:map>
         </property>
     </bean>
 
-    <bean id="gameProcessor" class="com.gempukku.tcg.solforge.SetupSolforgeGameGameProcessor">
+    <bean id="gameProcessor" class="com.gempukku.tcg.solforge.SetupSolforgeGameProcessor">
         <property name="gameProcessor">
             <bean class="com.gempukku.tcg.generic.DecisionHolderBasedGameProcessor">
                 <property name="decisionHolderPerPlayer" ref="decisionHolder"/>
@@ -42,6 +47,8 @@
         <property name="zones">
             <util:list>
                 <ref bean="playZone"/>
+                <ref bean="waitingTriggersZone"/>
+                <ref bean="stackZone"/>
             </util:list>
         </property>
         <property name="zonesPerPlayer">
@@ -56,6 +63,12 @@
     <bean id="gameActionStack" class="com.gempukku.tcg.generic.action.GameActionStack">
         <property name="rootGameAction" ref="rootGameAction"/>
     </bean>
+
+    <bean id="gameActionManager" class="com.gempukku.tcg.generic.action.GameActionManager">
+        <property name="actionModifiers" ref="playCardsFromHandActionDefinition"/>
+    </bean>
+
+    <bean id="playCardsFromHandActionDefinition" class="com.gempukku.tcg.solforge.PlayCardsFromHandActionDefinition"/>
 
     <bean id="rootGameAction" class="com.gempukku.tcg.solforge.SolforgeRootGameAction"/>
 
@@ -73,6 +86,14 @@
 
     <bean id="playZone" class="com.gempukku.tcg.generic.object.Zone">
         <property name="name" value="play"/>
+    </bean>
+
+    <bean id="waitingTriggersZone" class="com.gempukku.tcg.generic.object.Zone">
+        <property name="name" value="waitingTriggers"/>
+    </bean>
+
+    <bean id="stackZone" class="com.gempukku.tcg.generic.object.Zone">
+        <property name="name" value="stack"/>
     </bean>
 
     <bean id="playerTurn" class="com.gempukku.tcg.generic.other.Property"/>

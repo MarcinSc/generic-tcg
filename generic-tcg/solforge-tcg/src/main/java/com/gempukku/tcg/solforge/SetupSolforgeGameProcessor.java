@@ -13,7 +13,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-public class SetupSolforgeGameGameProcessor implements PlayerDeckGameProcessor {
+public class SetupSolforgeGameProcessor implements PlayerDeckGameProcessor {
     private GameProcessor _gameProcessor;
 
     public void setGameProcessor(GameProcessor gameProcessor) {
@@ -26,7 +26,9 @@ public class SetupSolforgeGameGameProcessor implements PlayerDeckGameProcessor {
     }
 
     @Override
-    public void startProcessing(final GameState gameState, Map<String, GameDeck> gameDeckMap) {
+    public void startProcessing(final GameState gameState, Object gameObjectsResolver, Map<String, GameDeck> gameDeckMap) {
+        gameState.addGameObject("objectResolver", gameObjectsResolver);
+
         SolforgeObjects.extractGameObject(gameState, SolforgeObjects.TURN_PHASE).setValue("beforeStartOfTurn");
 
         List<String> players = new ArrayList<String>(gameDeckMap.keySet());

@@ -1,12 +1,17 @@
 package com.gempukku.tcg;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class GameState {
-    private Map<String, Object> _gameObjects;
+    private Map<String, Object> _gameObjects = new HashMap<String, Object>();
 
     public void setGameObjects(Map<String, Object> gameObjects) {
-        _gameObjects = gameObjects;
+        _gameObjects.putAll(gameObjects);
+    }
+
+    public void addGameObject(String key, Object value) {
+        _gameObjects.put(key, value);
     }
 
     public Object getGameObject(String name) {

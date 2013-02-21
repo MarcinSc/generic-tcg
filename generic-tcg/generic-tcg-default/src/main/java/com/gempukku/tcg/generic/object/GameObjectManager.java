@@ -57,6 +57,14 @@ public class GameObjectManager {
         zoneTo.addObject(gameObject);
     }
 
+    public void visitGameObjects(Zone zone, GameObjectVisitor gameObjectVisitor) {
+        for (GameObject gameObject : zone.getGameObjects()) {
+            final boolean stop = gameObjectVisitor.visitGameObject(zone, gameObject);
+            if (stop)
+                return;
+        }
+    }
+
     public void visitGameObjects(GameObjectVisitor gameObjectVisitor) {
         for (Zone zone : _zones) {
             for (GameObject gameObject : zone.getGameObjects()) {

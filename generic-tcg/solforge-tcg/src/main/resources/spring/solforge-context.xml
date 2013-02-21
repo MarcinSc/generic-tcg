@@ -15,5 +15,10 @@
         <property name="contextPath" value="/spring/solforge-game-state-context.xml"/>
         <property name="gameStateBeanName" value="gameState"/>
         <property name="gameProcessorBeanName" value="gameProcessor"/>
+        <property name="objectResolver" ref="objectResolver"/>
     </bean>
+
+    <bean id="objectResolver" class="com.gempukku.tcg.solforge.SolforgeCardBlueprintResolver"/>
+
+    <import resource="solforge-cards-context.xml"/>
 </beans>
