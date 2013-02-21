@@ -7,6 +7,8 @@ import org.junit.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
@@ -18,8 +20,8 @@ public class CreateSolforgeGame {
         ClassPathXmlApplicationContext ac = new ClassPathXmlApplicationContext("/spring/solforge-context.xml");
         final GameFactory gameStateFactory = ac.getBean("solforgeGameStateFactory", GameFactory.class);
         Map<String, GameDeck> playerDecks = new HashMap<String, GameDeck>();
-        playerDecks.put("P1", new DefaultGameDeck());
-        playerDecks.put("P2", new DefaultGameDeck());
+        playerDecks.put("P1", createDefaultDeck());
+        playerDecks.put("P2", createDefaultDeck());
         final GameBuilder gameBuilder = gameStateFactory.createNewGameBuilder("standard", playerDecks);
         final GameState gameState = gameBuilder.getGameState();
         final GameProcessor gameProcessor = gameBuilder.getGameProcessor();
@@ -36,5 +38,13 @@ public class CreateSolforgeGame {
 
         gameProcessor.playerSentDecision(gameState, "P1", "yes");
         gameProcessor.playerSentDecision(gameState, "P2", "yes");
+    }
+
+    private DefaultGameDeck createDefaultDeck() {
+        final DefaultGameDeck defaultGameDeck = new DefaultGameDeck();
+        List<String> cardsInMainDeck = new LinkedList<String>();
+        cardsInMainDeck.add("card_1");
+        defaultGameDeck.addDeckPart("main", cardsInMainDeck);
+        return defaultGameDeck;
     }
 }

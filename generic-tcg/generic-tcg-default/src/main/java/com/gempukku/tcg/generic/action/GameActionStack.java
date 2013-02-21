@@ -23,6 +23,10 @@ public class GameActionStack {
         throw new IllegalStateException("Stack should not ever finish");
     }
 
+    public void stackGameAction(GameAction gameAction) {
+        _gameActionStack.add(gameAction);
+    }
+
     public void process(GameState gameState) {
         GameAction gameAction = getTopMostUnfinishedAction(gameState);
         gameAction.processNextGameEffect(gameState);

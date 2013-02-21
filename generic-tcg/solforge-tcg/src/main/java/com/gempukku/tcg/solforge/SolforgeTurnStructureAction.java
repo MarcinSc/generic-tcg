@@ -9,7 +9,7 @@ import com.gempukku.tcg.generic.object.Zone;
 
 import static com.gempukku.tcg.solforge.SolforgeObjects.*;
 
-public class SolforgeRootGameAction implements GameAction {
+public class SolforgeTurnStructureAction implements GameAction {
     @Override
     public boolean hasNextGameEffect(GameState gameState) {
         return true;
@@ -25,7 +25,19 @@ public class SolforgeRootGameAction implements GameAction {
         else if (turnPhase.equals("afterGoingOffensive"))
             processTriggerStartOfTurn(gameState);
         else if (turnPhase.equals("afterTriggeringStartOfTurn"))
-            System.out.println("Player turn");
+            processMainPhase(gameState);
+        else if (turnPhase.equals("mainPhase"))
+            endMainPhase(gameState);
+    }
+
+    private void processMainPhase(GameState gameState) {
+        setNextTurnPhase(gameState, "mainPhase");
+        SolforgeObjects.extractGameObject(gameState, SolforgeObjects.GAME_ACTION_STACK)
+                .stackGameAction(new SolforgeTimingAction());
+    }
+
+    private void endMainPhase(GameState gameState) {
+        System.out.println("End of main phase");
     }
 
     private void processSetupTurn(GameState gameState) {
@@ -37,6 +49,8 @@ public class SolforgeRootGameAction implements GameAction {
         SolforgeObjects.extractGameObject(gameState, SolforgeObjects.GAME_EVENT_ENGINE)
                 .emitGameEvent(new PlayerTurnStartEvent(activePlayer));
         setNextTurnPhase(gameState, "afterTriggeringStartOfTurn");
+        SolforgeObjects.extractGameObject(gameState, SolforgeObjects.GAME_ACTION_STACK)
+                .stackGameAction(new SolforgeTimingAction());
     }
 
     private void processStartOfTurn(GameState gameState) {

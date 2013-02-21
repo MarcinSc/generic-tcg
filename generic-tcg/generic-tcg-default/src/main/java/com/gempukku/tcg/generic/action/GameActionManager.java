@@ -25,8 +25,8 @@ public class GameActionManager implements GameModifierConsumer<ActionModifier> {
         _actionModifiers.remove(gameModifier);
     }
 
-    public Collection<GameAction> getActions(GameState gameState) {
-        List<GameAction> actions = new LinkedList<GameAction>();
+    public Collection<GameActionPossibility> getPossibleActions(GameState gameState) {
+        List<GameActionPossibility> actions = new LinkedList<GameActionPossibility>();
         for (ActionModifier actionModifier : _actionModifiers)
             actions.addAll(actionModifier.getPossibleActions(gameState));
 

@@ -1,11 +1,13 @@
 package com.gempukku.tcg.generic.object;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.LinkedHashSet;
+import java.util.Collections;
+import java.util.List;
 
 public class Zone {
     private String _name;
-    private Collection<GameObject> _gameObjects = new LinkedHashSet<GameObject>();
+    private List<GameObject> _gameObjects = new ArrayList<GameObject>();
 
     public void setName(String name) {
         _name = name;
@@ -13,6 +15,10 @@ public class Zone {
 
     public String getName() {
         return _name;
+    }
+
+    public void shuffle() {
+        Collections.shuffle(_gameObjects);
     }
 
     public void addObject(GameObject gameObject) {

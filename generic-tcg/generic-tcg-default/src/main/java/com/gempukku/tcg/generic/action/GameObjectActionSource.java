@@ -6,5 +6,5 @@ import com.gempukku.tcg.generic.object.GameObject;
 public interface GameObjectActionSource {
     public boolean isPlayable(GameState gameState, GameObject fromObject);
 
-    public GameAction getGameAction(GameState gameState, GameObject fromObject);
+    public GameActionPossibility getGameActionPossibility(GameState gameState, GameObject fromObject);
 }

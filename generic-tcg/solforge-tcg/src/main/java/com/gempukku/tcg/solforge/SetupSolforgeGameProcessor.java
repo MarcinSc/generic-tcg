@@ -6,12 +6,11 @@ import com.gempukku.tcg.GameState;
 import com.gempukku.tcg.generic.PlayerDeckGameProcessor;
 import com.gempukku.tcg.generic.decision.DecisionHolder;
 import com.gempukku.tcg.generic.decision.YesNoDecision;
+import com.gempukku.tcg.generic.object.GameObjectManager;
+import com.gempukku.tcg.generic.object.Zone;
 import org.apache.commons.lang.StringUtils;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class SetupSolforgeGameProcessor implements PlayerDeckGameProcessor {
     private GameProcessor _gameProcessor;
@@ -31,7 +30,24 @@ public class SetupSolforgeGameProcessor implements PlayerDeckGameProcessor {
 
         SolforgeObjects.extractGameObject(gameState, SolforgeObjects.TURN_PHASE).setValue("beforeStartOfTurn");
 
-        List<String> players = new ArrayList<String>(gameDeckMap.keySet());
+        List<String> players = new ArrayList<String>();
+        for (Map.Entry<String, GameDeck> playerDeck : gameDeckMap.entrySet()) {
+            final String player = playerDeck.getKey();
+            final GameDeck deck = playerDeck.getValue();
+
+            players.add(player);
+            final Zone deckZone = SolforgeObjects.extractPlayerObject(gameState, SolforgeObjects.DECK_ZONE, player);
+            final GameObjectManager gameObjectManager = SolforgeObjects.extractGameObject(gameState, SolforgeObjects.GAME_OBJECT_MANAGER);
+            final List<String> mainDeck = deck.getCardBlueprints().get("main");
+            for (String cardInDeck : mainDeck) {
+                Map<String, String> properties = new HashMap<String, String>();
+                properties.put("blueprintId", cardInDeck);
+                properties.put("owner", player);
+                gameObjectManager.createObjectInZone(deckZone, properties);
+            }
+
+            deckZone.shuffle();
+        }
 
         Collections.shuffle(players);
         final String choosingPlayer = players.get(0);

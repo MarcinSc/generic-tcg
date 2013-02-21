@@ -3,6 +3,7 @@ package com.gempukku.tcg.solforge;
 import com.gempukku.tcg.GameState;
 import com.gempukku.tcg.PerPlayerObject;
 import com.gempukku.tcg.generic.action.GameActionManager;
+import com.gempukku.tcg.generic.action.GameActionStack;
 import com.gempukku.tcg.generic.decision.DecisionHolder;
 import com.gempukku.tcg.generic.event.GameEventCollector;
 import com.gempukku.tcg.generic.event.GameEventEngine;
@@ -33,6 +34,7 @@ public class SolforgeObjects {
     public static final SolforgeObject<PerPlayerObject<DecisionHolder>> DECISION_HOLDER = new SolforgeObject<PerPlayerObject<DecisionHolder>>("decisionHolder");
 
     public static final SolforgeObject<GameObjectManager> GAME_OBJECT_MANAGER = new SolforgeObject<GameObjectManager>("gameObjectManager");
+    public static final SolforgeObject<GameActionStack> GAME_ACTION_STACK = new SolforgeObject<GameActionStack>("gameActionStack");
 
     public static final SolforgeObject<GameActionManager> GAME_ACTION_MANAGER = new SolforgeObject<GameActionManager>("gameActionManager");
     public static final SolforgeObject<PlayCardsFromHandActionDefinition> PLAY_CARDS_FROM_HAND = new SolforgeObject<PlayCardsFromHandActionDefinition>("playCardsFromHand");
