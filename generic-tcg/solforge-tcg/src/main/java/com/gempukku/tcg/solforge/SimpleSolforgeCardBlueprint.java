@@ -3,28 +3,28 @@ package com.gempukku.tcg.solforge;
 public class SimpleSolforgeCardBlueprint implements SolforgeCardBlueprint {
     private String _name;
 
-    private String _level1;
-    private String _level2;
-    private String _level3;
+    private SolforgeCardLevelBlueprint _level1;
+    private SolforgeCardLevelBlueprint _level2;
+    private SolforgeCardLevelBlueprint _level3;
 
     public void setName(String name) {
         _name = name;
     }
 
-    public void setLevel1(String level1) {
+    public void setLevel1(SolforgeCardLevelBlueprint level1) {
         _level1 = level1;
     }
 
-    public void setLevel2(String level2) {
+    public void setLevel2(SolforgeCardLevelBlueprint level2) {
         _level2 = level2;
     }
 
-    public void setLevel3(String level3) {
+    public void setLevel3(SolforgeCardLevelBlueprint level3) {
         _level3 = level3;
     }
 
     @Override
-    public String getCardLevelBlueprintId(int level) {
+    public SolforgeCardLevelBlueprint getCardLevelBlueprintId(int level) {
         if (level == 1)
             return _level1;
         else if (level == 2)

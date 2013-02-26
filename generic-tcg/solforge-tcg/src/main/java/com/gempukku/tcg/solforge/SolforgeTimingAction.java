@@ -3,14 +3,16 @@ package com.gempukku.tcg.solforge;
 import com.gempukku.tcg.GameState;
 import com.gempukku.tcg.generic.action.GameAction;
 import com.gempukku.tcg.generic.action.GameActionPossibility;
+import com.gempukku.tcg.generic.action.GameObjectActionSource;
 import com.gempukku.tcg.generic.decision.ChooseGameObjectDecision;
 import com.gempukku.tcg.generic.decision.ChoosePossibleGameActionDecision;
 import com.gempukku.tcg.generic.decision.DecisionHolder;
 import com.gempukku.tcg.generic.object.GameObject;
-import com.gempukku.tcg.generic.object.GameObjectManager;
 import com.gempukku.tcg.generic.object.Zone;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 public class SolforgeTimingAction implements GameAction {
     @Override
@@ -72,17 +74,14 @@ public class SolforgeTimingAction implements GameAction {
         GameObject stackedObject = getLast(objectsOnStack);
         final String type = stackedObject.getProperty("type");
         if (type.equals("card")) {
-            final Map<String, String> copiedProperties = new HashMap<String, String>(stackedObject.getAllProperties());
-            copiedProperties.put("type", "token");
-            final Zone playZone = SolforgeObjects.extractGameObject(gameState, SolforgeObjects.PLAY_ZONE);
-            final GameObjectManager gameObjectManager = SolforgeObjects.extractGameObject(gameState, SolforgeObjects.GAME_OBJECT_MANAGER);
-            gameObjectManager.createObjectInZone(playZone, copiedProperties);
-
-            final int level = Integer.parseInt(stackedObject.getProperty("level"));
-            if (level < 3)
-                stackedObject.setProperty("level", String.valueOf(level + 1));
-            final Zone discardZone = SolforgeObjects.extractPlayerObject(gameState, SolforgeObjects.DISCARD_ZONE, stackedObject.getProperty("owner"));
-            gameObjectManager.moveObjectBetweenZones(stackZone, discardZone, stackedObject);
+            final SolforgeCardBlueprintResolver solforgeCardBlueprintResolver = SolforgeObjects.extractGameObject(gameState, SolforgeObjects.OBJECT_RESOLVER);
+            final String blueprintId = stackedObject.getProperty("blueprintId");
+            final SolforgeCardBlueprint cardBlueprint = solforgeCardBlueprintResolver.getCardBlueprint(blueprintId);
+            final SolforgeCardLevelBlueprint cardLevelBlueprint = cardBlueprint.getCardLevelBlueprintId(Integer.parseInt(stackedObject.getProperty("level")));
+            GameObjectActionSource gameObjectActionSource = cardLevelBlueprint.getResolveActionSource();
+            GameAction action = gameObjectActionSource.createGameAction(gameState, stackedObject);
+            SolforgeObjects.extractGameObject(gameState, SolforgeObjects.GAME_ACTION_STACK)
+                    .stackGameAction(action);
         } else {
             throw new IllegalStateException("Unknown type of object on stack:" + type);
         }
@@ -103,7 +102,7 @@ public class SolforgeTimingAction implements GameAction {
             decisionHolder.setDecision(
                     new ChooseGameObjectDecision("Choose next trigger to stack", waitingTriggers) {
                         @Override
-                        protected void gameObjectChosen(GameObject gameObject) {
+                        protected void objectChosen(GameObject gameObject) {
                             moveWaitingTriggerToStack(gameState, waitingTriggersZone, gameObject);
                         }
                     }

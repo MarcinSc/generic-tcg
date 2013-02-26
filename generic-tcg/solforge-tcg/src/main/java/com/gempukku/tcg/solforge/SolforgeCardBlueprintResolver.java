@@ -1,7 +1,5 @@
 package com.gempukku.tcg.solforge;
 
-import com.gempukku.tcg.generic.action.GameAction;
-import com.gempukku.tcg.generic.action.GameObjectActionSource;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
@@ -16,17 +14,5 @@ public class SolforgeCardBlueprintResolver implements BeanFactoryAware {
 
     public SolforgeCardBlueprint getCardBlueprint(String blueprintId) {
         return _beanFactory.getBean(blueprintId, SolforgeCardBlueprint.class);
-    }
-
-    public SolforgeCardLevelBlueprint getCardLevelBlueprint(String levelBlueprintId) {
-        return _beanFactory.getBean(levelBlueprintId, SolforgeCardLevelBlueprint.class);
-    }
-
-    public GameObjectActionSource getCardActionBlueprint(String actionId) {
-        return _beanFactory.getBean(actionId, GameObjectActionSource.class);
-    }
-
-    public GameAction getActionBlueprint(String actionId) {
-        return _beanFactory.getBean(actionId, GameAction.class);
     }
 }

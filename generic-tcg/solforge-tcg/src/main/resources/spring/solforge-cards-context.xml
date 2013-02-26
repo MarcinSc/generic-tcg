@@ -4,25 +4,118 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
             http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
-    <bean id="playCardAction" class="com.gempukku.tcg.solforge.play.PlayCardActionSource"/>
+    <bean id="constantStringConverter" class="com.gempukku.tcg.generic.spring.StringToStringEvaluatorConverterFactory" />
 
-    <bean id="default_card" class="com.gempukku.tcg.solforge.SimpleSolforgeCardBlueprint"/>
+    <bean id="selection" abstract="true" class="com.gempukku.tcg.solforge.effect.SolforgeMakeSelectionEffect">
+        <property name="decisionHolder" value="decisionHolder"/>
+        <property name="gameObjectManager" value="gameObjectManager"/>
+        <property name="playersProperty" value="playerOrder"/>
+    </bean>
 
-    <bean id="default_card_level" class="com.gempukku.tcg.solforge.SimpleSolforgeCardLevelBlueprint">
-        <property name="playCardActionIds">
+    <bean id="moveZones" abstract="true" class="com.gempukku.tcg.generic.effect.MoveZonesGameObjectEffect">
+        <property name="gameObjectManager" value="gameObjectManager"/>
+        <property name="gameEventEngine" value="gameEventEngine"/>
+    </bean>
+
+    <bean id="playCardAction" class="com.gempukku.tcg.generic.action.EffectsGameObjectActionPossibilitySource">
+        <property name="textEvaluator">
+            <bean class="com.gempukku.tcg.generic.evaluator.ConcatenateStringEvaluator">
+                <property name="stringEvaluators">
+                    <util:list>
+                        <bean class="com.gempukku.tcg.generic.evaluator.ConstantStringEvaluator">
+                            <property name="value" value="Play "/>
+                        </bean>
+                        <bean class="com.gempukku.tcg.solforge.evaluator.CardNameEvaluator"/>
+                    </util:list>
+                </property>
+            </bean>
+        </property>
+        <property name="effects">
             <util:list>
-                <value>playCardAction</value>
+                <bean class="com.gempukku.tcg.generic.effect.ConditionalEffect">
+                    <property name="gameObjectCondition">
+                        <bean class="com.gempukku.tcg.solforge.condition.CardTypeCondition">
+                            <property name="cardType" value="creature"/>
+                        </bean>
+                    </property>
+                    <property name="effect">
+                        <bean parent="selection">
+                            <property name="destinationProperty" value="lane"/>
+                            <!--<property name="message" value="Choose lane to play creature to"/>-->
+                            <property name="message">
+                                <bean class="com.gempukku.tcg.generic.evaluator.ConstantStringEvaluator">
+                                    <property name="value" value="Choose lane to play creature to"/>
+                                </bean>
+                            </property>
+                            <property name="selectingPlayer" value="*{owner}"/>
+                            <property name="laneFilter">
+                                <bean class="com.gempukku.tcg.solforge.filter.AllLaneFilter"/>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean class="com.gempukku.tcg.generic.effect.SetCounterEffect">
+                    <property name="counterName" value="passCounter"/>
+                </bean>
+                <bean parent="moveZones">
+                    <property name="zoneFrom" value="hand"/>
+                    <property name="playerZoneFrom" value="*{owner}"/>
+                    <property name="zoneTo" value="stack"/>
+                </bean>
+                <bean class="com.gempukku.tcg.generic.effect.EmitEventEffect">
+                    <property name="gameEventEngine" value="gameEventEngine"/>
+                    <property name="eventSource">
+                        <bean class="com.gempukku.tcg.solforge.play.PlayedCardEventSource"/>
+                    </property>
+                </bean>
             </util:list>
         </property>
     </bean>
 
-    <bean id="card_1" parent="default_card">
-        <property name="name" value="Air Spirit"/>
-        <property name="level1" value="card_1_1"/>
-        <property name="level2" value="card_1_2"/>
-        <property name="level3" value="card_1_3"/>
+    <bean id="resolveCardAction" class="com.gempukku.tcg.generic.action.EffectsGameObjectActionSource">
+        <property name="effects">
+            <util:list>
+                <bean class="com.gempukku.tcg.solforge.effect.CreateObjectFromGameObjectEffect">
+                    <property name="gameObjectManager" value="gameObjectManager"/>
+                    <property name="zoneTo" value="play"/>
+                    <property name="extraProperties">
+                        <util:map>
+                            <entry key="type" value="token"/>
+                        </util:map>
+                    </property>
+                </bean>
+                <bean class="com.gempukku.tcg.generic.effect.IncrementObjectProperty">
+                    <property name="name" value="level"/>
+                    <property name="value" value="1"/>
+                    <property name="max" value="3"/>
+                </bean>
+                <bean parent="moveZones">
+                    <property name="zoneFrom" value="stack"/>
+                    <property name="zoneTo" value="discard"/>
+                    <property name="playerZoneTo" value="*{owner}"/>
+                </bean>
+            </util:list>
+        </property>
     </bean>
 
-    <bean id="card_1_1" parent="default_card_level"/>
+    <bean id="default_card" class="com.gempukku.tcg.solforge.SimpleSolforgeCardBlueprint"/>
+
+    <bean id="default_card_level" class="com.gempukku.tcg.solforge.SimpleSolforgeCardLevelBlueprint">
+        <property name="playCardActionSources">
+            <util:list>
+                <ref bean="playCardAction"/>
+            </util:list>
+        </property>
+        <property name="resolveActionSource" ref="resolveCardAction"/>
+    </bean>
+
+    <bean id="card_1" parent="default_card">
+        <property name="name" value="Air Spirit"/>
+        <property name="level1" ref="card_1_1"/>
+    </bean>
+
+    <bean id="card_1_1" parent="default_card_level">
+        <property name="cardType" value="creature"/>
+    </bean>
 
 </beans>
