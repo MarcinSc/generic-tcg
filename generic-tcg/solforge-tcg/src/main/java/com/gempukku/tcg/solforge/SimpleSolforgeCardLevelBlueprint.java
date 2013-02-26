@@ -11,6 +11,8 @@ public class SimpleSolforgeCardLevelBlueprint implements SolforgeCardLevelBluepr
     private GameObjectActionSource _resolveActionSource;
     private String _cardType;
     private List<Keyword> _keywords;
+    private int _attack;
+    private int _health;
 
     public void setPlayCardActionSources(List<GameObjectActionPossibilitySource> playCardActionSources) {
         _playCardActionSources = playCardActionSources;
@@ -26,6 +28,14 @@ public class SimpleSolforgeCardLevelBlueprint implements SolforgeCardLevelBluepr
 
     public void setKeywords(List<Keyword> keywords) {
         _keywords = keywords;
+    }
+
+    public void setAttack(int attack) {
+        _attack = attack;
+    }
+
+    public void setHealth(int health) {
+        _health = health;
     }
 
     @Override
@@ -46,5 +56,15 @@ public class SimpleSolforgeCardLevelBlueprint implements SolforgeCardLevelBluepr
     @Override
     public List<Keyword> getKeywords() {
         return _keywords;
+    }
+
+    @Override
+    public int getAttack() {
+        return _attack;
+    }
+
+    @Override
+    public int getHealth() {
+        return _health;
     }
 }

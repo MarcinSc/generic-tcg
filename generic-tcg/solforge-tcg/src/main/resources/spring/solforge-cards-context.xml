@@ -111,7 +111,42 @@
 
     <bean id="card_1" parent="default_card">
         <property name="name" value="Air Spirit"/>
-        <property name="level1" ref="card_1_1"/>
+        <property name="level1">
+            <bean parent="default_card_level">
+                <property name="cardType" value="creature"/>
+                <property name="keywords">
+                    <util:list>
+                        <ref bean="move1"/>
+                    </util:list>
+                </property>
+                <property name="attack" value="6"/>
+                <property name="health" value="4"/>
+            </bean>
+        </property>
+        <property name="level2">
+            <bean parent="default_card_level">
+                <property name="cardType" value="creature"/>
+                <property name="keywords">
+                    <util:list>
+                        <ref bean="move2"/>
+                    </util:list>
+                </property>
+                <property name="attack" value="10"/>
+                <property name="health" value="8"/>
+            </bean>
+        </property>
+        <property name="level3">
+            <bean parent="default_card_level">
+                <property name="cardType" value="creature"/>
+                <property name="keywords">
+                    <util:list>
+                        <ref bean="move3"/>
+                    </util:list>
+                </property>
+                <property name="attack" value="16"/>
+                <property name="health" value="14"/>
+            </bean>
+        </property>
     </bean>
 
     <bean id="move1" class="com.gempukku.tcg.generic.keyword.AdditiveKeyword">
@@ -119,12 +154,14 @@
         <property name="value" value="1"/>
     </bean>
 
-    <bean id="card_1_1" parent="default_card_level">
-        <property name="cardType" value="creature"/>
-        <property name="keywords">
-            <util:list>
-                <ref bean="move1"/>
-            </util:list>
-        </property>
+    <bean id="move2" class="com.gempukku.tcg.generic.keyword.AdditiveKeyword">
+        <property name="name" value="move"/>
+        <property name="value" value="2"/>
     </bean>
+
+    <bean id="move3" class="com.gempukku.tcg.generic.keyword.AdditiveKeyword">
+        <property name="name" value="move"/>
+        <property name="value" value="3"/>
+    </bean>
+
 </beans>

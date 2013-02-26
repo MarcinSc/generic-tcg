@@ -14,4 +14,8 @@ public interface SolforgeCardLevelBlueprint {
     public String getCardType();
 
     public List<Keyword> getKeywords();
+
+    public int getAttack();
+
+    public int getHealth();
 }

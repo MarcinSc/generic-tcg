@@ -29,7 +29,21 @@
                 <entry key="gameActionStack" value-ref="gameActionStack"/>
 
                 <entry key="keywordManager" value-ref="keywordManager"/>
+                <entry key="attackManager" value-ref="attackManager"/>
+                <entry key="healthManager" value-ref="healthManager"/>
             </util:map>
+        </property>
+    </bean>
+
+    <bean id="attackManager" class="com.gempukku.tcg.generic.stat.StatManager">
+        <property name="baseEvaluator">
+            <bean class="com.gempukku.tcg.solforge.stat.BlueprintAttackBase"/>
+        </property>
+    </bean>
+
+    <bean id="healthManager" class="com.gempukku.tcg.generic.stat.StatManager">
+        <property name="baseEvaluator">
+            <bean class="com.gempukku.tcg.solforge.stat.BlueprintHealthBase"/>
         </property>
     </bean>
 
@@ -130,6 +144,8 @@
             <util:map>
                 <entry key="com.gempukku.tcg.generic.modifier.ActionModifier" value-ref="gameActionManager"/>
                 <entry key="com.gempukku.tcg.generic.keyword.KeywordModifier" value-ref="keywordManager"/>
+                <entry key="com.gempukku.tcg.solforge.stat.AttackModifier" value-ref="attackManager"/>
+                <entry key="com.gempukku.tcg.solforge.stat.HealthModifier" value-ref="healthManager"/>
             </util:map>
         </property>
     </bean>
