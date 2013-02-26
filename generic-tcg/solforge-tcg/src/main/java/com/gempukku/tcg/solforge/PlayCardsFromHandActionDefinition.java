@@ -20,8 +20,10 @@ public class PlayCardsFromHandActionDefinition implements ActionModifier {
         if (SolforgeObjects.extractGameObject(gameState, SolforgeObjects.WAITING_TRIGGERS_ZONE).getGameObjects().size() == 0
                 && SolforgeObjects.extractGameObject(gameState, SolforgeObjects.STACK_ZONE).getGameObjects().size() == 0) {
             int playedCards = countPlayedCardsThisTurn(gameState);
-            // Maximum number of played cards is 2 (can be modifier, to add later)
-            if (playedCards < 2) {
+            int turnNumber = SolforgeObjects.extractGameObject(gameState, SolforgeObjects.TURN_COUNTER).getValue();
+            int maxPlayed = (turnNumber > 1) ? 2 : 1;
+            // Maximum number of played cards is 2 (1 on first turn)
+            if (playedCards < maxPlayed) {
                 List<GameActionPossibility> possibleActions = new LinkedList<GameActionPossibility>();
 
                 String activePlayer = SolforgeObjects.extractGameObject(gameState, SolforgeObjects.PLAYER_TURN).getValue();

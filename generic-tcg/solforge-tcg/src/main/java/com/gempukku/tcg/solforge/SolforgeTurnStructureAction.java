@@ -6,6 +6,7 @@ import com.gempukku.tcg.generic.event.type.PlayerTurnStartEvent;
 import com.gempukku.tcg.generic.object.GameObject;
 import com.gempukku.tcg.generic.object.GameObjectVisitor;
 import com.gempukku.tcg.generic.object.Zone;
+import com.gempukku.tcg.generic.other.Counter;
 
 import static com.gempukku.tcg.solforge.SolforgeObjects.*;
 
@@ -41,6 +42,9 @@ public class SolforgeTurnStructureAction implements GameAction {
     }
 
     private void processSetupTurn(GameState gameState) {
+        final Counter turnCounter = SolforgeObjects.extractGameObject(gameState, TURN_COUNTER);
+        turnCounter.setValue(turnCounter.getValue() + 1);
+
         setNextTurnPhase(gameState, "startOfTurn");
     }
 
