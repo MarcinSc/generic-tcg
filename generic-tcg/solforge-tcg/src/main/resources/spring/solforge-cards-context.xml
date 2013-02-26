@@ -4,7 +4,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
             http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
-    <bean id="constantStringConverter" class="com.gempukku.tcg.generic.spring.StringToStringEvaluatorConverterFactory" />
+    <bean id="constantStringConverter" class="com.gempukku.tcg.generic.spring.StringToStringEvaluatorConverterFactory"/>
 
     <bean id="selection" abstract="true" class="com.gempukku.tcg.solforge.effect.SolforgeMakeSelectionEffect">
         <property name="decisionHolder" value="decisionHolder"/>
@@ -114,8 +114,17 @@
         <property name="level1" ref="card_1_1"/>
     </bean>
 
-    <bean id="card_1_1" parent="default_card_level">
-        <property name="cardType" value="creature"/>
+    <bean id="move1" class="com.gempukku.tcg.generic.keyword.AdditiveKeyword">
+        <property name="name" value="move"/>
+        <property name="value" value="1"/>
     </bean>
 
+    <bean id="card_1_1" parent="default_card_level">
+        <property name="cardType" value="creature"/>
+        <property name="keywords">
+            <util:list>
+                <ref bean="move1"/>
+            </util:list>
+        </property>
+    </bean>
 </beans>

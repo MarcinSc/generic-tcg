@@ -6,6 +6,8 @@ import com.gempukku.tcg.GameState;
 import com.gempukku.tcg.generic.PlayerDeckGameProcessor;
 import com.gempukku.tcg.generic.decision.DecisionHolder;
 import com.gempukku.tcg.generic.decision.YesNoDecision;
+import com.gempukku.tcg.generic.modifier.GameModifier;
+import com.gempukku.tcg.generic.modifier.GameModifierEngine;
 import com.gempukku.tcg.generic.object.GameObject;
 import com.gempukku.tcg.generic.object.GameObjectManager;
 import com.gempukku.tcg.generic.object.Zone;
@@ -26,8 +28,12 @@ public class SetupSolforgeGameProcessor implements PlayerDeckGameProcessor {
     }
 
     @Override
-    public void startProcessing(final GameState gameState, Object gameObjectsResolver, Map<String, GameDeck> gameDeckMap) {
+    public void startProcessing(final GameState gameState, Object gameObjectsResolver, final List<GameModifier> alwaysOnGameModifiers, Map<String, GameDeck> gameDeckMap) {
         gameState.addGameObject("objectResolver", gameObjectsResolver);
+
+        final GameModifierEngine gameModifierEngine = SolforgeObjects.extractGameObject(gameState, SolforgeObjects.GAME_MODIFIER_ENGINE);
+        for (GameModifier alwaysOnGameModifier : alwaysOnGameModifiers)
+            gameModifierEngine.addGameModifier(alwaysOnGameModifier, null);
 
         SolforgeObjects.extractGameObject(gameState, SolforgeObjects.TURN_PHASE).setValue("beforeStartOfTurn");
 
@@ -61,18 +67,18 @@ public class SetupSolforgeGameProcessor implements PlayerDeckGameProcessor {
                 new YesNoDecision("Would you like to start?") {
                     @Override
                     protected void yes() {
-                        setPlayerOrder(gameState, choosingPlayer, otherPlayer);
+                        afterPlayerChosenOrder(gameState, choosingPlayer, otherPlayer);
                     }
 
                     @Override
                     protected void no() {
-                        setPlayerOrder(gameState, otherPlayer, choosingPlayer);
+                        afterPlayerChosenOrder(gameState, otherPlayer, choosingPlayer);
                     }
                 }
         );
     }
 
-    private void setPlayerOrder(GameState gameState, String... playerOrder) {
+    private void afterPlayerChosenOrder(GameState gameState, String... playerOrder) {
         SolforgeObjects.extractGameObject(gameState, SolforgeObjects.PLAYER_ORDER).setValue(StringUtils.join(playerOrder, ","));
         SolforgeObjects.extractGameObject(gameState, SolforgeObjects.PLAYER_TURN).setValue(playerOrder[0]);
 

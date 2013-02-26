@@ -23,8 +23,8 @@ public class SolforgeMakeSelectionEffect extends MakeSelectionEffect {
     }
 
     private void appendMatchingLanes(GameState gameState, GameObject gameObject, List<String> result) {
-        for (int i=1; i<=5; i++)
-            if (_laneFilter.matches(gameState, i))
-                result.add("lane:"+i);
+        for (int i = 1; i <= 5; i++)
+            if (_laneFilter.matches(gameState, gameObject, i))
+                result.add("lane:" + i);
     }
 }

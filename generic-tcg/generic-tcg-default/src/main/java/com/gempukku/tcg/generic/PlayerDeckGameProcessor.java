@@ -3,9 +3,11 @@ package com.gempukku.tcg.generic;
 import com.gempukku.tcg.GameDeck;
 import com.gempukku.tcg.GameProcessor;
 import com.gempukku.tcg.GameState;
+import com.gempukku.tcg.generic.modifier.GameModifier;
 
+import java.util.List;
 import java.util.Map;
 
 public interface PlayerDeckGameProcessor extends GameProcessor {
-    public void startProcessing(GameState gameState, Object gameObjectsResolver, Map<String, GameDeck> gameDeckMap);
+    public void startProcessing(GameState gameState, Object gameObjectsResolver, List<GameModifier> alwaysOnGameModifiers, Map<String, GameDeck> gameDeckMap);
 }

@@ -4,12 +4,10 @@ import com.gempukku.tcg.GameState;
 import com.gempukku.tcg.generic.modifier.ActionModifier;
 import com.gempukku.tcg.generic.modifier.GameModifierConsumer;
 
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class GameActionManager implements GameModifierConsumer<ActionModifier> {
-    private List<ActionModifier> _actionModifiers = new LinkedList<ActionModifier>();
+    private Set<ActionModifier> _actionModifiers = new LinkedHashSet<ActionModifier>();
 
     public void setActionModifiers(List<ActionModifier> actionModifiers) {
         _actionModifiers.addAll(actionModifiers);

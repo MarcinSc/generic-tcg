@@ -1,11 +1,11 @@
 package com.gempukku.tcg.generic.keyword;
 
+import com.gempukku.tcg.GameState;
 import com.gempukku.tcg.generic.modifier.GameModifier;
+import com.gempukku.tcg.generic.object.GameObject;
 
-import java.util.LinkedHashSet;
-import java.util.Set;
+public interface KeywordModifier extends GameModifier {
+    public boolean hasKeyword(GameState gameState, GameObject gameObject, String keyword);
 
-public class KeywordModifier implements GameModifier {
-    private Set<KeywordModifier> _keywordModifiers = new LinkedHashSet<KeywordModifier>();
-
+    public int getKeywordCount(GameState gameState, GameObject gameObject, String keyword);
 }

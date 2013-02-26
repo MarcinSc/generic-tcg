@@ -15,10 +15,75 @@
         <property name="contextPath" value="/spring/solforge-game-state-context.xml"/>
         <property name="gameStateBeanName" value="gameState"/>
         <property name="gameProcessorBeanName" value="gameProcessor"/>
+        <property name="alwaysOnGameModifiers" ref="alwaysOnGameModifiers"/>
         <property name="objectResolver" ref="objectResolver"/>
     </bean>
 
     <bean id="objectResolver" class="com.gempukku.tcg.solforge.SolforgeCardBlueprintResolver"/>
+
+    <util:list id="alwaysOnGameModifiers">
+        <bean class="com.gempukku.tcg.solforge.PlayCardsFromHandActionDefinition"/>
+        <bean class="com.gempukku.tcg.solforge.battle.BattleActionDefinition"/>
+        <bean class="com.gempukku.tcg.solforge.pass.PassActionDefinition"/>
+        <ref bean="moveActionModifier"/>
+    </util:list>
+
+    <bean id="moveActionModifier" class="com.gempukku.tcg.solforge.move.MoveActionModifier">
+        <property name="effects">
+            <bean class="com.gempukku.tcg.generic.action.EffectsGameObjectActionPossibilitySource">
+                <property name="textEvaluator">
+                    <bean class="com.gempukku.tcg.generic.evaluator.ConcatenateStringEvaluator">
+                        <property name="stringEvaluators">
+                            <util:list>
+                                <bean class="com.gempukku.tcg.generic.evaluator.ConstantStringEvaluator">
+                                    <property name="value" value="Move "/>
+                                </bean>
+                                <bean class="com.gempukku.tcg.solforge.evaluator.CardNameEvaluator"/>
+                            </util:list>
+                        </property>
+                    </bean>
+                </property>
+                <property name="effects">
+                    <util:list>
+                        <bean parent="selection">
+                            <property name="destinationProperty" value="lane"/>
+                            <!--<property name="message" value="Choose lane to play creature to"/>-->
+                            <property name="message">
+                                <bean class="com.gempukku.tcg.generic.evaluator.ConstantStringEvaluator">
+                                    <property name="value" value="Choose lane to play creature to"/>
+                                </bean>
+                            </property>
+                            <property name="selectingPlayer" value="*{owner}"/>
+                            <property name="laneFilter">
+                                <bean class="com.gempukku.tcg.solforge.filter.DistanceLaneFilter">
+                                    <property name="maxDistance">
+                                        <bean parent="keywordCountEvaluator">
+                                            <property name="keyword" value="move"/>
+                                        </bean>
+                                    </property>
+                                    <property name="minDistance">
+                                        <bean class="com.gempukku.tcg.generic.evaluator.ConstantIntEvaluator">
+                                            <property name="value" value="1"/>
+                                        </bean>
+                                    </property>
+                                </bean>
+                            </property>
+                        </bean>
+                        <bean class="com.gempukku.tcg.generic.effect.EmitEventEffect">
+                            <property name="gameEventEngine" value="gameEventEngine"/>
+                            <property name="eventSource">
+                                <bean class="com.gempukku.tcg.solforge.move.MovedCardEventSource"/>
+                            </property>
+                        </bean>
+                    </util:list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="keywordCountEvaluator" abstract="true" class="com.gempukku.tcg.generic.evaluator.KeywordCountEvaluator">
+        <property name="keywordManager" value="keywordManager"/>
+    </bean>
 
     <import resource="solforge-cards-context.xml"/>
 </beans>

@@ -7,6 +7,7 @@ import com.gempukku.tcg.generic.action.GameActionStack;
 import com.gempukku.tcg.generic.decision.DecisionHolder;
 import com.gempukku.tcg.generic.event.GameEventCollector;
 import com.gempukku.tcg.generic.event.GameEventEngine;
+import com.gempukku.tcg.generic.keyword.KeywordManager;
 import com.gempukku.tcg.generic.modifier.GameModifierEngine;
 import com.gempukku.tcg.generic.object.GameObjectManager;
 import com.gempukku.tcg.generic.object.Zone;
@@ -38,7 +39,7 @@ public class SolforgeObjects {
     public static final SolforgeObject<GameActionStack> GAME_ACTION_STACK = new SolforgeObject<GameActionStack>("gameActionStack");
 
     public static final SolforgeObject<GameActionManager> GAME_ACTION_MANAGER = new SolforgeObject<GameActionManager>("gameActionManager");
-    public static final SolforgeObject<PlayCardsFromHandActionDefinition> PLAY_CARDS_FROM_HAND = new SolforgeObject<PlayCardsFromHandActionDefinition>("playCardsFromHand");
+    public static final SolforgeObject<KeywordManager> KEYWORD_MANAGER = new SolforgeObject<KeywordManager>("keywordManager");
 
     public static final SolforgeObject<SolforgeCardBlueprintResolver> OBJECT_RESOLVER = new SolforgeObject<SolforgeCardBlueprintResolver>("objectResolver");
 

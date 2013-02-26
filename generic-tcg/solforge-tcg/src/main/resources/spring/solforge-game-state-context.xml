@@ -27,8 +27,7 @@
                 <entry key="gameActionManager" value-ref="gameActionManager"/>
                 <entry key="gameActionStack" value-ref="gameActionStack"/>
 
-                <entry key="playCardsFromHand" value-ref="playCardsFromHandActionDefinition"/>
-                <entry key="battleAction" value-ref="battleActionDefinition"/>
+                <entry key="keywordManager" value-ref="keywordManager"/>
             </util:map>
         </property>
     </bean>
@@ -71,16 +70,9 @@
     <bean id="gameActionManager" class="com.gempukku.tcg.generic.action.GameActionManager">
         <property name="actionModifiers">
             <util:list>
-                <ref bean="playCardsFromHandActionDefinition"/>
-                <ref bean="battleActionDefinition"/>
-                <ref bean="passActionDefinition"/>
             </util:list>
         </property>
     </bean>
-
-    <bean id="playCardsFromHandActionDefinition" class="com.gempukku.tcg.solforge.PlayCardsFromHandActionDefinition"/>
-    <bean id="battleActionDefinition" class="com.gempukku.tcg.solforge.battle.BattleActionDefinition"/>
-    <bean id="passActionDefinition" class="com.gempukku.tcg.solforge.pass.PassActionDefinition"/>
 
     <bean id="rootGameAction" class="com.gempukku.tcg.solforge.SolforgeTurnStructureAction"/>
 
@@ -136,7 +128,16 @@
         <property name="gameModifierMap">
             <util:map>
                 <entry key="com.gempukku.tcg.generic.modifier.ActionModifier" value-ref="gameActionManager"/>
+                <entry key="com.gempukku.tcg.generic.keyword.KeywordModifier" value-ref="keywordManager"/>
             </util:map>
+        </property>
+    </bean>
+
+    <bean id="keywordManager" class="com.gempukku.tcg.generic.keyword.KeywordManager">
+        <property name="keywordModifiers">
+            <util:list>
+                <bean class="com.gempukku.tcg.solforge.modifier.BlueprintKeywordModifier"/>
+            </util:list>
         </property>
     </bean>
 

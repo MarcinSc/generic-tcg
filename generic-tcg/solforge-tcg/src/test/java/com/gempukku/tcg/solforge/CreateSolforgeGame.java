@@ -5,11 +5,12 @@ import com.gempukku.tcg.generic.decision.AwaitingDecision;
 import com.gempukku.tcg.generic.decision.DecisionHolder;
 import com.gempukku.tcg.generic.decision.InvalidAnswerException;
 import com.gempukku.tcg.generic.object.GameObject;
-import static org.junit.Assert.*;
 import org.junit.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.*;
+
+import static org.junit.Assert.*;
 
 public class CreateSolforgeGame {
 
@@ -53,7 +54,7 @@ public class CreateSolforgeGame {
         assertEquals("CHOOSE_OBJECT", decision.getType());
         assertTrue(decision.getParameters(gameState).get("ids").equals("lane:1,lane:2,lane:3,lane:4,lane:5"));
 
-        gameProcessor.playerSentDecision(gameState,  activePlayer, "lane:3");
+        gameProcessor.playerSentDecision(gameState, activePlayer, "lane:3");
 
         final Collection<GameObject> inDiscard = SolforgeObjects.extractPlayerObject(gameState, SolforgeObjects.DISCARD_ZONE, activePlayer).getGameObjects();
         assertEquals(1, inDiscard.size());
@@ -70,6 +71,7 @@ public class CreateSolforgeGame {
         decision = decisionHolder.getObject(activePlayer).getDecision();
         assertEquals("CHOOSE_POSSIBLE_ACTION", decision.getType());
         assertEquals("battle,Battle!", decision.getParameters(gameState).get("0"));
+        assertNull(decision.getParameters(gameState).get("1"));
 
         // Go to Battle
         gameProcessor.playerSentDecision(gameState, activePlayer, "0");

@@ -37,7 +37,8 @@ public class GameModifierEngine implements GameEventListener {
         final Iterator<Map.Entry<GameModifier, GameEventCondition>> modifierRemovalConditionIterator = _modifierRemovalConditions.entrySet().iterator();
         while (modifierRemovalConditionIterator.hasNext()) {
             final Map.Entry<GameModifier, GameEventCondition> modifierRemovalCondition = modifierRemovalConditionIterator.next();
-            if (modifierRemovalCondition.getValue().matches(gameEvent)) {
+            final GameEventCondition removalCondition = modifierRemovalCondition.getValue();
+            if (removalCondition != null && removalCondition.matches(gameEvent)) {
                 final GameModifier gameModifier = modifierRemovalCondition.getKey();
                 for (Map.Entry<Class<?>, GameModifierConsumer> modifierMapping : _consumerMap.entrySet()) {
                     if (modifierMapping.getKey().isInstance(gameModifier))
