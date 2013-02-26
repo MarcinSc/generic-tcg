@@ -81,6 +81,8 @@
                     <property name="extraProperties">
                         <util:map>
                             <entry key="type" value="token"/>
+                            <entry key="offensive" value="false"/>
+                            <entry key="damage" value="0"/>
                         </util:map>
                     </property>
                 </bean>

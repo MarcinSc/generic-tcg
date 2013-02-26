@@ -13,6 +13,7 @@ import com.gempukku.tcg.generic.object.GameObjectManager;
 import com.gempukku.tcg.generic.object.Zone;
 import com.gempukku.tcg.generic.other.Counter;
 import com.gempukku.tcg.generic.other.Property;
+import com.gempukku.tcg.generic.stat.StatManager;
 
 public class SolforgeObjects {
     public static final SolforgeObject<GameEventEngine> GAME_EVENT_ENGINE = new SolforgeObject<GameEventEngine>("gameEventEngine");
@@ -41,6 +42,8 @@ public class SolforgeObjects {
 
     public static final SolforgeObject<GameActionManager> GAME_ACTION_MANAGER = new SolforgeObject<GameActionManager>("gameActionManager");
     public static final SolforgeObject<KeywordManager> KEYWORD_MANAGER = new SolforgeObject<KeywordManager>("keywordManager");
+    public static final SolforgeObject<StatManager> ATTACK_MANAGER = new SolforgeObject<StatManager>("attackManager");
+    public static final SolforgeObject<StatManager> HEALTH_MANAGER = new SolforgeObject<StatManager>("healthManager");
 
     public static final SolforgeObject<SolforgeCardBlueprintResolver> OBJECT_RESOLVER = new SolforgeObject<SolforgeCardBlueprintResolver>("objectResolver");
 
