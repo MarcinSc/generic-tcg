@@ -1,5 +1,7 @@
 package com.gempukku.tcg.generic.event;
 
+import com.gempukku.tcg.GameState;
+
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -13,9 +15,9 @@ public class GameEventCollector implements GameEventListener {
     }
 
     @Override
-    public void processGameEvent(GameEvent gameEvent) {
+    public void processGameEvent(GameState gameState, GameEvent gameEvent) {
         _gameEvents.add(gameEvent);
-        if (_resetCondition.matches(gameEvent))
+        if (_resetCondition.matches(gameState, gameEvent))
             _gameEvents.clear();
     }
 

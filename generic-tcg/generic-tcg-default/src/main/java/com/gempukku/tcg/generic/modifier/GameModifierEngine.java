@@ -1,5 +1,6 @@
 package com.gempukku.tcg.generic.modifier;
 
+import com.gempukku.tcg.GameState;
 import com.gempukku.tcg.generic.event.GameEvent;
 import com.gempukku.tcg.generic.event.GameEventCondition;
 import com.gempukku.tcg.generic.event.GameEventListener;
@@ -33,12 +34,12 @@ public class GameModifierEngine implements GameEventListener {
     }
 
     @Override
-    public void processGameEvent(GameEvent gameEvent) {
+    public void processGameEvent(GameState gameState, GameEvent gameEvent) {
         final Iterator<Map.Entry<GameModifier, GameEventCondition>> modifierRemovalConditionIterator = _modifierRemovalConditions.entrySet().iterator();
         while (modifierRemovalConditionIterator.hasNext()) {
             final Map.Entry<GameModifier, GameEventCondition> modifierRemovalCondition = modifierRemovalConditionIterator.next();
             final GameEventCondition removalCondition = modifierRemovalCondition.getValue();
-            if (removalCondition != null && removalCondition.matches(gameEvent)) {
+            if (removalCondition != null && removalCondition.matches(gameState, gameEvent)) {
                 final GameModifier gameModifier = modifierRemovalCondition.getKey();
                 for (Map.Entry<Class<?>, GameModifierConsumer> modifierMapping : _consumerMap.entrySet()) {
                     if (modifierMapping.getKey().isInstance(gameModifier))

@@ -6,15 +6,24 @@
 
     <import resource="solforge-cards-set1.xml"/>
 
-    <bean id="constantStringConverter" class="com.gempukku.tcg.generic.spring.StringToStringEvaluatorConverterFactory"/>
+    <bean id="conversionService"
+          class="org.springframework.context.support.ConversionServiceFactoryBean">
+        <property name="converters">
+            <util:set>
+                <bean class="com.gempukku.tcg.generic.spring.StringToStringEvaluatorConverter"/>
+                <bean class="com.gempukku.tcg.generic.spring.StringToIntEvaluatorConverter"/>
+            </util:set>
+        </property>
+    </bean>
 
-    <bean id="selection" abstract="true" class="com.gempukku.tcg.solforge.effect.SolforgeMakeSelectionEffect">
+
+    <bean id="selectionEffect" abstract="true" class="com.gempukku.tcg.solforge.effect.SolforgeMakeSelectionEffect">
         <property name="decisionHolder" value="decisionHolder"/>
         <property name="gameObjectManager" value="gameObjectManager"/>
         <property name="playersProperty" value="playerOrder"/>
     </bean>
 
-    <bean id="moveZones" abstract="true" class="com.gempukku.tcg.generic.effect.MoveZonesGameObjectEffect">
+    <bean id="moveZonesEffect" abstract="true" class="com.gempukku.tcg.generic.effect.MoveZonesGameObjectEffect">
         <property name="gameObjectManager" value="gameObjectManager"/>
         <property name="gameEventEngine" value="gameEventEngine"/>
     </bean>
@@ -24,9 +33,7 @@
             <bean class="com.gempukku.tcg.generic.evaluator.ConcatenateStringEvaluator">
                 <property name="stringEvaluators">
                     <util:list>
-                        <bean class="com.gempukku.tcg.generic.evaluator.ConstantStringEvaluator">
-                            <property name="value" value="Play "/>
-                        </bean>
+                        <value>Play</value>
                         <bean class="com.gempukku.tcg.solforge.evaluator.CardNameEvaluator"/>
                     </util:list>
                 </property>
@@ -41,14 +48,9 @@
                         </bean>
                     </property>
                     <property name="effect">
-                        <bean parent="selection">
+                        <bean parent="selectionEffect">
                             <property name="destinationProperty" value="lane"/>
-                            <!--<property name="message" value="Choose lane to play creature to"/>-->
-                            <property name="message">
-                                <bean class="com.gempukku.tcg.generic.evaluator.ConstantStringEvaluator">
-                                    <property name="value" value="Choose lane to play creature to"/>
-                                </bean>
-                            </property>
+                            <property name="message" value="Choose lane to play creature to"/>
                             <property name="selectingPlayer" value="*{owner}"/>
                             <property name="laneFilter">
                                 <bean class="com.gempukku.tcg.solforge.filter.AllLaneFilter"/>
@@ -59,7 +61,7 @@
                 <bean class="com.gempukku.tcg.generic.effect.SetCounterEffect">
                     <property name="counterName" value="passCounter"/>
                 </bean>
-                <bean parent="moveZones">
+                <bean parent="moveZonesEffect">
                     <property name="zoneFrom" value="hand"/>
                     <property name="playerZoneFrom" value="*{owner}"/>
                     <property name="zoneTo" value="stack"/>
@@ -93,7 +95,7 @@
                     <property name="value" value="1"/>
                     <property name="max" value="3"/>
                 </bean>
-                <bean parent="moveZones">
+                <bean parent="moveZonesEffect">
                     <property name="zoneFrom" value="stack"/>
                     <property name="zoneTo" value="discard"/>
                     <property name="playerZoneTo" value="*{owner}"/>
@@ -102,55 +104,17 @@
         </property>
     </bean>
 
-    <bean id="default_card" class="com.gempukku.tcg.solforge.SimpleSolforgeCardBlueprint"/>
+    <bean id="default_card" abstract="true" class="com.gempukku.tcg.solforge.SimpleSolforgeCardBlueprint"/>
 
-    <bean id="default_card_level" class="com.gempukku.tcg.solforge.SimpleSolforgeCardLevelBlueprint">
+    <bean id="default_trigger" abstract="true" class="com.gempukku.tcg.solforge.trigger.DefaultTriggeredEffect"/>
+
+    <bean id="default_card_level" abstract="true" class="com.gempukku.tcg.solforge.SimpleSolforgeCardLevelBlueprint">
         <property name="playCardActionSources">
             <util:list>
                 <ref bean="playCardAction"/>
             </util:list>
         </property>
         <property name="resolveActionSource" ref="resolveCardAction"/>
-    </bean>
-
-    <bean id="card_1" parent="default_card">
-        <property name="name" value="Air Spirit"/>
-        <property name="level1">
-            <bean parent="default_card_level">
-                <property name="cardType" value="creature"/>
-                <property name="keywords">
-                    <util:list>
-                        <ref bean="move1"/>
-                    </util:list>
-                </property>
-                <property name="attack" value="6"/>
-                <property name="health" value="4"/>
-            </bean>
-        </property>
-        <property name="level2">
-            <bean parent="default_card_level">
-                <property name="cardType" value="creature"/>
-                <property name="keywords">
-                    <util:list>
-                        <ref bean="move2"/>
-                    </util:list>
-                </property>
-                <property name="attack" value="10"/>
-                <property name="health" value="8"/>
-            </bean>
-        </property>
-        <property name="level3">
-            <bean parent="default_card_level">
-                <property name="cardType" value="creature"/>
-                <property name="keywords">
-                    <util:list>
-                        <ref bean="move3"/>
-                    </util:list>
-                </property>
-                <property name="attack" value="16"/>
-                <property name="health" value="14"/>
-            </bean>
-        </property>
     </bean>
 
     <bean id="move1" class="com.gempukku.tcg.generic.keyword.AdditiveKeyword">

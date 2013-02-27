@@ -43,4 +43,79 @@
             </bean>
         </property>
     </bean>
+
+    <bean id="card_2" parent="default_card">
+        <property name="name" value="Flameshaper Acolyte"/>
+        <property name="level1">
+            <bean parent="default_card_level">
+                <property name="cardType" value="creature"/>
+                <property name="attack" value="4"/>
+                <property name="health" value="6"/>
+            </bean>
+        </property>
+        <property name="level2">
+            <bean parent="default_card_level">
+                <property name="cardType" value="creature"/>
+                <property name="attack" value="6"/>
+                <property name="health" value="10"/>
+                <property name="triggeredEffects">
+                    <bean parent="default_trigger">
+                        <property name="gameObjectEventCondition">
+                            <bean class="com.gempukku.tcg.solforge.play.PlayCardEventCondition">
+                                <property name="playedPlayer" value="${owner}"/>
+                                <property name="playedFilter">
+                                    <bean class="com.gempukku.tcg.generic.filter.GameObjectPropertyFilter">
+                                        <property name="property" value="level"/>
+                                        <property name="value" value="1"/>
+                                    </bean>
+                                </property>
+                            </bean>
+                        </property>
+                        <property name="triggerId" value="deal3damageTrigger"/>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+        <property name="level3">
+            <bean parent="default_card_level">
+                <property name="cardType" value="creature"/>
+                <property name="attack" value="10"/>
+                <property name="health" value="14"/>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="anyPlayer" class="com.gempukku.tcg.generic.filter.AnyPlayerFilter"/>
+    <bean id="creature" class="com.gempukku.tcg.generic.filter.GameObjectPropertyFilter">
+        <property name="property" value="cardType"/>
+        <property name="value" value="creature"/>
+    </bean>
+
+    <bean id="damageToTargetEffect" abstract="true" class="com.gempukku.tcg.solforge.effect.DealDamageToTargetEffect">
+        <property name="targetProperty" value="target"/>
+    </bean>
+
+    <bean id="deal3damageTrigger" class="com.gempukku.tcg.solforge.SimpleSolforgeTriggerBlueprint">
+        <property name="stackActionSource">
+            <bean class="com.gempukku.tcg.generic.action.EffectsGameObjectActionSource">
+                <property name="effects">
+                    <bean parent="selectionEffect">
+                        <property name="destinationProperty" value="target"/>
+                        <property name="playerFilter" ref="anyPlayer"/>
+                        <property name="zone" value="play"/>
+                        <property name="gameObjectFilter" ref="creature"/>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+        <property name="resolveActionSource">
+            <bean class="com.gempukku.tcg.generic.action.EffectsGameObjectActionSource">
+                <property name="effects">
+                    <bean parent="damageToTargetEffect">
+                        <property name="damage" value="3"/>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+    </bean>
 </beans>

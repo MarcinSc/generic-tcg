@@ -135,9 +135,12 @@
             <util:set>
                 <ref bean="gameModifierEngine"/>
                 <ref bean="turnEventCollector"/>
+                <ref bean="triggersFromCardsInPlay"/>
             </util:set>
         </property>
     </bean>
+
+    <bean id="triggersFromCardsInPlay" class="com.gempukku.tcg.solforge.trigger.TriggersFromCardsInPlayListener"/>
 
     <bean id="gameModifierEngine" class="com.gempukku.tcg.generic.modifier.GameModifierEngine">
         <property name="gameModifierMap">

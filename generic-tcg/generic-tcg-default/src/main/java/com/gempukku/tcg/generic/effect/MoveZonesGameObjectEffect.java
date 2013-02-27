@@ -49,13 +49,13 @@ public class MoveZonesGameObjectEffect extends GameObjectEffect {
         GameEventEngine gameEventEngine = (GameEventEngine) gameState.getGameObject(_gameEventEngine);
 
         gameEventEngine.emitGameEvent(
-                new BeforeObjectMoveZonesEvent(gameObjectSource, zoneFrom, zoneTo));
+                gameState, new BeforeObjectMoveZonesEvent(gameObjectSource, zoneFrom, zoneTo));
 
         ((GameObjectManager) gameState.getGameObject(_gameObjectManager))
                 .moveObjectBetweenZones(zoneFrom, zoneTo, gameObjectSource);
 
         gameEventEngine.emitGameEvent(
-                new AfterObjectMoveZonesEvent(gameObjectSource, zoneFrom, zoneTo));
+                gameState, new AfterObjectMoveZonesEvent(gameObjectSource, zoneFrom, zoneTo));
     }
 
     private Zone getZoneFrom(GameState gameState, GameObject gameObject) {

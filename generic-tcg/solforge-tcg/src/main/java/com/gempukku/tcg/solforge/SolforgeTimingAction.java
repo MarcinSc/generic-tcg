@@ -78,8 +78,16 @@ public class SolforgeTimingAction implements GameAction {
             final String blueprintId = stackedObject.getProperty("blueprintId");
             final SolforgeCardBlueprint cardBlueprint = solforgeCardBlueprintResolver.getCardBlueprint(blueprintId);
             final SolforgeCardLevelBlueprint cardLevelBlueprint = cardBlueprint.getCardLevelBlueprintId(Integer.parseInt(stackedObject.getProperty("level")));
-            GameObjectActionSource gameObjectActionSource = cardLevelBlueprint.getResolveActionSource();
-            GameAction action = gameObjectActionSource.createGameAction(gameState, stackedObject);
+            GameObjectActionSource resolveActionSource = cardLevelBlueprint.getResolveActionSource();
+            GameAction action = resolveActionSource.createGameAction(gameState, stackedObject);
+            SolforgeObjects.extractGameObject(gameState, SolforgeObjects.GAME_ACTION_STACK)
+                    .stackGameAction(action);
+        } else if (type.equals("trigger")) {
+            final SolforgeCardBlueprintResolver solforgeCardBlueprintResolver = SolforgeObjects.extractGameObject(gameState, SolforgeObjects.OBJECT_RESOLVER);
+            final String triggerId = stackedObject.getProperty("triggerId");
+            final SolforgeTriggerBlueprint triggerBlueprint = solforgeCardBlueprintResolver.getTriggerBlueprint(triggerId);
+            final GameObjectActionSource resolveActionSource = triggerBlueprint.getResolveActionSource();
+            final GameAction action = resolveActionSource.createGameAction(gameState, stackedObject);
             SolforgeObjects.extractGameObject(gameState, SolforgeObjects.GAME_ACTION_STACK)
                     .stackGameAction(action);
         } else {
@@ -118,5 +126,14 @@ public class SolforgeTimingAction implements GameAction {
                         waitingTriggersZone,
                         SolforgeObjects.extractGameObject(gameState, SolforgeObjects.STACK_ZONE),
                         gameObject);
+        final String triggerId = gameObject.getProperty("triggerId");
+        final SolforgeTriggerBlueprint triggerBlueprint = SolforgeObjects.extractGameObject(gameState, SolforgeObjects.OBJECT_RESOLVER)
+                .getTriggerBlueprint(triggerId);
+        final GameObjectActionSource stackActionSource = triggerBlueprint.getAfterStackActionSource();
+        if (stackActionSource != null) {
+            final GameAction stackAction = stackActionSource.createGameAction(gameState, gameObject);
+            SolforgeObjects.extractGameObject(gameState, SolforgeObjects.GAME_ACTION_STACK)
+                    .stackGameAction(stackAction);
+        }
     }
 }

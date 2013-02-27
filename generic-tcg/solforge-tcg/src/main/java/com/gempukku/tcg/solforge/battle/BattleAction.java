@@ -73,7 +73,7 @@ public class BattleAction implements GameAction {
             }
         }
 
-        gameEventEngine.emitGameEvent(new BattledEvent());
+        gameEventEngine.emitGameEvent(gameState, new BattledEvent());
         _resolved = true;
     }
 
@@ -92,21 +92,21 @@ public class BattleAction implements GameAction {
         if (keywordManager.hasKeyword(gameState, fromCreature, "breakthrough")) {
             int healthSecond = healthManager.getStatValue(gameState, toCreature);
             if (attackFirst > healthSecond) {
-                dealDmgToCreature(gameEventEngine, fromCreature, toCreature, healthSecond);
+                dealDmgToCreature(gameState, gameEventEngine, fromCreature, toCreature, healthSecond);
                 dealDmgToPlayer(gameState, gameEventEngine, fromCreature, toCreature.getProperty("owner"), attackFirst - healthSecond);
             } else {
-                dealDmgToCreature(gameEventEngine, fromCreature, toCreature, attackFirst);
+                dealDmgToCreature(gameState, gameEventEngine, fromCreature, toCreature, attackFirst);
             }
         } else {
-            dealDmgToCreature(gameEventEngine, fromCreature, toCreature, attackFirst);
+            dealDmgToCreature(gameState, gameEventEngine, fromCreature, toCreature, attackFirst);
         }
     }
 
-    private void dealDmgToCreature(GameEventEngine gameEventEngine, GameObject from, GameObject to, int amount) {
+    private void dealDmgToCreature(GameState gameState, GameEventEngine gameEventEngine, GameObject from, GameObject to, int amount) {
         if (amount > 0) {
             to.setProperty("damage", String.valueOf(Integer.parseInt(to.getProperty("damage")) + amount));
             gameEventEngine.emitGameEvent(
-                    new DamageCreatureEvent(from, to, amount));
+                    gameState, new DamageCreatureEvent(from, to, amount));
         }
     }
 
@@ -115,7 +115,7 @@ public class BattleAction implements GameAction {
             final Counter healthCounter = SolforgeObjects.extractPlayerObject(gameState, SolforgeObjects.HEALTH_COUNTER, player);
             healthCounter.setValue(healthCounter.getValue() - amount);
             gameEventEngine.emitGameEvent(
-                    new DamagePlayerEvent(from, player, amount));
+                    gameState, new DamagePlayerEvent(from, player, amount));
         }
     }
 

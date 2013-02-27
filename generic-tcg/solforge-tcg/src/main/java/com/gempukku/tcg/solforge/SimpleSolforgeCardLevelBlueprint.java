@@ -3,6 +3,7 @@ package com.gempukku.tcg.solforge;
 import com.gempukku.tcg.generic.action.GameObjectActionPossibilitySource;
 import com.gempukku.tcg.generic.action.GameObjectActionSource;
 import com.gempukku.tcg.generic.keyword.Keyword;
+import com.gempukku.tcg.solforge.trigger.TriggeredEffect;
 
 import java.util.List;
 
@@ -13,6 +14,7 @@ public class SimpleSolforgeCardLevelBlueprint implements SolforgeCardLevelBluepr
     private List<Keyword> _keywords;
     private int _attack;
     private int _health;
+    private List<TriggeredEffect> _triggeredEffects;
 
     public void setPlayCardActionSources(List<GameObjectActionPossibilitySource> playCardActionSources) {
         _playCardActionSources = playCardActionSources;
@@ -36,6 +38,10 @@ public class SimpleSolforgeCardLevelBlueprint implements SolforgeCardLevelBluepr
 
     public void setHealth(int health) {
         _health = health;
+    }
+
+    public void setTriggeredEffects(List<TriggeredEffect> triggeredEffects) {
+        _triggeredEffects = triggeredEffects;
     }
 
     @Override
@@ -66,5 +72,10 @@ public class SimpleSolforgeCardLevelBlueprint implements SolforgeCardLevelBluepr
     @Override
     public int getHealth() {
         return _health;
+    }
+
+    @Override
+    public List<TriggeredEffect> getTriggeredEffects() {
+        return _triggeredEffects;
     }
 }

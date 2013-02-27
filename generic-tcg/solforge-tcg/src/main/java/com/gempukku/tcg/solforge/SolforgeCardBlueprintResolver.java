@@ -15,4 +15,8 @@ public class SolforgeCardBlueprintResolver implements BeanFactoryAware {
     public SolforgeCardBlueprint getCardBlueprint(String blueprintId) {
         return _beanFactory.getBean(blueprintId, SolforgeCardBlueprint.class);
     }
+
+    public SolforgeTriggerBlueprint getTriggerBlueprint(String blueprintId) {
+        return _beanFactory.getBean(blueprintId, SolforgeTriggerBlueprint.class);
+    }
 }

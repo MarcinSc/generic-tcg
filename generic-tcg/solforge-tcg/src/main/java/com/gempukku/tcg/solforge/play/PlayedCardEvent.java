@@ -13,4 +13,12 @@ public class PlayedCardEvent extends GameEvent {
         _gameObject = gameObject;
         _player = player;
     }
+
+    public GameObject getGameObject() {
+        return _gameObject;
+    }
+
+    public String getPlayer() {
+        return _player;
+    }
 }

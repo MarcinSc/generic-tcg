@@ -45,7 +45,7 @@
                 </property>
                 <property name="effects">
                     <util:list>
-                        <bean parent="selection">
+                        <bean parent="selectionEffect">
                             <property name="destinationProperty" value="lane"/>
                             <!--<property name="message" value="Choose lane to play creature to"/>-->
                             <property name="message">

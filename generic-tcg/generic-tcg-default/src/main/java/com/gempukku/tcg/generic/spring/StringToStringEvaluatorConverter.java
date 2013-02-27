@@ -4,7 +4,7 @@ import com.gempukku.tcg.generic.evaluator.ConstantStringEvaluator;
 import com.gempukku.tcg.generic.evaluator.StringEvaluator;
 import org.springframework.core.convert.converter.Converter;
 
-public class StringToStringEvaluatorConverterFactory implements Converter<String, StringEvaluator> {
+public class StringToStringEvaluatorConverter implements Converter<String, StringEvaluator> {
     @Override
     public StringEvaluator convert(String s) {
         ConstantStringEvaluator stringEvaluator = new ConstantStringEvaluator();

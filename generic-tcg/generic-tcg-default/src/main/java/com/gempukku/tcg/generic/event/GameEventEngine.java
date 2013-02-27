@@ -1,5 +1,7 @@
 package com.gempukku.tcg.generic.event;
 
+import com.gempukku.tcg.GameState;
+
 import java.util.Set;
 
 public class GameEventEngine {
@@ -9,8 +11,8 @@ public class GameEventEngine {
         _listeners = gameEventListeners;
     }
 
-    public void emitGameEvent(GameEvent gameEvent) {
+    public void emitGameEvent(GameState gameState, GameEvent gameEvent) {
         for (GameEventListener listener : _listeners)
-            listener.processGameEvent(gameEvent);
+            listener.processGameEvent(gameState, gameEvent);
     }
 }

@@ -21,7 +21,7 @@ public class EmitEventEffect extends GameObjectEffect {
     @Override
     public void executeGameEffect(GameState gameState, GameObject gameObjectSource) {
         GameEvent gameEvent = createGameEvent(gameState, gameObjectSource);
-        ((GameEventEngine) gameState.getGameObject(_gameEventEngine)).emitGameEvent(gameEvent);
+        ((GameEventEngine) gameState.getGameObject(_gameEventEngine)).emitGameEvent(gameState, gameEvent);
     }
 
     private GameEvent createGameEvent(GameState gameState, GameObject gameObjectSource) {

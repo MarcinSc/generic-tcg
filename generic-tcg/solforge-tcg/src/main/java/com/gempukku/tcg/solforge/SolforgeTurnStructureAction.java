@@ -51,7 +51,7 @@ public class SolforgeTurnStructureAction implements GameAction {
     private void processTriggerStartOfTurn(GameState gameState) {
         final String activePlayer = SolforgeObjects.extractGameObject(gameState, PLAYER_TURN).getValue();
         SolforgeObjects.extractGameObject(gameState, SolforgeObjects.GAME_EVENT_ENGINE)
-                .emitGameEvent(new PlayerTurnStartEvent(activePlayer));
+                .emitGameEvent(gameState, new PlayerTurnStartEvent(activePlayer));
         setNextTurnPhase(gameState, "afterTriggeringStartOfTurn");
         SolforgeObjects.extractGameObject(gameState, SolforgeObjects.GAME_ACTION_STACK)
                 .stackGameAction(new SolforgeTimingAction());
