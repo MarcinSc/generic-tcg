@@ -59,6 +59,7 @@
                                     <property name="maxDistance">
                                         <bean parent="keywordCountEvaluator">
                                             <property name="keyword" value="move"/>
+                                            <property name="minValue" value="0"/>
                                         </bean>
                                     </property>
                                     <property name="minDistance">

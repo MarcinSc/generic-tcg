@@ -8,6 +8,6 @@ import com.gempukku.tcg.generic.object.GameObject;
 public class PlayedCardEventSource implements GameObjectEventSource {
     @Override
     public GameEvent createGameEvent(GameState gameState, GameObject gameObject) {
-        return new PlayedCardEvent();
+        return new PlayedCardEvent(gameObject, gameObject.getProperty("owner"));
     }
 }
