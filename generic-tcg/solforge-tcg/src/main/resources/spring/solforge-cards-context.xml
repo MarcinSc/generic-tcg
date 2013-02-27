@@ -21,6 +21,7 @@
         <property name="decisionHolder" value="decisionHolder"/>
         <property name="gameObjectManager" value="gameObjectManager"/>
         <property name="playersProperty" value="playerOrder"/>
+        <property name="destinationProperty" value="target"/>
     </bean>
 
     <bean id="moveZonesEffect" abstract="true" class="com.gempukku.tcg.generic.effect.MoveZonesGameObjectEffect">
@@ -135,6 +136,7 @@
     </bean>
 
     <bean id="anyPlayer" class="com.gempukku.tcg.generic.filter.AnyPlayerFilter"/>
+
     <bean id="creature" class="com.gempukku.tcg.generic.filter.GameObjectPropertyFilter">
         <property name="property" value="cardType"/>
         <property name="value" value="creature"/>

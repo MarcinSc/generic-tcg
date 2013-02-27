@@ -81,6 +81,22 @@
                 <property name="cardType" value="creature"/>
                 <property name="attack" value="10"/>
                 <property name="health" value="14"/>
+                <property name="triggeredEffects">
+                    <bean parent="default_triggered_effect">
+                        <property name="gameObjectEventCondition">
+                            <bean class="com.gempukku.tcg.solforge.play.PlayCardEventCondition">
+                                <property name="playedPlayer" value="*{owner}"/>
+                                <property name="playedFilter">
+                                    <bean class="com.gempukku.tcg.generic.filter.GameObjectPropertyFilter">
+                                        <property name="property" value="level"/>
+                                        <property name="value" value="1"/>
+                                    </bean>
+                                </property>
+                            </bean>
+                        </property>
+                        <property name="triggerId" value="dea6DamageTrigger"/>
+                    </bean>
+                </property>
             </bean>
         </property>
     </bean>
@@ -88,7 +104,6 @@
     <bean id="deal3DamageTrigger" parent="default_trigger">
         <property name="announceGameObjectEffects">
             <bean parent="selectionEffect">
-                <property name="destinationProperty" value="target"/>
                 <property name="selectingPlayer" value="*{owner}"/>
                 <property name="message" value="Choose creature or player to deal 3 damage to"/>
                 <property name="playerFilter" ref="anyPlayer"/>
@@ -99,6 +114,23 @@
         <property name="resolveGameObjectEffects">
             <bean parent="damageToTargetEffect">
                 <property name="damage" value="3"/>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="deal6DamageTrigger" parent="default_trigger">
+        <property name="announceGameObjectEffects">
+            <bean parent="selectionEffect">
+                <property name="selectingPlayer" value="*{owner}"/>
+                <property name="message" value="Choose creature or player to deal 6 damage to"/>
+                <property name="playerFilter" ref="anyPlayer"/>
+                <property name="zone" value="play"/>
+                <property name="gameObjectFilter" ref="creature"/>
+            </bean>
+        </property>
+        <property name="resolveGameObjectEffects">
+            <bean parent="damageToTargetEffect">
+                <property name="damage" value="6"/>
             </bean>
         </property>
     </bean>
