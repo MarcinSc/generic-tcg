@@ -19,6 +19,10 @@ public class GameObject {
         _properties.put(name, value);
     }
 
+    public void removeProperty(String name) {
+        _properties.remove(name);
+    }
+
     public String getProperty(String name) {
         return _properties.get(name);
     }

@@ -15,6 +15,7 @@ import com.gempukku.tcg.generic.util.GameObjectUtils;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 public class MakeSelectionEffect extends GameObjectEffect {
     private String _decisionHolder;
@@ -112,10 +113,11 @@ public class MakeSelectionEffect extends GameObjectEffect {
                 return false;
             }
         };
-        if (_zone != null)
-            gameObjectManager.visitGameObjects(GameObjectUtils.resolveZone(gameState, gameObject, _zone, _playerZone),
-                    visitor);
-        else
+        if (_zone != null) {
+            final Set<GameObject> objectsMatching = gameObjectManager.findObjectsMatching(GameObjectUtils.resolveZone(gameState, gameObject, _zone, _playerZone), gameState, _gameObjectFilter);
+            for (GameObject object : objectsMatching)
+                result.add("object:"+object.getIdentifier());
+        } else
             gameObjectManager.visitGameObjects(visitor);
     }
 }

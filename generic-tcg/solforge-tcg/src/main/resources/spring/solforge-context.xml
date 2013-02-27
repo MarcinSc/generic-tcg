@@ -46,8 +46,7 @@
                 <property name="effects">
                     <util:list>
                         <bean parent="selectionEffect">
-                            <property name="destinationProperty" value="lane"/>
-                            <!--<property name="message" value="Choose lane to play creature to"/>-->
+                            <property name="destinationProperty" value="targetLane"/>
                             <property name="message">
                                 <bean class="com.gempukku.tcg.generic.evaluator.ConstantStringEvaluator">
                                     <property name="value" value="Choose lane to play creature to"/>
@@ -70,6 +69,12 @@
                                 </bean>
                             </property>
                         </bean>
+                        <bean parent="destroyCreatureInLane">
+                            <property name="laneProperty" value="targetLane"/>
+                        </bean>
+                        <bean class="com.gempukku.tcg.generic.effect.RemovePropertyEffect">
+                            <property name="property" value="targetLane"/>
+                        </bean>
                         <bean class="com.gempukku.tcg.generic.effect.EmitEventEffect">
                             <property name="gameEventEngine" value="gameEventEngine"/>
                             <property name="eventSource">
@@ -80,6 +85,10 @@
                 </property>
             </bean>
         </property>
+    </bean>
+
+    <bean id="destroyCreatureInLane" abstract="true" class="com.gempukku.tcg.solforge.effect.DestroyCreatureAlreadyInLaneEffect">
+        <property name="laneProperty" value="lane"/>
     </bean>
 
     <bean id="keywordCountEvaluator" abstract="true" class="com.gempukku.tcg.generic.evaluator.KeywordCountEvaluator">

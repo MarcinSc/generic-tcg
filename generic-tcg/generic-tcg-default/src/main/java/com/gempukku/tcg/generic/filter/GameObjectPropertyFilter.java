@@ -7,6 +7,14 @@ public class GameObjectPropertyFilter implements GameObjectFilter {
     private String _property;
     private String _value;
 
+    public GameObjectPropertyFilter() {
+    }
+
+    public GameObjectPropertyFilter(String property, String value) {
+        _property = property;
+        _value = value;
+    }
+
     public void setProperty(String property) {
         _property = property;
     }

@@ -1,6 +1,9 @@
 package com.gempukku.tcg.generic.object;
 
+import com.gempukku.tcg.GameState;
 import com.gempukku.tcg.PerPlayerObject;
+import com.gempukku.tcg.generic.filter.GameObjectFilter;
+import org.apache.commons.lang.mutable.MutableObject;
 
 import java.util.*;
 
@@ -82,6 +85,36 @@ public class GameObjectManager {
                 }
             }
         }
+    }
+
+    public Set<GameObject> findObjectsMatching(Zone zone, final GameState gameState, final GameObjectFilter filter) {
+        final Set<GameObject> result = new HashSet<GameObject>();
+        visitGameObjects(zone,
+                new GameObjectVisitor() {
+                    @Override
+                    public boolean visitGameObject(Zone zone, GameObject gameObject) {
+                        if (filter.matches(gameState, gameObject))
+                            result.add(gameObject);
+                        return false;
+                    }
+                });
+        return result;
+    }
+
+    public GameObject findFirstObjectMatching(Zone zone, final GameState gameState, final GameObjectFilter filter) {
+        final MutableObject result = new MutableObject();
+        visitGameObjects(zone,
+                new GameObjectVisitor() {
+                    @Override
+                    public boolean visitGameObject(Zone zone, GameObject gameObject) {
+                        if (filter.matches(gameState, gameObject)) {
+                            result.setValue(gameObject);
+                            return true;
+                        }
+                        return false;
+                    }
+                });
+        return (GameObject) result.getValue();
     }
 
     private String generateNewId() {

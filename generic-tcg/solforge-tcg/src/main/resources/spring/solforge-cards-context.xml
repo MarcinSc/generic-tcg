@@ -80,6 +80,7 @@
     <bean id="resolveCreatureAction" class="com.gempukku.tcg.generic.action.EffectsGameObjectActionSource">
         <property name="effects">
             <util:list>
+                <bean parent="destroyCreatureInLane"/>
                 <bean class="com.gempukku.tcg.solforge.effect.CreateObjectFromGameObjectEffect">
                     <property name="gameObjectManager" value="gameObjectManager"/>
                     <property name="zoneTo" value="play"/>

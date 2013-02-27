@@ -48,9 +48,7 @@ public class BattleAction implements GameAction {
                     @Override
                     public boolean visitGameObject(Zone zone, GameObject gameObject) {
                         // Is a creature, offensive and not a defender
-                        if (SolforgeObjects.extractGameObject(gameState, SolforgeObjects.OBJECT_RESOLVER)
-                                .getCardBlueprint(gameObject.getProperty(Solforge.Properties.BLUEPRINT_ID))
-                                .getCardLevelBlueprintId(Integer.parseInt(gameObject.getProperty(Solforge.Properties.LEVEL))).getCardType().equals("creature")
+                        if (gameObject.getProperty(Solforge.Properties.CARD_TYPE).equals("creature")
                                 && gameObject.getProperty(Solforge.Properties.OFFENSIVE).equals("true")
                                 && !keywordManager.hasKeyword(gameState, gameObject, Solforge.Keywords.DEFENDER)) {
                             fightingLanes.add(SolforgeObjectUtil.extractLaneNumber(gameObject.getProperty(Solforge.Properties.LANE)));
