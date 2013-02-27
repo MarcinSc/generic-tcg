@@ -14,8 +14,11 @@ import com.gempukku.tcg.solforge.Solforge;
 import com.gempukku.tcg.solforge.SolforgeObjects;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+
+import static com.gempukku.tcg.solforge.SolforgeObjects.TURN_PHASE;
 
 public class MoveActionModifier implements ActionModifier {
     private EffectsGameObjectActionPossibilitySource _effects;
@@ -26,6 +29,7 @@ public class MoveActionModifier implements ActionModifier {
 
     @Override
     public Collection<GameActionPossibility> getPossibleActions(final GameState gameState) {
+        if (SolforgeObjects.extractGameObject(gameState, TURN_PHASE).getValue().equals("mainPhase")) {
         // Nothing is on stack, there is no waiting triggers
         if (SolforgeObjects.extractGameObject(gameState, SolforgeObjects.WAITING_TRIGGERS_ZONE).getGameObjects().size() == 0
                 && SolforgeObjects.extractGameObject(gameState, SolforgeObjects.STACK_ZONE).getGameObjects().size() == 0) {
@@ -51,7 +55,8 @@ public class MoveActionModifier implements ActionModifier {
 
             return possibleMoveActions;
         }
-        return null;
+        }
+        return Collections.emptySet();
     }
 
     private boolean hasMoved(GameEventCollector turnEventCollector, GameObject gameObject) {

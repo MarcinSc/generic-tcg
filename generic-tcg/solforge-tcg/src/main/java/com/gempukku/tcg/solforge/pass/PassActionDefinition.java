@@ -9,16 +9,20 @@ import com.gempukku.tcg.solforge.SolforgeObjects;
 import java.util.Collection;
 import java.util.Collections;
 
+import static com.gempukku.tcg.solforge.SolforgeObjects.TURN_PHASE;
+
 public class PassActionDefinition implements ActionModifier {
     @Override
     public Collection<GameActionPossibility> getPossibleActions(GameState gameState) {
-        // Nothing is on stack, there is no waiting triggers, has battled, and has not passed since last action
-        if (SolforgeObjects.extractGameObject(gameState, SolforgeObjects.WAITING_TRIGGERS_ZONE).getGameObjects().size() == 0
-                && SolforgeObjects.extractGameObject(gameState, SolforgeObjects.STACK_ZONE).getGameObjects().size() == 0
-                && getPassCount(gameState) < 1
-                && hasBattled(gameState)) {
-            final GameActionPossibility pass = new PassActionPossibility();
-            return Collections.singleton(pass);
+        if (SolforgeObjects.extractGameObject(gameState, TURN_PHASE).getValue().equals("mainPhase")) {
+            // Nothing is on stack, there is no waiting triggers, has battled, and has not passed since last action
+            if (SolforgeObjects.extractGameObject(gameState, SolforgeObjects.WAITING_TRIGGERS_ZONE).getGameObjects().size() == 0
+                    && SolforgeObjects.extractGameObject(gameState, SolforgeObjects.STACK_ZONE).getGameObjects().size() == 0
+                    && getPassCount(gameState) < 1
+                    && hasBattled(gameState)) {
+                final GameActionPossibility pass = new PassActionPossibility();
+                return Collections.singleton(pass);
+            }
         }
         return Collections.emptySet();
     }
