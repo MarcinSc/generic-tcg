@@ -105,6 +105,7 @@
             </util:list>
         </property>
         <property name="resolveActionSource" ref="resolveCreatureAction"/>
+        <property name="cardType" value="creature"/>
     </bean>
 
     <bean id="default_triggered_effect" abstract="true" class="com.gempukku.tcg.solforge.trigger.DefaultTriggeredEffect"/>
@@ -124,6 +125,10 @@
     <bean id="move3" class="com.gempukku.tcg.generic.keyword.AdditiveKeyword">
         <property name="name" value="move"/>
         <property name="value" value="3"/>
+    </bean>
+
+    <bean id="swiftness" class="com.gempukku.tcg.generic.keyword.Keyword">
+        <property name="name" value="swiftness"/>
     </bean>
 
     <bean id="anyPlayer" class="com.gempukku.tcg.generic.filter.AnyPlayerFilter"/>

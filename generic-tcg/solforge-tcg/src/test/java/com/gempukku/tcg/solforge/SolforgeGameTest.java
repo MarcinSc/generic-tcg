@@ -67,7 +67,43 @@ public class SolforgeGameTest {
         final GameObject airSpirit = inPlay.iterator().next();
         assertEquals("token", airSpirit.getProperty(Solforge.Properties.TYPE));
         assertEquals(P1, airSpirit.getProperty(Solforge.Properties.OWNER));
+        assertEquals("false", airSpirit.getProperty(Solforge.Properties.OFFENSIVE));
         assertEquals("card_1", airSpirit.getProperty(Solforge.Properties.BLUEPRINT_ID));
+        assertEquals("lane:3", airSpirit.getProperty(Solforge.Properties.LANE));
+        assertEquals("0", airSpirit.getProperty(Solforge.Properties.DAMAGE));
+        assertEquals("1", airSpirit.getProperty(Solforge.Properties.LEVEL));
+    }
+    
+    @Test
+    public void testSwiftCreatureEntersOnOffensive() throws InvalidAnswerException {
+        final DefaultGameDeck deck = createDeckWithCard("card_3");
+
+        setupGameWithDecks(deck, deck);
+
+        AwaitingDecision decision = _decisionHolder.getObject(P1).getDecision();
+        assertEquals("CHOOSE_POSSIBLE_ACTION", decision.getType());
+        assertTrue(decision.getParameters(_gameState).get("0").endsWith("Play Lightning Wyrm"));
+
+        // Play Air Spirit
+        _gameProcessor.playerSentDecision(_gameState, P1, "0");
+
+        decision = _decisionHolder.getObject(P1).getDecision();
+        assertEquals("CHOOSE_OBJECT", decision.getType());
+        assertTrue(decision.getParameters(_gameState).get("ids").equals("lane:1,lane:2,lane:3,lane:4,lane:5"));
+
+        _gameProcessor.playerSentDecision(_gameState, P1, "lane:3");
+
+        final Collection<GameObject> inDiscard = SolforgeObjects.extractPlayerObject(_gameState, SolforgeObjects.DISCARD_ZONE, P1).getGameObjects();
+        assertEquals(1, inDiscard.size());
+        assertEquals("2", inDiscard.iterator().next().getProperty(Solforge.Properties.LEVEL));
+
+        final Collection<GameObject> inPlay = _playZone.getGameObjects();
+        assertEquals(1, inPlay.size());
+        final GameObject airSpirit = inPlay.iterator().next();
+        assertEquals("token", airSpirit.getProperty(Solforge.Properties.TYPE));
+        assertEquals(P1, airSpirit.getProperty(Solforge.Properties.OWNER));
+        assertEquals("true", airSpirit.getProperty(Solforge.Properties.OFFENSIVE));
+        assertEquals("card_3", airSpirit.getProperty(Solforge.Properties.BLUEPRINT_ID));
         assertEquals("lane:3", airSpirit.getProperty(Solforge.Properties.LANE));
         assertEquals("0", airSpirit.getProperty(Solforge.Properties.DAMAGE));
         assertEquals("1", airSpirit.getProperty(Solforge.Properties.LEVEL));
@@ -189,6 +225,14 @@ public class SolforgeGameTest {
         cardsInMainDeck.add("card_1");
         cardsInMainDeck.add("card_1");
         cardsInMainDeck.add("card_1");
+        defaultGameDeck.addDeckPart("main", cardsInMainDeck);
+        return defaultGameDeck;
+    }
+
+    private DefaultGameDeck createDeckWithCard(String blueprintId) {
+        final DefaultGameDeck defaultGameDeck = new DefaultGameDeck();
+        List<String> cardsInMainDeck = new LinkedList<String>();
+        cardsInMainDeck.add(blueprintId);
         defaultGameDeck.addDeckPart("main", cardsInMainDeck);
         return defaultGameDeck;
     }
