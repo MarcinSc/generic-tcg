@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <bean id="card_1" parent="default_card">
+        <property name="name" value="Air Spirit"/>
+        <property name="level1">
+            <bean parent="default_card_level">
+                <property name="cardType" value="creature"/>
+                <property name="keywords">
+                    <util:list>
+                        <ref bean="move1"/>
+                    </util:list>
+                </property>
+                <property name="attack" value="6"/>
+                <property name="health" value="4"/>
+            </bean>
+        </property>
+        <property name="level2">
+            <bean parent="default_card_level">
+                <property name="cardType" value="creature"/>
+                <property name="keywords">
+                    <util:list>
+                        <ref bean="move2"/>
+                    </util:list>
+                </property>
+                <property name="attack" value="10"/>
+                <property name="health" value="8"/>
+            </bean>
+        </property>
+        <property name="level3">
+            <bean parent="default_card_level">
+                <property name="cardType" value="creature"/>
+                <property name="keywords">
+                    <util:list>
+                        <ref bean="move3"/>
+                    </util:list>
+                </property>
+                <property name="attack" value="16"/>
+                <property name="health" value="14"/>
+            </bean>
+        </property>
+    </bean>
+</beans>

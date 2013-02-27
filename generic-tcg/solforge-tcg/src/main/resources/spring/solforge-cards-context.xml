@@ -4,6 +4,8 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
             http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
+    <import resource="solforge-cards-set1.xml"/>
+
     <bean id="constantStringConverter" class="com.gempukku.tcg.generic.spring.StringToStringEvaluatorConverterFactory"/>
 
     <bean id="selection" abstract="true" class="com.gempukku.tcg.solforge.effect.SolforgeMakeSelectionEffect">
