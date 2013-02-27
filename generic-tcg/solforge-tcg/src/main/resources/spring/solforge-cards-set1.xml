@@ -59,7 +59,7 @@
                 <property name="attack" value="6"/>
                 <property name="health" value="10"/>
                 <property name="triggeredEffects">
-                    <bean parent="default_trigger">
+                    <bean parent="default_triggered_effect">
                         <property name="gameObjectEventCondition">
                             <bean class="com.gempukku.tcg.solforge.play.PlayCardEventCondition">
                                 <property name="playedPlayer" value="*{owner}"/>
@@ -71,7 +71,7 @@
                                 </property>
                             </bean>
                         </property>
-                        <property name="triggerId" value="deal3damageTrigger"/>
+                        <property name="triggerId" value="deal3DamageTrigger"/>
                     </bean>
                 </property>
             </bean>
@@ -85,46 +85,20 @@
         </property>
     </bean>
 
-    <bean id="anyPlayer" class="com.gempukku.tcg.generic.filter.AnyPlayerFilter"/>
-    <bean id="creature" class="com.gempukku.tcg.generic.filter.GameObjectPropertyFilter">
-        <property name="property" value="cardType"/>
-        <property name="value" value="creature"/>
-    </bean>
-
-    <bean id="damageToTargetEffect" abstract="true" class="com.gempukku.tcg.solforge.effect.DealDamageToTargetEffect">
-        <property name="targetProperty" value="target"/>
-    </bean>
-
-    <bean id="removeResolvedTrigger" class="com.gempukku.tcg.generic.effect.RemoveGameObjectEffect">
-        <property name="gameObjectManager" value="gameObjectManager"/>
-        <property name="zone" value="stack"/>
-    </bean>
-
-    <bean id="deal3damageTrigger" class="com.gempukku.tcg.solforge.SimpleSolforgeTriggerBlueprint">
-        <property name="stackActionSource">
-            <bean class="com.gempukku.tcg.generic.action.EffectsGameObjectActionSource">
-                <property name="effects">
-                    <bean parent="selectionEffect">
-                        <property name="destinationProperty" value="target"/>
-                        <property name="selectingPlayer" value="*{owner}"/>
-                        <property name="message" value="Choose creature or player to deal 3 damage to"/>
-                        <property name="playerFilter" ref="anyPlayer"/>
-                        <property name="zone" value="play"/>
-                        <property name="gameObjectFilter" ref="creature"/>
-                    </bean>
-                </property>
+    <bean id="deal3DamageTrigger" parent="default_trigger">
+        <property name="announceGameObjectEffects">
+            <bean parent="selectionEffect">
+                <property name="destinationProperty" value="target"/>
+                <property name="selectingPlayer" value="*{owner}"/>
+                <property name="message" value="Choose creature or player to deal 3 damage to"/>
+                <property name="playerFilter" ref="anyPlayer"/>
+                <property name="zone" value="play"/>
+                <property name="gameObjectFilter" ref="creature"/>
             </bean>
         </property>
-        <property name="resolveActionSource">
-            <bean class="com.gempukku.tcg.generic.action.EffectsGameObjectActionSource">
-                <property name="effects">
-                    <util:list>
-                        <bean parent="damageToTargetEffect">
-                            <property name="damage" value="3"/>
-                        </bean>
-                        <ref bean="removeResolvedTrigger"/>
-                    </util:list>
-                </property>
+        <property name="resolveGameObjectEffects">
+            <bean parent="damageToTargetEffect">
+                <property name="damage" value="3"/>
             </bean>
         </property>
     </bean>

@@ -55,11 +55,15 @@ public class SolforgeObjects {
         return (T) gameState.getPlayerObject(player, object._name);
     }
 
-    private static class SolforgeObject<T> {
+    public static class SolforgeObject<T> {
         private String _name;
 
         private SolforgeObject(String name) {
             _name = name;
+        }
+
+        public String getName() {
+            return _name;
         }
     }
 }
