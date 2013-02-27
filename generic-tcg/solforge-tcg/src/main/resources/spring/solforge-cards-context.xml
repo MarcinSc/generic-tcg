@@ -81,17 +81,7 @@
         <property name="effects">
             <util:list>
                 <bean parent="destroyCreatureInLane"/>
-                <bean class="com.gempukku.tcg.solforge.effect.CreateObjectFromGameObjectEffect">
-                    <property name="gameObjectManager" value="gameObjectManager"/>
-                    <property name="zoneTo" value="play"/>
-                    <property name="extraProperties">
-                        <util:map>
-                            <entry key="type" value="token"/>
-                            <entry key="offensive" value="false"/>
-                            <entry key="damage" value="0"/>
-                        </util:map>
-                    </property>
-                </bean>
+                <bean class="com.gempukku.tcg.solforge.effect.CreateCreatureTokenInLaneEffect"/>
                 <bean class="com.gempukku.tcg.generic.effect.IncrementObjectProperty">
                     <property name="name" value="level"/>
                     <property name="value" value="1"/>
