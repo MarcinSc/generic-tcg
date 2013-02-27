@@ -8,6 +8,7 @@ import com.gempukku.tcg.generic.filter.GameObjectPropertyFilter;
 import com.gempukku.tcg.generic.object.GameObject;
 import com.gempukku.tcg.generic.object.GameObjectManager;
 import com.gempukku.tcg.generic.object.Zone;
+import com.gempukku.tcg.generic.util.GameObjectUtils;
 import com.gempukku.tcg.solforge.Solforge;
 import com.gempukku.tcg.solforge.SolforgeObjects;
 
@@ -15,9 +16,14 @@ import java.util.Arrays;
 
 public class DestroyCreatureAlreadyInLaneEffect extends GameObjectEffect {
     private String _laneProperty= Solforge.Properties.LANE;
+    private String _owner;
 
     public void setLaneProperty(String laneProperty) {
         _laneProperty = laneProperty;
+    }
+
+    public void setOwner(String owner) {
+        _owner = owner;
     }
 
     @Override
@@ -28,6 +34,7 @@ public class DestroyCreatureAlreadyInLaneEffect extends GameObjectEffect {
 
         AndFilter creatureAlreadyInLane = new AndFilter();
         creatureAlreadyInLane.setFilters(Arrays.<GameObjectFilter>asList(
+                new GameObjectPropertyFilter(Solforge.Properties.OWNER, GameObjectUtils.resolveObjectProperty(gameObject, _owner)),
                 new GameObjectPropertyFilter(Solforge.Properties.CARD_TYPE, "creature"),
                 new GameObjectPropertyFilter(Solforge.Properties.LANE, lane)));
         final GameObject creatureInLane = gameObjectManager.findFirstObjectMatching(play, gameState, creatureAlreadyInLane);

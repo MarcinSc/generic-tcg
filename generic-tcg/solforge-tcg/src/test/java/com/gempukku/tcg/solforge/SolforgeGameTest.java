@@ -74,18 +74,52 @@ public class SolforgeGameTest {
     }
 
     @Test
+    public void testPlayingCreatureReplacesInTheSameLane() throws InvalidAnswerException {
+        final DefaultGameDeck p1Deck = createDefaultDeck();
+        final DefaultGameDeck p2Deck = createDefaultDeck();
+
+        setupGameWithDecks(p1Deck, p2Deck);
+
+        putCreatureIntoPlay("id", P1, "card_1", 1, 3);
+
+        assertEquals(1, _playZone.getGameObjects().size());
+
+        AwaitingDecision decision = _decisionHolder.getObject(P1).getDecision();
+        assertEquals("CHOOSE_POSSIBLE_ACTION", decision.getType());
+        assertTrue(decision.getParameters(_gameState).get("0").endsWith("Play Air Spirit"));
+
+        // Play Air Spirit
+        _gameProcessor.playerSentDecision(_gameState, P1, "0");
+
+        decision = _decisionHolder.getObject(P1).getDecision();
+        assertEquals("CHOOSE_OBJECT", decision.getType());
+        assertTrue(decision.getParameters(_gameState).get("ids").equals("lane:1,lane:2,lane:3,lane:4,lane:5"));
+
+        _gameProcessor.playerSentDecision(_gameState, P1, "lane:3");
+
+        final Collection<GameObject> inDiscard = SolforgeObjects.extractPlayerObject(_gameState, SolforgeObjects.DISCARD_ZONE, P1).getGameObjects();
+        assertEquals(1, inDiscard.size());
+        assertEquals("2", inDiscard.iterator().next().getProperty(Solforge.Properties.LEVEL));
+
+        final Collection<GameObject> inPlay = _playZone.getGameObjects();
+        assertEquals(1, inPlay.size());
+        final GameObject airSpirit = inPlay.iterator().next();
+        assertEquals("token", airSpirit.getProperty(Solforge.Properties.TYPE));
+        assertEquals(P1, airSpirit.getProperty(Solforge.Properties.OWNER));
+        assertEquals("card_1", airSpirit.getProperty(Solforge.Properties.BLUEPRINT_ID));
+        assertEquals("lane:3", airSpirit.getProperty(Solforge.Properties.LANE));
+        assertEquals("0", airSpirit.getProperty(Solforge.Properties.DAMAGE));
+        assertEquals("1", airSpirit.getProperty(Solforge.Properties.LEVEL));
+    }
+
+    @Test
     public void testTriggeredEffects() throws InvalidAnswerException {
         final DefaultGameDeck p1Deck = createDefaultDeck();
         final DefaultGameDeck p2Deck = createDefaultDeck();
 
         setupGameWithDecks(p1Deck, p2Deck);
 
-        final String owner = P1;
-        final String blueprintId = "card_2";
-        int lane = 3;
-        int level = 2;
-
-        putCreatureIntoPlay("id", owner, blueprintId, level, lane);
+        putCreatureIntoPlay("id", P1, "card_2", 2, 3);
 
         // Play Air Spirit to lane 3
         _gameProcessor.playerSentDecision(_gameState, P1, "0");

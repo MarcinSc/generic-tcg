@@ -89,6 +89,7 @@
 
     <bean id="destroyCreatureInLane" abstract="true" class="com.gempukku.tcg.solforge.effect.DestroyCreatureAlreadyInLaneEffect">
         <property name="laneProperty" value="lane"/>
+        <property name="owner" value="*{owner}"/>
     </bean>
 
     <bean id="keywordCountEvaluator" abstract="true" class="com.gempukku.tcg.generic.evaluator.KeywordCountEvaluator">
