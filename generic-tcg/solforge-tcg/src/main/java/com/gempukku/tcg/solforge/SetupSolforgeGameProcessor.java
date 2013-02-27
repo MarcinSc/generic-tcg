@@ -60,7 +60,7 @@ public class SetupSolforgeGameProcessor implements PlayerDeckGameProcessor {
 
         Collections.shuffle(players);
         final String choosingPlayer = players.get(0);
-        final String otherPlayer = players.get(0);
+        final String otherPlayer = players.get(1);
 
         DecisionHolder decisionHolder = SolforgeObjects.extractPlayerObject(gameState, SolforgeObjects.DECISION_HOLDER, choosingPlayer);
         decisionHolder.setDecision(
