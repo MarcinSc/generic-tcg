@@ -10,6 +10,7 @@ import com.gempukku.tcg.generic.modifier.ActionModifier;
 import com.gempukku.tcg.generic.object.GameObject;
 import com.gempukku.tcg.generic.object.GameObjectVisitor;
 import com.gempukku.tcg.generic.object.Zone;
+import com.gempukku.tcg.solforge.Solforge;
 import com.gempukku.tcg.solforge.SolforgeObjects;
 
 import java.util.Collection;
@@ -38,9 +39,9 @@ public class MoveActionModifier implements ActionModifier {
                             new GameObjectVisitor() {
                                 @Override
                                 public boolean visitGameObject(Zone zone, GameObject gameObject) {
-                                    final String offensive = gameObject.getProperty("offensive");
+                                    final String offensive = gameObject.getProperty(Solforge.Properties.OFFENSIVE);
                                     if (offensive != null && offensive.equals("true")
-                                            && keywordManager.hasKeyword(gameState, gameObject, "move")
+                                            && keywordManager.hasKeyword(gameState, gameObject, Solforge.Keywords.MOVE)
                                             && !hasMoved(turnEventCollector, gameObject)
                                             && _effects.isPlayable(gameState, gameObject))
                                         possibleMoveActions.add(_effects.getGameActionPossibility(gameState, gameObject));

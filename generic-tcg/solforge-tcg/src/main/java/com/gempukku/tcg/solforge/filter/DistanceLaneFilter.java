@@ -3,6 +3,7 @@ package com.gempukku.tcg.solforge.filter;
 import com.gempukku.tcg.GameState;
 import com.gempukku.tcg.generic.evaluator.IntEvaluator;
 import com.gempukku.tcg.generic.object.GameObject;
+import com.gempukku.tcg.solforge.Solforge;
 import com.gempukku.tcg.solforge.util.SolforgeObjectUtil;
 
 public class DistanceLaneFilter implements LaneFilter {
@@ -19,7 +20,7 @@ public class DistanceLaneFilter implements LaneFilter {
 
     @Override
     public boolean matches(GameState gameState, GameObject gameObject, int lane) {
-        final String laneId = gameObject.getProperty("lane");
+        final String laneId = gameObject.getProperty(Solforge.Properties.LANE);
         int laneNumber = SolforgeObjectUtil.extractLaneNumber(laneId);
         int distanceToLane = Math.abs(lane - laneNumber);
         if (_maxDistance != null && _maxDistance.getValue(gameState, gameObject) < distanceToLane)

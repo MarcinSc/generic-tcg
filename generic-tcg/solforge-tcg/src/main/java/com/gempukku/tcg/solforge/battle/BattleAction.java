@@ -10,6 +10,7 @@ import com.gempukku.tcg.generic.object.GameObjectVisitor;
 import com.gempukku.tcg.generic.object.Zone;
 import com.gempukku.tcg.generic.other.Counter;
 import com.gempukku.tcg.generic.stat.StatManager;
+import com.gempukku.tcg.solforge.Solforge;
 import com.gempukku.tcg.solforge.SolforgeObjects;
 import com.gempukku.tcg.solforge.damage.DamageCreatureEvent;
 import com.gempukku.tcg.solforge.damage.DamagePlayerEvent;
@@ -48,11 +49,11 @@ public class BattleAction implements GameAction {
                     public boolean visitGameObject(Zone zone, GameObject gameObject) {
                         // Is a creature, offensive and not a defender
                         if (SolforgeObjects.extractGameObject(gameState, SolforgeObjects.OBJECT_RESOLVER)
-                                .getCardBlueprint(gameObject.getProperty("blueprintId"))
-                                .getCardLevelBlueprintId(Integer.parseInt(gameObject.getProperty("level"))).getCardType().equals("creature")
-                                && gameObject.getProperty("offensive").equals("true")
-                                && !keywordManager.hasKeyword(gameState, gameObject, "defender")) {
-                            fightingLanes.add(SolforgeObjectUtil.extractLaneNumber(gameObject.getProperty("lane")));
+                                .getCardBlueprint(gameObject.getProperty(Solforge.Properties.BLUEPRINT_ID))
+                                .getCardLevelBlueprintId(Integer.parseInt(gameObject.getProperty(Solforge.Properties.LEVEL))).getCardType().equals("creature")
+                                && gameObject.getProperty(Solforge.Properties.OFFENSIVE).equals("true")
+                                && !keywordManager.hasKeyword(gameState, gameObject, Solforge.Keywords.DEFENDER)) {
+                            fightingLanes.add(SolforgeObjectUtil.extractLaneNumber(gameObject.getProperty(Solforge.Properties.LANE)));
                         }
                         return false;
                     }
@@ -69,7 +70,7 @@ public class BattleAction implements GameAction {
             } else if (creaturesInLane.size() == 1) {
                 final GameObject firstCreature = creaturesInLane.get(0);
                 int attackFirst = attackManager.getStatValue(gameState, firstCreature);
-                dealDmgToPlayer(gameState, gameEventEngine, firstCreature, getOpponent(players, firstCreature.getProperty("owner")), attackFirst);
+                dealDmgToPlayer(gameState, gameEventEngine, firstCreature, getOpponent(players, firstCreature.getProperty(Solforge.Properties.OWNER)), attackFirst);
             }
         }
 
@@ -87,14 +88,14 @@ public class BattleAction implements GameAction {
 
     private void executeAttackFromCreature(GameState gameState, GameEventEngine gameEventEngine, KeywordManager keywordManager, StatManager attackManager, StatManager healthManager, GameObject fromCreature, GameObject toCreature) {
         int attackFirst = attackManager.getStatValue(gameState, fromCreature);
-        int armorSecond = Math.max(0, keywordManager.getKeywordCount(gameState, toCreature, "armor"));
+        int armorSecond = Math.max(0, keywordManager.getKeywordCount(gameState, toCreature, Solforge.Keywords.ARMOR));
         attackFirst -= armorSecond;
-        if (keywordManager.hasKeyword(gameState, fromCreature, "breakthrough")
-                && fromCreature.getProperty("offensive").equals("true")) {
+        if (keywordManager.hasKeyword(gameState, fromCreature, Solforge.Keywords.BREAKTHROUGH)
+                && fromCreature.getProperty(Solforge.Properties.OFFENSIVE).equals("true")) {
             int healthSecond = healthManager.getStatValue(gameState, toCreature);
             if (attackFirst > healthSecond) {
                 dealDmgToCreature(gameState, gameEventEngine, fromCreature, toCreature, healthSecond);
-                dealDmgToPlayer(gameState, gameEventEngine, fromCreature, toCreature.getProperty("owner"), attackFirst - healthSecond);
+                dealDmgToPlayer(gameState, gameEventEngine, fromCreature, toCreature.getProperty(Solforge.Properties.OWNER), attackFirst - healthSecond);
             } else {
                 dealDmgToCreature(gameState, gameEventEngine, fromCreature, toCreature, attackFirst);
             }
@@ -105,7 +106,7 @@ public class BattleAction implements GameAction {
 
     private void dealDmgToCreature(GameState gameState, GameEventEngine gameEventEngine, GameObject from, GameObject to, int amount) {
         if (amount > 0) {
-            to.setProperty("damage", String.valueOf(Integer.parseInt(to.getProperty("damage")) + amount));
+            to.setProperty(Solforge.Properties.DAMAGE, String.valueOf(Integer.parseInt(to.getProperty(Solforge.Properties.DAMAGE)) + amount));
             gameEventEngine.emitGameEvent(
                     gameState, new DamageCreatureEvent(from, to, amount));
         }
@@ -127,9 +128,9 @@ public class BattleAction implements GameAction {
                     @Override
                     public boolean visitGameObject(Zone zone, GameObject gameObject) {
                         if (SolforgeObjects.extractGameObject(gameState, SolforgeObjects.OBJECT_RESOLVER)
-                                .getCardBlueprint(gameObject.getProperty("blueprintId"))
-                                .getCardLevelBlueprintId(Integer.parseInt(gameObject.getProperty("level"))).getCardType().equals("creature")
-                                && SolforgeObjectUtil.extractLaneNumber(gameObject.getProperty("lane")) == lane)
+                                .getCardBlueprint(gameObject.getProperty(Solforge.Properties.BLUEPRINT_ID))
+                                .getCardLevelBlueprintId(Integer.parseInt(gameObject.getProperty(Solforge.Properties.LEVEL))).getCardType().equals("creature")
+                                && SolforgeObjectUtil.extractLaneNumber(gameObject.getProperty(Solforge.Properties.LANE)) == lane)
                             result.add(gameObject);
                         return false;
                     }

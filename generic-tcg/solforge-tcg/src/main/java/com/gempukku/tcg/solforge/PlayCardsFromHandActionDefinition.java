@@ -30,9 +30,9 @@ public class PlayCardsFromHandActionDefinition implements ActionModifier {
                 final SolforgeCardBlueprintResolver solforgeCardBlueprintResolver = SolforgeObjects.extractGameObject(gameState, SolforgeObjects.OBJECT_RESOLVER);
                 Collection<GameObject> cardsInHand = SolforgeObjects.extractPlayerObject(gameState, SolforgeObjects.HAND_ZONE, activePlayer).getGameObjects();
                 for (GameObject gameObject : cardsInHand) {
-                    final String blueprintId = gameObject.getProperty("blueprintId");
+                    final String blueprintId = gameObject.getProperty(Solforge.Properties.BLUEPRINT_ID);
                     final SolforgeCardBlueprint cardBlueprint = solforgeCardBlueprintResolver.getCardBlueprint(blueprintId);
-                    final SolforgeCardLevelBlueprint cardLevelBlueprint = cardBlueprint.getCardLevelBlueprintId(Integer.parseInt(gameObject.getProperty("level")));
+                    final SolforgeCardLevelBlueprint cardLevelBlueprint = cardBlueprint.getCardLevelBlueprintId(Integer.parseInt(gameObject.getProperty(Solforge.Properties.LEVEL)));
                     final Collection<GameObjectActionPossibilitySource> playCardActionSources = cardLevelBlueprint.getPlayCardActionSources();
                     for (GameObjectActionPossibilitySource cardActionPossibilitySource : playCardActionSources) {
                         if (cardActionPossibilitySource.isPlayable(gameState, gameObject))

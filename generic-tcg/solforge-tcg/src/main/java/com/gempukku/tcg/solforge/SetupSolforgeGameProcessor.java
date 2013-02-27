@@ -48,10 +48,10 @@ public class SetupSolforgeGameProcessor implements PlayerDeckGameProcessor {
             final List<String> mainDeck = deck.getCardBlueprints().get("main");
             for (String cardInDeck : mainDeck) {
                 Map<String, String> properties = new HashMap<String, String>();
-                properties.put("blueprintId", cardInDeck);
-                properties.put("owner", player);
-                properties.put("level", "1");
-                properties.put("type", "card");
+                properties.put(Solforge.Properties.BLUEPRINT_ID, cardInDeck);
+                properties.put(Solforge.Properties.OWNER, player);
+                properties.put(Solforge.Properties.LEVEL, "1");
+                properties.put(Solforge.Properties.TYPE, "card");
                 gameObjectManager.createObjectInZone(deckZone, properties);
             }
 

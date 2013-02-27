@@ -69,9 +69,9 @@ public class SolforgeTurnStructureAction implements GameAction {
                         new GameObjectVisitor() {
                             @Override
                             public boolean visitGameObject(Zone zone, GameObject gameObject) {
-                                if (gameObject.getProperty("type").equals("creature")
-                                        && gameObject.getProperty("owner").equals(activePlayer)) {
-                                    gameObject.setProperty("offensive", "true");
+                                if (gameObject.getProperty(Solforge.Properties.CARD_TYPE).equals("creature")
+                                        && gameObject.getProperty(Solforge.Properties.OWNER).equals(activePlayer)) {
+                                    gameObject.setProperty(Solforge.Properties.OFFENSIVE, "true");
                                 }
                                 return false;
                             }

@@ -5,6 +5,7 @@ import com.gempukku.tcg.generic.keyword.AdditiveKeyword;
 import com.gempukku.tcg.generic.keyword.Keyword;
 import com.gempukku.tcg.generic.keyword.KeywordModifier;
 import com.gempukku.tcg.generic.object.GameObject;
+import com.gempukku.tcg.solforge.Solforge;
 import com.gempukku.tcg.solforge.SolforgeObjects;
 
 import java.util.List;
@@ -13,8 +14,8 @@ public class BlueprintKeywordModifier implements KeywordModifier {
     @Override
     public boolean hasKeyword(GameState gameState, GameObject gameObject, String keyword) {
         final List<Keyword> keywords = SolforgeObjects.extractGameObject(gameState, SolforgeObjects.OBJECT_RESOLVER)
-                .getCardBlueprint(gameObject.getProperty("blueprintId"))
-                .getCardLevelBlueprintId(Integer.parseInt(gameObject.getProperty("level")))
+                .getCardBlueprint(gameObject.getProperty(Solforge.Properties.BLUEPRINT_ID))
+                .getCardLevelBlueprintId(Integer.parseInt(gameObject.getProperty(Solforge.Properties.LEVEL)))
                 .getKeywords();
         if (keywords != null) {
             for (Keyword cardKeyword : keywords) {
@@ -28,8 +29,8 @@ public class BlueprintKeywordModifier implements KeywordModifier {
     @Override
     public int getKeywordCount(GameState gameState, GameObject gameObject, String keyword) {
         final List<Keyword> keywords = SolforgeObjects.extractGameObject(gameState, SolforgeObjects.OBJECT_RESOLVER)
-                .getCardBlueprint(gameObject.getProperty("blueprintId"))
-                .getCardLevelBlueprintId(Integer.parseInt(gameObject.getProperty("level")))
+                .getCardBlueprint(gameObject.getProperty(Solforge.Properties.BLUEPRINT_ID))
+                .getCardLevelBlueprintId(Integer.parseInt(gameObject.getProperty(Solforge.Properties.LEVEL)))
                 .getKeywords();
         if (keywords != null) {
             for (Keyword cardKeyword : keywords) {

@@ -10,6 +10,7 @@ import com.gempukku.tcg.generic.object.GameObjectManager;
 import com.gempukku.tcg.generic.object.GameObjectVisitor;
 import com.gempukku.tcg.generic.object.Zone;
 import com.gempukku.tcg.generic.other.Counter;
+import com.gempukku.tcg.solforge.Solforge;
 import com.gempukku.tcg.solforge.SolforgeObjects;
 import com.gempukku.tcg.solforge.damage.DamageCreatureEvent;
 import com.gempukku.tcg.solforge.damage.DamagePlayerEvent;
@@ -75,10 +76,10 @@ public class DealDamageToTargetEffect extends GameObjectEffect {
     }
 
     private void dealDamageToCreature(GameState gameState, GameEventEngine gameEventEngine, KeywordManager keywordManager, GameObject from, GameObject to, int amount) {
-        int armor = Math.max(0, keywordManager.getKeywordCount(gameState, to, "armor"));
+        int armor = Math.max(0, keywordManager.getKeywordCount(gameState, to, Solforge.Keywords.ARMOR));
         amount -= armor;
         if (amount > 0) {
-            to.setProperty("damage", String.valueOf(Integer.parseInt(to.getProperty("damage")) + amount));
+            to.setProperty(Solforge.Properties.DAMAGE, String.valueOf(Integer.parseInt(to.getProperty(Solforge.Properties.DAMAGE)) + amount));
             gameEventEngine.emitGameEvent(
                     gameState, new DamageCreatureEvent(from, to, amount));
         }

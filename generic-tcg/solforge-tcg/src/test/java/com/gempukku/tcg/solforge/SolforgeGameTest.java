@@ -60,17 +60,17 @@ public class SolforgeGameTest {
 
         final Collection<GameObject> inDiscard = SolforgeObjects.extractPlayerObject(_gameState, SolforgeObjects.DISCARD_ZONE, P1).getGameObjects();
         assertEquals(1, inDiscard.size());
-        assertEquals("2", inDiscard.iterator().next().getProperty("level"));
+        assertEquals("2", inDiscard.iterator().next().getProperty(Solforge.Properties.LEVEL));
 
         final Collection<GameObject> inPlay = _playZone.getGameObjects();
         assertEquals(1, inPlay.size());
         final GameObject airSpirit = inPlay.iterator().next();
-        assertEquals("token", airSpirit.getProperty("type"));
-        assertEquals(P1, airSpirit.getProperty("owner"));
-        assertEquals("card_1", airSpirit.getProperty("blueprintId"));
-        assertEquals("lane:3", airSpirit.getProperty("lane"));
-        assertEquals("0", airSpirit.getProperty("damage"));
-        assertEquals("1", airSpirit.getProperty("level"));
+        assertEquals("token", airSpirit.getProperty(Solforge.Properties.TYPE));
+        assertEquals(P1, airSpirit.getProperty(Solforge.Properties.OWNER));
+        assertEquals("card_1", airSpirit.getProperty(Solforge.Properties.BLUEPRINT_ID));
+        assertEquals("lane:3", airSpirit.getProperty(Solforge.Properties.LANE));
+        assertEquals("0", airSpirit.getProperty(Solforge.Properties.DAMAGE));
+        assertEquals("1", airSpirit.getProperty(Solforge.Properties.LEVEL));
     }
 
     @Test

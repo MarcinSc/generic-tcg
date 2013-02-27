@@ -5,6 +5,7 @@ import com.gempukku.tcg.generic.event.GameEvent;
 import com.gempukku.tcg.generic.event.GameObjectEventCondition;
 import com.gempukku.tcg.generic.object.GameObject;
 import com.gempukku.tcg.generic.object.Zone;
+import com.gempukku.tcg.solforge.Solforge;
 import com.gempukku.tcg.solforge.SolforgeObjects;
 
 import java.util.HashMap;
@@ -27,8 +28,8 @@ public class DefaultTriggeredEffect implements TriggeredEffect {
         if (_gameObjectEventCondition.matches(gameState, triggerFrom, event)) {
             final Zone waitingTriggersZone = SolforgeObjects.extractGameObject(gameState, SolforgeObjects.WAITING_TRIGGERS_ZONE);
             Map<String, String> properties = new HashMap<String, String>();
-            properties.put("type", "trigger");
-            properties.put("owner", triggerFrom.getProperty("owner"));
+            properties.put(Solforge.Properties.TYPE, "trigger");
+            properties.put(Solforge.Properties.OWNER, triggerFrom.getProperty(Solforge.Properties.OWNER));
             properties.put("triggerId", _triggerId);
             properties.put("sourceId", triggerFrom.getIdentifier());
             SolforgeObjects.extractGameObject(gameState, SolforgeObjects.GAME_OBJECT_MANAGER)
