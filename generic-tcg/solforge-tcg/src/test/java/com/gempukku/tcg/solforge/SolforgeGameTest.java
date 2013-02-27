@@ -24,6 +24,21 @@ public class SolforgeGameTest {
     private Zone _playZone;
 
     @Test
+    public void testTurnSetup() throws InvalidAnswerException {
+        final DefaultGameDeck p1Deck = createDefaultDeck();
+        final DefaultGameDeck p2Deck = createDefaultDeck();
+
+        setupGameWithDecks(p1Deck, p2Deck);
+
+        assertEquals(1, SolforgeObjects.extractGameObject(_gameState, SolforgeObjects.TURN_COUNTER).getValue());
+        assertEquals(1, SolforgeObjects.extractPlayerObject(_gameState, SolforgeObjects.PLAYER_TURN_COUNTER, P1).getValue());
+        assertEquals(0, SolforgeObjects.extractPlayerObject(_gameState, SolforgeObjects.PLAYER_TURN_COUNTER, P2).getValue());
+
+        assertEquals(5, SolforgeObjects.extractPlayerObject(_gameState, SolforgeObjects.HAND_ZONE, P1).getGameObjects().size());
+        assertEquals(5, SolforgeObjects.extractPlayerObject(_gameState, SolforgeObjects.HAND_ZONE, P2).getGameObjects().size());
+    }
+
+    @Test
     public void testPlayingCreature() throws InvalidAnswerException {
         final DefaultGameDeck p1Deck = createDefaultDeck();
         final DefaultGameDeck p2Deck = createDefaultDeck();
@@ -135,6 +150,10 @@ public class SolforgeGameTest {
     private DefaultGameDeck createDefaultDeck() {
         final DefaultGameDeck defaultGameDeck = new DefaultGameDeck();
         List<String> cardsInMainDeck = new LinkedList<String>();
+        cardsInMainDeck.add("card_1");
+        cardsInMainDeck.add("card_1");
+        cardsInMainDeck.add("card_1");
+        cardsInMainDeck.add("card_1");
         cardsInMainDeck.add("card_1");
         defaultGameDeck.addDeckPart("main", cardsInMainDeck);
         return defaultGameDeck;

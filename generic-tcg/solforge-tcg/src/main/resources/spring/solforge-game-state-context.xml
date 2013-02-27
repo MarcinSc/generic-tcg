@@ -12,6 +12,7 @@
                 <entry key="levelCounter" value-ref="levelCounter"/>
                 <entry key="passCounter" value-ref="passCounter"/>
                 <entry key="turnCounter" value-ref="turnCounter"/>
+                <entry key="playerTurnCounter" value-ref="playerTurnCounter"/>
                 <entry key="deck" value-ref="deckZone"/>
                 <entry key="discard" value-ref="discardZone"/>
                 <entry key="hand" value-ref="handZone"/>
@@ -175,5 +176,8 @@
 
     <bean id="turnCounter" class="com.gempukku.tcg.generic.other.Counter">
         <property name="value" value="0"/>
+    </bean>
+    <bean id="playerTurnCounter" class="com.gempukku.tcg.generic.other.PerPlayerCounter">
+        <property name="defaultValue" value="0"/>
     </bean>
 </beans>

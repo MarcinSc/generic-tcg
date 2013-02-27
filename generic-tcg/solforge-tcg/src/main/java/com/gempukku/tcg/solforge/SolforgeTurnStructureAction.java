@@ -45,6 +45,10 @@ public class SolforgeTurnStructureAction implements GameAction {
         final Counter turnCounter = SolforgeObjects.extractGameObject(gameState, TURN_COUNTER);
         turnCounter.setValue(turnCounter.getValue() + 1);
 
+        final String activePlayer = SolforgeObjects.extractGameObject(gameState, PLAYER_TURN).getValue();
+        final Counter playerTurnCounter = SolforgeObjects.extractPlayerObject(gameState, PLAYER_TURN_COUNTER, activePlayer);
+        playerTurnCounter.setValue(playerTurnCounter.getValue() + 1);
+
         setNextTurnPhase(gameState, "startOfTurn");
     }
 

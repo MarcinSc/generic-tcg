@@ -21,6 +21,7 @@ public class SolforgeObjects {
     public static final SolforgeObject<PerPlayerObject<Counter>> HEALTH_COUNTER = new SolforgeObject<PerPlayerObject<Counter>>("healthCounter");
     public static final SolforgeObject<PerPlayerObject<Counter>> LEVEL_COUNTER = new SolforgeObject<PerPlayerObject<Counter>>("levelCounter");
     public static final SolforgeObject<Counter> TURN_COUNTER = new SolforgeObject<Counter>("turnCounter");
+    public static final SolforgeObject<PerPlayerObject<Counter>> PLAYER_TURN_COUNTER = new SolforgeObject<PerPlayerObject<Counter>>("playerTurnCounter");
     public static final SolforgeObject<Counter> PASS_COUNTER = new SolforgeObject<Counter>("passCounter");
 
     public static final SolforgeObject<PerPlayerObject<Zone>> DECK_ZONE = new SolforgeObject<PerPlayerObject<Zone>>("deck");
