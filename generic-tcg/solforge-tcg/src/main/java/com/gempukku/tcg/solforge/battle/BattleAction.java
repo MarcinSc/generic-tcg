@@ -89,7 +89,8 @@ public class BattleAction implements GameAction {
         int attackFirst = attackManager.getStatValue(gameState, fromCreature);
         int armorSecond = Math.max(0, keywordManager.getKeywordCount(gameState, toCreature, "armor"));
         attackFirst -= armorSecond;
-        if (keywordManager.hasKeyword(gameState, fromCreature, "breakthrough")) {
+        if (keywordManager.hasKeyword(gameState, fromCreature, "breakthrough")
+                && fromCreature.getProperty("offensive").equals("true")) {
             int healthSecond = healthManager.getStatValue(gameState, toCreature);
             if (attackFirst > healthSecond) {
                 dealDmgToCreature(gameState, gameEventEngine, fromCreature, toCreature, healthSecond);
