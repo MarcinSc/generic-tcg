@@ -33,7 +33,7 @@
             <bean class="com.gempukku.tcg.generic.evaluator.ConcatenateStringEvaluator">
                 <property name="stringEvaluators">
                     <util:list>
-                        <value>Play</value>
+                        <value>Play </value>
                         <bean class="com.gempukku.tcg.solforge.evaluator.CardNameEvaluator"/>
                     </util:list>
                 </property>

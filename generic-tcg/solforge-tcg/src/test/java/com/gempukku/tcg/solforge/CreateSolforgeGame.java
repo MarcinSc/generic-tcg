@@ -22,7 +22,7 @@ public class CreateSolforgeGame {
     private GameState _gameState;
 
     @Test
-    public void createGame() throws InvalidAnswerException {
+    public void testTurnStructure() throws InvalidAnswerException {
         final DefaultGameDeck p1Deck = createDefaultDeck();
         final DefaultGameDeck p2Deck = createDefaultDeck();
 
