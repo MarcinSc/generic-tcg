@@ -28,6 +28,7 @@ public class DefaultTriggeredEffect implements TriggeredEffect {
             final Zone waitingTriggersZone = SolforgeObjects.extractGameObject(gameState, SolforgeObjects.WAITING_TRIGGERS_ZONE);
             Map<String, String> properties = new HashMap<String, String>();
             properties.put("type", "trigger");
+            properties.put("owner", triggerFrom.getProperty("owner"));
             properties.put("triggerId", _triggerId);
             properties.put("sourceId", triggerFrom.getIdentifier());
             SolforgeObjects.extractGameObject(gameState, SolforgeObjects.GAME_OBJECT_MANAGER)

@@ -7,7 +7,7 @@
     <bean id="card_1" parent="default_card">
         <property name="name" value="Air Spirit"/>
         <property name="level1">
-            <bean parent="default_card_level">
+            <bean parent="default_creature_level">
                 <property name="cardType" value="creature"/>
                 <property name="keywords">
                     <util:list>
@@ -19,7 +19,7 @@
             </bean>
         </property>
         <property name="level2">
-            <bean parent="default_card_level">
+            <bean parent="default_creature_level">
                 <property name="cardType" value="creature"/>
                 <property name="keywords">
                     <util:list>
@@ -31,7 +31,7 @@
             </bean>
         </property>
         <property name="level3">
-            <bean parent="default_card_level">
+            <bean parent="default_creature_level">
                 <property name="cardType" value="creature"/>
                 <property name="keywords">
                     <util:list>
@@ -47,14 +47,14 @@
     <bean id="card_2" parent="default_card">
         <property name="name" value="Flameshaper Acolyte"/>
         <property name="level1">
-            <bean parent="default_card_level">
+            <bean parent="default_creature_level">
                 <property name="cardType" value="creature"/>
                 <property name="attack" value="4"/>
                 <property name="health" value="6"/>
             </bean>
         </property>
         <property name="level2">
-            <bean parent="default_card_level">
+            <bean parent="default_creature_level">
                 <property name="cardType" value="creature"/>
                 <property name="attack" value="6"/>
                 <property name="health" value="10"/>
@@ -62,7 +62,7 @@
                     <bean parent="default_trigger">
                         <property name="gameObjectEventCondition">
                             <bean class="com.gempukku.tcg.solforge.play.PlayCardEventCondition">
-                                <property name="playedPlayer" value="${owner}"/>
+                                <property name="playedPlayer" value="*{owner}"/>
                                 <property name="playedFilter">
                                     <bean class="com.gempukku.tcg.generic.filter.GameObjectPropertyFilter">
                                         <property name="property" value="level"/>
@@ -77,7 +77,7 @@
             </bean>
         </property>
         <property name="level3">
-            <bean parent="default_card_level">
+            <bean parent="default_creature_level">
                 <property name="cardType" value="creature"/>
                 <property name="attack" value="10"/>
                 <property name="health" value="14"/>
@@ -95,12 +95,19 @@
         <property name="targetProperty" value="target"/>
     </bean>
 
+    <bean id="removeResolvedTrigger" class="com.gempukku.tcg.generic.effect.RemoveGameObjectEffect">
+        <property name="gameObjectManager" value="gameObjectManager"/>
+        <property name="zone" value="stack"/>
+    </bean>
+
     <bean id="deal3damageTrigger" class="com.gempukku.tcg.solforge.SimpleSolforgeTriggerBlueprint">
         <property name="stackActionSource">
             <bean class="com.gempukku.tcg.generic.action.EffectsGameObjectActionSource">
                 <property name="effects">
                     <bean parent="selectionEffect">
                         <property name="destinationProperty" value="target"/>
+                        <property name="selectingPlayer" value="*{owner}"/>
+                        <property name="message" value="Choose creature or player to deal 3 damage to"/>
                         <property name="playerFilter" ref="anyPlayer"/>
                         <property name="zone" value="play"/>
                         <property name="gameObjectFilter" ref="creature"/>
@@ -111,9 +118,12 @@
         <property name="resolveActionSource">
             <bean class="com.gempukku.tcg.generic.action.EffectsGameObjectActionSource">
                 <property name="effects">
-                    <bean parent="damageToTargetEffect">
-                        <property name="damage" value="3"/>
-                    </bean>
+                    <util:list>
+                        <bean parent="damageToTargetEffect">
+                            <property name="damage" value="3"/>
+                        </bean>
+                        <ref bean="removeResolvedTrigger"/>
+                    </util:list>
                 </property>
             </bean>
         </property>

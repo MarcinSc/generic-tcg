@@ -76,7 +76,7 @@
         </property>
     </bean>
 
-    <bean id="resolveCardAction" class="com.gempukku.tcg.generic.action.EffectsGameObjectActionSource">
+    <bean id="resolveCreatureAction" class="com.gempukku.tcg.generic.action.EffectsGameObjectActionSource">
         <property name="effects">
             <util:list>
                 <bean class="com.gempukku.tcg.solforge.effect.CreateObjectFromGameObjectEffect">
@@ -108,13 +108,13 @@
 
     <bean id="default_trigger" abstract="true" class="com.gempukku.tcg.solforge.trigger.DefaultTriggeredEffect"/>
 
-    <bean id="default_card_level" abstract="true" class="com.gempukku.tcg.solforge.SimpleSolforgeCardLevelBlueprint">
+    <bean id="default_creature_level" abstract="true" class="com.gempukku.tcg.solforge.SimpleSolforgeCardLevelBlueprint">
         <property name="playCardActionSources">
             <util:list>
                 <ref bean="playCardAction"/>
             </util:list>
         </property>
-        <property name="resolveActionSource" ref="resolveCardAction"/>
+        <property name="resolveActionSource" ref="resolveCreatureAction"/>
     </bean>
 
     <bean id="move1" class="com.gempukku.tcg.generic.keyword.AdditiveKeyword">
