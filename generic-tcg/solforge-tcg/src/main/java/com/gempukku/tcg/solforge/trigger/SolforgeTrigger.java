@@ -1,8 +1,8 @@
 package com.gempukku.tcg.solforge.trigger;
 
 import com.gempukku.tcg.generic.action.EffectsGameObjectActionSource;
+import com.gempukku.tcg.generic.effect.DestroyGameObjectEffect;
 import com.gempukku.tcg.generic.effect.GameObjectEffect;
-import com.gempukku.tcg.generic.effect.RemoveGameObjectEffect;
 import com.gempukku.tcg.solforge.SimpleSolforgeTriggerBlueprint;
 import com.gempukku.tcg.solforge.SolforgeObjects;
 import com.gempukku.tcg.solforge.SolforgeTriggerBlueprint;
@@ -39,7 +39,7 @@ public class SolforgeTrigger implements FactoryBean<SolforgeTriggerBlueprint> {
     private EffectsGameObjectActionSource createResolveActionSource() {
         EffectsGameObjectActionSource announceActionSource = new EffectsGameObjectActionSource();
         announceActionSource.setEffects(_resolveGameObjectEffects);
-        RemoveGameObjectEffect removeGameObjectEffect = new RemoveGameObjectEffect();
+        DestroyGameObjectEffect removeGameObjectEffect = new DestroyGameObjectEffect();
         removeGameObjectEffect.setGameObjectManager(SolforgeObjects.GAME_OBJECT_MANAGER.getName());
         removeGameObjectEffect.setZone("stack");
         announceActionSource.addEffect(removeGameObjectEffect);

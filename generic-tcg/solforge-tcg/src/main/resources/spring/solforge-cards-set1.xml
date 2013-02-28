@@ -132,6 +132,60 @@
         </property>
     </bean>
 
+    <bean id="card_4_trigger" parent="default_triggered_effect">
+        <property name="gameObjectEventCondition">
+            <bean class="com.gempukku.tcg.solforge.damage.DealDamageToOpponentEventCondition"/>
+        </property>
+        <property name="triggerId" value="card_4_trigger_effect"/>
+    </bean>
+
+    <bean id="card_4_trigger_effect" parent="default_trigger">
+        <property name="resolveGameObjectEffects">
+            <bean parent="destroyObjectInPlay">
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="card_4" parent="default_card">
+        <property name="name" value="Rumbling Earthshaker"/>
+        <property name="level1">
+            <bean parent="default_creature_level">
+                <property name="keywords">
+                    <util:list>
+                        <ref bean="move1"/>
+                    </util:list>
+                </property>
+                <property name="attack" value="3"/>
+                <property name="health" value="7"/>
+                <property name="triggeredEffects" ref="card_4_trigger"/>
+            </bean>
+        </property>
+        <property name="level2">
+            <bean parent="default_creature_level">
+                <property name="keywords">
+                    <util:list>
+                        <ref bean="move1"/>
+                    </util:list>
+                </property>
+                <property name="attack" value="8"/>
+                <property name="health" value="11"/>
+                <property name="triggeredEffects" ref="card_4_trigger"/>
+            </bean>
+        </property>
+        <property name="level3">
+            <bean parent="default_creature_level">
+                <property name="keywords">
+                    <util:list>
+                        <ref bean="move1"/>
+                    </util:list>
+                </property>
+                <property name="attack" value="13"/>
+                <property name="health" value="18"/>
+                <property name="triggeredEffects" ref="card_4_trigger"/>
+            </bean>
+        </property>
+    </bean>
+
     <bean id="deal3DamageTrigger" parent="default_trigger">
         <property name="announceGameObjectEffects">
             <bean parent="selectionEffect">

@@ -16,4 +16,8 @@ public class DamagePlayerEvent extends GameEvent {
         _player = player;
         _amount = amount;
     }
+
+    public GameObject getFrom() {
+        return _from;
+    }
 }

@@ -157,9 +157,9 @@ public class SolforgeGameTest {
 
         putCreatureIntoPlay("id", P1, "card_2", 2, 3);
 
-        // Play Air Spirit to lane 3
+        // Play Air Spirit to lane 4
         _gameProcessor.playerSentDecision(_gameState, P1, "0");
-        _gameProcessor.playerSentDecision(_gameState, P1, "lane:3");
+        _gameProcessor.playerSentDecision(_gameState, P1, "lane:4");
 
         AwaitingDecision decision = _decisionHolder.getObject(P1).getDecision();
         final String possibleIds = decision.getParameters(_gameState).get("ids");
