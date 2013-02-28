@@ -142,8 +142,6 @@
         <property name="targetProperty" value="target"/>
     </bean>
 
-    <bean id="sameObject" class="com.gempukku.tcg.generic.filter.SameGameObjectFilter"/>
-
     <bean id="destroyObject" abstract="true" class="com.gempukku.tcg.generic.effect.DestroyGameObjectEffect">
         <property name="gameObjectManager" value="gameObjectManager"/>
     </bean>

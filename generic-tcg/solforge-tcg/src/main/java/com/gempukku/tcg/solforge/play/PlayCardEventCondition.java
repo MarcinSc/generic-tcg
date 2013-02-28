@@ -28,7 +28,7 @@ public class PlayCardEventCondition implements GameObjectEventCondition {
                     return false;
             }
             if (_playedFilter != null) {
-                if (!_playedFilter.matches(gameState, playedCardEvent.getGameObject()))
+                if (!_playedFilter.matches(gameState, conditionOn, playedCardEvent.getGameObject()))
                     return false;
             }
             return true;

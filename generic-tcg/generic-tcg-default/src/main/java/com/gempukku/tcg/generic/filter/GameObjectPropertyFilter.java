@@ -24,7 +24,7 @@ public class GameObjectPropertyFilter implements GameObjectFilter {
     }
 
     @Override
-    public boolean matches(GameState gameState, GameObject gameObject) {
+    public boolean matches(GameState gameState, GameObject context, GameObject gameObject) {
         final String property = gameObject.getProperty(_property);
         return (property != null && property.equals(_value));
     }

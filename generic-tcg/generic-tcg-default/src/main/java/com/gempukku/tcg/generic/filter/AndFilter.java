@@ -13,9 +13,9 @@ public class AndFilter implements GameObjectFilter {
     }
 
     @Override
-    public boolean matches(GameState gameState, GameObject gameObject) {
+    public boolean matches(GameState gameState, GameObject context, GameObject gameObject) {
         for (GameObjectFilter filter : _filters) {
-            if (!filter.matches(gameState, gameObject))
+            if (!filter.matches(gameState, context, gameObject))
                 return false;
         }
         return true;

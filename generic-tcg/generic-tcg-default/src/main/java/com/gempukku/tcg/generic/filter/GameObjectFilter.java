@@ -4,5 +4,5 @@ import com.gempukku.tcg.GameState;
 import com.gempukku.tcg.generic.object.GameObject;
 
 public interface GameObjectFilter {
-    public boolean matches(GameState gameState, GameObject gameObject);
+    public boolean matches(GameState gameState, GameObject context, GameObject gameObject);
 }

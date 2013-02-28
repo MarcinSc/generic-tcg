@@ -3,6 +3,7 @@ package com.gempukku.tcg.solforge.trigger;
 import com.gempukku.tcg.generic.action.EffectsGameObjectActionSource;
 import com.gempukku.tcg.generic.effect.DestroyGameObjectEffect;
 import com.gempukku.tcg.generic.effect.GameObjectEffect;
+import com.gempukku.tcg.generic.filter.SameObjectFilter;
 import com.gempukku.tcg.solforge.SimpleSolforgeTriggerBlueprint;
 import com.gempukku.tcg.solforge.SolforgeObjects;
 import com.gempukku.tcg.solforge.SolforgeTriggerBlueprint;
@@ -42,6 +43,7 @@ public class SolforgeTrigger implements FactoryBean<SolforgeTriggerBlueprint> {
         DestroyGameObjectEffect removeGameObjectEffect = new DestroyGameObjectEffect();
         removeGameObjectEffect.setGameObjectManager(SolforgeObjects.GAME_OBJECT_MANAGER.getName());
         removeGameObjectEffect.setZone("stack");
+        removeGameObjectEffect.setGameObjectFilter(new SameObjectFilter());
         announceActionSource.addEffect(removeGameObjectEffect);
         return announceActionSource;
     }

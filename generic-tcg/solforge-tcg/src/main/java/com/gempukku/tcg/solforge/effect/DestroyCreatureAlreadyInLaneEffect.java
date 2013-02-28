@@ -37,7 +37,7 @@ public class DestroyCreatureAlreadyInLaneEffect extends GameObjectEffect {
                 new GameObjectPropertyFilter(Solforge.Properties.OWNER, GameObjectUtils.resolveObjectProperty(gameObject, _owner)),
                 new GameObjectPropertyFilter(Solforge.Properties.CARD_TYPE, "creature"),
                 new GameObjectPropertyFilter(Solforge.Properties.LANE, lane)));
-        final GameObject creatureInLane = gameObjectManager.findFirstObjectMatching(play, gameState, creatureAlreadyInLane);
+        final GameObject creatureInLane = gameObjectManager.findFirstObjectMatching(play, gameState, gameObject, creatureAlreadyInLane);
         if (creatureInLane != null)
             gameObjectManager.destroyObjectInZone(play, creatureInLane);
     }

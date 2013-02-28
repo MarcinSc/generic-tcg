@@ -97,24 +97,24 @@ public class MakeSelectionEffect extends GameObjectEffect {
     private void appendMatchingPlayers(GameState gameState, GameObject gameObject, List<String> result) {
         String[] players = ((Property) gameState.getGameObject(_playersProperty)).getValue().split(",");
         for (String player : players) {
-            if (_playerFilter.matches(gameState, player))
+            if (_playerFilter.matches(gameState, gameObject, player))
                 result.add("player:" +player);
         }
     }
 
-    private void appendMatchingGameObjects(final GameState gameState, GameObject gameObject, final List<String> result) {
+    private void appendMatchingGameObjects(final GameState gameState, final GameObject gameObject, final List<String> result) {
         GameObjectManager gameObjectManager = (GameObjectManager) gameState.getGameObject(_gameObjectManager);
         GameObjectVisitor visitor = new GameObjectVisitor() {
             @Override
             public boolean visitGameObject(Zone zone, GameObject visitedGameObject) {
-                if (_gameObjectFilter.matches(gameState, visitedGameObject))
+                if (_gameObjectFilter.matches(gameState, gameObject, visitedGameObject))
                     result.add("object:" + visitedGameObject.getIdentifier());
 
                 return false;
             }
         };
         if (_zone != null) {
-            final Set<GameObject> objectsMatching = gameObjectManager.findObjectsMatching(GameObjectUtils.resolveZone(gameState, gameObject, _zone, _playerZone), gameState, _gameObjectFilter);
+            final Set<GameObject> objectsMatching = gameObjectManager.findObjectsMatching(GameObjectUtils.resolveZone(gameState, gameObject, _zone, _playerZone), gameState, gameObject, _gameObjectFilter);
             for (GameObject object : objectsMatching)
                 result.add("object:"+object.getIdentifier());
         } else

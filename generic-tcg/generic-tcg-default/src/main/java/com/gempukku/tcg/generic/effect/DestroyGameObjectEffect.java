@@ -36,12 +36,8 @@ public class DestroyGameObjectEffect extends GameObjectEffect {
         final Zone zone = GameObjectUtils.resolveZone(gameState, gameObject, _zone, _playerZone);
 
         final GameObjectManager gameObjectManager = (GameObjectManager) gameState.getGameObject(_gameObjectManager);
-        if (_gameObjectFilter == null) {
-            gameObjectManager.destroyObjectInZone(zone, gameObject);
-        } else {
-            final Set<GameObject> objectsMatching = gameObjectManager.findObjectsMatching(zone, gameState, _gameObjectFilter);
-            for (GameObject object : objectsMatching)
-                gameObjectManager.destroyObjectInZone(zone, object);
-        }
+        final Set<GameObject> objectsMatching = gameObjectManager.findObjectsMatching(zone, gameState, gameObject, _gameObjectFilter);
+        for (GameObject object : objectsMatching)
+            gameObjectManager.destroyObjectInZone(zone, object);
     }
 }

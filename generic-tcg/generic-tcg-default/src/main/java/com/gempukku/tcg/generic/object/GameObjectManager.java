@@ -87,13 +87,13 @@ public class GameObjectManager {
         }
     }
 
-    public Set<GameObject> findObjectsMatching(Zone zone, final GameState gameState, final GameObjectFilter filter) {
+    public Set<GameObject> findObjectsMatching(Zone zone, final GameState gameState, final GameObject context, final GameObjectFilter filter) {
         final Set<GameObject> result = new HashSet<GameObject>();
         visitGameObjects(zone,
                 new GameObjectVisitor() {
                     @Override
                     public boolean visitGameObject(Zone zone, GameObject gameObject) {
-                        if (filter.matches(gameState, gameObject))
+                        if (filter.matches(gameState, context, gameObject))
                             result.add(gameObject);
                         return false;
                     }
@@ -101,13 +101,13 @@ public class GameObjectManager {
         return result;
     }
 
-    public GameObject findFirstObjectMatching(Zone zone, final GameState gameState, final GameObjectFilter filter) {
+    public GameObject findFirstObjectMatching(Zone zone, final GameState gameState, final GameObject context, final GameObjectFilter filter) {
         final MutableObject result = new MutableObject();
         visitGameObjects(zone,
                 new GameObjectVisitor() {
                     @Override
                     public boolean visitGameObject(Zone zone, GameObject gameObject) {
-                        if (filter.matches(gameState, gameObject)) {
+                        if (filter.matches(gameState, context, gameObject)) {
                             result.setValue(gameObject);
                             return true;
                         }
