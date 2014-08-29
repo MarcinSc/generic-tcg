@@ -1,17 +1,17 @@
 package com.gempukku.tcg.generic.action;
 
 import com.gempukku.tcg.GameState;
+import com.gempukku.tcg.digital.DigitalObject;
 import com.gempukku.tcg.generic.effect.GameObjectEffectSerie;
-import com.gempukku.tcg.generic.object.GameObject;
 
 import java.util.List;
 
 public class EffectsGameObjectAction implements GameAction {
-    private GameObject _gameObject;
+    private DigitalObject _gameObject;
     private List<? extends GameObjectEffectSerie> _gameObjectEffects;
     private int _nextIndex = 0;
 
-    public EffectsGameObjectAction(GameObject gameObject, List<? extends GameObjectEffectSerie> gameObjectEffects) {
+    public EffectsGameObjectAction(DigitalObject gameObject, List<? extends GameObjectEffectSerie> gameObjectEffects) {
         _gameObject = gameObject;
         _gameObjectEffects = gameObjectEffects;
     }

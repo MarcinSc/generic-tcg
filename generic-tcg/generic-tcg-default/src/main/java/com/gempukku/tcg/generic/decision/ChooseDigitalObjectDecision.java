@@ -1,17 +1,17 @@
 package com.gempukku.tcg.generic.decision;
 
 import com.gempukku.tcg.GameState;
-import com.gempukku.tcg.generic.object.GameObject;
+import com.gempukku.tcg.digital.DigitalObject;
 
 import java.util.*;
 
-public abstract class ChooseGameObjectDecision implements AwaitingDecision {
+public abstract class ChooseDigitalObjectDecision implements AwaitingDecision {
     private String _message;
-    private List<GameObject> _objects;
+    private List<DigitalObject> _objects;
 
-    public ChooseGameObjectDecision(String message, Collection<GameObject> objects) {
+    public ChooseDigitalObjectDecision(String message, Collection<DigitalObject> objects) {
         _message = message;
-        _objects = new LinkedList<GameObject>(objects);
+        _objects = new LinkedList<DigitalObject>(objects);
     }
 
     @Override
@@ -20,7 +20,7 @@ public abstract class ChooseGameObjectDecision implements AwaitingDecision {
         params.put("message", _message);
         StringBuilder sb = new StringBuilder();
         boolean afterFirst = false;
-        for (GameObject object : _objects) {
+        for (DigitalObject object : _objects) {
             if (!afterFirst)
                 sb.append(",");
             sb.append(getIdentifier(object));
@@ -31,13 +31,13 @@ public abstract class ChooseGameObjectDecision implements AwaitingDecision {
         return params;
     }
 
-    private String getIdentifier(GameObject object) {
-        return "object:" + object.getIdentifier();
+    private String getIdentifier(DigitalObject object) {
+        return object.getId();
     }
 
     @Override
     public void processAnswer(String answer) throws InvalidAnswerException {
-        for (GameObject object : _objects) {
+        for (DigitalObject object : _objects) {
             if ((getIdentifier(object)).equals(answer)) {
                 objectChosen(object);
                 return;
@@ -46,7 +46,7 @@ public abstract class ChooseGameObjectDecision implements AwaitingDecision {
         throw new InvalidAnswerException("Game object with id: " + answer + " not found");
     }
 
-    protected abstract void objectChosen(GameObject object);
+    protected abstract void objectChosen(DigitalObject object);
 
     @Override
     public String getType() {

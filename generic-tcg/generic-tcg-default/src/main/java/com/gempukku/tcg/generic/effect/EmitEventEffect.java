@@ -1,12 +1,12 @@
 package com.gempukku.tcg.generic.effect;
 
 import com.gempukku.tcg.GameState;
+import com.gempukku.tcg.digital.DigitalObject;
 import com.gempukku.tcg.generic.event.GameEvent;
 import com.gempukku.tcg.generic.event.GameEventEngine;
 import com.gempukku.tcg.generic.event.GameObjectEventSource;
-import com.gempukku.tcg.generic.object.GameObject;
 
-public class EmitEventEffect extends GameObjectEffect {
+public class EmitEventEffect extends DigitalObjectEffect {
     private String _gameEventEngine;
     private GameObjectEventSource _eventSource;
 
@@ -19,12 +19,12 @@ public class EmitEventEffect extends GameObjectEffect {
     }
 
     @Override
-    public void executeGameEffect(GameState gameState, GameObject gameObjectSource) {
+    public void executeGameEffect(GameState gameState, DigitalObject gameObjectSource) {
         GameEvent gameEvent = createGameEvent(gameState, gameObjectSource);
         ((GameEventEngine) gameState.getGameObject(_gameEventEngine)).emitGameEvent(gameState, gameEvent);
     }
 
-    private GameEvent createGameEvent(GameState gameState, GameObject gameObjectSource) {
+    private GameEvent createGameEvent(GameState gameState, DigitalObject gameObjectSource) {
         return _eventSource.createGameEvent(gameState, gameObjectSource);
     }
 }

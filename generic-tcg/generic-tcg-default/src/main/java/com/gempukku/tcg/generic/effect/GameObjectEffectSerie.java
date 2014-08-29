@@ -1,7 +1,7 @@
 package com.gempukku.tcg.generic.effect;
 
 import com.gempukku.tcg.GameState;
-import com.gempukku.tcg.generic.object.GameObject;
+import com.gempukku.tcg.digital.DigitalObject;
 
 /**
  * GameObjectEffect executes a smallest atomic action possible on the GameState and GameObject.
@@ -10,5 +10,5 @@ import com.gempukku.tcg.generic.object.GameObject;
  */
 public interface GameObjectEffectSerie {
 
-    public boolean execute(GameState gameState, GameObject gameObject);
+    public boolean execute(GameState gameState, DigitalObject digitalObject);
 }

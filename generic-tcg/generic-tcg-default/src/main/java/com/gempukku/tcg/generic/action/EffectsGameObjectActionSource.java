@@ -1,25 +1,25 @@
 package com.gempukku.tcg.generic.action;
 
 import com.gempukku.tcg.GameState;
-import com.gempukku.tcg.generic.effect.GameObjectEffect;
-import com.gempukku.tcg.generic.object.GameObject;
+import com.gempukku.tcg.digital.DigitalObject;
+import com.gempukku.tcg.generic.effect.DigitalObjectEffect;
 
 import java.util.LinkedList;
 import java.util.List;
 
 public class EffectsGameObjectActionSource implements GameObjectActionSource {
-    private List<GameObjectEffect> _effects = new LinkedList<GameObjectEffect>();
+    private List<DigitalObjectEffect> _effects = new LinkedList<DigitalObjectEffect>();
 
-    public void setEffects(List<GameObjectEffect> effects) {
+    public void setEffects(List<DigitalObjectEffect> effects) {
         _effects.addAll(effects);
     }
 
-    public void addEffect(GameObjectEffect effect) {
+    public void addEffect(DigitalObjectEffect effect) {
         _effects.add(effect);
     }
 
     @Override
-    public GameAction createGameAction(GameState gameState, GameObject gameObject) {
-        return new EffectsGameObjectAction(gameObject, _effects);
+    public GameAction createGameAction(GameState gameState, DigitalObject digitalObject) {
+        return new EffectsGameObjectAction(digitalObject, _effects);
     }
 }

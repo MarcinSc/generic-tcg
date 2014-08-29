@@ -1,21 +1,9 @@
 package com.gempukku.tcg.generic.util;
 
-import com.gempukku.tcg.GameState;
-import com.gempukku.tcg.generic.object.GameObject;
-import com.gempukku.tcg.generic.object.Zone;
+import com.gempukku.tcg.digital.DigitalObject;
 
 public class GameObjectUtils {
-    public static Zone resolveZone(GameState gameState, GameObject gameObject, String zone, String playerZone) {
-        zone = resolveObjectProperty(gameObject, zone);
-        playerZone = resolveObjectProperty(gameObject, playerZone);
-
-        if (playerZone != null) {
-            return (Zone) gameState.getPlayerObject(playerZone, zone);
-        } else
-            return (Zone) gameState.getGameObject(zone);
-    }
-
-    public static String resolveObjectProperty(GameObject gameObject, String property) {
+    public static String resolveObjectProperty(DigitalObject gameObject, String property) {
         if (property == null)
             return null;
         int index = property.indexOf("*{");
@@ -32,7 +20,7 @@ public class GameObjectUtils {
             return property;
     }
 
-    private static String extractProperty(GameObject gameObject, String property) {
-        return gameObject.getProperty(property);
+    private static String extractProperty(DigitalObject gameObject, String property) {
+        return gameObject.getAttributes().get(property);
     }
 }

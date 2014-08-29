@@ -1,9 +1,9 @@
 package com.gempukku.tcg.generic.stat;
 
 import com.gempukku.tcg.GameState;
+import com.gempukku.tcg.digital.DigitalObject;
 import com.gempukku.tcg.generic.evaluator.IntEvaluator;
 import com.gempukku.tcg.generic.modifier.GameModifierConsumer;
-import com.gempukku.tcg.generic.object.GameObject;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -26,7 +26,7 @@ public class StatManager implements GameModifierConsumer<StatModifier> {
         _statModifiers.remove(gameModifier);
     }
 
-    public int getStatValue(GameState gameState, GameObject gameObject) {
+    public int getStatValue(GameState gameState, DigitalObject gameObject) {
         int value = _baseEvaluator.getValue(gameState, gameObject);
         for (StatModifier statModifier : _statModifiers)
             value = statModifier.applyModifier(gameState, gameObject, value);
