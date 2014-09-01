@@ -8,19 +8,14 @@ import com.gempukku.tcg.generic.decision.InvalidAnswerException;
 
 public class DecisionHolderBasedGameProcessor implements GameProcessor {
     private GameFlow _gameFlow;
-    private String _decisionHolderType;
 
     public void setGameFlow(GameFlow gameFlow) {
         _gameFlow = gameFlow;
     }
 
-    public void setDecisionHolderType(String decisionHolderType) {
-        _decisionHolderType = decisionHolderType;
-    }
-
     @Override
     public void playerSentDecision(GameState gameState, String player, String decision) {
-        final DecisionHolder decisionHolder = (DecisionHolder) gameState.getGameObject(_decisionHolderType);
+        final DecisionHolder decisionHolder = GenericContextObjects.extractGameObject(gameState, GenericContextObjects.DECISION_HOLDER);
         final AwaitingDecision awaitingDecision = decisionHolder.removeDecision(gameState, player);
         if (awaitingDecision != null) {
             try {
@@ -34,7 +29,7 @@ public class DecisionHolderBasedGameProcessor implements GameProcessor {
     }
 
     private void processGameState(GameState gameState) {
-        final DecisionHolder decisionHolder = (DecisionHolder) gameState.getGameObject(_decisionHolderType);
+        final DecisionHolder decisionHolder = GenericContextObjects.extractGameObject(gameState, GenericContextObjects.DECISION_HOLDER);
         do {
             _gameFlow.processGameState(gameState);
         } while (!decisionHolder.hasDecisions(gameState));

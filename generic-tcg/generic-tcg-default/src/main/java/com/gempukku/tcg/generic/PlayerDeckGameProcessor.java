@@ -9,5 +9,5 @@ import java.util.List;
 import java.util.Map;
 
 public interface PlayerDeckGameProcessor extends GameProcessor {
-    public void startProcessing(GameState gameState, Object gameObjectsResolver, List<GameModifier> alwaysOnGameModifiers, Map<String, GameDeck> gameDeckMap);
+    public void startProcessing(GameState gameState, Map<String, GameDeck> gameDeckMap);
 }

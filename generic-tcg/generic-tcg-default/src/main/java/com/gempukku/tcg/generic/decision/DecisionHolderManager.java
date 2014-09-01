@@ -4,8 +4,7 @@ import com.gempukku.tcg.GameState;
 import com.gempukku.tcg.digital.DigitalEnvironment;
 import com.gempukku.tcg.digital.DigitalObject;
 import com.gempukku.tcg.generic.DigitalObjects;
-import com.gempukku.tcg.generic.decision.AwaitingDecision;
-import com.gempukku.tcg.generic.decision.DecisionHolder;
+import com.gempukku.tcg.generic.GenericContextObjects;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,7 +26,7 @@ public class DecisionHolderManager implements DecisionHolder {
     }
 
     private DigitalEnvironment getDigitalEnvironment(GameState gameState) {
-        return ((DigitalEnvironment) gameState.getGameObject("digitalEnvironment"));
+        return GenericContextObjects.extractGameObject(gameState, GenericContextObjects.DIGITAL_ENVIRONMENT);
     }
 
     @Override
@@ -53,7 +52,7 @@ public class DecisionHolderManager implements DecisionHolder {
 
     @Override
     public boolean hasDecisions(GameState gameState) {
-        return DigitalObjects.extractGameObject(gameState, TYPE) != null;
+        return DigitalObjects.extractFirstObject(gameState, TYPE) != null;
     }
 
     private AwaitingDecision convertToAwaitingDecision(DigitalObject digitalObject) {

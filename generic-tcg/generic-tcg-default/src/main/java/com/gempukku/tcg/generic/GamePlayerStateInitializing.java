@@ -1,4 +1,4 @@
-package com.gempukku.tcg.quest;
+package com.gempukku.tcg.generic;
 
 import com.gempukku.tcg.GameState;
 

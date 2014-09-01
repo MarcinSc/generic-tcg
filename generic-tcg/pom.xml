@@ -14,6 +14,7 @@
         <module>generic-tcg-core</module>
         <module>generic-tcg-default</module>
         <module>generic-tcg-web</module>
+        <module>overpower-tcg</module>
         <module>quest-tcg</module>
     </modules>
 

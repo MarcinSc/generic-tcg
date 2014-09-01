@@ -43,7 +43,7 @@ public class SpringGameBuilderFactory implements GameBuilderFactory {
         GameState gameState = applicationContext.getBean(_gameStateBeanName, GameState.class);
         PlayerDeckGameProcessor gameProcessor = applicationContext.getBean(_gameProcessorBeanName, PlayerDeckGameProcessor.class);
 
-        gameProcessor.startProcessing(gameState, _objectResolver, _alwaysOnGameModifiers, playersAndDecks);
+        gameProcessor.startProcessing(gameState, playersAndDecks);
 
         return new SimpleGameBuilder(gameState, gameProcessor);
     }
