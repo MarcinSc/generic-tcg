@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+    <bean id="gameState" class="com.gempukku.tcg.GameState">
+        <property name="gameObjects">
+            <util:map>
+                <entry key="gameEventEngine" value-ref="gameEventEngine"/>
+                <entry key="decisionHolder" value-ref="decisionHolder"/>
+            </util:map>
+        </property>
+    </bean>
+
+    <bean id="gameProcessor" class="com.gempukku.tcg.quest.SetupQuestGameGameProcessor">
+        <property name="gameProcessor">
+            <bean class="com.gempukku.tcg.generic.DecisionHolderBasedGameProcessor">
+                <property name="decisionHolderType" ref="decisionHolder"/>
+                <property name="gameFlow" ref="gameFlow"/>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="gameFlow" class="com.gempukku.tcg.generic.GameActionStackFlow">
+        <property name="gameActionStack" ref="gameActionStack"/>
+    </bean>
+
+    <bean id="gameActionStack" class="com.gempukku.tcg.generic.action.GameActionStack">
+        <property name="rootGameAction" ref="rootGameAction"/>
+    </bean>
+
+    <bean id="decisionHolder" class="com.gempukku.tcg.generic.decision.DecisionHolderManager"/>
+
+    <bean id="gameEventEngine" class="com.gempukku.tcg.generic.event.GameEventEngine">
+        <property name="gameEventListeners">
+            <util:set>
+                <ref bean="gameModifierEngine"/>
+            </util:set>
+        </property>
+    </bean>
+</beans>

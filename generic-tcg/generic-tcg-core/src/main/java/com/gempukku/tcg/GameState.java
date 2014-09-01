@@ -1,5 +1,7 @@
 package com.gempukku.tcg;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,6 +10,10 @@ public class GameState {
 
     public void setGameObjects(Map<String, Object> gameObjects) {
         _gameObjects.putAll(gameObjects);
+    }
+
+    public Collection<Object> getAllGameObjects() {
+        return Collections.unmodifiableCollection(_gameObjects.values());
     }
 
     public void addGameObject(String key, Object value) {
@@ -19,16 +25,5 @@ public class GameState {
         if (result == null)
             throw new IllegalArgumentException("Object of name " + name + " not found");
         return result;
-    }
-
-    public Object getPlayerObject(String player, String name) {
-        final Object result = _gameObjects.get(name);
-        if (result instanceof PerPlayerObject) {
-            final Object value = ((PerPlayerObject) result).getObject(player);
-            if (value == null)
-                throw new IllegalArgumentException("Object of name " + name + " for player " + player + " not found");
-            return value;
-        }
-        throw new IllegalArgumentException("Object of name " + name + " for player " + player + " not found");
     }
 }

@@ -1,19 +1,15 @@
 package com.gempukku.tcg.generic.decision;
 
-public class DecisionHolder {
-    private AwaitingDecision _decision;
+import com.gempukku.tcg.GameState;
 
-    public void setDecision(AwaitingDecision decision) {
-        _decision = decision;
-    }
+public interface DecisionHolder {
+    public void setDecision(GameState gameState, String player, AwaitingDecision decision);
 
-    public AwaitingDecision removeDecision() {
-        AwaitingDecision result = _decision;
-        _decision = null;
-        return result;
-    }
+    public AwaitingDecision getDecision(GameState gameState, String player);
 
-    public AwaitingDecision getDecision() {
-        return _decision;
-    }
+    public AwaitingDecision removeDecision(GameState gameState, String player);
+
+    public boolean hasDecision(GameState gameState, String player);
+
+    public boolean hasDecisions(GameState gameState);
 }
