@@ -1,4 +1,4 @@
-package com.gempukku.tcg.generic;
+package com.gempukku.tcg.generic.predicate;
 
 import com.gempukku.tcg.digital.DigitalObject;
 import com.google.common.base.Predicate;

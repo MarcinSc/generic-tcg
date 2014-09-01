@@ -1,7 +1,7 @@
 package com.gempukku.tcg.generic;
 
 import com.gempukku.tcg.GameProcessor;
-import com.gempukku.tcg.GameState;
+import com.gempukku.tcg.GameObjects;
 import com.gempukku.tcg.generic.decision.AwaitingDecision;
 import com.gempukku.tcg.generic.decision.DecisionHolder;
 import com.gempukku.tcg.generic.decision.InvalidAnswerException;
@@ -14,24 +14,24 @@ public class DecisionHolderBasedGameProcessor implements GameProcessor {
     }
 
     @Override
-    public void playerSentDecision(GameState gameState, String player, String decision) {
-        final DecisionHolder decisionHolder = GenericContextObjects.extractGameObject(gameState, GenericContextObjects.DECISION_HOLDER);
-        final AwaitingDecision awaitingDecision = decisionHolder.removeDecision(gameState, player);
+    public void playerSentDecision(GameObjects gameObjects, String player, String decision) {
+        final DecisionHolder decisionHolder = GenericContextObjects.extractGameObject(gameObjects, GenericContextObjects.DECISION_HOLDER);
+        final AwaitingDecision awaitingDecision = decisionHolder.removeDecision(gameObjects, player);
         if (awaitingDecision != null) {
             try {
                 awaitingDecision.processAnswer(decision);
-                processGameState(gameState);
+                processGameState(gameObjects);
             } catch (InvalidAnswerException exp) {
                 // Put it back in
-                decisionHolder.setDecision(gameState, player, awaitingDecision);
+                decisionHolder.setDecision(gameObjects, player, awaitingDecision);
             }
         }
     }
 
-    private void processGameState(GameState gameState) {
-        final DecisionHolder decisionHolder = GenericContextObjects.extractGameObject(gameState, GenericContextObjects.DECISION_HOLDER);
+    protected void processGameState(GameObjects gameObjects) {
+        final DecisionHolder decisionHolder = GenericContextObjects.extractGameObject(gameObjects, GenericContextObjects.DECISION_HOLDER);
         do {
-            _gameFlow.processGameState(gameState);
-        } while (!decisionHolder.hasDecisions(gameState));
+            _gameFlow.processGameState(gameObjects);
+        } while (!decisionHolder.hasDecisions(gameObjects));
     }
 }

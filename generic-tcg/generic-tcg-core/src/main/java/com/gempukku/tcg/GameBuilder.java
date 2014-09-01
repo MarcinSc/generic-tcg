@@ -1,7 +1,7 @@
 package com.gempukku.tcg;
 
 public interface GameBuilder {
-    public GameState getGameState();
+    public GameObjects getGameObjects();
 
     public GameProcessor getGameProcessor();
 }

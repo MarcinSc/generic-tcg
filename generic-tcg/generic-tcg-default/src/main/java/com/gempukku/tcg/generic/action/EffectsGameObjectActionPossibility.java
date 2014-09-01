@@ -1,6 +1,6 @@
 package com.gempukku.tcg.generic.action;
 
-import com.gempukku.tcg.GameState;
+import com.gempukku.tcg.GameObjects;
 import com.gempukku.tcg.digital.DigitalObject;
 import com.gempukku.tcg.generic.effect.GameObjectEffectSerie;
 import com.gempukku.tcg.generic.evaluator.StringEvaluator;
@@ -19,17 +19,17 @@ public class EffectsGameObjectActionPossibility implements GameActionPossibility
     }
 
     @Override
-    public String getText(GameState gameState) {
+    public String getText(GameObjects gameState) {
         return _textEvaluator.getValue(gameState, _gameObject);
     }
 
     @Override
-    public String getAttachedObjectId(GameState gameState) {
+    public String getAttachedObjectId(GameObjects gameState) {
         return _gameObject.getId();
     }
 
     @Override
-    public GameAction createGameAction(GameState gameState) {
+    public GameAction createGameAction(GameObjects gameState) {
         return new EffectsGameObjectAction(_gameObject, _effects);
     }
 }

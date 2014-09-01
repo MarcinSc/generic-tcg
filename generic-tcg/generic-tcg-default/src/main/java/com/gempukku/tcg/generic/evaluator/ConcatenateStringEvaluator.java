@@ -1,6 +1,6 @@
 package com.gempukku.tcg.generic.evaluator;
 
-import com.gempukku.tcg.GameState;
+import com.gempukku.tcg.GameObjects;
 import com.gempukku.tcg.digital.DigitalObject;
 
 import java.util.List;
@@ -13,7 +13,7 @@ public class ConcatenateStringEvaluator implements StringEvaluator {
     }
 
     @Override
-    public String getValue(GameState gameState, DigitalObject digitalObject) {
+    public String getValue(GameObjects gameState, DigitalObject digitalObject) {
         StringBuilder sb = new StringBuilder();
         for (StringEvaluator stringEvaluator : _stringEvaluators)
             sb.append(stringEvaluator.getValue(gameState, digitalObject));

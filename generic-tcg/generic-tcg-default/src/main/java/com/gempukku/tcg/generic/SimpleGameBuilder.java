@@ -2,14 +2,14 @@ package com.gempukku.tcg.generic;
 
 import com.gempukku.tcg.GameBuilder;
 import com.gempukku.tcg.GameProcessor;
-import com.gempukku.tcg.GameState;
+import com.gempukku.tcg.GameObjects;
 
 public class SimpleGameBuilder implements GameBuilder {
-    private GameState _gameState;
+    private GameObjects _gameObjects;
     private GameProcessor _gameProcessor;
 
-    public SimpleGameBuilder(GameState gameState, GameProcessor gameProcessor) {
-        _gameState = gameState;
+    public SimpleGameBuilder(GameObjects gameObjects, GameProcessor gameProcessor) {
+        _gameObjects = gameObjects;
         _gameProcessor = gameProcessor;
     }
 
@@ -19,7 +19,7 @@ public class SimpleGameBuilder implements GameBuilder {
     }
 
     @Override
-    public GameState getGameState() {
-        return _gameState;
+    public GameObjects getGameObjects() {
+        return _gameObjects;
     }
 }

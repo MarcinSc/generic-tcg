@@ -1,6 +1,6 @@
 package com.gempukku.tcg.generic.effect;
 
-import com.gempukku.tcg.GameState;
+import com.gempukku.tcg.GameObjects;
 import com.gempukku.tcg.digital.DigitalObject;
 
 /**
@@ -9,10 +9,10 @@ import com.gempukku.tcg.digital.DigitalObject;
  */
 public abstract class DigitalObjectEffect implements GameObjectEffectSerie {
     @Override
-    public final boolean execute(GameState gameState, DigitalObject digitalObject) {
+    public final boolean execute(GameObjects gameState, DigitalObject digitalObject) {
         executeGameEffect(gameState, digitalObject);
         return false;
     }
 
-    public abstract void executeGameEffect(GameState gameState, DigitalObject digitalObject);
+    public abstract void executeGameEffect(GameObjects gameState, DigitalObject digitalObject);
 }

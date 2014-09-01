@@ -1,6 +1,6 @@
 package com.gempukku.tcg.generic.action;
 
-import com.gempukku.tcg.GameState;
+import com.gempukku.tcg.GameObjects;
 import com.gempukku.tcg.generic.modifier.ActionModifier;
 import com.gempukku.tcg.generic.modifier.GameModifierConsumer;
 
@@ -23,7 +23,7 @@ public class GameActionManager implements GameModifierConsumer<ActionModifier> {
         _actionModifiers.remove(gameModifier);
     }
 
-    public Collection<GameActionPossibility> getPossibleActions(GameState gameState) {
+    public Collection<GameActionPossibility> getPossibleActions(GameObjects gameState) {
         List<GameActionPossibility> actions = new LinkedList<GameActionPossibility>();
         for (ActionModifier actionModifier : _actionModifiers)
             actions.addAll(actionModifier.getPossibleActions(gameState));

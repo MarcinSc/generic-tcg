@@ -1,11 +1,11 @@
 package com.gempukku.tcg.generic.action;
 
-import com.gempukku.tcg.GameState;
+import com.gempukku.tcg.GameObjects;
 
 public interface GameActionPossibility {
-    public String getText(GameState gameState);
+    public String getText(GameObjects gameState);
 
-    public String getAttachedObjectId(GameState gameState);
+    public String getAttachedObjectId(GameObjects gameState);
 
-    public GameAction createGameAction(GameState gameState);
+    public GameAction createGameAction(GameObjects gameState);
 }

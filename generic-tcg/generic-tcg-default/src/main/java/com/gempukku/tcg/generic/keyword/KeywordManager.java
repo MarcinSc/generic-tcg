@@ -1,6 +1,6 @@
 package com.gempukku.tcg.generic.keyword;
 
-import com.gempukku.tcg.GameState;
+import com.gempukku.tcg.GameObjects;
 import com.gempukku.tcg.digital.DigitalObject;
 import com.gempukku.tcg.generic.modifier.GameModifierConsumer;
 
@@ -25,7 +25,7 @@ public class KeywordManager implements GameModifierConsumer<KeywordModifier> {
         _keywordModifiers.remove(gameModifier);
     }
 
-    public boolean hasKeyword(GameState gameState, DigitalObject gameObject, String keyword) {
+    public boolean hasKeyword(GameObjects gameState, DigitalObject gameObject, String keyword) {
         for (KeywordModifier keywordModifier : _keywordModifiers) {
             if (keywordModifier.hasKeyword(gameState, gameObject, keyword))
                 return true;
@@ -33,7 +33,7 @@ public class KeywordManager implements GameModifierConsumer<KeywordModifier> {
         return false;
     }
 
-    public int getKeywordCount(GameState gameState, DigitalObject gameObject, String keyword) {
+    public int getKeywordCount(GameObjects gameState, DigitalObject gameObject, String keyword) {
         int count = 0;
         for (KeywordModifier keywordModifier : _keywordModifiers)
             count += keywordModifier.getKeywordCount(gameState, gameObject, keyword);

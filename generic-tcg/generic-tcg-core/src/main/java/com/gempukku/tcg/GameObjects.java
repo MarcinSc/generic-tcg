@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GameState {
+public class GameObjects {
     private Map<String, Object> _gameObjects = new HashMap<String, Object>();
 
     public void setGameObjects(Map<String, Object> gameObjects) {

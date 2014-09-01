@@ -1,7 +1,7 @@
 package com.gempukku.tcg.generic.event;
 
-import com.gempukku.tcg.GameState;
+import com.gempukku.tcg.GameObjects;
 
 public interface GameEventListener {
-    public void processGameEvent(GameState gameState, GameEvent gameEvent);
+    public void processGameEvent(GameObjects gameState, GameEvent gameEvent);
 }

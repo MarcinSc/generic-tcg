@@ -1,6 +1,6 @@
 package com.gempukku.tcg.generic.filter;
 
-import com.gempukku.tcg.GameState;
+import com.gempukku.tcg.GameObjects;
 import com.gempukku.tcg.digital.DigitalObject;
 
 import java.util.List;
@@ -13,7 +13,7 @@ public class OrFilter implements DigitalObjectFilter {
     }
 
     @Override
-    public boolean matches(GameState gameState, DigitalObject context, DigitalObject gameObject) {
+    public boolean matches(GameObjects gameState, DigitalObject context, DigitalObject gameObject) {
         for (DigitalObjectFilter filter : _filters) {
             if (filter.matches(gameState, context, gameObject))
                 return true;

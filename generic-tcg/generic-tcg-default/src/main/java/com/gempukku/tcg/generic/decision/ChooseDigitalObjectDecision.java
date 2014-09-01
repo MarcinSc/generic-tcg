@@ -1,6 +1,6 @@
 package com.gempukku.tcg.generic.decision;
 
-import com.gempukku.tcg.GameState;
+import com.gempukku.tcg.GameObjects;
 import com.gempukku.tcg.digital.DigitalObject;
 
 import java.util.*;
@@ -15,7 +15,7 @@ public abstract class ChooseDigitalObjectDecision implements AwaitingDecision {
     }
 
     @Override
-    public Map<String, String> getParameters(GameState gameState) {
+    public Map<String, String> getParameters(GameObjects gameState) {
         Map<String, String> params = new HashMap<String, String>();
         params.put("message", _message);
         StringBuilder sb = new StringBuilder();

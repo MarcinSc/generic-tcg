@@ -1,6 +1,6 @@
 package com.gempukku.tcg.generic.action;
 
-import com.gempukku.tcg.GameState;
+import com.gempukku.tcg.GameObjects;
 
 import java.util.LinkedList;
 
@@ -11,7 +11,7 @@ public class GameActionStack {
         _gameActionStack.add(gameAction);
     }
 
-    private GameAction getTopMostUnfinishedAction(GameState gameState) {
+    private GameAction getTopMostUnfinishedAction(GameObjects gameState) {
         GameAction topMostAction;
         while ((topMostAction = _gameActionStack.getLast()) != null) {
             if (!topMostAction.hasNextGameEffect(gameState))
@@ -28,7 +28,7 @@ public class GameActionStack {
         _gameActionStack.add(gameAction);
     }
 
-    public void process(GameState gameState) {
+    public void process(GameObjects gameState) {
         GameAction gameAction = getTopMostUnfinishedAction(gameState);
         gameAction.processNextGameEffect(gameState);
     }

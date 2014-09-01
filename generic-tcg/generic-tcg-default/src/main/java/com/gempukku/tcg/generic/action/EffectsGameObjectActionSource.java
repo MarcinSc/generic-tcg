@@ -1,6 +1,6 @@
 package com.gempukku.tcg.generic.action;
 
-import com.gempukku.tcg.GameState;
+import com.gempukku.tcg.GameObjects;
 import com.gempukku.tcg.digital.DigitalObject;
 import com.gempukku.tcg.generic.effect.DigitalObjectEffect;
 
@@ -19,7 +19,7 @@ public class EffectsGameObjectActionSource implements GameObjectActionSource {
     }
 
     @Override
-    public GameAction createGameAction(GameState gameState, DigitalObject digitalObject) {
+    public GameAction createGameAction(GameObjects gameState, DigitalObject digitalObject) {
         return new EffectsGameObjectAction(digitalObject, _effects);
     }
 }

@@ -1,6 +1,6 @@
 package com.gempukku.tcg.generic.action;
 
-import com.gempukku.tcg.GameState;
+import com.gempukku.tcg.GameObjects;
 import com.gempukku.tcg.digital.DigitalObject;
 import com.gempukku.tcg.generic.effect.GameObjectEffectSerie;
 
@@ -17,12 +17,12 @@ public class EffectsGameObjectAction implements GameAction {
     }
 
     @Override
-    public boolean hasNextGameEffect(GameState gameState) {
+    public boolean hasNextGameEffect(GameObjects gameState) {
         return _nextIndex < _gameObjectEffects.size();
     }
 
     @Override
-    public void processNextGameEffect(GameState gameState) {
+    public void processNextGameEffect(GameObjects gameState) {
         int indexToExecute = _nextIndex;
         boolean repeat = _gameObjectEffects.get(indexToExecute).execute(gameState, _gameObject);
         if (!repeat)

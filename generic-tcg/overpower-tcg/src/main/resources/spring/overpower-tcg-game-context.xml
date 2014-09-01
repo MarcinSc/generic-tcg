@@ -8,34 +8,37 @@
             <util:map>
                 <entry key="gameEventEngine" value-ref="gameEventEngine"/>
                 <entry key="decisionHolder" value-ref="decisionHolder"/>
+                <entry key="turnOrder" value-ref="turnOrder"/>
+                <entry key="phaseManager" value-ref="phaseManager"/>
             </util:map>
         </property>
     </bean>
 
-    <bean id="gameProcessor" class="com.gempukku.tcg.quest.SetupQuestGameGameProcessor">
-        <property name="gameProcessor">
-            <bean class="com.gempukku.tcg.generic.DecisionHolderBasedGameProcessor">
-                <property name="decisionHolderType" ref="decisionHolder"/>
-                <property name="gameFlow" ref="gameFlow"/>
-            </bean>
+    <bean id="gameProcessor" class="com.gempukku.tcg.overpower.SetupOverpowerGameProcessor">
+        <property name="gameFlow" ref="phaseGameFlow"/>
+    </bean>
+
+    <bean id="phaseGameFlow" class="com.gempukku.tcg.generic.phase.PhaseGameFlow">
+        <property name="phaseGameFlows">
+            <util:map>
+                <entry key="Setup" value-ref="setupGameFlow"/>
+            </util:map>
         </property>
-    </bean>
-
-    <bean id="gameFlow" class="com.gempukku.tcg.generic.GameActionStackFlow">
-        <property name="gameActionStack" ref="gameActionStack"/>
-    </bean>
-
-    <bean id="gameActionStack" class="com.gempukku.tcg.generic.action.GameActionStack">
-        <property name="rootGameAction" ref="rootGameAction"/>
     </bean>
 
     <bean id="decisionHolder" class="com.gempukku.tcg.generic.decision.DecisionHolderManager"/>
 
+    <bean id="turnOrder" class="com.gempukku.tcg.generic.TurnOrder"/>
+
+    <bean id="phaseManager" class="com.gempukku.tcg.generic.phase.PhaseManager">
+        <property name="initialPhase" value="Setup"/>
+    </bean>
+
     <bean id="gameEventEngine" class="com.gempukku.tcg.generic.event.GameEventEngine">
         <property name="gameEventListeners">
             <util:set>
-                <ref bean="gameModifierEngine"/>
             </util:set>
         </property>
     </bean>
+
 </beans>

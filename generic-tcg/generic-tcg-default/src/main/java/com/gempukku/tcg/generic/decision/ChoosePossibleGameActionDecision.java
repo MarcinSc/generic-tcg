@@ -1,6 +1,6 @@
 package com.gempukku.tcg.generic.decision;
 
-import com.gempukku.tcg.GameState;
+import com.gempukku.tcg.GameObjects;
 import com.gempukku.tcg.generic.action.GameActionPossibility;
 
 import java.util.LinkedHashMap;
@@ -17,7 +17,7 @@ public abstract class ChoosePossibleGameActionDecision implements AwaitingDecisi
     }
 
     @Override
-    public Map<String, String> getParameters(GameState gameState) {
+    public Map<String, String> getParameters(GameObjects gameState) {
         Map<String, String> params = new LinkedHashMap<String, String>();
         params.put("message", _message);
 

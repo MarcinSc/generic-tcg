@@ -1,7 +1,7 @@
 package com.gempukku.tcg.generic;
 
-import com.gempukku.tcg.GameState;
+import com.gempukku.tcg.GameObjects;
 
 public interface GameFlow {
-    public void processGameState(GameState gameState);
+    public void processGameState(GameObjects gameObjects);
 }

@@ -1,6 +1,6 @@
 package com.gempukku.tcg.generic.decision;
 
-import com.gempukku.tcg.GameState;
+import com.gempukku.tcg.GameObjects;
 import com.gempukku.tcg.digital.DigitalEnvironment;
 import com.gempukku.tcg.digital.DigitalObject;
 import com.gempukku.tcg.generic.DigitalObjects;
@@ -13,7 +13,7 @@ public class DecisionHolderManager implements DecisionHolder {
     private static final String TYPE = "awaitingDecision";
 
     @Override
-    public void setDecision(GameState gameState, String player, AwaitingDecision decision) {
+    public void setDecision(GameObjects gameState, String player, AwaitingDecision decision) {
         final DigitalEnvironment digitalEnvironment = getDigitalEnvironment(gameState);
 
         Map<String, String> attributes = new HashMap<String, String>();
@@ -25,18 +25,18 @@ public class DecisionHolderManager implements DecisionHolder {
         digitalEnvironment.createObject(attributes);
     }
 
-    private DigitalEnvironment getDigitalEnvironment(GameState gameState) {
+    private DigitalEnvironment getDigitalEnvironment(GameObjects gameState) {
         return GenericContextObjects.extractGameObject(gameState, GenericContextObjects.DIGITAL_ENVIRONMENT);
     }
 
     @Override
-    public AwaitingDecision getDecision(GameState gameState, String player) {
+    public AwaitingDecision getDecision(GameObjects gameState, String player) {
         final DigitalObject digitalObject = DigitalObjects.extractPlayerObject(gameState, TYPE, player);
         return convertToAwaitingDecision(digitalObject);
     }
 
     @Override
-    public AwaitingDecision removeDecision(GameState gameState, String player) {
+    public AwaitingDecision removeDecision(GameObjects gameState, String player) {
         final DigitalEnvironment digitalEnvironment = getDigitalEnvironment(gameState);
 
         final DigitalObject digitalObject = DigitalObjects.extractPlayerObject(gameState, TYPE, player);
@@ -46,12 +46,12 @@ public class DecisionHolderManager implements DecisionHolder {
     }
 
     @Override
-    public boolean hasDecision(GameState gameState, String player) {
+    public boolean hasDecision(GameObjects gameState, String player) {
         return DigitalObjects.extractPlayerObject(gameState, TYPE, player) != null;
     }
 
     @Override
-    public boolean hasDecisions(GameState gameState) {
+    public boolean hasDecisions(GameObjects gameState) {
         return DigitalObjects.extractFirstObject(gameState, TYPE) != null;
     }
 
