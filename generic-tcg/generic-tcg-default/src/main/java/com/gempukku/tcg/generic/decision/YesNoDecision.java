@@ -1,10 +1,5 @@
 package com.gempukku.tcg.generic.decision;
 
-import com.gempukku.tcg.GameObjects;
-
-import java.util.Collections;
-import java.util.Map;
-
 public abstract class YesNoDecision implements AwaitingDecision {
     private String _question;
 
@@ -13,13 +8,12 @@ public abstract class YesNoDecision implements AwaitingDecision {
     }
 
     @Override
-    public String getType() {
-        return "YES_NO";
+    public void accept(AwaitingDecisionVisitor visitor) {
+        visitor.visit(this);
     }
 
-    @Override
-    public Map<String, String> getParameters(GameObjects gameState) {
-        return Collections.singletonMap("message", _question);
+    public String getMessage() {
+        return _question;
     }
 
     @Override

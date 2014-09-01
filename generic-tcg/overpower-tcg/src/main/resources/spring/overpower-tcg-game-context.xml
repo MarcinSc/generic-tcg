@@ -10,8 +10,29 @@
                 <entry key="decisionHolder" value-ref="decisionHolder"/>
                 <entry key="turnOrder" value-ref="turnOrder"/>
                 <entry key="phaseManager" value-ref="phaseManager"/>
+                <entry key="playerManager" value-ref="playerManager"/>
+                <entry key="setupCharactersZone" value-ref="setupCharactersZone"/>
+                <entry key="setupDeckZone" value-ref="setupDeckZone"/>
+                <entry key="frontLineZone" value-ref="frontLineZone"/>
+                <entry key="reserveZone" value-ref="reserveZone"/>
             </util:map>
         </property>
+    </bean>
+
+    <bean id="setupCharactersZone" class="com.gempukku.tcg.generic.stack.PlayerDigitalObjectStackManager">
+        <property name="stackName" value="setupCharacters"/>
+    </bean>
+
+    <bean id="setupDeckZone" class="com.gempukku.tcg.generic.stack.PlayerDigitalObjectStackManager">
+        <property name="stackName" value="setupDeck"/>
+    </bean>
+
+    <bean id="frontLineZone" class="com.gempukku.tcg.generic.stack.PlayerDigitalObjectStackManager">
+        <property name="stackName" value="frontLineZone"/>
+    </bean>
+
+    <bean id="reserveZone" class="com.gempukku.tcg.generic.stack.PlayerDigitalObjectStackManager">
+        <property name="stackName" value="reserveZone"/>
     </bean>
 
     <bean id="gameProcessor" class="com.gempukku.tcg.overpower.SetupOverpowerGameProcessor">
@@ -22,6 +43,7 @@
         <property name="phaseGameFlows">
             <util:map>
                 <entry key="Setup" value-ref="setupGameFlow"/>
+                <entry key="Start" value-ref="startGameFlow"/>
             </util:map>
         </property>
     </bean>
@@ -34,11 +56,17 @@
         <property name="initialPhase" value="Setup"/>
     </bean>
 
+    <bean id="playerManager" class="com.gempukku.tcg.generic.player.PlayerManager"/>
+
     <bean id="gameEventEngine" class="com.gempukku.tcg.generic.event.GameEventEngine">
         <property name="gameEventListeners">
             <util:set>
             </util:set>
         </property>
     </bean>
+
+    <bean id="setupGameFlow" class="com.gempukku.tcg.overpower.SetupPhaseGameFlow"/>
+
+    <bean id="startGameFlow" class="com.gempukku.tcg.overpower.StartPhaseGameFlow"/>
 
 </beans>

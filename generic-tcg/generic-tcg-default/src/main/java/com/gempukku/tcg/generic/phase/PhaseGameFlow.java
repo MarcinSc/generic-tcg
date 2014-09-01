@@ -3,6 +3,8 @@ package com.gempukku.tcg.generic.phase;
 import com.gempukku.tcg.GameObjects;
 import com.gempukku.tcg.generic.GameFlow;
 import com.gempukku.tcg.generic.GenericContextObjects;
+import com.gempukku.tcg.generic.decision.AwaitingDecision;
+import com.gempukku.tcg.generic.decision.InvalidAnswerException;
 
 import java.util.Map;
 
@@ -14,9 +16,9 @@ public class PhaseGameFlow implements GameFlow {
     }
 
     @Override
-    public void processGameState(GameObjects gameState) {
-        PhaseManager phaseManager = GenericContextObjects.extractGameObject(gameState, GenericContextObjects.PHASE_MANAGER);
-        String phase = phaseManager.getPhase(gameState);
-        _phaseGameFlows.get(phase).processGameState(gameState);
+    public Map<String, AwaitingDecision> processGameState(GameObjects gameObjects) {
+        PhaseManager phaseManager = GenericContextObjects.extractGameObject(gameObjects, GenericContextObjects.PHASE_MANAGER);
+        String phase = phaseManager.getPhase(gameObjects);
+        return _phaseGameFlows.get(phase).processGameState(gameObjects);
     }
 }

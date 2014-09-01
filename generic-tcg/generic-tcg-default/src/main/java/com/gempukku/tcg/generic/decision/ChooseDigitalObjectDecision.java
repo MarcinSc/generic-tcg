@@ -1,6 +1,5 @@
 package com.gempukku.tcg.generic.decision;
 
-import com.gempukku.tcg.GameObjects;
 import com.gempukku.tcg.digital.DigitalObject;
 
 import java.util.*;
@@ -15,20 +14,16 @@ public abstract class ChooseDigitalObjectDecision implements AwaitingDecision {
     }
 
     @Override
-    public Map<String, String> getParameters(GameObjects gameState) {
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("message", _message);
-        StringBuilder sb = new StringBuilder();
-        boolean afterFirst = false;
-        for (DigitalObject object : _objects) {
-            if (!afterFirst)
-                sb.append(",");
-            sb.append(getIdentifier(object));
-            afterFirst = true;
-        }
-        params.put("ids", sb.toString());
+    public void accept(AwaitingDecisionVisitor visitor) {
+        visitor.visit(this);
+    }
 
-        return params;
+    public String getMessage() {
+        return _message;
+    }
+
+    public List<DigitalObject> getObjects() {
+        return _objects;
     }
 
     private String getIdentifier(DigitalObject object) {
@@ -47,9 +42,4 @@ public abstract class ChooseDigitalObjectDecision implements AwaitingDecision {
     }
 
     protected abstract void objectChosen(DigitalObject object);
-
-    @Override
-    public String getType() {
-        return "CHOOSE_OBJECT";
-    }
 }

@@ -1,11 +1,8 @@
 package com.gempukku.tcg.generic.decision;
 
-import com.gempukku.tcg.GameObjects;
 import com.gempukku.tcg.generic.action.GameActionPossibility;
 
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 public abstract class ChoosePossibleGameActionDecision implements AwaitingDecision {
     private String _message;
@@ -17,18 +14,16 @@ public abstract class ChoosePossibleGameActionDecision implements AwaitingDecisi
     }
 
     @Override
-    public Map<String, String> getParameters(GameObjects gameState) {
-        Map<String, String> params = new LinkedHashMap<String, String>();
-        params.put("message", _message);
+    public void accept(AwaitingDecisionVisitor visitor) {
+        visitor.visit(this);
+    }
 
-        int index = 0;
-        for (GameActionPossibility gameActionPossibility : _gameActionPossibilities) {
-            String attachedId = gameActionPossibility.getAttachedObjectId(gameState);
-            params.put(String.valueOf(index), (attachedId != null ? attachedId : "") + "," + gameActionPossibility.getText(gameState));
-            index++;
-        }
+    public String getMessage() {
+        return _message;
+    }
 
-        return params;
+    public List<GameActionPossibility> getGameActionPossibilities() {
+        return _gameActionPossibilities;
     }
 
     @Override
@@ -45,9 +40,4 @@ public abstract class ChoosePossibleGameActionDecision implements AwaitingDecisi
     }
 
     protected abstract void gameActionChosen(GameActionPossibility gameActionPossibility);
-
-    @Override
-    public String getType() {
-        return "CHOOSE_POSSIBLE_ACTION";
-    }
 }

@@ -29,17 +29,18 @@ public class DigitalEnvironment {
             listener.startChangeFrame();
     }
 
-    public String createObject(Map<String, String> attributes) {
+    public DigitalObject createObject(Map<String, String> attributes) {
         String newId = generateUniqueId();
-        _digitalObjects.put(newId, new DigitalObjectImpl(newId, attributes));
+        final DigitalObjectImpl digitalObject = new DigitalObjectImpl(newId, attributes);
+        _digitalObjects.put(newId, digitalObject);
 
         for (DigitalObjectListener listener : _listeners)
             listener.objectCreated(newId, attributes);
 
-        return newId;
+        return digitalObject;
     }
 
-    public void updateObject(String id, Map<String, String> attributeDiff, boolean requiresNewId) {
+    public DigitalObject updateObject(String id, Map<String, String> attributeDiff, boolean requiresNewId) {
         String newId = id;
         if (requiresNewId)
             newId = generateUniqueId();
@@ -49,6 +50,8 @@ public class DigitalEnvironment {
 
         for (DigitalObjectListener listener : _listeners)
             listener.objectUpdated(id, newId, attributeDiff);
+
+        return digitalObject;
     }
 
     public void destroyObject(String id) {
@@ -61,6 +64,10 @@ public class DigitalEnvironment {
     public void finishFrameChange() {
         for (DigitalObjectListener listener : _listeners)
             listener.finishChangeFrame();
+    }
+
+    public DigitalObject getObjectById(String id) {
+        return _digitalObjects.get(id);
     }
 
     public Iterable<DigitalObject> findObjects(Predicate<DigitalObject> predicate) {

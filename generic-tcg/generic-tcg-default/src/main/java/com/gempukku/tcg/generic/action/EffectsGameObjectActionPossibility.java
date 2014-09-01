@@ -19,17 +19,17 @@ public class EffectsGameObjectActionPossibility implements GameActionPossibility
     }
 
     @Override
-    public String getText(GameObjects gameState) {
-        return _textEvaluator.getValue(gameState, _gameObject);
+    public String getText(GameObjects gameObjects) {
+        return _textEvaluator.getValue(gameObjects, _gameObject);
     }
 
     @Override
-    public String getAttachedObjectId(GameObjects gameState) {
+    public String getAttachedObjectId(GameObjects gameObjects) {
         return _gameObject.getId();
     }
 
     @Override
-    public GameAction createGameAction(GameObjects gameState) {
+    public GameAction createGameAction(GameObjects gameObjects) {
         return new EffectsGameObjectAction(_gameObject, _effects);
     }
 }

@@ -13,14 +13,16 @@ public class DecisionHolderManager implements DecisionHolder {
     private static final String TYPE = "awaitingDecision";
 
     @Override
-    public void setDecision(GameObjects gameState, String player, AwaitingDecision decision) {
-        final DigitalEnvironment digitalEnvironment = getDigitalEnvironment(gameState);
+    public void setDecision(GameObjects gameObjects, String player, AwaitingDecision decision) {
+        final DigitalEnvironment digitalEnvironment = getDigitalEnvironment(gameObjects);
 
         Map<String, String> attributes = new HashMap<String, String>();
         attributes.put("type", TYPE);
         attributes.put("owner", player);
-        attributes.put("decisionType", decision.getType());
-        attributes.putAll(decision.getParameters(gameState));
+
+        SerializeDecisionVisitor visitor = new SerializeDecisionVisitor(gameObjects);
+        decision.accept(visitor);
+        attributes.putAll(visitor.getResult());
 
         digitalEnvironment.createObject(attributes);
     }
@@ -30,29 +32,29 @@ public class DecisionHolderManager implements DecisionHolder {
     }
 
     @Override
-    public AwaitingDecision getDecision(GameObjects gameState, String player) {
-        final DigitalObject digitalObject = DigitalObjects.extractPlayerObject(gameState, TYPE, player);
+    public AwaitingDecision getDecision(GameObjects gameObjects, String player) {
+        final DigitalObject digitalObject = DigitalObjects.extractPlayerObject(gameObjects, TYPE, player);
         return convertToAwaitingDecision(digitalObject);
     }
 
     @Override
-    public AwaitingDecision removeDecision(GameObjects gameState, String player) {
-        final DigitalEnvironment digitalEnvironment = getDigitalEnvironment(gameState);
+    public AwaitingDecision removeDecision(GameObjects gameObjects, String player) {
+        final DigitalEnvironment digitalEnvironment = getDigitalEnvironment(gameObjects);
 
-        final DigitalObject digitalObject = DigitalObjects.extractPlayerObject(gameState, TYPE, player);
+        final DigitalObject digitalObject = DigitalObjects.extractPlayerObject(gameObjects, TYPE, player);
         digitalEnvironment.destroyObject(digitalObject.getId());
 
         return convertToAwaitingDecision(digitalObject);
     }
 
     @Override
-    public boolean hasDecision(GameObjects gameState, String player) {
-        return DigitalObjects.extractPlayerObject(gameState, TYPE, player) != null;
+    public boolean hasDecision(GameObjects gameObjects, String player) {
+        return DigitalObjects.extractPlayerObject(gameObjects, TYPE, player) != null;
     }
 
     @Override
-    public boolean hasDecisions(GameObjects gameState) {
-        return DigitalObjects.extractFirstObject(gameState, TYPE) != null;
+    public boolean hasDecisions(GameObjects gameObjects) {
+        return DigitalObjects.extractObjects(gameObjects, TYPE) != null;
     }
 
     private AwaitingDecision convertToAwaitingDecision(DigitalObject digitalObject) {
