@@ -1,8 +1,8 @@
 package com.gempukku.tcg.generic.evaluator;
 
 import com.gempukku.tcg.GameObjects;
-import com.gempukku.tcg.digital.DigitalObject;
 import com.gempukku.tcg.generic.GenericContextObjects;
+import com.gempukku.tcg.generic.action.GameActionContext;
 
 public class KeywordCountEvaluator implements IntEvaluator {
     private String _keywordManager;
@@ -27,7 +27,7 @@ public class KeywordCountEvaluator implements IntEvaluator {
     }
 
     @Override
-    public int getValue(GameObjects gameObjects, DigitalObject context) {
+    public int getValue(GameObjects gameObjects, GameActionContext context) {
         int result = GenericContextObjects.extractGameObject(gameObjects, GenericContextObjects.KEYWORD_MANAGER).getKeywordCount(gameObjects, context, _keyword);
         if (_minValue != null)
             result = Math.max(_minValue, result);

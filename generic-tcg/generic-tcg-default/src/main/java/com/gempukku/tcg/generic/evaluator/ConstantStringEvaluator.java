@@ -1,7 +1,7 @@
 package com.gempukku.tcg.generic.evaluator;
 
 import com.gempukku.tcg.GameObjects;
-import com.gempukku.tcg.digital.DigitalObject;
+import com.gempukku.tcg.generic.action.GameActionContext;
 
 public class ConstantStringEvaluator implements StringEvaluator {
     private String _value;
@@ -18,7 +18,7 @@ public class ConstantStringEvaluator implements StringEvaluator {
     }
 
     @Override
-    public String getValue(GameObjects gameObjects, DigitalObject context) {
+    public String getValue(GameObjects gameObjects, GameActionContext context) {
         return _value;
     }
 }

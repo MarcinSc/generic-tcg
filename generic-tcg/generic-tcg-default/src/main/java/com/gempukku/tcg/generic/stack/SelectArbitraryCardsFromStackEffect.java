@@ -1,24 +1,22 @@
 package com.gempukku.tcg.generic.stack;
 
 import com.gempukku.tcg.GameObjects;
-import com.gempukku.tcg.digital.DigitalEnvironment;
 import com.gempukku.tcg.digital.DigitalObject;
-import com.gempukku.tcg.digital.DigitalObjectFilter;
+import com.gempukku.tcg.generic.filter.DigitalObjectFilter;
 import com.gempukku.tcg.generic.GenericContextObjects;
+import com.gempukku.tcg.generic.action.GameActionContext;
 import com.gempukku.tcg.generic.card.CardManager;
 import com.gempukku.tcg.generic.decision.AwaitingDecision;
 import com.gempukku.tcg.generic.decision.ChooseArbitraryCardDecision;
 import com.gempukku.tcg.generic.effect.GameObjectEffectSerie;
 import com.gempukku.tcg.generic.evaluator.IntEvaluator;
 import com.gempukku.tcg.generic.evaluator.StringEvaluator;
-import com.gempukku.tcg.generic.stack.PlayerDigitalObjectStackManager;
 import com.gempukku.tcg.generic.util.DigitalObjectUtils;
 import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -61,9 +59,9 @@ public class SelectArbitraryCardsFromStackEffect implements GameObjectEffectSeri
     }
 
     @Override
-    public Result execute(final GameObjects gameObjects, final DigitalObject context) {
+    public Result execute(final GameObjects gameObjects, final GameActionContext context) {
         final String attributeName = _attributeName.getValue(gameObjects, context);
-        if (context.getAttributes().get(attributeName) != null)
+        if (context.getValue(attributeName) != null)
             return new Result(null, false);
 
         final CardManager cardManager = GenericContextObjects.extractGameObject(gameObjects, GenericContextObjects.CARD_MANAGER);
@@ -87,8 +85,7 @@ public class SelectArbitraryCardsFromStackEffect implements GameObjectEffectSeri
                 new ChooseArbitraryCardDecision(message, characterBlueprints, min, max) {
                     @Override
                     protected void objectsChosen(List<Integer> indices, List<String> blueprintId) {
-                        final DigitalEnvironment digitalEnvironment = GenericContextObjects.extractGameObject(gameObjects, GenericContextObjects.DIGITAL_ENVIRONMENT);
-                        digitalEnvironment.updateObject(context.getId(), Collections.singletonMap(attributeName, StringUtils.join(
+                        context.setProperty(attributeName, StringUtils.join(
                                 Iterables.transform(indices,
                                         new Function<Integer, String>() {
                                             @Override
@@ -96,7 +93,7 @@ public class SelectArbitraryCardsFromStackEffect implements GameObjectEffectSeri
                                                 return matchingObjects.get(input).getId();
                                             }
 
-                                        }).iterator(), ",")), false);
+                                        }).iterator(), ","));
                     }
                 });
 

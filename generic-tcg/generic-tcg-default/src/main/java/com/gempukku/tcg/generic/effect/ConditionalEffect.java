@@ -1,7 +1,7 @@
 package com.gempukku.tcg.generic.effect;
 
 import com.gempukku.tcg.GameObjects;
-import com.gempukku.tcg.digital.DigitalObject;
+import com.gempukku.tcg.generic.action.GameActionContext;
 import com.gempukku.tcg.generic.condition.GameObjectCondition;
 
 public class ConditionalEffect implements GameObjectEffectSerie {
@@ -17,7 +17,7 @@ public class ConditionalEffect implements GameObjectEffectSerie {
     }
 
     @Override
-    public Result execute(GameObjects gameObjects, DigitalObject context) {
+    public Result execute(GameObjects gameObjects, GameActionContext context) {
         if (_gameObjectCondition.isMet(gameObjects, context))
             return _gameObjectEffect.execute(gameObjects, context);
         else

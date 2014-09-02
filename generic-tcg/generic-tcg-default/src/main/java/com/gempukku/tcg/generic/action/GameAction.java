@@ -1,7 +1,6 @@
 package com.gempukku.tcg.generic.action;
 
 import com.gempukku.tcg.GameObjects;
-import com.gempukku.tcg.digital.DigitalObject;
 import com.gempukku.tcg.generic.decision.AwaitingDecision;
 
 import java.util.Map;
@@ -11,7 +10,7 @@ import java.util.Map;
  * It allows to execute one GameEffect at a time and query if there is a next one.
  */
 public interface GameAction {
-    public Map<String, AwaitingDecision> processNextGameEffect(GameObjects gameObjects, DigitalObject context);
+    public Map<String, AwaitingDecision> processNextGameEffect(GameObjects gameObjects, GameActionContext context);
 
-    public boolean hasNextGameEffect(GameObjects gameObjects, DigitalObject context);
+    public boolean hasNextGameEffect(GameObjects gameObjects, GameActionContext context);
 }

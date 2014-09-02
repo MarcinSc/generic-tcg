@@ -2,8 +2,8 @@ package com.gempukku.tcg.generic.util;
 
 import com.gempukku.tcg.GameObjects;
 import com.gempukku.tcg.digital.DigitalObject;
-import com.gempukku.tcg.digital.DigitalObjectFilter;
-import com.gempukku.tcg.generic.event.GameEvent;
+import com.gempukku.tcg.generic.filter.DigitalObjectFilter;
+import com.gempukku.tcg.generic.action.GameActionContext;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +26,7 @@ public class DigitalObjectUtils {
             return property;
     }
 
-    public static List<DigitalObject> filter(GameObjects gameObjects, DigitalObjectFilter filter, DigitalObject context, List<DigitalObject> objects) {
+    public static List<DigitalObject> filter(GameObjects gameObjects, DigitalObjectFilter filter, GameActionContext context, List<DigitalObject> objects) {
         List<DigitalObject> result = new ArrayList<DigitalObject>();
         for (DigitalObject object : objects) {
             if (filter == null || filter.accept(gameObjects, context, object))

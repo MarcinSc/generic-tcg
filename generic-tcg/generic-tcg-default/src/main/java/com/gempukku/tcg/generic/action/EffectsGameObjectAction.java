@@ -2,14 +2,12 @@ package com.gempukku.tcg.generic.action;
 
 import com.gempukku.tcg.GameObjects;
 import com.gempukku.tcg.digital.DigitalEnvironment;
-import com.gempukku.tcg.digital.DigitalObject;
 import com.gempukku.tcg.generic.GenericContextObjects;
 import com.gempukku.tcg.generic.decision.AwaitingDecision;
 import com.gempukku.tcg.generic.effect.GameObjectEffectSerie;
 import com.gempukku.tcg.generic.evaluator.ConstantStringEvaluator;
 import com.gempukku.tcg.generic.evaluator.StringEvaluator;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -26,14 +24,14 @@ public class EffectsGameObjectAction implements GameAction {
     }
 
     @Override
-    public boolean hasNextGameEffect(GameObjects gameObjects, DigitalObject context) {
+    public boolean hasNextGameEffect(GameObjects gameObjects, GameActionContext context) {
         int effectIndex = getEffectIndex(gameObjects, context);
 
         return effectIndex < _gameObjectEffects.size();
     }
 
     @Override
-    public Map<String, AwaitingDecision> processNextGameEffect(GameObjects gameObjects, DigitalObject context) {
+    public Map<String, AwaitingDecision> processNextGameEffect(GameObjects gameObjects, GameActionContext context) {
         int indexToExecute = getEffectIndex(gameObjects, context);
         final GameObjectEffectSerie.Result result = _gameObjectEffects.get(indexToExecute).execute(gameObjects, context);
 
@@ -43,16 +41,16 @@ public class EffectsGameObjectAction implements GameAction {
         return result._decisions;
     }
 
-    private int getEffectIndex(GameObjects gameObjects, DigitalObject context) {
-        final String effectIndexStr = context.getAttributes().get(_indexAttribute.getValue(gameObjects, context));
+    private int getEffectIndex(GameObjects gameObjects, GameActionContext context) {
+        final String effectIndexStr = context.getValue(_indexAttribute.getValue(gameObjects, context));
         int effectIndex = 0;
         if (effectIndexStr != null)
             effectIndex = Integer.parseInt(effectIndexStr);
         return effectIndex;
     }
 
-    private void setEffectIndex(GameObjects gameObjects, DigitalObject context, int value) {
+    private void setEffectIndex(GameObjects gameObjects, GameActionContext context, int value) {
         final DigitalEnvironment digitalEnvironment = GenericContextObjects.extractGameObject(gameObjects, GenericContextObjects.DIGITAL_ENVIRONMENT);
-        digitalEnvironment.updateObject(context.getId(), Collections.singletonMap(_indexAttribute.getValue(gameObjects, context), String.valueOf(value)), false);
+        context.setProperty(_indexAttribute.getValue(gameObjects, context), String.valueOf(value));
     }
 }

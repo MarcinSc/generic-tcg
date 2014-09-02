@@ -1,7 +1,7 @@
 package com.gempukku.tcg.generic.evaluator;
 
 import com.gempukku.tcg.GameObjects;
-import com.gempukku.tcg.digital.DigitalObject;
+import com.gempukku.tcg.generic.action.GameActionContext;
 
 public class ConstantIntEvaluator implements IntEvaluator {
     private int _value;
@@ -11,7 +11,7 @@ public class ConstantIntEvaluator implements IntEvaluator {
     }
 
     @Override
-    public int getValue(GameObjects gameObjects, DigitalObject context) {
+    public int getValue(GameObjects gameObjects, GameActionContext context) {
         return _value;
     }
 }
