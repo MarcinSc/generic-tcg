@@ -11,7 +11,7 @@ public class ConstantStringEvaluator implements StringEvaluator {
     }
 
     @Override
-    public String getValue(GameObjects gameState, DigitalObject digitalObject) {
+    public String getValue(GameObjects gameObjects, DigitalObject context) {
         return _value;
     }
 }

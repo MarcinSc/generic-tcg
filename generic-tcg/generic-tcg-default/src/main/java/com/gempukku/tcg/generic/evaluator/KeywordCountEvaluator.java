@@ -27,8 +27,8 @@ public class KeywordCountEvaluator implements IntEvaluator {
     }
 
     @Override
-    public int getValue(GameObjects gameState, DigitalObject digitalObject) {
-        int result = GenericContextObjects.extractGameObject(gameState, GenericContextObjects.KEYWORD_MANAGER).getKeywordCount(gameState, digitalObject, _keyword);
+    public int getValue(GameObjects gameObjects, DigitalObject context) {
+        int result = GenericContextObjects.extractGameObject(gameObjects, GenericContextObjects.KEYWORD_MANAGER).getKeywordCount(gameObjects, context, _keyword);
         if (_minValue != null)
             result = Math.max(_minValue, result);
         if (_maxValue != null)

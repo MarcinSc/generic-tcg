@@ -2,6 +2,9 @@ package com.gempukku.tcg.generic.effect;
 
 import com.gempukku.tcg.GameObjects;
 import com.gempukku.tcg.digital.DigitalObject;
+import com.gempukku.tcg.generic.decision.AwaitingDecision;
+
+import java.util.Map;
 
 /**
  * GameObjectEffect executes a smallest atomic action possible on the GameState and GameObject.
@@ -9,6 +12,15 @@ import com.gempukku.tcg.digital.DigitalObject;
  * method execution, the effect serie is considered "done" its job. 
  */
 public interface GameObjectEffectSerie {
+    public Result execute(GameObjects gameObjects, DigitalObject context);
 
-    public boolean execute(GameObjects gameState, DigitalObject digitalObject);
+    public class Result {
+        public final boolean _shouldContinue;
+        public final Map<String, AwaitingDecision> _decisions;
+
+        public Result(Map<String, AwaitingDecision> decisions, boolean shouldContinue) {
+            _decisions = decisions;
+            _shouldContinue = shouldContinue;
+        }
+    }
 }

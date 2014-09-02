@@ -11,7 +11,7 @@ public class ConstantIntEvaluator implements IntEvaluator {
     }
 
     @Override
-    public int getValue(GameObjects gameState, DigitalObject digitalObject) {
+    public int getValue(GameObjects gameObjects, DigitalObject context) {
         return _value;
     }
 }

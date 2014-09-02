@@ -4,5 +4,5 @@ import com.gempukku.tcg.GameObjects;
 import com.gempukku.tcg.digital.DigitalObject;
 
 public interface IntEvaluator {
-    public int getValue(GameObjects gameState, DigitalObject digitalObject);
+    public int getValue(GameObjects gameObjects, DigitalObject context);
 }

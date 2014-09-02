@@ -6,21 +6,21 @@ import com.gempukku.tcg.generic.condition.GameObjectCondition;
 
 public class ConditionalEffect implements GameObjectEffectSerie {
     private GameObjectCondition _gameObjectCondition;
-    private DigitalObjectEffect _gameObjectEffect;
+    private GameObjectEffectSerie _gameObjectEffect;
 
     public void setGameObjectCondition(GameObjectCondition gameObjectCondition) {
         _gameObjectCondition = gameObjectCondition;
     }
 
-    public void setEffect(DigitalObjectEffect gameObjectEffect) {
+    public void setGameObjectEffect(GameObjectEffectSerie gameObjectEffect) {
         _gameObjectEffect = gameObjectEffect;
     }
 
     @Override
-    public boolean execute(GameObjects gameState, DigitalObject digitalObject) {
-        if (_gameObjectCondition.isMet(gameState, digitalObject))
-            return _gameObjectEffect.execute(gameState, digitalObject);
+    public Result execute(GameObjects gameObjects, DigitalObject context) {
+        if (_gameObjectCondition.isMet(gameObjects, context))
+            return _gameObjectEffect.execute(gameObjects, context);
         else
-            return false;
+            return new Result(null, false);
     }
 }

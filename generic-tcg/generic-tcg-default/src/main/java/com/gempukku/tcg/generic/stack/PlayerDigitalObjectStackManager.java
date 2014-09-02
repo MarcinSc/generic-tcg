@@ -45,6 +45,19 @@ public class PlayerDigitalObjectStackManager implements GamePlayerStateInitializ
         digitalEnvironment.updateObject(playerStack.getId(), Collections.singletonMap("ids", StringUtils.join(ids, ",")), false);
     }
 
+    public DigitalObject removeTopObject(GameObjects gameObjects, String player) {
+        final DigitalEnvironment digitalEnvironment = GenericContextObjects.extractGameObject(gameObjects, GenericContextObjects.DIGITAL_ENVIRONMENT);
+        final DigitalObject playerStack = DigitalObjects.extractPlayerObject(gameObjects, _stackName, player);
+        final ArrayList<String> ids = new ArrayList<String>(Arrays.asList(playerStack.getAttributes().get("ids").split(",")));
+        if (ids.size() == 0) {
+            return null;
+        }
+        final String removedId = ids.remove(ids.size() - 1);
+        digitalEnvironment.updateObject(playerStack.getId(), Collections.singletonMap("ids", StringUtils.join(ids, ",")), false);
+
+        return digitalEnvironment.getObjectById(removedId);
+    }
+
     public List<DigitalObject> getDigitalObjectsInStack(GameObjects gameObjects, String player) {
         final DigitalEnvironment digitalEnvironment = GenericContextObjects.extractGameObject(gameObjects, GenericContextObjects.DIGITAL_ENVIRONMENT);
         final DigitalObject playerStack = DigitalObjects.extractPlayerObject(gameObjects, _stackName, player);
@@ -59,6 +72,19 @@ public class PlayerDigitalObjectStackManager implements GamePlayerStateInitializ
         final DigitalEnvironment digitalEnvironment = GenericContextObjects.extractGameObject(gameObjects, GenericContextObjects.DIGITAL_ENVIRONMENT);
         final DigitalObject playerStack = DigitalObjects.extractPlayerObject(gameObjects, _stackName, player);
         digitalEnvironment.updateObject(playerStack.getId(), Collections.singletonMap("ids", ""), false);
+    }
+
+    public DigitalObject removeObjectFromStack(GameObjects gameObjects, String player, String id) {
+        final DigitalEnvironment digitalEnvironment = GenericContextObjects.extractGameObject(gameObjects, GenericContextObjects.DIGITAL_ENVIRONMENT);
+        final DigitalObject playerStack = DigitalObjects.extractPlayerObject(gameObjects, _stackName, player);
+        final ArrayList<String> ids = new ArrayList<String>(Arrays.asList(playerStack.getAttributes().get("ids").split(",")));
+        final boolean removed = ids.remove(id);
+        if (!removed)
+            return null;
+
+        digitalEnvironment.updateObject(playerStack.getId(), Collections.singletonMap("ids", StringUtils.join(ids, ",")), false);
+
+        return digitalEnvironment.getObjectById(id);
     }
 
     public void shuffleItemsInStack(GameObjects gameObjects, String player) {

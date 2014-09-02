@@ -13,10 +13,10 @@ public class ConcatenateStringEvaluator implements StringEvaluator {
     }
 
     @Override
-    public String getValue(GameObjects gameState, DigitalObject digitalObject) {
+    public String getValue(GameObjects gameObjects, DigitalObject context) {
         StringBuilder sb = new StringBuilder();
         for (StringEvaluator stringEvaluator : _stringEvaluators)
-            sb.append(stringEvaluator.getValue(gameState, digitalObject));
+            sb.append(stringEvaluator.getValue(gameObjects, context));
 
         return sb.toString();
     }
