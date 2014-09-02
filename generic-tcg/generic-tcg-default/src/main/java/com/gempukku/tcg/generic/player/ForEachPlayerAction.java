@@ -49,9 +49,11 @@ public class ForEachPlayerAction implements GameAction {
         final String attributeName = _playerAttribute.getValue(gameObjects, context);
         for (String playerName : playerManager.getPlayerNames(gameObjects)) {
             digitalEnvironment.updateObject(context.getId(), Collections.singletonMap(attributeName, playerName), false);
-            final Map<String, AwaitingDecision> playerResult = _gameAction.processNextGameEffect(gameObjects, context);
-            if (playerResult != null)
-                decisions.putAll(playerResult);
+            if (_gameAction.hasNextGameEffect(gameObjects, context)) {
+                final Map<String, AwaitingDecision> playerResult = _gameAction.processNextGameEffect(gameObjects, context);
+                if (playerResult != null)
+                    decisions.putAll(playerResult);
+            }
         }
 
         if (decisions.isEmpty())

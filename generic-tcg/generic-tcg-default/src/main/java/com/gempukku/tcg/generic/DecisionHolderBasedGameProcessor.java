@@ -19,18 +19,15 @@ public class DecisionHolderBasedGameProcessor implements GameProcessor {
     public void playerSentDecision(GameObjects gameObjects, String player, String decision) {
         final DecisionHolder decisionHolder = GenericContextObjects.extractGameObject(gameObjects, GenericContextObjects.DECISION_HOLDER);
 
-        final Map<String, AwaitingDecision> decisionMap = _gameFlow.processGameState(gameObjects);
-        if (decisionMap != null) {
-            final AwaitingDecision decisionForPlayer = decisionMap.get(player);
-            if (decisionForPlayer != null) {
-                try {
-                    decisionForPlayer.processAnswer(decision);
-                    decisionHolder.removeDecision(gameObjects, player);
+        final AwaitingDecision decisionForPlayer = decisionHolder.getDecision(player);
+        if (decisionForPlayer != null) {
+            try {
+                decisionForPlayer.processAnswer(decision);
+                decisionHolder.removeDecision(player);
 
-                    processGameState(gameObjects);
-                } catch (InvalidAnswerException exp) {
-                    // Have to wait for correct decision
-                }
+                processGameState(gameObjects);
+            } catch (InvalidAnswerException exp) {
+                // Have to wait for correct decision
             }
         }
     }
@@ -44,7 +41,7 @@ public class DecisionHolderBasedGameProcessor implements GameProcessor {
         } while (decisions == null);
 
         for (Map.Entry<String, AwaitingDecision> playerDecision : decisions.entrySet()) {
-            decisionHolder.setDecision(gameObjects, playerDecision.getKey(), playerDecision.getValue());
+            decisionHolder.setDecision(playerDecision.getKey(), playerDecision.getValue());
         }
     }
 }

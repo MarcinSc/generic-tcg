@@ -18,10 +18,10 @@ public class PlayerManager implements GamePlayerStateInitializing {
 
     @Override
     public void setupGameState(GameObjects gameObjects, String player) {
-        if (DigitalObjects.extractObject(gameObjects, TYPE) == null) {
+        if (DigitalObjects.extractPlayerObject(gameObjects, TYPE, player) == null) {
             Map<String, String> attributes = new HashMap<String, String>();
             attributes.put("type", TYPE);
-            attributes.put("name", player);
+            attributes.put("owner", player);
             GenericContextObjects.extractGameObject(gameObjects, GenericContextObjects.DIGITAL_ENVIRONMENT).createObject(attributes);
         }
     }
@@ -31,7 +31,7 @@ public class PlayerManager implements GamePlayerStateInitializing {
                 new Function<DigitalObject, String>() {
                     @Override
                     public String apply(DigitalObject input) {
-                        return input.getAttributes().get("name");
+                        return input.getAttributes().get("owner");
                     }
                 });
     }

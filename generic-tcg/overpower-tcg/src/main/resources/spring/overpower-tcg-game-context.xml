@@ -3,11 +3,21 @@
        xmlns:util="http://www.springframework.org/schema/util"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
             http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <bean id="conversionService"
+          class="org.springframework.context.support.ConversionServiceFactoryBean">
+        <property name="converters">
+            <util:set>
+                <bean id="stringEvaluatorConverter" class="com.gempukku.tcg.generic.spring.StringToStringEvaluatorConverter"/>
+                <bean id="intEvaluatorConverter" class="com.gempukku.tcg.generic.spring.StringToIntEvaluatorConverter"/>
+            </util:set>
+        </property>
+    </bean>
+
     <bean id="gameState" class="com.gempukku.tcg.GameObjects">
         <property name="gameObjects">
             <util:map>
                 <entry key="gameEventEngine" value-ref="gameEventEngine"/>
-                <entry key="decisionHolder" value-ref="decisionHolder"/>
                 <entry key="turnOrder" value-ref="turnOrder"/>
                 <entry key="phaseManager" value-ref="phaseManager"/>
                 <entry key="playerManager" value-ref="playerManager"/>
@@ -15,16 +25,24 @@
                 <entry key="setupDeckZone" value-ref="setupDeckZone"/>
                 <entry key="frontLineZone" value-ref="frontLineZone"/>
                 <entry key="reserveZone" value-ref="reserveZone"/>
+                <entry key="deckZone" value-ref="deckZone"/>
+                <entry key="cardManager" value-ref="cardManager"/>
             </util:map>
         </property>
     </bean>
 
+    <bean id="cardManager" class="com.gempukku.tcg.generic.card.CardManager"/>
+
+    <bean id="deckZone" class="com.gempukku.tcg.generic.stack.PlayerDigitalObjectStackManager">
+        <property name="stackName" value="deckZone"/>
+    </bean>
+
     <bean id="setupCharactersZone" class="com.gempukku.tcg.generic.stack.PlayerDigitalObjectStackManager">
-        <property name="stackName" value="setupCharacters"/>
+        <property name="stackName" value="setupCharactersZone"/>
     </bean>
 
     <bean id="setupDeckZone" class="com.gempukku.tcg.generic.stack.PlayerDigitalObjectStackManager">
-        <property name="stackName" value="setupDeck"/>
+        <property name="stackName" value="setupDeckZone"/>
     </bean>
 
     <bean id="frontLineZone" class="com.gempukku.tcg.generic.stack.PlayerDigitalObjectStackManager">

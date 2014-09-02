@@ -1,4 +1,4 @@
-package com.gempukku.tcg.overpower.effect;
+package com.gempukku.tcg.generic.stack;
 
 import com.gempukku.tcg.GameObjects;
 import com.gempukku.tcg.digital.DigitalObject;

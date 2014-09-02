@@ -1,4 +1,4 @@
-package com.gempukku.tcg.overpower.effect;
+package com.gempukku.tcg.generic.stack;
 
 import com.gempukku.tcg.GameObjects;
 import com.gempukku.tcg.digital.DigitalEnvironment;
@@ -30,6 +30,7 @@ public class SelectArbitraryCardsFromStackEffect implements GameObjectEffectSeri
     private IntEvaluator _max;
     private StringEvaluator _attributeName;
     private StringEvaluator _player;
+    private StringEvaluator _message;
 
     public void setAttributeName(StringEvaluator attributeName) {
         _attributeName = attributeName;
@@ -55,6 +56,10 @@ public class SelectArbitraryCardsFromStackEffect implements GameObjectEffectSeri
         _stackType = stackType;
     }
 
+    public void setMessage(StringEvaluator message) {
+        _message = message;
+    }
+
     @Override
     public Result execute(final GameObjects gameObjects, final DigitalObject context) {
         final String attributeName = _attributeName.getValue(gameObjects, context);
@@ -75,9 +80,11 @@ public class SelectArbitraryCardsFromStackEffect implements GameObjectEffectSeri
         int min = _min.getValue(gameObjects, context);
         int max = _max.getValue(gameObjects, context);
 
+        String message = _message.getValue(gameObjects, context);
+
         Map<String, AwaitingDecision> decisions = new HashMap<String, AwaitingDecision>();
         decisions.put(playerName,
-                new ChooseArbitraryCardDecision("Choose starting characters", characterBlueprints, min, max) {
+                new ChooseArbitraryCardDecision(message, characterBlueprints, min, max) {
                     @Override
                     protected void objectsChosen(List<Integer> indices, List<String> blueprintId) {
                         final DigitalEnvironment digitalEnvironment = GenericContextObjects.extractGameObject(gameObjects, GenericContextObjects.DIGITAL_ENVIRONMENT);

@@ -14,6 +14,6 @@ public abstract class AbstractStringPredicate implements Predicate<DigitalObject
 
     @Override
     public boolean apply(DigitalObject input) {
-        return input.getAttributes().get(_key).equals(_value);
+        return _value.equals(input.getAttributes().get(_key));
     }
 }

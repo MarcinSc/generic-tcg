@@ -11,11 +11,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class SerializeDecisionVisitor implements AwaitingDecisionVisitor {
+public class DecisionSerializer implements AwaitingDecisionVisitor {
     private Map<String, String> _result = new HashMap<String, String>();
     private GameObjects _gameObjects;
 
-    public SerializeDecisionVisitor(GameObjects gameObjects) {
+    public DecisionSerializer(GameObjects gameObjects) {
         _gameObjects = gameObjects;
     }
 

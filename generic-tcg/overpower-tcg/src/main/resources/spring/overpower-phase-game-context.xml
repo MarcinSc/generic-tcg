@@ -7,14 +7,25 @@
     <bean id="setupGameFlow" class="com.gempukku.tcg.generic.flow.MultiActionGameFlow">
         <property name="gameActions">
             <util:list>
-                <!-- select starting characters -->
-                <bean class="com.gempukku.tcg.generic.player.ForEachPlayerAction">
+                <bean id="selectStartingCharacters" class="com.gempukku.tcg.generic.player.ForEachPlayerAction">
                     <property name="playerAttribute" value="player"/>
                     <property name="gameAction">
                         <bean class="com.gempukku.tcg.generic.action.EffectsGameObjectAction">
+                            <property name="indexAttribute">
+                                <bean class="com.gempukku.tcg.generic.evaluator.ConcatenateStringEvaluator">
+                                    <property name="stringEvaluators">
+                                        <util:list>
+                                            <value>effectIndex.</value>
+                                            <bean class="com.gempukku.tcg.generic.evaluator.AttributeValueStringEvaluator">
+                                                <property name="propertyName" value="player"/>
+                                            </bean>
+                                        </util:list>
+                                    </property>
+                                </bean>
+                            </property>
                             <property name="effects">
                                 <util:list>
-                                    <bean class="com.gempukku.tcg.overpower.effect.SelectArbitraryCardsFromStackEffect">
+                                    <bean class="com.gempukku.tcg.generic.stack.SelectArbitraryCardsFromStackEffect">
                                         <property name="attributeName">
                                             <bean class="com.gempukku.tcg.generic.evaluator.ConcatenateStringEvaluator">
                                                 <property name="stringEvaluators">
@@ -29,65 +40,96 @@
                                         </property>
                                         <property name="min" value="3"/>
                                         <property name="max" value="3"/>
-                                        <property name="player" value="*{player}"/>
-                                        <property name="stackType" value="setupCharacters"/>
+                                        <property name="player">
+                                            <bean class="com.gempukku.tcg.generic.evaluator.AttributeValueStringEvaluator">
+                                                <property name="propertyName" value="player"/>
+                                            </bean>
+                                        </property>
+                                        <property name="stackType" value="setupCharactersZone"/>
+                                        <property name="message" value="Choose starting characters"/>
                                     </bean>
-                                </util:list>
-                            </property>
-                        </bean>
-                    </property>
-                </bean>
-                <!-- put starting characters in front-line -->
-                <bean class="com.gempukku.tcg.generic.player.ForEachPlayerAction">
-                    <property name="playerAttribute" value="player"/>
-                    <property name="gameAction">
-                        <bean class="com.gempukku.tcg.generic.action.EffectsGameObjectAction">
-                            <property name="effects">
-                                <util:list>
-                                    <bean class="com.gempukku.tcg.overpower.effect.MoveObjectsBetweenStacksEffect">
-                                        <property name="player" value="*{player}"/>
-                                        <property name="stackFrom" value="setupCharacters"/>
+                                    <bean id="putStartingCharactersInFrontLine"
+                                          class="com.gempukku.tcg.generic.stack.MoveObjectsBetweenStacksEffect">
+                                        <property name="player">
+                                            <bean class="com.gempukku.tcg.generic.evaluator.AttributeValueStringEvaluator">
+                                                <property name="propertyName" value="player"/>
+                                            </bean>
+                                        </property>
+                                        <property name="stackFrom" value="setupCharactersZone"/>
                                         <property name="stackTo" value="frontLineZone"/>
                                         <property name="ids">
-                                            <bean class="com.gempukku.tcg.generic.evaluator.ConcatenateStringEvaluator">
-                                                <property name="stringEvaluators">
-                                                    <util:list>
-                                                        <value>selectedCharacters.</value>
-                                                        <bean class="com.gempukku.tcg.generic.evaluator.AttributeValueStringEvaluator">
-                                                            <property name="propertyName" value="player"/>
-                                                        </bean>
-                                                    </util:list>
+                                            <bean class="com.gempukku.tcg.generic.evaluator.AttributeValueStringEvaluator">
+                                                <property name="propertyName">
+                                                    <bean class="com.gempukku.tcg.generic.evaluator.ConcatenateStringEvaluator">
+                                                        <property name="stringEvaluators">
+                                                            <util:list>
+                                                                <value>selectedCharacters.</value>
+                                                                <bean class="com.gempukku.tcg.generic.evaluator.AttributeValueStringEvaluator">
+                                                                    <property name="propertyName" value="player"/>
+                                                                </bean>
+                                                            </util:list>
+                                                        </property>
+                                                    </bean>
                                                 </property>
                                             </bean>
                                         </property>
                                     </bean>
+                                    <bean id="putRemainingCharactersInReserve"
+                                          class="com.gempukku.tcg.generic.stack.MoveObjectsBetweenStacksEffect">
+                                        <property name="player">
+                                            <bean class="com.gempukku.tcg.generic.evaluator.AttributeValueStringEvaluator">
+                                                <property name="propertyName" value="player"/>
+                                            </bean>
+                                        </property>
+                                        <property name="stackFrom" value="setupCharactersZone"/>
+                                        <property name="stackTo" value="reserveZone"/>
+                                    </bean>
+                                    <bean id="setupDeck"
+                                          class="com.gempukku.tcg.generic.stack.MoveObjectsBetweenStacksEffect">
+                                        <property name="player">
+                                            <bean class="com.gempukku.tcg.generic.evaluator.AttributeValueStringEvaluator">
+                                                <property name="propertyName" value="player"/>
+                                            </bean>
+                                        </property>
+                                        <property name="stackFrom" value="setupDeckZone"/>
+                                        <property name="stackTo" value="deckZone"/>
+                                    </bean>
+                                    <bean id="shuffleDeck" class="com.gempukku.tcg.generic.stack.ShuffleStackEffect">
+                                        <property name="player">
+                                            <bean class="com.gempukku.tcg.generic.evaluator.AttributeValueStringEvaluator">
+                                                <property name="propertyName" value="player"/>
+                                            </bean>
+                                        </property>
+                                        <property name="stack" value="deckZone"/>
+                                    </bean>
                                 </util:list>
                             </property>
                         </bean>
                     </property>
                 </bean>
-                <!-- put remaining characters in reserve -->
-                <bean class="com.gempukku.tcg.generic.player.ForEachPlayerAction">
-                    <property name="playerAttribute" value="player"/>
-                    <property name="gameAction">
-                        <bean class="com.gempukku.tcg.generic.action.EffectsGameObjectAction">
-                            <property name="effects">
-                                <util:list>
-                                    <bean class="com.gempukku.tcg.overpower.effect.MoveObjectsBetweenStacksEffect">
-                                        <property name="player" value="*{player}"/>
-                                        <property name="stackFrom" value="setupCharacters"/>
-                                        <property name="stackTo" value="reserveZone"/>
-                                    </bean>
-                                </util:list>
-                            </property>
-                        </bean>
+                <bean id="changePhase" class="com.gempukku.tcg.generic.action.EffectsGameObjectAction">
+                    <property name="effects">
+                        <util:list>
+                            <bean class="com.gempukku.tcg.generic.phase.SetPhaseEffect">
+                                <property name="value" value="Start"/>
+                            </bean>
+                        </util:list>
                     </property>
                 </bean>
             </util:list>
         </property>
     </bean>
 
-    <bean id="startGameFlow" class="com.gempukku.tcg.overpower.StartPhaseGameFlow"/>
-
+    <bean id="startGameFlow" class="com.gempukku.tcg.generic.flow.MultiActionGameFlow">
+        <property name="gameActions">
+            <util:list>
+                <bean id="endProcessing" class="com.gempukku.tcg.generic.action.EffectsGameObjectAction">
+                    <property name="effects">
+                        <bean class="com.gempukku.tcg.overpower.effect.EndProcessingTempEffect"/>
+                    </property>
+                </bean>
+            </util:list>
+        </property>
+    </bean>
 
 </beans>

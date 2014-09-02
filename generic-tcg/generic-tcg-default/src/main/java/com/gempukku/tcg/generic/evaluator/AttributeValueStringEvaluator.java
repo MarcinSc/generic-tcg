@@ -4,14 +4,14 @@ import com.gempukku.tcg.GameObjects;
 import com.gempukku.tcg.digital.DigitalObject;
 
 public class AttributeValueStringEvaluator implements StringEvaluator {
-    private String _propertyName;
+    private StringEvaluator _propertyName;
 
-    public void setPropertyName(String propertyName) {
+    public void setPropertyName(StringEvaluator propertyName) {
         _propertyName = propertyName;
     }
 
     @Override
     public String getValue(GameObjects gameObjects, DigitalObject context) {
-        return context.getAttributes().get(_propertyName);
+        return context.getAttributes().get(_propertyName.getValue(gameObjects, context));
     }
 }
