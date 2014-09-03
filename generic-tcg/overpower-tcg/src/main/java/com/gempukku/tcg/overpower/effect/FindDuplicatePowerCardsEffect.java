@@ -6,9 +6,11 @@ import com.gempukku.tcg.generic.action.GameActionContext;
 import com.gempukku.tcg.generic.effect.GameEffect;
 import com.gempukku.tcg.generic.evaluator.StringEvaluator;
 import com.gempukku.tcg.generic.stack.PlayerDigitalObjectStackManager;
+import com.gempukku.tcg.generic.util.DigitalObjectUtils;
 import com.gempukku.tcg.overpower.OverpowerContextObjects;
 import com.gempukku.tcg.overpower.card.OverpowerCardBlueprint;
 import com.gempukku.tcg.overpower.card.OverpowerCardManager;
+import com.gempukku.tcg.overpower.filter.CardTypeFilter;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import org.apache.commons.lang.StringUtils;
@@ -34,8 +36,18 @@ public class FindDuplicatePowerCardsEffect implements GameEffect {
     @Override
     public Result execute(GameObjects gameObjects, GameActionContext context) {
         final OverpowerCardManager overpowerCardManager = OverpowerContextObjects.extractGameObject(gameObjects, OverpowerContextObjects.OVERPOWER_CARD_MANAGER);
+        final PlayerDigitalObjectStackManager inPlayZone = OverpowerContextObjects.extractGameObject(gameObjects, OverpowerContextObjects.IN_PLAY_ZONE);
 
         final String player = _player.getValue(gameObjects, context);
+
+        final List<DigitalObject> powerCardsInPlay = DigitalObjectUtils.filter(gameObjects, new CardTypeFilter("power"), context, inPlayZone.getDigitalObjectsInStack(gameObjects, player));
+        Set<Integer> placedPowerCardsPowers = new HashSet<Integer>();
+        for (DigitalObject powerCardInPlay : powerCardsInPlay) {
+            final OverpowerCardBlueprint cardBlueprint = overpowerCardManager.getCardBlueprint(gameObjects, powerCardInPlay);
+            int maxValue = Math.max(Math.max(cardBlueprint.getEnergy(), cardBlueprint.getFighting()), cardBlueprint.getStrength());
+            placedPowerCardsPowers.add(maxValue);
+        }
+
         final PlayerDigitalObjectStackManager stack = (PlayerDigitalObjectStackManager) gameObjects.getGameObject("handZone");
         final List<DigitalObject> objects = stack.getDigitalObjectsInStack(gameObjects, player);
 
@@ -49,12 +61,12 @@ public class FindDuplicatePowerCardsEffect implements GameEffect {
         }
 
         Set<String> duplicateCards = new HashSet<String>();
-        for (Map.Entry<Integer, Collection<String>> cardsByPower :powerCardsByPower.asMap().entrySet()){
-            if (cardsByPower.getValue().size()>1) {
+        for (Map.Entry<Integer, Collection<String>> cardsByPower : powerCardsByPower.asMap().entrySet()) {
+            if (cardsByPower.getValue().size() > 1 || placedPowerCardsPowers.contains(cardsByPower.getKey())) {
                 duplicateCards.addAll(cardsByPower.getValue());
             }
         }
-        
+
         if (duplicateCards.size()>0) {
             final String attributeName = _attributeName.getValue(gameObjects, context);
             context.setAttribute(attributeName, StringUtils.join(duplicateCards, ","));
