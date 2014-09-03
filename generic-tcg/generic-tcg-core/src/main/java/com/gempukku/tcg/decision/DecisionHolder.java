@@ -1,6 +1,4 @@
-package com.gempukku.tcg.generic.decision;
-
-import com.gempukku.tcg.GameObjects;
+package com.gempukku.tcg.decision;
 
 public interface DecisionHolder {
     public void setDecision(String player, AwaitingDecision decision);

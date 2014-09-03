@@ -1,4 +1,4 @@
-package com.gempukku.tcg.generic.decision;
+package com.gempukku.tcg.decision;
 
 import java.util.ArrayList;
 import java.util.HashSet;

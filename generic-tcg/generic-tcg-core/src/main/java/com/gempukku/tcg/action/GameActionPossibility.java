@@ -1,4 +1,4 @@
-package com.gempukku.tcg.generic.action;
+package com.gempukku.tcg.action;
 
 import com.gempukku.tcg.GameObjects;
 

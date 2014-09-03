@@ -15,6 +15,6 @@ public class SimpleGameFactory implements GameFactory {
 
     @Override
     public GameBuilder createNewGameBuilder(String format, Map<String, GameDeck> playersAndDecks) {
-        return _gameBuilderMap.get(format).createGameBuilder(playersAndDecks);
+        return _gameBuilderMap.get(format).startNewGame(playersAndDecks);
     }
 }

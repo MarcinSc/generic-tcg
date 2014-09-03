@@ -1,15 +1,13 @@
 package com.gempukku.tcg.overpower;
 
+import com.gempukku.tcg.decision.DecisionHolder;
 import com.gempukku.tcg.DefaultGameDeck;
 import com.gempukku.tcg.GameBuilder;
 import com.gempukku.tcg.GameDeck;
 import com.gempukku.tcg.GameObjects;
 import com.gempukku.tcg.GameProcessor;
 import com.gempukku.tcg.digital.DigitalObject;
-import com.gempukku.tcg.generic.GenericContextObjects;
 import com.gempukku.tcg.generic.SpringGameBuilderFactory;
-import com.gempukku.tcg.generic.decision.AwaitingDecision;
-import com.gempukku.tcg.generic.decision.DecisionHolder;
 import com.gempukku.tcg.generic.stack.PlayerDigitalObjectStackManager;
 import org.junit.*;
 
@@ -30,7 +28,9 @@ public class OverpowerGameTest {
         SpringGameBuilderFactory gameBuilderFactory = new SpringGameBuilderFactory();
         gameBuilderFactory.setContextPath("classpath:/spring/overpower-tcg-game-context.xml");
         gameBuilderFactory.setGameProcessorBeanName("gameProcessor");
-        gameBuilderFactory.setGameStateBeanName("gameState");
+        gameBuilderFactory.setGameObjectsFactoryBeanName("gameState");
+        gameBuilderFactory.setDecisionHolderFactoryBeanName("decisionHolder");
+        gameBuilderFactory.initialize();
 
         Map<String, GameDeck> decks = new HashMap<String, GameDeck>();
         DefaultGameDeck deck = new DefaultGameDeck();
@@ -39,14 +39,15 @@ public class OverpowerGameTest {
         decks.put(P1, deck);
         decks.put(P2, deck);
 
-        final GameBuilder gameBuilder = gameBuilderFactory.createGameBuilder(decks);
+        final GameBuilder gameBuilder = gameBuilderFactory.startNewGame(decks);
 
         final GameProcessor gameProcessor = gameBuilder.getGameProcessor();
         final GameObjects gameObjects = gameBuilder.getGameObjects();
 
+        long start = System.currentTimeMillis();
         final PlayerDigitalObjectStackManager frontLineZone = OverpowerContextObjects.extractGameObject(gameObjects, OverpowerContextObjects.FRONT_LINE_ZONE);
 
-        DecisionHolder decisionHolder = GenericContextObjects.extractGameObject(gameObjects, GenericContextObjects.DECISION_HOLDER);
+        DecisionHolder decisionHolder = gameBuilder.getDecisionHolder();
         assertNotNull(decisionHolder.getDecision(P1));
         assertNotNull(decisionHolder.getDecision(P2));
 
@@ -75,5 +76,7 @@ public class OverpowerGameTest {
         assertEquals("4", p2FrontLine.get(2).getAttributes().get("blueprintId"));
 
         assertNotNull(decisionHolder.getDecision("end"));
+
+        System.out.println("Finished in "+(System.currentTimeMillis()-start)+"ms");
     }
 }

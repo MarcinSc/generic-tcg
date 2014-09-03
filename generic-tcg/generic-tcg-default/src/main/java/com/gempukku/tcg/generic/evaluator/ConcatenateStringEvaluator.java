@@ -1,7 +1,7 @@
 package com.gempukku.tcg.generic.evaluator;
 
+import com.gempukku.tcg.action.GameActionContext;
 import com.gempukku.tcg.GameObjects;
-import com.gempukku.tcg.generic.action.GameActionContext;
 
 import java.util.List;
 

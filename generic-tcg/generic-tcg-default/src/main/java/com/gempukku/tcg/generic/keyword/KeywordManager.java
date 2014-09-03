@@ -1,8 +1,7 @@
 package com.gempukku.tcg.generic.keyword;
 
+import com.gempukku.tcg.action.GameActionContext;
 import com.gempukku.tcg.GameObjects;
-import com.gempukku.tcg.digital.DigitalObject;
-import com.gempukku.tcg.generic.action.GameActionContext;
 import com.gempukku.tcg.generic.modifier.GameModifierConsumer;
 
 import java.util.LinkedHashSet;

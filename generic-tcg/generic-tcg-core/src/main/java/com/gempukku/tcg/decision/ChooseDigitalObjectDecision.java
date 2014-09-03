@@ -1,4 +1,4 @@
-package com.gempukku.tcg.generic.decision;
+package com.gempukku.tcg.decision;
 
 import com.gempukku.tcg.digital.DigitalObject;
 

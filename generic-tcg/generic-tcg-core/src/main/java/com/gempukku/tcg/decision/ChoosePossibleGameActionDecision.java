@@ -1,6 +1,6 @@
-package com.gempukku.tcg.generic.decision;
+package com.gempukku.tcg.decision;
 
-import com.gempukku.tcg.generic.action.GameActionPossibility;
+import com.gempukku.tcg.action.GameActionPossibility;
 
 import java.util.List;
 

@@ -1,17 +1,13 @@
 package com.gempukku.tcg.generic.decision;
 
-import com.gempukku.tcg.GameObjects;
-import com.gempukku.tcg.digital.DigitalEnvironment;
-import com.gempukku.tcg.digital.DigitalObject;
-import com.gempukku.tcg.generic.DigitalObjects;
-import com.gempukku.tcg.generic.GenericContextObjects;
+import com.gempukku.tcg.decision.AwaitingDecision;
+import com.gempukku.tcg.decision.DecisionHolder;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class DecisionHolderManager implements DecisionHolder {
     private Map<String, AwaitingDecision> _decisionMap = new HashMap<String, AwaitingDecision>();
-    private static final String TYPE = "awaitingDecision";
 
     @Override
     public AwaitingDecision getDecision(String player) {

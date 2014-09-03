@@ -1,4 +1,4 @@
-package com.gempukku.tcg.generic.decision;
+package com.gempukku.tcg.decision;
 
 public class InvalidAnswerException extends Exception {
     public InvalidAnswerException(String message) {

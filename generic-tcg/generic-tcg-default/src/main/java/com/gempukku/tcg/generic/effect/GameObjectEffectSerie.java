@@ -1,9 +1,8 @@
 package com.gempukku.tcg.generic.effect;
 
+import com.gempukku.tcg.action.GameActionContext;
+import com.gempukku.tcg.decision.AwaitingDecision;
 import com.gempukku.tcg.GameObjects;
-import com.gempukku.tcg.digital.DigitalObject;
-import com.gempukku.tcg.generic.action.GameActionContext;
-import com.gempukku.tcg.generic.decision.AwaitingDecision;
 
 import java.util.Map;
 

@@ -1,8 +1,13 @@
 package com.gempukku.tcg.generic.decision;
 
+import com.gempukku.tcg.action.GameActionPossibility;
+import com.gempukku.tcg.decision.AwaitingDecisionVisitor;
+import com.gempukku.tcg.decision.ChooseArbitraryCardDecision;
+import com.gempukku.tcg.decision.ChooseDigitalObjectDecision;
+import com.gempukku.tcg.decision.ChoosePossibleGameActionDecision;
 import com.gempukku.tcg.GameObjects;
+import com.gempukku.tcg.decision.YesNoDecision;
 import com.gempukku.tcg.digital.DigitalObject;
-import com.gempukku.tcg.generic.action.GameActionPossibility;
 import com.google.common.base.Function;
 import com.google.common.collect.Iterators;
 import org.apache.commons.lang.StringUtils;

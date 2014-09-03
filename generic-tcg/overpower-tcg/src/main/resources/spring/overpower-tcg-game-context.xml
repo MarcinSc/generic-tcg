@@ -14,7 +14,7 @@
         </property>
     </bean>
 
-    <bean id="gameState" class="com.gempukku.tcg.GameObjects">
+    <bean id="gameState" class="com.gempukku.tcg.generic.MapGameObjectsFactory">
         <property name="gameObjects">
             <util:map>
                 <entry key="gameEventEngine" value-ref="gameEventEngine"/>
@@ -30,6 +30,12 @@
             </util:map>
         </property>
     </bean>
+
+    <bean id="gameProcessor" class="com.gempukku.tcg.overpower.SetupOverpowerGameProcessor">
+        <property name="gameFlow" ref="phaseGameFlow"/>
+    </bean>
+
+    <bean id="decisionHolder" class="com.gempukku.tcg.generic.decision.ManagerDecisionHolderFactory"/>
 
     <bean id="cardManager" class="com.gempukku.tcg.generic.card.CardManager"/>
 
@@ -53,10 +59,6 @@
         <property name="stackName" value="reserveZone"/>
     </bean>
 
-    <bean id="gameProcessor" class="com.gempukku.tcg.overpower.SetupOverpowerGameProcessor">
-        <property name="gameFlow" ref="phaseGameFlow"/>
-    </bean>
-
     <bean id="phaseGameFlow" class="com.gempukku.tcg.generic.phase.PhaseGameFlow">
         <property name="phaseGameFlows">
             <util:map>
@@ -65,8 +67,6 @@
             </util:map>
         </property>
     </bean>
-
-    <bean id="decisionHolder" class="com.gempukku.tcg.generic.decision.DecisionHolderManager"/>
 
     <bean id="turnOrder" class="com.gempukku.tcg.generic.TurnOrder"/>
 

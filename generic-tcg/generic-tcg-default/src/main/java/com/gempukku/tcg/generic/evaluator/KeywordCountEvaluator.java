@@ -1,8 +1,8 @@
 package com.gempukku.tcg.generic.evaluator;
 
+import com.gempukku.tcg.action.GameActionContext;
 import com.gempukku.tcg.GameObjects;
 import com.gempukku.tcg.generic.GenericContextObjects;
-import com.gempukku.tcg.generic.action.GameActionContext;
 
 public class KeywordCountEvaluator implements IntEvaluator {
     private String _keywordManager;

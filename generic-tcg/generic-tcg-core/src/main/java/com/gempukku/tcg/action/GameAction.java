@@ -1,7 +1,7 @@
-package com.gempukku.tcg.generic.action;
+package com.gempukku.tcg.action;
 
 import com.gempukku.tcg.GameObjects;
-import com.gempukku.tcg.generic.decision.AwaitingDecision;
+import com.gempukku.tcg.decision.AwaitingDecision;
 
 import java.util.Map;
 
