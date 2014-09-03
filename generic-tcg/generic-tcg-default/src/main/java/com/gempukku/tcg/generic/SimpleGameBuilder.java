@@ -1,19 +1,20 @@
 package com.gempukku.tcg.generic;
 
-import com.gempukku.tcg.decision.DecisionHolder;
+import com.gempukku.tcg.generic.decision.DecisionHolder;
 import com.gempukku.tcg.GameBuilder;
 import com.gempukku.tcg.GameProcessor;
 import com.gempukku.tcg.GameObjects;
+import com.gempukku.tcg.digital.DigitalEnvironment;
 
 public class SimpleGameBuilder implements GameBuilder {
     private GameObjects _gameObjects;
     private GameProcessor _gameProcessor;
-    private DecisionHolder _decisionHolder;
+    private DigitalEnvironment _digitalEnvironment;
 
-    public SimpleGameBuilder(GameObjects gameObjects, GameProcessor gameProcessor, DecisionHolder decisionHolder) {
+    public SimpleGameBuilder(GameObjects gameObjects, GameProcessor gameProcessor, DigitalEnvironment digitalEnvironment) {
         _gameObjects = gameObjects;
         _gameProcessor = gameProcessor;
-        _decisionHolder = decisionHolder;
+        _digitalEnvironment = digitalEnvironment;
     }
 
     @Override
@@ -26,7 +27,8 @@ public class SimpleGameBuilder implements GameBuilder {
         return _gameObjects;
     }
 
-    public DecisionHolder getDecisionHolder() {
-        return _decisionHolder;
+    @Override
+    public DigitalEnvironment getDigitalEnvironment() {
+        return _digitalEnvironment;
     }
 }

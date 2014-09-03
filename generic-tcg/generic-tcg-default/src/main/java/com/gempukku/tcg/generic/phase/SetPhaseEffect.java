@@ -1,6 +1,6 @@
 package com.gempukku.tcg.generic.phase;
 
-import com.gempukku.tcg.action.GameActionContext;
+import com.gempukku.tcg.generic.action.GameActionContext;
 import com.gempukku.tcg.GameObjects;
 import com.gempukku.tcg.generic.GenericContextObjects;
 import com.gempukku.tcg.generic.effect.GameObjectEffectSerie;

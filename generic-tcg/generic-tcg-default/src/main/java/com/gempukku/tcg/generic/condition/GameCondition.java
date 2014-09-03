@@ -1,6 +1,6 @@
 package com.gempukku.tcg.generic.condition;
 
-import com.gempukku.tcg.action.GameActionContext;
+import com.gempukku.tcg.generic.action.GameActionContext;
 import com.gempukku.tcg.GameObjects;
 
 public abstract class GameCondition implements GameObjectCondition {

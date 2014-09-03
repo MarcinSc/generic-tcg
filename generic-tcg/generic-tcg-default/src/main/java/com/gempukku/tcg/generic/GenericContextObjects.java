@@ -1,6 +1,6 @@
 package com.gempukku.tcg.generic;
 
-import com.gempukku.tcg.decision.DecisionHolder;
+import com.gempukku.tcg.generic.decision.DecisionHolder;
 import com.gempukku.tcg.GameObjects;
 import com.gempukku.tcg.digital.DigitalEnvironment;
 import com.gempukku.tcg.generic.card.CardManager;

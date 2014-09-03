@@ -1,6 +1,6 @@
 package com.gempukku.tcg.generic.stack;
 
-import com.gempukku.tcg.action.GameActionContext;
+import com.gempukku.tcg.generic.action.GameActionContext;
 import com.gempukku.tcg.GameObjects;
 import com.gempukku.tcg.generic.effect.GameObjectEffectSerie;
 import com.gempukku.tcg.generic.evaluator.StringEvaluator;

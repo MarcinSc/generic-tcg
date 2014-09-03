@@ -1,4 +1,4 @@
-package com.gempukku.tcg.decision;
+package com.gempukku.tcg.generic.decision;
 
 public interface AwaitingDecision {
     public void accept(AwaitingDecisionVisitor visitor);

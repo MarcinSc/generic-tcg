@@ -1,12 +1,13 @@
 package com.gempukku.tcg.generic;
 
-import com.gempukku.tcg.decision.DecisionHolder;
+import com.gempukku.tcg.generic.decision.DecisionHolder;
 import com.gempukku.tcg.GameBuilder;
 import com.gempukku.tcg.GameDeck;
 import com.gempukku.tcg.GameObjects;
 import com.gempukku.tcg.GameObjectsFactory;
 import com.gempukku.tcg.digital.DigitalEnvironment;
 import com.gempukku.tcg.generic.decision.DecisionHolderFactory;
+import com.gempukku.tcg.generic.environment.MapDigitalEnvironment;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.Map;
@@ -43,27 +44,24 @@ public class SpringGameBuilderFactory implements GameBuilderFactory {
     public GameBuilder startNewGame(Map<String, GameDeck> playersAndDecks) {
         GameObjectsFactory gameObjectsFactory = _applicationContext.getBean(_gameObjectsFactoryBeanName, GameObjectsFactory.class);
         PlayerDeckGameProcessor gameProcessor = _applicationContext.getBean(_gameProcessorBeanName, PlayerDeckGameProcessor.class);
-        final DecisionHolderFactory decisionHolderFactory = _applicationContext.getBean(_decisionHolderFactoryBeanName, DecisionHolderFactory.class);
 
         final GameObjects gameObjects = gameObjectsFactory.create();
-        final DecisionHolder decisionHolder = decisionHolderFactory.create();
-        
-        gameProcessor.startProcessing(gameObjects, new DigitalEnvironment(), decisionHolder, playersAndDecks);
 
-        return new SimpleGameBuilder(gameObjects, gameProcessor, decisionHolder);
+        final DigitalEnvironment digitalEnvironment = new MapDigitalEnvironment();
+        gameProcessor.startProcessing(gameObjects, digitalEnvironment, playersAndDecks);
+
+        return new SimpleGameBuilder(gameObjects, gameProcessor, digitalEnvironment);
     }
 
     @Override
     public GameBuilder continueLoadedGame(DigitalEnvironment digitalEnvironment, Set<String> players) {
         GameObjectsFactory gameObjectsFactory = _applicationContext.getBean(_gameObjectsFactoryBeanName, GameObjectsFactory.class);
         PlayerDeckGameProcessor gameProcessor = _applicationContext.getBean(_gameProcessorBeanName, PlayerDeckGameProcessor.class);
-        final DecisionHolderFactory decisionHolderFactory = _applicationContext.getBean(_decisionHolderFactoryBeanName, DecisionHolderFactory.class);
 
         final GameObjects gameObjects = gameObjectsFactory.create();
-        final DecisionHolder decisionHolder = decisionHolderFactory.create();
 
-        gameProcessor.startProcessingLoaded(gameObjects, digitalEnvironment, decisionHolder, players);
+        gameProcessor.startProcessingLoaded(gameObjects, digitalEnvironment, players);
 
-        return new SimpleGameBuilder(gameObjects, gameProcessor, decisionHolder);
+        return new SimpleGameBuilder(gameObjects, gameProcessor, digitalEnvironment);
     }
 }

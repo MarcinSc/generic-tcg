@@ -1,4 +1,4 @@
-package com.gempukku.tcg.decision;
+package com.gempukku.tcg.generic.decision;
 
 public abstract class YesNoDecision implements AwaitingDecision {
     private String _question;

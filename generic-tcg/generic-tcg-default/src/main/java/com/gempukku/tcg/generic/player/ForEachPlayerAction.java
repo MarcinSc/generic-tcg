@@ -1,8 +1,8 @@
 package com.gempukku.tcg.generic.player;
 
-import com.gempukku.tcg.action.GameAction;
-import com.gempukku.tcg.action.GameActionContext;
-import com.gempukku.tcg.decision.AwaitingDecision;
+import com.gempukku.tcg.generic.action.GameAction;
+import com.gempukku.tcg.generic.action.GameActionContext;
+import com.gempukku.tcg.generic.decision.AwaitingDecision;
 import com.gempukku.tcg.GameObjects;
 import com.gempukku.tcg.generic.GenericContextObjects;
 import com.gempukku.tcg.generic.evaluator.StringEvaluator;

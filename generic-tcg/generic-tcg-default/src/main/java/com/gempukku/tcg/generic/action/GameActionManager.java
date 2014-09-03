@@ -1,6 +1,5 @@
 package com.gempukku.tcg.generic.action;
 
-import com.gempukku.tcg.action.GameActionPossibility;
 import com.gempukku.tcg.GameObjects;
 import com.gempukku.tcg.generic.modifier.ActionModifier;
 import com.gempukku.tcg.generic.modifier.GameModifierConsumer;

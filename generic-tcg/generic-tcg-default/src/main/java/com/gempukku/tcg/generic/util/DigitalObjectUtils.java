@@ -1,6 +1,6 @@
 package com.gempukku.tcg.generic.util;
 
-import com.gempukku.tcg.action.GameActionContext;
+import com.gempukku.tcg.generic.action.GameActionContext;
 import com.gempukku.tcg.GameObjects;
 import com.gempukku.tcg.digital.DigitalObject;
 import com.gempukku.tcg.generic.filter.DigitalObjectFilter;

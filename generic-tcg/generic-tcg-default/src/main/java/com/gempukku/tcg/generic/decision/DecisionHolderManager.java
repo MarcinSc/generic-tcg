@@ -1,8 +1,5 @@
 package com.gempukku.tcg.generic.decision;
 
-import com.gempukku.tcg.decision.AwaitingDecision;
-import com.gempukku.tcg.decision.DecisionHolder;
-
 import java.util.HashMap;
 import java.util.Map;
 

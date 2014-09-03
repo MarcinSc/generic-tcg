@@ -1,4 +1,6 @@
-package com.gempukku.tcg;
+package com.gempukku.tcg.generic.deck;
+
+import com.gempukku.tcg.GameDeck;
 
 import java.util.*;
 

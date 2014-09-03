@@ -9,85 +9,22 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-public class DigitalEnvironment {
-    private static final char[] UNIQUE_CHARS = "abcdfghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".toCharArray();
-    private static final int ID_LENGTH = 4;
+public interface DigitalEnvironment {
+    public void addDigitalObjectListener(DigitalObjectListener listener);
 
-    private Map<String, DigitalObjectImpl> _digitalObjects = new HashMap<String, DigitalObjectImpl>();
-    private List<DigitalObjectListener> _listeners = new LinkedList<DigitalObjectListener>();
+    public void removeDigitalObjectListener(DigitalObjectListener listener);
 
-    public void addDigitalObjectListener(DigitalObjectListener listener) {
-        _listeners.add(listener);
-    }
+    public void startFrameChange();
 
-    public void removeDigitalObjectListener(DigitalObjectListener listener) {
-        _listeners.remove(listener);
-    }
+    public DigitalObject createObject(Map<String, String> attributes);
 
-    public void startFrameChange() {
-        for (DigitalObjectListener listener : _listeners)
-            listener.startChangeFrame();
-    }
+    public DigitalObject updateObject(String id, Map<String, String> attributeDiff, boolean requiresNewId);
 
-    public DigitalObject createObject(Map<String, String> attributes) {
-        String newId = generateUniqueId();
-        final DigitalObjectImpl digitalObject = new DigitalObjectImpl(newId, attributes);
-        _digitalObjects.put(newId, digitalObject);
+    public void destroyObject(String id);
 
-        for (DigitalObjectListener listener : _listeners)
-            listener.objectCreated(newId, attributes);
+    public void finishFrameChange();
 
-        return digitalObject;
-    }
+    public DigitalObject getObjectById(String id);
 
-    public DigitalObject updateObject(String id, Map<String, String> attributeDiff, boolean requiresNewId) {
-        String newId = id;
-        if (requiresNewId)
-            newId = generateUniqueId();
-
-        final DigitalObjectImpl digitalObject = _digitalObjects.get(id);
-        digitalObject.updateDigitalObject(newId, attributeDiff);
-
-        for (DigitalObjectListener listener : _listeners)
-            listener.objectUpdated(id, newId, attributeDiff);
-
-        return digitalObject;
-    }
-
-    public void destroyObject(String id) {
-        _digitalObjects.remove(id);
-
-        for (DigitalObjectListener listener : _listeners)
-            listener.objectDestroyed(id);
-    }
-
-    public void finishFrameChange() {
-        for (DigitalObjectListener listener : _listeners)
-            listener.finishChangeFrame();
-    }
-
-    public DigitalObject getObjectById(String id) {
-        return _digitalObjects.get(id);
-    }
-
-    public Iterable<DigitalObject> findObjects(Predicate<DigitalObject> predicate) {
-        List<DigitalObject> result = new LinkedList<DigitalObject>();
-        for (DigitalObject digitalObject : _digitalObjects.values()) {
-            if (predicate.apply(digitalObject))
-                result.add(digitalObject);
-        }
-        return result;
-    }
-
-    private String generateUniqueId() {
-        Random rnd = new Random();
-        char[] result = new char[ID_LENGTH];
-        String resultStr;
-        do {
-            for (int i = 0; i < ID_LENGTH; i++)
-                result[i] = UNIQUE_CHARS[rnd.nextInt(UNIQUE_CHARS.length)];
-            resultStr = new String(result);
-        } while (_digitalObjects.containsKey(new String(result)));
-        return resultStr;
-    }
+    public Iterable<DigitalObject> findObjects(Predicate<DigitalObject> predicate);
 }

@@ -1,4 +1,6 @@
-package com.gempukku.tcg.digital;
+package com.gempukku.tcg.generic.environment;
+
+import com.gempukku.tcg.digital.DigitalObject;
 
 import java.util.Collections;
 import java.util.HashMap;
