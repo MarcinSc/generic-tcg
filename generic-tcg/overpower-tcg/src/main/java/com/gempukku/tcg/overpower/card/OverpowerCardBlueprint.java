@@ -1,20 +1,11 @@
 package com.gempukku.tcg.overpower.card;
 
 public class OverpowerCardBlueprint {
-    private String _id;
     private String _cardType;
     private String _name;
     private int _energy;
     private int _fighting;
     private int _strength;
-
-    public String getId() {
-        return _id;
-    }
-
-    public void setId(String id) {
-        _id = id;
-    }
 
     public String getCardType() {
         return _cardType;
