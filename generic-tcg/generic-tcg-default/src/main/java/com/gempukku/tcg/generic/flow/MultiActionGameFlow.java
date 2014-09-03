@@ -9,6 +9,7 @@ import com.gempukku.tcg.generic.GenericContextObjects;
 import com.gempukku.tcg.generic.action.GameAction;
 import com.gempukku.tcg.generic.action.GameActionContext;
 import com.gempukku.tcg.generic.decision.AwaitingDecision;
+import com.gempukku.tcg.generic.util.DigitalObjectUtils;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -57,8 +58,8 @@ public class MultiActionGameFlow implements GameFlow {
             }
 
             @Override
-            public String getValue(String value) {
-                return gameAction.getAttributes().get(value);
+            public String getValue(String name) {
+                return gameAction.getAttributes().get(name);
             }
         };
     }

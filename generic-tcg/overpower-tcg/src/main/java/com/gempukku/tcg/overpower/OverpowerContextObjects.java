@@ -2,10 +2,12 @@ package com.gempukku.tcg.overpower;
 
 import com.gempukku.tcg.GameObjects;
 import com.gempukku.tcg.generic.stack.PlayerDigitalObjectStackManager;
+import com.gempukku.tcg.overpower.card.OverpowerCardManager;
 
 public class OverpowerContextObjects {
     public static final GenericObject<PlayerDigitalObjectStackManager> SETUP_CHARACTERS_ZONE = new GenericObject<PlayerDigitalObjectStackManager>("setupCharactersZone");
     public static final GenericObject<PlayerDigitalObjectStackManager> SETUP_DECK_ZONE = new GenericObject<PlayerDigitalObjectStackManager>("setupDeckZone");
+    public static final GenericObject<OverpowerCardManager> OVERPOWER_CARD_MANAGER = new GenericObject<OverpowerCardManager>("overpowerCardManager");
 
     public static final GenericObject<PlayerDigitalObjectStackManager> FRONT_LINE_ZONE = new GenericObject<PlayerDigitalObjectStackManager>("frontLineZone");
     public static final GenericObject<PlayerDigitalObjectStackManager> RESERVE_ZONE = new GenericObject<PlayerDigitalObjectStackManager>("reserveZone");

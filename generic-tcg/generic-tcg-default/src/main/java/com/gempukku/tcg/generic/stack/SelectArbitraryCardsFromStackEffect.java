@@ -7,7 +7,7 @@ import com.gempukku.tcg.generic.action.GameActionContext;
 import com.gempukku.tcg.generic.card.CardManager;
 import com.gempukku.tcg.generic.decision.AwaitingDecision;
 import com.gempukku.tcg.generic.decision.ChooseArbitraryCardDecision;
-import com.gempukku.tcg.generic.effect.GameObjectEffectSerie;
+import com.gempukku.tcg.generic.effect.GameEffect;
 import com.gempukku.tcg.generic.evaluator.IntEvaluator;
 import com.gempukku.tcg.generic.evaluator.StringEvaluator;
 import com.gempukku.tcg.generic.filter.DigitalObjectFilter;
@@ -21,7 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SelectArbitraryCardsFromStackEffect implements GameObjectEffectSerie {
+public class SelectArbitraryCardsFromStackEffect implements GameEffect {
     private StringEvaluator _stackType;
     private DigitalObjectFilter _digitalObjectFilter;
     private IntEvaluator _min;

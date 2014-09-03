@@ -4,15 +4,15 @@ import com.gempukku.tcg.GameObjects;
 import com.gempukku.tcg.generic.action.GameActionContext;
 import com.gempukku.tcg.generic.condition.GameObjectCondition;
 
-public class ConditionalEffect implements GameObjectEffectSerie {
+public class ConditionalEffect implements GameEffect {
     private GameObjectCondition _gameObjectCondition;
-    private GameObjectEffectSerie _gameObjectEffect;
+    private GameEffect _gameObjectEffect;
 
     public void setGameObjectCondition(GameObjectCondition gameObjectCondition) {
         _gameObjectCondition = gameObjectCondition;
     }
 
-    public void setGameObjectEffect(GameObjectEffectSerie gameObjectEffect) {
+    public void setGameObjectEffect(GameEffect gameObjectEffect) {
         _gameObjectEffect = gameObjectEffect;
     }
 

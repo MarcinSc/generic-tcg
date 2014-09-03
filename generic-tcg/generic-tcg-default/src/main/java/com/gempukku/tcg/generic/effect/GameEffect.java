@@ -11,7 +11,7 @@ import java.util.Map;
  * It allows multiple executions invocations being done on it. When it returns false from its
  * method execution, the effect serie is considered "done" its job. 
  */
-public interface GameObjectEffectSerie {
+public interface GameEffect {
     public Result execute(GameObjects gameObjects, GameActionContext context);
 
     public class Result {

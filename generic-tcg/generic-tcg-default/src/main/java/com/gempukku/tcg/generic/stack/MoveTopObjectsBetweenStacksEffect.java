@@ -4,18 +4,17 @@ import com.gempukku.tcg.GameObjects;
 import com.gempukku.tcg.digital.DigitalObject;
 import com.gempukku.tcg.generic.action.GameActionContext;
 import com.gempukku.tcg.generic.effect.GameEffect;
+import com.gempukku.tcg.generic.evaluator.IntEvaluator;
 import com.gempukku.tcg.generic.evaluator.StringEvaluator;
 
-import java.util.List;
-
-public class MoveObjectsBetweenStacksEffect implements GameEffect {
+public class MoveTopObjectsBetweenStacksEffect implements GameEffect {
+    private IntEvaluator _count;
+    private StringEvaluator _player;
     private StringEvaluator _stackFrom;
     private StringEvaluator _stackTo;
-    private StringEvaluator _ids;
-    private StringEvaluator _player;
 
-    public void setIds(StringEvaluator ids) {
-        _ids = ids;
+    public void setCount(IntEvaluator count) {
+        _count = count;
     }
 
     public void setPlayer(StringEvaluator player) {
@@ -35,24 +34,17 @@ public class MoveObjectsBetweenStacksEffect implements GameEffect {
         final String stackFromName = _stackFrom.getValue(gameObjects, context);
         final String stackToName = _stackTo.getValue(gameObjects, context);
         final String player = _player.getValue(gameObjects, context);
+        final int count = _count.getValue(gameObjects, context);
 
         final PlayerDigitalObjectStackManager stackFrom = (PlayerDigitalObjectStackManager) gameObjects.getGameObject(stackFromName);
         final PlayerDigitalObjectStackManager stackTo = (PlayerDigitalObjectStackManager) gameObjects.getGameObject(stackToName);
 
-        if (_ids != null) {
-            final String[] ids = _ids.getValue(gameObjects, context).split(",");
-
-            for (String id : ids) {
-                final DigitalObject object = stackFrom.removeObjectFromStack(gameObjects, player, id);
-                if (object != null)
-                    stackTo.putOnTop(gameObjects, player, object);
-            }
-        } else {
-            final List<DigitalObject> objects = stackFrom.getDigitalObjectsInStack(gameObjects, player);
-            stackFrom.removeAllObjectsInStack(gameObjects, player);
-            for (DigitalObject object : objects)
-                stackTo.putOnTop(gameObjects, player, object);
+        for (int i=0; i<count; i++) {
+            final DigitalObject digitalObject = stackFrom.removeTopObject(gameObjects, player);
+            if (digitalObject != null)
+                stackTo.putOnTop(gameObjects, player, digitalObject);
         }
+
         return new Result(null, false);
     }
 }

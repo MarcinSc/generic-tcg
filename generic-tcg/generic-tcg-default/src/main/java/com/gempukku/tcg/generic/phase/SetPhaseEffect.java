@@ -3,9 +3,9 @@ package com.gempukku.tcg.generic.phase;
 import com.gempukku.tcg.GameObjects;
 import com.gempukku.tcg.generic.GenericContextObjects;
 import com.gempukku.tcg.generic.action.GameActionContext;
-import com.gempukku.tcg.generic.effect.GameObjectEffectSerie;
+import com.gempukku.tcg.generic.effect.GameEffect;
 
-public class SetPhaseEffect implements GameObjectEffectSerie {
+public class SetPhaseEffect implements GameEffect {
     private String _value;
 
     public void setValue(String value) {
