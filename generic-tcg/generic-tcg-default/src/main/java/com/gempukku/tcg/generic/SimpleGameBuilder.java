@@ -1,9 +1,8 @@
 package com.gempukku.tcg.generic;
 
-import com.gempukku.tcg.generic.decision.DecisionHolder;
 import com.gempukku.tcg.GameBuilder;
-import com.gempukku.tcg.GameProcessor;
 import com.gempukku.tcg.GameObjects;
+import com.gempukku.tcg.GameProcessor;
 import com.gempukku.tcg.digital.DigitalEnvironment;
 
 public class SimpleGameBuilder implements GameBuilder {

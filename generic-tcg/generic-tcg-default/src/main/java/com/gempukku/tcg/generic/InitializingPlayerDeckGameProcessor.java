@@ -1,6 +1,5 @@
 package com.gempukku.tcg.generic;
 
-import com.gempukku.tcg.generic.decision.DecisionHolder;
 import com.gempukku.tcg.GameDeck;
 import com.gempukku.tcg.GameObjects;
 import com.gempukku.tcg.digital.DigitalEnvironment;
@@ -13,7 +12,7 @@ import java.util.Set;
 
 public abstract class InitializingPlayerDeckGameProcessor extends DecisionHolderBasedGameProcessor implements PlayerDeckGameProcessor {
     @Override
-    public void startProcessing(GameObjects gameObjects, DigitalEnvironment environment, Map<String, GameDeck> gameDeckMap) {
+    public void startProcessingNewGame(GameObjects gameObjects, DigitalEnvironment environment, Map<String, GameDeck> gameDeckMap) {
         gameObjects.addGameObject("digitalEnvironment", environment);
         gameObjects.addGameObject("decisionHolder", new DecisionHolderManager());
 
@@ -34,7 +33,7 @@ public abstract class InitializingPlayerDeckGameProcessor extends DecisionHolder
     }
 
     @Override
-    public void startProcessingLoaded(GameObjects gameObjects, DigitalEnvironment environment, Set<String> players) {
+    public void startProcessingLoadedGame(GameObjects gameObjects, DigitalEnvironment environment, Set<String> players) {
         gameObjects.addGameObject("digitalEnvironment", environment);
         gameObjects.addGameObject("decisionHolder", new DecisionHolderManager());
 

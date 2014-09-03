@@ -1,24 +1,27 @@
 package com.gempukku.tcg.overpower;
 
-import com.gempukku.tcg.generic.GenericContextObjects;
-import com.gempukku.tcg.generic.decision.DecisionHolder;
-import com.gempukku.tcg.generic.deck.DefaultGameDeck;
 import com.gempukku.tcg.GameBuilder;
 import com.gempukku.tcg.GameDeck;
 import com.gempukku.tcg.GameObjects;
 import com.gempukku.tcg.GameProcessor;
 import com.gempukku.tcg.digital.DigitalEnvironment;
 import com.gempukku.tcg.digital.DigitalObject;
+import com.gempukku.tcg.generic.GenericContextObjects;
 import com.gempukku.tcg.generic.SpringGameBuilderFactory;
+import com.gempukku.tcg.generic.decision.DecisionHolder;
+import com.gempukku.tcg.generic.deck.DefaultGameDeck;
 import com.gempukku.tcg.generic.stack.PlayerDigitalObjectStackManager;
-import org.junit.*;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 public class OverpowerGameTest {
     public static SpringGameBuilderFactory _gameBuilderFactory;

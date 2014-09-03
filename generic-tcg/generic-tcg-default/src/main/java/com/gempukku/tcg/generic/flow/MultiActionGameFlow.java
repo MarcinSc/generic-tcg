@@ -1,14 +1,14 @@
 package com.gempukku.tcg.generic.flow;
 
-import com.gempukku.tcg.generic.action.GameAction;
-import com.gempukku.tcg.generic.action.GameActionContext;
-import com.gempukku.tcg.generic.decision.AwaitingDecision;
 import com.gempukku.tcg.GameObjects;
 import com.gempukku.tcg.digital.DigitalEnvironment;
 import com.gempukku.tcg.digital.DigitalObject;
 import com.gempukku.tcg.generic.DigitalObjects;
 import com.gempukku.tcg.generic.GameFlow;
 import com.gempukku.tcg.generic.GenericContextObjects;
+import com.gempukku.tcg.generic.action.GameAction;
+import com.gempukku.tcg.generic.action.GameActionContext;
+import com.gempukku.tcg.generic.decision.AwaitingDecision;
 
 import java.util.Collections;
 import java.util.HashMap;

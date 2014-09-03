@@ -1,9 +1,9 @@
 package com.gempukku.tcg.generic.phase;
 
-import com.gempukku.tcg.generic.decision.AwaitingDecision;
 import com.gempukku.tcg.GameObjects;
 import com.gempukku.tcg.generic.GameFlow;
 import com.gempukku.tcg.generic.GenericContextObjects;
+import com.gempukku.tcg.generic.decision.AwaitingDecision;
 
 import java.util.Map;
 

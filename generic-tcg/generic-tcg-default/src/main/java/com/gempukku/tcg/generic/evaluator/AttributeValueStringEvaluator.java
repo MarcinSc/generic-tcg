@@ -1,7 +1,7 @@
 package com.gempukku.tcg.generic.evaluator;
 
-import com.gempukku.tcg.generic.action.GameActionContext;
 import com.gempukku.tcg.GameObjects;
+import com.gempukku.tcg.generic.action.GameActionContext;
 
 public class AttributeValueStringEvaluator implements StringEvaluator {
     private StringEvaluator _propertyName;

@@ -1,9 +1,9 @@
 package com.gempukku.tcg.generic.action;
 
-import com.gempukku.tcg.generic.decision.AwaitingDecision;
 import com.gempukku.tcg.GameObjects;
 import com.gempukku.tcg.digital.DigitalEnvironment;
 import com.gempukku.tcg.generic.GenericContextObjects;
+import com.gempukku.tcg.generic.decision.AwaitingDecision;
 import com.gempukku.tcg.generic.effect.GameObjectEffectSerie;
 import com.gempukku.tcg.generic.evaluator.ConstantStringEvaluator;
 import com.gempukku.tcg.generic.evaluator.StringEvaluator;

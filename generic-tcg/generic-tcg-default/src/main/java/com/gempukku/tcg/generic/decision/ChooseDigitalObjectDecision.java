@@ -2,7 +2,9 @@ package com.gempukku.tcg.generic.decision;
 
 import com.gempukku.tcg.digital.DigitalObject;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
 
 public abstract class ChooseDigitalObjectDecision implements AwaitingDecision {
     private String _message;

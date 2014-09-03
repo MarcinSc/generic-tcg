@@ -1,7 +1,7 @@
 package com.gempukku.tcg.generic.effect;
 
-import com.gempukku.tcg.generic.action.GameActionContext;
 import com.gempukku.tcg.GameObjects;
+import com.gempukku.tcg.generic.action.GameActionContext;
 import com.gempukku.tcg.generic.condition.GameObjectCondition;
 
 public class ConditionalEffect implements GameObjectEffectSerie {

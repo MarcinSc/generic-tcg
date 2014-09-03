@@ -1,9 +1,9 @@
 package com.gempukku.tcg.generic;
 
+import com.gempukku.tcg.GameObjects;
+import com.gempukku.tcg.GameProcessor;
 import com.gempukku.tcg.generic.decision.AwaitingDecision;
 import com.gempukku.tcg.generic.decision.DecisionHolder;
-import com.gempukku.tcg.GameProcessor;
-import com.gempukku.tcg.GameObjects;
 import com.gempukku.tcg.generic.decision.InvalidAnswerException;
 
 import java.util.Map;

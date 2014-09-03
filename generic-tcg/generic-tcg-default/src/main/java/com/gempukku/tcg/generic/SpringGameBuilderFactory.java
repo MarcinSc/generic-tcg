@@ -1,12 +1,10 @@
 package com.gempukku.tcg.generic;
 
-import com.gempukku.tcg.generic.decision.DecisionHolder;
 import com.gempukku.tcg.GameBuilder;
 import com.gempukku.tcg.GameDeck;
 import com.gempukku.tcg.GameObjects;
 import com.gempukku.tcg.GameObjectsFactory;
 import com.gempukku.tcg.digital.DigitalEnvironment;
-import com.gempukku.tcg.generic.decision.DecisionHolderFactory;
 import com.gempukku.tcg.generic.environment.MapDigitalEnvironment;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -48,7 +46,7 @@ public class SpringGameBuilderFactory implements GameBuilderFactory {
         final GameObjects gameObjects = gameObjectsFactory.create();
 
         final DigitalEnvironment digitalEnvironment = new MapDigitalEnvironment();
-        gameProcessor.startProcessing(gameObjects, digitalEnvironment, playersAndDecks);
+        gameProcessor.startProcessingNewGame(gameObjects, digitalEnvironment, playersAndDecks);
 
         return new SimpleGameBuilder(gameObjects, gameProcessor, digitalEnvironment);
     }
@@ -60,7 +58,7 @@ public class SpringGameBuilderFactory implements GameBuilderFactory {
 
         final GameObjects gameObjects = gameObjectsFactory.create();
 
-        gameProcessor.startProcessingLoaded(gameObjects, digitalEnvironment, players);
+        gameProcessor.startProcessingLoadedGame(gameObjects, digitalEnvironment, players);
 
         return new SimpleGameBuilder(gameObjects, gameProcessor, digitalEnvironment);
     }

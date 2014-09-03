@@ -7,10 +7,8 @@ import com.gempukku.tcg.generic.GamePlayerStateInitializing;
 import com.gempukku.tcg.generic.GenericContextObjects;
 import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Iterators;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 public class PlayerManager implements GamePlayerStateInitializing {
