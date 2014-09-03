@@ -92,6 +92,7 @@
     </bean>
 
     <import resource="overpower-phase-game-context.xml"/>
-    <import resource="overpower-tcg-original-set-context.xml"/>
+    <import resource="overpower-common-actions-context.xml"/>
+    <import resource="overpower-set-original-context.xml"/>
 
 </beans>
