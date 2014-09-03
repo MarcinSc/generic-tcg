@@ -18,6 +18,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -28,6 +29,9 @@ public class OverpowerGameTest {
 
     public static final String P1 = "p1";
     public static final String P2 = "p2";
+    private GameProcessor _gameProcessor;
+    private GameObjects _gameObjects;
+    private DigitalEnvironment _digitalEnvironment;
 
     @BeforeClass
     public static void setupFactory() {
@@ -46,36 +50,33 @@ public class OverpowerGameTest {
         decks.put(P1, deck);
         decks.put(P2, deck);
 
-        final GameBuilder gameBuilder = _gameBuilderFactory.startNewGame(decks);
+        startNewGame(decks);
 
-        final GameProcessor gameProcessor = gameBuilder.getGameProcessor();
-        final GameObjects gameObjects = gameBuilder.getGameObjects();
+        final PlayerDigitalObjectStackManager frontLineZone = OverpowerContextObjects.extractGameObject(_gameObjects, OverpowerContextObjects.FRONT_LINE_ZONE);
 
-        final PlayerDigitalObjectStackManager frontLineZone = OverpowerContextObjects.extractGameObject(gameObjects, OverpowerContextObjects.FRONT_LINE_ZONE);
-
-        DecisionHolder decisionHolder = GenericContextObjects.extractGameObject(gameObjects, GenericContextObjects.DECISION_HOLDER);
+        DecisionHolder decisionHolder = GenericContextObjects.extractGameObject(_gameObjects, GenericContextObjects.DECISION_HOLDER);
         assertNotNull(decisionHolder.getDecision(P1));
         assertNotNull(decisionHolder.getDecision(P2));
 
-        gameProcessor.playerSentDecision(gameObjects, P1, "0,1,2");
+        _gameProcessor.playerSentDecision(_gameObjects, P1, "0,1,2");
 
-        List<DigitalObject> p1FrontLine = frontLineZone.getDigitalObjectsInStack(gameObjects, P1);
+        List<DigitalObject> p1FrontLine = frontLineZone.getDigitalObjectsInStack(_gameObjects, P1);
         assertEquals(0, p1FrontLine.size());
 
         assertNull(decisionHolder.getDecision(P1));
         assertNotNull(decisionHolder.getDecision(P2));
 
-        gameProcessor.playerSentDecision(gameObjects, P2, "1,2,3");
+        _gameProcessor.playerSentDecision(_gameObjects, P2, "1,2,3");
         assertNull(decisionHolder.getDecision(P1));
         assertNull(decisionHolder.getDecision(P2));
 
-        p1FrontLine = frontLineZone.getDigitalObjectsInStack(gameObjects, P1);
+        p1FrontLine = frontLineZone.getDigitalObjectsInStack(_gameObjects, P1);
         assertEquals(3, p1FrontLine.size());
         assertEquals("1", p1FrontLine.get(0).getAttributes().get("blueprintId"));
         assertEquals("2", p1FrontLine.get(1).getAttributes().get("blueprintId"));
         assertEquals("3", p1FrontLine.get(2).getAttributes().get("blueprintId"));
 
-        final List<DigitalObject> p2FrontLine = frontLineZone.getDigitalObjectsInStack(gameObjects, P2);
+        final List<DigitalObject> p2FrontLine = frontLineZone.getDigitalObjectsInStack(_gameObjects, P2);
         assertEquals(3, p2FrontLine.size());
         assertEquals("2", p2FrontLine.get(0).getAttributes().get("blueprintId"));
         assertEquals("3", p2FrontLine.get(1).getAttributes().get("blueprintId"));
@@ -91,50 +92,63 @@ public class OverpowerGameTest {
         decks.put(P1, deck);
         decks.put(P2, deck);
 
+        {
+            startNewGame(decks);
+            PlayerDigitalObjectStackManager frontLineZone = OverpowerContextObjects.extractGameObject(_gameObjects, OverpowerContextObjects.FRONT_LINE_ZONE);
+            DecisionHolder decisionHolder = GenericContextObjects.extractGameObject(_gameObjects, GenericContextObjects.DECISION_HOLDER);
+
+            assertNotNull(decisionHolder.getDecision(P1));
+            assertNotNull(decisionHolder.getDecision(P2));
+
+            _gameProcessor.playerSentDecision(_gameObjects, P1, "0,1,2");
+
+            List<DigitalObject> p1FrontLine = frontLineZone.getDigitalObjectsInStack(_gameObjects, P1);
+            assertEquals(0, p1FrontLine.size());
+
+            assertNull(decisionHolder.getDecision(P1));
+            assertNotNull(decisionHolder.getDecision(P2));
+        }
+
+        {
+            loadGame(_digitalEnvironment, decks.keySet());
+
+            PlayerDigitalObjectStackManager frontLineZone = OverpowerContextObjects.extractGameObject(_gameObjects, OverpowerContextObjects.FRONT_LINE_ZONE);
+            DecisionHolder decisionHolder = GenericContextObjects.extractGameObject(_gameObjects, GenericContextObjects.DECISION_HOLDER);
+
+            _gameProcessor.playerSentDecision(_gameObjects, P2, "1,2,3");
+            assertNull(decisionHolder.getDecision(P1));
+            assertNull(decisionHolder.getDecision(P2));
+
+            List<DigitalObject> p1FrontLine = frontLineZone.getDigitalObjectsInStack(_gameObjects, P1);
+            assertEquals(3, p1FrontLine.size());
+            assertEquals("1", p1FrontLine.get(0).getAttributes().get("blueprintId"));
+            assertEquals("2", p1FrontLine.get(1).getAttributes().get("blueprintId"));
+            assertEquals("3", p1FrontLine.get(2).getAttributes().get("blueprintId"));
+
+            final List<DigitalObject> p2FrontLine = frontLineZone.getDigitalObjectsInStack(_gameObjects, P2);
+            assertEquals(3, p2FrontLine.size());
+            assertEquals("2", p2FrontLine.get(0).getAttributes().get("blueprintId"));
+            assertEquals("3", p2FrontLine.get(1).getAttributes().get("blueprintId"));
+            assertEquals("4", p2FrontLine.get(2).getAttributes().get("blueprintId"));
+
+            assertNotNull(decisionHolder.getDecision("end"));
+        }
+    }
+
+    private void loadGame(DigitalEnvironment digitalEnvironment, Set<String> players) {
+        GameBuilder gameBuilder = _gameBuilderFactory.continueLoadedGame(digitalEnvironment, players);
+
+        _gameProcessor = gameBuilder.getGameProcessor();
+        _gameObjects = gameBuilder.getGameObjects();
+        _digitalEnvironment = gameBuilder.getDigitalEnvironment();
+    }
+
+    private void startNewGame(Map<String, GameDeck> decks) {
         GameBuilder gameBuilder = _gameBuilderFactory.startNewGame(decks);
 
-        GameProcessor gameProcessor = gameBuilder.getGameProcessor();
-        GameObjects gameObjects = gameBuilder.getGameObjects();
-        PlayerDigitalObjectStackManager frontLineZone = OverpowerContextObjects.extractGameObject(gameObjects, OverpowerContextObjects.FRONT_LINE_ZONE);
-        DecisionHolder decisionHolder = GenericContextObjects.extractGameObject(gameObjects, GenericContextObjects.DECISION_HOLDER);
-
-        assertNotNull(decisionHolder.getDecision(P1));
-        assertNotNull(decisionHolder.getDecision(P2));
-
-        gameProcessor.playerSentDecision(gameObjects, P1, "0,1,2");
-
-        List<DigitalObject> p1FrontLine = frontLineZone.getDigitalObjectsInStack(gameObjects, P1);
-        assertEquals(0, p1FrontLine.size());
-
-        assertNull(decisionHolder.getDecision(P1));
-        assertNotNull(decisionHolder.getDecision(P2));
-
-        final DigitalEnvironment digitalEnvironment = gameBuilder.getDigitalEnvironment();
-
-        gameBuilder = _gameBuilderFactory.continueLoadedGame(digitalEnvironment, decks.keySet());
-
-        gameProcessor = gameBuilder.getGameProcessor();
-        gameObjects = gameBuilder.getGameObjects();
-        frontLineZone = OverpowerContextObjects.extractGameObject(gameObjects, OverpowerContextObjects.FRONT_LINE_ZONE);
-        decisionHolder = GenericContextObjects.extractGameObject(gameObjects, GenericContextObjects.DECISION_HOLDER);
-
-        gameProcessor.playerSentDecision(gameObjects, P2, "1,2,3");
-        assertNull(decisionHolder.getDecision(P1));
-        assertNull(decisionHolder.getDecision(P2));
-
-        p1FrontLine = frontLineZone.getDigitalObjectsInStack(gameObjects, P1);
-        assertEquals(3, p1FrontLine.size());
-        assertEquals("1", p1FrontLine.get(0).getAttributes().get("blueprintId"));
-        assertEquals("2", p1FrontLine.get(1).getAttributes().get("blueprintId"));
-        assertEquals("3", p1FrontLine.get(2).getAttributes().get("blueprintId"));
-
-        final List<DigitalObject> p2FrontLine = frontLineZone.getDigitalObjectsInStack(gameObjects, P2);
-        assertEquals(3, p2FrontLine.size());
-        assertEquals("2", p2FrontLine.get(0).getAttributes().get("blueprintId"));
-        assertEquals("3", p2FrontLine.get(1).getAttributes().get("blueprintId"));
-        assertEquals("4", p2FrontLine.get(2).getAttributes().get("blueprintId"));
-
-        assertNotNull(decisionHolder.getDecision("end"));
+        _gameProcessor = gameBuilder.getGameProcessor();
+        _gameObjects = gameBuilder.getGameObjects();
+        _digitalEnvironment = gameBuilder.getDigitalEnvironment();
     }
 
     private DefaultGameDeck createDeck() {
