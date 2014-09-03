@@ -28,7 +28,7 @@ public class ForEachPlayerAction implements GameAction {
 
         final String attributeName = _playerAttribute.getValue(gameObjects, context);
         for (String playerName : playerManager.getPlayerNames(gameObjects)) {
-            context.setProperty(attributeName, playerName);
+            context.setAttribute(attributeName, playerName);
             if (_gameAction.hasNextGameEffect(gameObjects, context))
                 return true;
         }
@@ -44,7 +44,7 @@ public class ForEachPlayerAction implements GameAction {
 
         final String attributeName = _playerAttribute.getValue(gameObjects, context);
         for (String playerName : playerManager.getPlayerNames(gameObjects)) {
-            context.setProperty(attributeName, playerName);
+            context.setAttribute(attributeName, playerName);
             if (_gameAction.hasNextGameEffect(gameObjects, context)) {
                 final Map<String, AwaitingDecision> playerResult = _gameAction.processNextGameEffect(gameObjects, context);
                 if (playerResult != null)

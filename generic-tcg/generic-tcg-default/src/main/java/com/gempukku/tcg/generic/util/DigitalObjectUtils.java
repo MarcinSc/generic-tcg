@@ -8,7 +8,6 @@ import com.gempukku.tcg.generic.filter.DigitalObjectFilter;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Stack;
 
 public class DigitalObjectUtils {
     public static String resolveObjectProperty(GameActionContext context, String property) {
@@ -73,6 +72,6 @@ public class DigitalObjectUtils {
     }
 
     private static String extractProperty(GameActionContext context, String property) {
-        return context.getValue(property);
+        return context.getAttribute(property);
     }
 }

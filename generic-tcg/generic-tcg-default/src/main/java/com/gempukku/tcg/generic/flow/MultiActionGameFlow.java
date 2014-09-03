@@ -9,7 +9,6 @@ import com.gempukku.tcg.generic.GenericContextObjects;
 import com.gempukku.tcg.generic.action.GameAction;
 import com.gempukku.tcg.generic.action.GameActionContext;
 import com.gempukku.tcg.generic.decision.AwaitingDecision;
-import com.gempukku.tcg.generic.util.DigitalObjectUtils;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -52,13 +51,18 @@ public class MultiActionGameFlow implements GameFlow {
     private GameActionContext createContext(final GameObjects gameObjects, final DigitalObject gameAction) {
         return new GameActionContext() {
             @Override
-            public void setProperty(String name, String value) {
+            public void setAttribute(String name, String value) {
                 final DigitalEnvironment digitalEnvironment = GenericContextObjects.extractGameObject(gameObjects, GenericContextObjects.DIGITAL_ENVIRONMENT);
                 digitalEnvironment.updateObject(gameAction.getId(), Collections.singletonMap(name, value), false);
             }
 
             @Override
-            public String getValue(String name) {
+            public void removeAttribute(String name) {
+                setAttribute(name, null);
+            }
+
+            @Override
+            public String getAttribute(String name) {
                 return gameAction.getAttributes().get(name);
             }
         };

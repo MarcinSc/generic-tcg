@@ -2,13 +2,13 @@ package com.gempukku.tcg.generic.effect;
 
 import com.gempukku.tcg.GameObjects;
 import com.gempukku.tcg.generic.action.GameActionContext;
-import com.gempukku.tcg.generic.condition.GameObjectCondition;
+import com.gempukku.tcg.generic.condition.ActionCondition;
 
 public class ConditionalEffect implements GameEffect {
-    private GameObjectCondition _gameObjectCondition;
+    private ActionCondition _gameObjectCondition;
     private GameEffect _gameObjectEffect;
 
-    public void setGameObjectCondition(GameObjectCondition gameObjectCondition) {
+    public void setGameObjectCondition(ActionCondition gameObjectCondition) {
         _gameObjectCondition = gameObjectCondition;
     }
 

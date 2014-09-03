@@ -12,6 +12,6 @@ public class AttributeValueStringEvaluator implements StringEvaluator {
 
     @Override
     public String getValue(GameObjects gameObjects, GameActionContext context) {
-        return context.getValue(_propertyName.getValue(gameObjects, context));
+        return context.getAttribute(_propertyName.getValue(gameObjects, context));
     }
 }

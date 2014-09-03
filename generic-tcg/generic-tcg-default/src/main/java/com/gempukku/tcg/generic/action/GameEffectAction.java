@@ -1,8 +1,6 @@
 package com.gempukku.tcg.generic.action;
 
 import com.gempukku.tcg.GameObjects;
-import com.gempukku.tcg.digital.DigitalEnvironment;
-import com.gempukku.tcg.generic.GenericContextObjects;
 import com.gempukku.tcg.generic.decision.AwaitingDecision;
 import com.gempukku.tcg.generic.effect.GameEffect;
 import com.gempukku.tcg.generic.evaluator.ConstantStringEvaluator;
@@ -36,13 +34,13 @@ public class GameEffectAction implements GameAction {
         final GameEffect.Result result = _gameObjectEffects.get(indexToExecute).execute(gameObjects, context);
 
         if (!result._shouldContinue)
-            setEffectIndex(gameObjects, context, indexToExecute+1);
+            setEffectIndex(gameObjects, context, indexToExecute + 1);
 
         return result._decisions;
     }
 
     private int getEffectIndex(GameObjects gameObjects, GameActionContext context) {
-        final String effectIndexStr = context.getValue(_indexAttribute.getValue(gameObjects, context));
+        final String effectIndexStr = context.getAttribute(_indexAttribute.getValue(gameObjects, context));
         int effectIndex = 0;
         if (effectIndexStr != null)
             effectIndex = Integer.parseInt(effectIndexStr);
@@ -50,6 +48,6 @@ public class GameEffectAction implements GameAction {
     }
 
     private void setEffectIndex(GameObjects gameObjects, GameActionContext context, int value) {
-        context.setProperty(_indexAttribute.getValue(gameObjects, context), String.valueOf(value));
+        context.setAttribute(_indexAttribute.getValue(gameObjects, context), String.valueOf(value));
     }
 }

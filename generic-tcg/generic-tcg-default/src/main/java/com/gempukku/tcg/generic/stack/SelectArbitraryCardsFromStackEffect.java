@@ -61,7 +61,7 @@ public class SelectArbitraryCardsFromStackEffect implements GameEffect {
     @Override
     public Result execute(final GameObjects gameObjects, final GameActionContext context) {
         final String attributeName = _attributeName.getValue(gameObjects, context);
-        if (context.getValue(attributeName) != null)
+        if (context.getAttribute(attributeName) != null)
             return new Result(null, false);
 
         final CardManager cardManager = GenericContextObjects.extractGameObject(gameObjects, GenericContextObjects.CARD_MANAGER);
@@ -85,7 +85,7 @@ public class SelectArbitraryCardsFromStackEffect implements GameEffect {
                 new ChooseArbitraryCardDecision(message, characterBlueprints, min, max) {
                     @Override
                     protected void objectsChosen(List<Integer> indices, List<String> blueprintId) {
-                        context.setProperty(attributeName, StringUtils.join(
+                        context.setAttribute(attributeName, StringUtils.join(
                                 Iterables.transform(indices,
                                         new Function<Integer, String>() {
                                             @Override

@@ -23,13 +23,16 @@ public class DecisionSerializer implements AwaitingDecisionVisitor {
     public void visit(ChooseDigitalObjectDecision decision) {
         _result.put("decisionType", "chooseDigitialObject");
         _result.put("message", decision.getMessage());
-        _result.put("ids", StringUtils.join(Iterators.transform(decision.getObjects().iterator(),
-                new Function<DigitalObject, String>() {
-                    @Override
-                    public String apply(DigitalObject input) {
-                        return input.getId();
-                    }
-                }), ","));
+        _result.put("ids", StringUtils.join(
+                Iterators.transform(decision.getObjects().iterator(),
+                        new Function<DigitalObject, String>() {
+                            @Override
+                            public String apply(DigitalObject input) {
+                                return input.getId();
+                            }
+                        }), ","));
+        _result.put("min", String.valueOf(decision.getMin()));
+        _result.put("max", String.valueOf(decision.getMax()));
     }
 
     @Override
@@ -37,6 +40,8 @@ public class DecisionSerializer implements AwaitingDecisionVisitor {
         _result.put("decisionType", "chooseArbitraryCard");
         _result.put("message", decision.getMessage());
         _result.put("cardBlueprints", StringUtils.join(decision.getCardBlueprints(), ","));
+        _result.put("min", String.valueOf(decision.getMin()));
+        _result.put("max", String.valueOf(decision.getMax()));
     }
 
     @Override
@@ -44,14 +49,15 @@ public class DecisionSerializer implements AwaitingDecisionVisitor {
         _result.put("decisionType", "chooseGameAction");
         _result.put("message", decision.getMessage());
         final AtomicInteger index = new AtomicInteger(0);
-        _result.put("actions", StringUtils.join(Iterators.transform(decision.getGameActionPossibilities().iterator(),
-                new Function<GameActionPossibility, String>() {
-                    @Override
-                    public String apply(GameActionPossibility input) {
-                        final String attachedObjectId = input.getAttachedObjectId(_gameObjects);
-                        return index.getAndIncrement() + "|" + ((attachedObjectId != null) ? attachedObjectId + "|" : "") + input.getText(_gameObjects);
-                    }
-                }), ","));
+        _result.put("actions", StringUtils.join(
+                Iterators.transform(decision.getGameActionPossibilities().iterator(),
+                        new Function<GameActionPossibility, String>() {
+                            @Override
+                            public String apply(GameActionPossibility input) {
+                                final String attachedObjectId = input.getAttachedObjectId(_gameObjects);
+                                return index.getAndIncrement() + "|" + ((attachedObjectId != null) ? attachedObjectId + "|" : "") + input.getText(_gameObjects);
+                            }
+                        }), ","));
     }
 
     @Override
