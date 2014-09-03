@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 public class SelectArbitraryCardsFromStackEffect implements GameEffect {
-    private StringEvaluator _stackType;
+    private StringEvaluator _stack;
     private DigitalObjectFilter _digitalObjectFilter;
     private IntEvaluator _min;
     private IntEvaluator _max;
@@ -50,8 +50,8 @@ public class SelectArbitraryCardsFromStackEffect implements GameEffect {
         _player = player;
     }
 
-    public void setStackType(StringEvaluator stackType) {
-        _stackType = stackType;
+    public void setStack(StringEvaluator stackType) {
+        _stack = stackType;
     }
 
     public void setMessage(StringEvaluator message) {
@@ -65,7 +65,7 @@ public class SelectArbitraryCardsFromStackEffect implements GameEffect {
             return new Result(null, false);
 
         final CardManager cardManager = GenericContextObjects.extractGameObject(gameObjects, GenericContextObjects.CARD_MANAGER);
-        final PlayerDigitalObjectStackManager stack = (PlayerDigitalObjectStackManager) gameObjects.getGameObject(_stackType.getValue(gameObjects, context));
+        final PlayerDigitalObjectStackManager stack = (PlayerDigitalObjectStackManager) gameObjects.getGameObject(_stack.getValue(gameObjects, context));
 
         final String playerName = _player.getValue(gameObjects, context);
 

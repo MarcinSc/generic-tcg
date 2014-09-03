@@ -44,8 +44,7 @@ public class MoveObjectsBetweenStacksEffect implements GameEffect {
 
             for (String id : ids) {
                 final DigitalObject object = stackFrom.removeObjectFromStack(gameObjects, player, id);
-                if (object != null)
-                    stackTo.putOnTop(gameObjects, player, object);
+                stackTo.putOnTop(gameObjects, player, object);
             }
         } else {
             final List<DigitalObject> objects = stackFrom.getDigitalObjectsInStack(gameObjects, player);
@@ -53,6 +52,7 @@ public class MoveObjectsBetweenStacksEffect implements GameEffect {
             for (DigitalObject object : objects)
                 stackTo.putOnTop(gameObjects, player, object);
         }
+
         return new Result(null, false);
     }
 }

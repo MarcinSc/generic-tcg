@@ -23,8 +23,7 @@
                 <entry key="playerManager" value-ref="playerManager"/>
                 <entry key="setupCharactersZone" value-ref="setupCharactersZone"/>
                 <entry key="setupDeckZone" value-ref="setupDeckZone"/>
-                <entry key="frontLineZone" value-ref="frontLineZone"/>
-                <entry key="reserveZone" value-ref="reserveZone"/>
+                <entry key="inPlayZone" value-ref="inPlayZone"/>
                 <entry key="deckZone" value-ref="deckZone"/>
                 <entry key="handZone" value-ref="handZone"/>
                 <entry key="powerPackZone" value-ref="powerPackZone"/>
@@ -64,12 +63,8 @@
         <property name="stackName" value="setupDeckZone"/>
     </bean>
 
-    <bean id="frontLineZone" class="com.gempukku.tcg.generic.stack.PlayerDigitalObjectStackManager">
-        <property name="stackName" value="frontLineZone"/>
-    </bean>
-
-    <bean id="reserveZone" class="com.gempukku.tcg.generic.stack.PlayerDigitalObjectStackManager">
-        <property name="stackName" value="reserveZone"/>
+    <bean id="inPlayZone" class="com.gempukku.tcg.generic.stack.PlayerDigitalObjectStackManager">
+        <property name="stackName" value="inPlayZone"/>
     </bean>
 
     <bean id="phaseGameFlow" class="com.gempukku.tcg.generic.phase.PhaseGameFlow">
