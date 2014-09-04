@@ -3,13 +3,14 @@ package com.gempukku.tcg.generic.effect;
 import com.gempukku.tcg.GameObjects;
 import com.gempukku.tcg.generic.action.GameActionContext;
 import com.gempukku.tcg.generic.condition.ActionCondition;
+import com.gempukku.tcg.generic.evaluator.ConstantStringEvaluator;
 import com.gempukku.tcg.generic.evaluator.StringEvaluator;
 
 import java.util.List;
 
 public class RepeatWhileEffect implements GameEffect {
     private ActionCondition _condition;
-    private StringEvaluator _indexAttribute;
+    private StringEvaluator _indexAttribute = new ConstantStringEvaluator("repeatWhileEffectIndex");
     private List<? extends GameEffect> _gameObjectEffects;
 
     public void setCondition(ActionCondition condition) {
@@ -26,8 +27,10 @@ public class RepeatWhileEffect implements GameEffect {
 
     @Override
     public Result execute(GameObjects gameObjects, GameActionContext context) {
-        if (!_condition.isMet(gameObjects, context))
+        if (!_condition.isMet(gameObjects, context)) {
+            removeEffectIndex(gameObjects, context);
             return new Result(null, false);
+        }
 
         int indexToExecute = getEffectIndex(gameObjects, context);
         final GameEffect.Result result = _gameObjectEffects.get(indexToExecute).execute(gameObjects, context);
@@ -38,7 +41,10 @@ public class RepeatWhileEffect implements GameEffect {
             else
                 setEffectIndex(gameObjects, context, 0);
 
-        return new Result(result._decisions, _condition.isMet(gameObjects, context));
+        final boolean repeat = _condition.isMet(gameObjects, context);
+        if (!repeat)
+            removeEffectIndex(gameObjects, context);
+        return new Result(result._decisions, repeat);
     }
 
     private int getEffectIndex(GameObjects gameObjects, GameActionContext context) {
@@ -53,4 +59,7 @@ public class RepeatWhileEffect implements GameEffect {
         context.setAttribute(_indexAttribute.getValue(gameObjects, context), String.valueOf(value));
     }
 
+    private void removeEffectIndex(GameObjects gameObjects, GameActionContext context) {
+        context.removeAttribute(_indexAttribute.getValue(gameObjects, context));
+    }
 }

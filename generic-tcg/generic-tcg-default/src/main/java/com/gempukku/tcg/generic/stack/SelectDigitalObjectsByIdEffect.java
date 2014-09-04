@@ -76,15 +76,17 @@ public class SelectDigitalObjectsByIdEffect implements GameEffect {
                 new ChooseDigitalObjectDecision(message, digitalObjects, min, max) {
                     @Override
                     protected void objectsChosen(Set<DigitalObject> object) {
-                        context.setAttribute(attributeName, StringUtils.join(
-                                Iterables.transform(object,
-                                        new Function<DigitalObject, String>() {
-                                            @Override
-                                            public String apply(DigitalObject input) {
-                                                return input.getId();
-                                            }
+                        if (object.size() > 0) {
+                            context.setAttribute(attributeName, StringUtils.join(
+                                    Iterables.transform(object,
+                                            new Function<DigitalObject, String>() {
+                                                @Override
+                                                public String apply(DigitalObject input) {
+                                                    return input.getId();
+                                                }
 
-                                        }).iterator(), ","));
+                                            }).iterator(), ","));
+                        }
                     }
                 });
 

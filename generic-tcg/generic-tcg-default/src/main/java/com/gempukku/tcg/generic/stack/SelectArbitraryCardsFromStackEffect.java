@@ -85,15 +85,17 @@ public class SelectArbitraryCardsFromStackEffect implements GameEffect {
                 new ChooseArbitraryCardDecision(message, characterBlueprints, min, max) {
                     @Override
                     protected void objectsChosen(List<Integer> indices, List<String> blueprintId) {
-                        context.setAttribute(attributeName, StringUtils.join(
-                                Iterables.transform(indices,
-                                        new Function<Integer, String>() {
-                                            @Override
-                                            public String apply(Integer input) {
-                                                return matchingObjects.get(input).getId();
-                                            }
+                        if (indices.size() > 0) {
+                            context.setAttribute(attributeName, StringUtils.join(
+                                    Iterables.transform(indices,
+                                            new Function<Integer, String>() {
+                                                @Override
+                                                public String apply(Integer input) {
+                                                    return matchingObjects.get(input).getId();
+                                                }
 
-                                        }).iterator(), ","));
+                                            }).iterator(), ","));
+                        }
                     }
                 });
 

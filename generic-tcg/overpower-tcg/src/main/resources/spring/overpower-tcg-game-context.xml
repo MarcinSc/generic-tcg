@@ -18,7 +18,7 @@
         <property name="gameObjects">
             <util:map>
                 <entry key="gameEventEngine" value-ref="gameEventEngine"/>
-                <entry key="turnOrder" value-ref="turnOrder"/>
+                <entry key="playerOrder" value-ref="playerOrder"/>
                 <entry key="phaseManager" value-ref="phaseManager"/>
                 <entry key="playerManager" value-ref="playerManager"/>
                 <entry key="setupCharactersZone" value-ref="setupCharactersZone"/>
@@ -82,7 +82,7 @@
         </property>
     </bean>
 
-    <bean id="turnOrder" class="com.gempukku.tcg.generic.TurnOrder"/>
+    <bean id="playerOrder" class="com.gempukku.tcg.generic.order.PlayerOrder"/>
 
     <bean id="phaseManager" class="com.gempukku.tcg.generic.phase.PhaseManager">
         <property name="initialPhase" value="Setup"/>
