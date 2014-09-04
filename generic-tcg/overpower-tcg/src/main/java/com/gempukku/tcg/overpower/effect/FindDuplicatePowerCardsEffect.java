@@ -5,12 +5,14 @@ import com.gempukku.tcg.digital.DigitalObject;
 import com.gempukku.tcg.generic.action.GameActionContext;
 import com.gempukku.tcg.generic.effect.GameEffect;
 import com.gempukku.tcg.generic.evaluator.StringEvaluator;
+import com.gempukku.tcg.generic.filter.Filters;
 import com.gempukku.tcg.generic.stack.PlayerDigitalObjectStackManager;
 import com.gempukku.tcg.generic.util.DigitalObjectUtils;
 import com.gempukku.tcg.overpower.OverpowerContextObjects;
 import com.gempukku.tcg.overpower.card.OverpowerCardBlueprint;
 import com.gempukku.tcg.overpower.card.OverpowerCardManager;
 import com.gempukku.tcg.overpower.filter.CardTypeFilter;
+import com.gempukku.tcg.overpower.filter.IsPlacedOnFilter;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import org.apache.commons.lang.StringUtils;
@@ -40,7 +42,7 @@ public class FindDuplicatePowerCardsEffect implements GameEffect {
 
         final String player = _player.getValue(gameObjects, context);
 
-        final List<DigitalObject> powerCardsInPlay = DigitalObjectUtils.filter(gameObjects, new CardTypeFilter("power"), context, inPlayZone.getDigitalObjectsInStack(gameObjects, player));
+        final List<DigitalObject> powerCardsInPlay = DigitalObjectUtils.filter(gameObjects, Filters.and(new IsPlacedOnFilter(), new CardTypeFilter("power")), context, inPlayZone.getDigitalObjectsInStack(gameObjects, player));
         Set<Integer> placedPowerCardsPowers = new HashSet<Integer>();
         for (DigitalObject powerCardInPlay : powerCardsInPlay) {
             final OverpowerCardBlueprint cardBlueprint = overpowerCardManager.getCardBlueprint(gameObjects, powerCardInPlay);

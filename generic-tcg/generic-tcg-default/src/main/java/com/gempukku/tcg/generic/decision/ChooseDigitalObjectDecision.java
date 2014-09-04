@@ -67,7 +67,6 @@ public abstract class ChooseDigitalObjectDecision implements AwaitingDecision {
         } catch (NumberFormatException exp) {
             throw new InvalidAnswerException("Invalid item index presented");
         }
-        throw new InvalidAnswerException("Game object with id: " + answer + " not found");
     }
 
     protected abstract void objectsChosen(Set<DigitalObject> object);

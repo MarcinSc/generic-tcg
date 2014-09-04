@@ -8,6 +8,8 @@ import com.gempukku.tcg.digital.DigitalEnvironment;
 import com.gempukku.tcg.digital.DigitalObject;
 import com.gempukku.tcg.generic.GenericContextObjects;
 import com.gempukku.tcg.generic.SpringGameBuilderFactory;
+import com.gempukku.tcg.generic.decision.AwaitingDecision;
+import com.gempukku.tcg.generic.decision.ChooseDigitalObjectDecision;
 import com.gempukku.tcg.generic.decision.DecisionHolder;
 import com.gempukku.tcg.generic.deck.DefaultGameDeck;
 import com.gempukku.tcg.generic.stack.PlayerDigitalObjectStackManager;
@@ -15,6 +17,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +26,7 @@ import java.util.Set;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 public class OverpowerGameTest {
     public static SpringGameBuilderFactory _gameBuilderFactory;
@@ -45,12 +49,7 @@ public class OverpowerGameTest {
 
     @Test
     public void setupGameTest() {
-        Map<String, GameDeck> decks = new HashMap<String, GameDeck>();
-        DefaultGameDeck deck = createDeck();
-        decks.put(P1, deck);
-        decks.put(P2, deck);
-
-        startNewGame(decks);
+        startSimpleGame();
 
         final PlayerDigitalObjectStackManager inPlayZone = OverpowerContextObjects.extractGameObject(_gameObjects, OverpowerContextObjects.IN_PLAY_ZONE);
 
@@ -67,8 +66,6 @@ public class OverpowerGameTest {
         assertNotNull(decisionHolder.getDecision(P2));
 
         _gameProcessor.playerSentDecision(_gameObjects, P2, "1,2,3");
-        assertNull(decisionHolder.getDecision(P1));
-        assertNull(decisionHolder.getDecision(P2));
 
         p1FrontLine = inPlayZone.getDigitalObjectsInStack(_gameObjects, P1);
         assertEquals(4, p1FrontLine.size());
@@ -91,8 +88,6 @@ public class OverpowerGameTest {
         assertEquals("FrontLine", p2FrontLine.get(2).getAttributes().get("position"));
         assertEquals("1-1", p2FrontLine.get(3).getAttributes().get("blueprintId"));
         assertEquals("Reserve", p2FrontLine.get(3).getAttributes().get("position"));
-
-        assertNotNull(decisionHolder.getDecision("end"));
     }
 
     @Test
@@ -123,11 +118,8 @@ public class OverpowerGameTest {
             loadGame(_digitalEnvironment, decks.keySet());
 
             PlayerDigitalObjectStackManager inPlayZone = OverpowerContextObjects.extractGameObject(_gameObjects, OverpowerContextObjects.IN_PLAY_ZONE);
-            DecisionHolder decisionHolder = GenericContextObjects.extractGameObject(_gameObjects, GenericContextObjects.DECISION_HOLDER);
 
             _gameProcessor.playerSentDecision(_gameObjects, P2, "1,2,3");
-            assertNull(decisionHolder.getDecision(P1));
-            assertNull(decisionHolder.getDecision(P2));
 
             List<DigitalObject> p1FrontLine = inPlayZone.getDigitalObjectsInStack(_gameObjects, P1);
             assertEquals(4, p1FrontLine.size());
@@ -150,9 +142,48 @@ public class OverpowerGameTest {
             assertEquals("FrontLine", p2FrontLine.get(2).getAttributes().get("position"));
             assertEquals("1-1", p2FrontLine.get(3).getAttributes().get("blueprintId"));
             assertEquals("Reserve", p2FrontLine.get(3).getAttributes().get("position"));
-
-            assertNotNull(decisionHolder.getDecision("end"));
         }
+    }
+
+    @Test
+    public void drawAndDiscardPhaseWithDuplicateOnHand() {
+        startSimpleGame(Collections.singletonMap("deck", Arrays.asList("1-40", "1-41", "1-42", "1-43", "1-44", "1-45", "1-46", "1-40")));
+
+        _gameProcessor.playerSentDecision(_gameObjects, P1, "0,1,2");
+        _gameProcessor.playerSentDecision(_gameObjects, P2, "0,1,2");
+
+        final PlayerDigitalObjectStackManager handZone = OverpowerContextObjects.extractGameObject(_gameObjects, OverpowerContextObjects.HAND_ZONE);
+        List<DigitalObject> handP1 = handZone.getDigitalObjectsInStack(_gameObjects, P1);
+        List<DigitalObject> handP2 = handZone.getDigitalObjectsInStack(_gameObjects, P2);
+        assertEquals(8, handP1.size());
+        assertEquals(8, handP2.size());
+
+        DecisionHolder decisionHolder = GenericContextObjects.extractGameObject(_gameObjects, GenericContextObjects.DECISION_HOLDER);
+        validateDiscardDecision(decisionHolder.getDecision(P1));
+        validateDiscardDecision(decisionHolder.getDecision(P2));
+
+        _gameProcessor.playerSentDecision(_gameObjects, P1, ((ChooseDigitalObjectDecision) decisionHolder.getDecision(P1)).getObjects().get(0).getId());
+        _gameProcessor.playerSentDecision(_gameObjects, P2, ((ChooseDigitalObjectDecision) decisionHolder.getDecision(P2)).getObjects().get(0).getId());
+
+        handP1 = handZone.getDigitalObjectsInStack(_gameObjects, P1);
+        assertEquals(7, handP1.size());
+
+        handP2 = handZone.getDigitalObjectsInStack(_gameObjects, P2);
+        assertEquals(7, handP2.size());
+
+        final PlayerDigitalObjectStackManager powerPackZone = OverpowerContextObjects.extractGameObject(_gameObjects, OverpowerContextObjects.POWER_PACK_ZONE);
+        assertEquals(1, powerPackZone.getDigitalObjectsInStack(_gameObjects, P1).size());
+        assertEquals(1, powerPackZone.getDigitalObjectsInStack(_gameObjects, P2).size());
+    }
+
+    private void validateDiscardDecision(AwaitingDecision decision) {
+        assertTrue(decision instanceof ChooseDigitalObjectDecision);
+        ChooseDigitalObjectDecision chooseDuplicateToDiscard = (ChooseDigitalObjectDecision) decision;
+        assertEquals(1, chooseDuplicateToDiscard.getMin());
+        assertEquals(1, chooseDuplicateToDiscard.getMax());
+        assertEquals(2, chooseDuplicateToDiscard.getObjects().size());
+        assertEquals("1-40", chooseDuplicateToDiscard.getObjects().get(0).getAttributes().get("blueprintId"));
+        assertEquals("1-40", chooseDuplicateToDiscard.getObjects().get(1).getAttributes().get("blueprintId"));
     }
 
     private void loadGame(DigitalEnvironment digitalEnvironment, Set<String> players) {
@@ -161,6 +192,23 @@ public class OverpowerGameTest {
         _gameProcessor = gameBuilder.getGameProcessor();
         _gameObjects = gameBuilder.getGameObjects();
         _digitalEnvironment = gameBuilder.getDigitalEnvironment();
+    }
+
+    private void startSimpleGame() {
+        startSimpleGame(Collections.<String, List<String>>emptyMap());
+    }
+
+    private void startSimpleGame(Map<String, List<String>> deckOverlay) {
+        Map<String, GameDeck> decks = new HashMap<String, GameDeck>();
+        DefaultGameDeck deck = createDeck();
+        for (Map.Entry<String, List<String>> overlay: deckOverlay.entrySet()){
+            deck.addDeckPart(overlay.getKey(), overlay.getValue());
+        }
+
+        decks.put(P1, deck);
+        decks.put(P2, deck);
+
+        startNewGame(decks);
     }
 
     private void startNewGame(Map<String, GameDeck> decks) {
@@ -174,7 +222,7 @@ public class OverpowerGameTest {
     private DefaultGameDeck createDeck() {
         DefaultGameDeck deck = new DefaultGameDeck();
         deck.addDeckPart("characters", Arrays.asList("1-1", "1-2", "1-3", "1-4"));
-        deck.addDeckPart("deck", Arrays.asList("1-40"));
+        deck.addDeckPart("deck", Arrays.asList("1-40", "1-41", "1-42", "1-43", "1-44", "1-45", "1-46", "1-47"));
         return deck;
     }
 }

@@ -1,7 +1,9 @@
 package com.gempukku.tcg.generic.stack;
 
 import com.gempukku.tcg.GameObjects;
+import com.gempukku.tcg.digital.DigitalEnvironment;
 import com.gempukku.tcg.digital.DigitalObject;
+import com.gempukku.tcg.generic.GenericContextObjects;
 import com.gempukku.tcg.generic.action.GameActionContext;
 import com.gempukku.tcg.generic.decision.AwaitingDecision;
 import com.gempukku.tcg.generic.decision.ChooseArbitraryCardDecision;
@@ -57,12 +59,17 @@ public class SelectDigitalObjectsByIdEffect implements GameEffect {
         if (context.getAttribute(attributeName) != null)
             return new Result(null, false);
 
+        final DigitalEnvironment digitalEnvironment = GenericContextObjects.extractGameObject(gameObjects, GenericContextObjects.DIGITAL_ENVIRONMENT);
+
         final String playerName = _player.getValue(gameObjects, context);
         final String message = _message.getValue(gameObjects, context);
         final int min = _min.getValue(gameObjects, context);
         final int max = _max.getValue(gameObjects, context);
 
         Set<DigitalObject> digitalObjects = new HashSet<DigitalObject>();
+        final String[] ids = _ids.getValue(gameObjects, context).split(",");
+        for (String id : ids)
+            digitalObjects.add(digitalEnvironment.getObjectById(id));
 
         Map<String, AwaitingDecision> decisions = new HashMap<String, AwaitingDecision>();
         decisions.put(playerName,

@@ -27,6 +27,7 @@
                 <entry key="deckZone" value-ref="deckZone"/>
                 <entry key="handZone" value-ref="handZone"/>
                 <entry key="powerPackZone" value-ref="powerPackZone"/>
+                <entry key="deadPileZone" value-ref="deadPileZone"/>
                 <entry key="overpowerCardManager" value-ref="overpowerCardManager"/>
                 <entry key="cardManager" value-ref="cardManager"/>
             </util:map>
@@ -42,6 +43,10 @@
     <bean id="cardManager" class="com.gempukku.tcg.generic.card.CardManager"/>
 
     <bean id="overpowerCardManager" class="com.gempukku.tcg.overpower.card.OverpowerCardManager"/>
+
+    <bean id="deadPileZone" class="com.gempukku.tcg.generic.stack.PlayerDigitalObjectStackManager">
+        <property name="stackName" value="deadPileZone"/>
+    </bean>
 
     <bean id="powerPackZone" class="com.gempukku.tcg.generic.stack.PlayerDigitalObjectStackManager">
         <property name="stackName" value="powerPackZone"/>
@@ -71,7 +76,8 @@
         <property name="phaseGameFlows">
             <util:map>
                 <entry key="Setup" value-ref="setupGameFlow"/>
-                <entry key="Start" value-ref="startGameFlow"/>
+                <entry key="DrawAndDiscard" value-ref="drawAndDiscardFlow"/>
+                <entry key="Placing" value-ref="placingFlow"/>
             </util:map>
         </property>
     </bean>

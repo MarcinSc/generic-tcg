@@ -5,6 +5,7 @@ import com.gempukku.tcg.digital.DigitalObject;
 import com.gempukku.tcg.generic.action.GameActionContext;
 import com.gempukku.tcg.generic.condition.ActionCondition;
 import com.gempukku.tcg.generic.evaluator.StringEvaluator;
+import com.gempukku.tcg.generic.filter.Filters;
 import com.gempukku.tcg.generic.filter.PredicateFilter;
 import com.gempukku.tcg.generic.stack.PlayerDigitalObjectStackManager;
 import com.gempukku.tcg.generic.util.DigitalObjectUtils;
@@ -12,6 +13,7 @@ import com.gempukku.tcg.overpower.OverpowerContextObjects;
 import com.gempukku.tcg.overpower.card.OverpowerCardBlueprint;
 import com.gempukku.tcg.overpower.card.OverpowerCardManager;
 import com.gempukku.tcg.overpower.filter.CardTypeFilter;
+import com.gempukku.tcg.overpower.filter.IsPlacedOnFilter;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 
@@ -35,7 +37,7 @@ public class HasDuplicatePowerCardsCondition implements ActionCondition {
 
         final String player = _player.getValue(gameObjects, context);
 
-        final List<DigitalObject> powerCardsInPlay = DigitalObjectUtils.filter(gameObjects, new CardTypeFilter("power"), context, inPlayZone.getDigitalObjectsInStack(gameObjects, player));
+        final List<DigitalObject> powerCardsInPlay = DigitalObjectUtils.filter(gameObjects, Filters.and(new IsPlacedOnFilter(), new CardTypeFilter("power")), context, inPlayZone.getDigitalObjectsInStack(gameObjects, player));
         Set<Integer> placedPowerCardsPowers = new HashSet<Integer>();
         for (DigitalObject powerCardInPlay : powerCardsInPlay) {
             final OverpowerCardBlueprint cardBlueprint = overpowerCardManager.getCardBlueprint(gameObjects, powerCardInPlay);
