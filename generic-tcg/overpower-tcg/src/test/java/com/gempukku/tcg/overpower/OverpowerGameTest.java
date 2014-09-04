@@ -69,24 +69,24 @@ public class OverpowerGameTest {
 
         p1FrontLine = inPlayZone.getDigitalObjectsInStack(_gameObjects, P1);
         assertEquals(4, p1FrontLine.size());
-        assertEquals("1-1", p1FrontLine.get(0).getAttributes().get("blueprintId"));
+        assertEquals("1-1", getBlueprint(p1FrontLine.get(0)));
         assertEquals("FrontLine", p1FrontLine.get(0).getAttributes().get("position"));
-        assertEquals("1-2", p1FrontLine.get(1).getAttributes().get("blueprintId"));
+        assertEquals("1-2", getBlueprint(p1FrontLine.get(1)));
         assertEquals("FrontLine", p1FrontLine.get(1).getAttributes().get("position"));
-        assertEquals("1-3", p1FrontLine.get(2).getAttributes().get("blueprintId"));
+        assertEquals("1-3", getBlueprint(p1FrontLine.get(2)));
         assertEquals("FrontLine", p1FrontLine.get(2).getAttributes().get("position"));
-        assertEquals("1-4", p1FrontLine.get(3).getAttributes().get("blueprintId"));
+        assertEquals("1-4", getBlueprint(p1FrontLine.get(3)));
         assertEquals("Reserve", p1FrontLine.get(3).getAttributes().get("position"));
 
         final List<DigitalObject> p2FrontLine = inPlayZone.getDigitalObjectsInStack(_gameObjects, P2);
         assertEquals(4, p2FrontLine.size());
-        assertEquals("1-2", p2FrontLine.get(0).getAttributes().get("blueprintId"));
+        assertEquals("1-2", getBlueprint(p2FrontLine.get(0)));
         assertEquals("FrontLine", p2FrontLine.get(0).getAttributes().get("position"));
-        assertEquals("1-3", p2FrontLine.get(1).getAttributes().get("blueprintId"));
+        assertEquals("1-3", getBlueprint(p2FrontLine.get(1)));
         assertEquals("FrontLine", p2FrontLine.get(1).getAttributes().get("position"));
-        assertEquals("1-4", p2FrontLine.get(2).getAttributes().get("blueprintId"));
+        assertEquals("1-4", getBlueprint(p2FrontLine.get(2)));
         assertEquals("FrontLine", p2FrontLine.get(2).getAttributes().get("position"));
-        assertEquals("1-1", p2FrontLine.get(3).getAttributes().get("blueprintId"));
+        assertEquals("1-1", getBlueprint(p2FrontLine.get(3)));
         assertEquals("Reserve", p2FrontLine.get(3).getAttributes().get("position"));
     }
 
@@ -123,24 +123,24 @@ public class OverpowerGameTest {
 
             List<DigitalObject> p1FrontLine = inPlayZone.getDigitalObjectsInStack(_gameObjects, P1);
             assertEquals(4, p1FrontLine.size());
-            assertEquals("1-1", p1FrontLine.get(0).getAttributes().get("blueprintId"));
+            assertEquals("1-1", getBlueprint(p1FrontLine.get(0)));
             assertEquals("FrontLine", p1FrontLine.get(0).getAttributes().get("position"));
-            assertEquals("1-2", p1FrontLine.get(1).getAttributes().get("blueprintId"));
+            assertEquals("1-2", getBlueprint(p1FrontLine.get(1)));
             assertEquals("FrontLine", p1FrontLine.get(1).getAttributes().get("position"));
-            assertEquals("1-3", p1FrontLine.get(2).getAttributes().get("blueprintId"));
+            assertEquals("1-3", getBlueprint(p1FrontLine.get(2)));
             assertEquals("FrontLine", p1FrontLine.get(2).getAttributes().get("position"));
-            assertEquals("1-4", p1FrontLine.get(3).getAttributes().get("blueprintId"));
+            assertEquals("1-4", getBlueprint(p1FrontLine.get(3)));
             assertEquals("Reserve", p1FrontLine.get(3).getAttributes().get("position"));
 
             final List<DigitalObject> p2FrontLine = inPlayZone.getDigitalObjectsInStack(_gameObjects, P2);
             assertEquals(4, p2FrontLine.size());
-            assertEquals("1-2", p2FrontLine.get(0).getAttributes().get("blueprintId"));
+            assertEquals("1-2", getBlueprint(p2FrontLine.get(0)));
             assertEquals("FrontLine", p2FrontLine.get(0).getAttributes().get("position"));
-            assertEquals("1-3", p2FrontLine.get(1).getAttributes().get("blueprintId"));
+            assertEquals("1-3", getBlueprint(p2FrontLine.get(1)));
             assertEquals("FrontLine", p2FrontLine.get(1).getAttributes().get("position"));
-            assertEquals("1-4", p2FrontLine.get(2).getAttributes().get("blueprintId"));
+            assertEquals("1-4", getBlueprint(p2FrontLine.get(2)));
             assertEquals("FrontLine", p2FrontLine.get(2).getAttributes().get("position"));
-            assertEquals("1-1", p2FrontLine.get(3).getAttributes().get("blueprintId"));
+            assertEquals("1-1", getBlueprint(p2FrontLine.get(3)));
             assertEquals("Reserve", p2FrontLine.get(3).getAttributes().get("position"));
         }
     }
@@ -182,8 +182,12 @@ public class OverpowerGameTest {
         assertEquals(1, chooseDuplicateToDiscard.getMin());
         assertEquals(1, chooseDuplicateToDiscard.getMax());
         assertEquals(2, chooseDuplicateToDiscard.getObjects().size());
-        assertEquals("1-40", chooseDuplicateToDiscard.getObjects().get(0).getAttributes().get("blueprintId"));
-        assertEquals("1-40", chooseDuplicateToDiscard.getObjects().get(1).getAttributes().get("blueprintId"));
+        assertEquals("1-40", getBlueprint(chooseDuplicateToDiscard.getObjects().get(0)));
+        assertEquals("1-40", getBlueprint(chooseDuplicateToDiscard.getObjects().get(1)));
+    }
+
+    private String getBlueprint(DigitalObject digitalObject) {
+        return digitalObject.getAttributes().get("blueprintId");
     }
 
     private void loadGame(DigitalEnvironment digitalEnvironment, Set<String> players) {
