@@ -7,7 +7,7 @@ import com.gempukku.tcg.generic.evaluator.StringEvaluator;
 
 import java.util.List;
 
-public class GroupEffect implements GameEffect {
+public class SequenceEffect implements GameEffect {
     private List<? extends GameEffect> _effects;
     private StringEvaluator _indexAttribute = new ConstantStringEvaluator("groupEffectIndex");
 
@@ -26,7 +26,7 @@ public class GroupEffect implements GameEffect {
         final Result result = gameEffect.execute(gameObjects, context);
         if (!result._shouldContinue) {
             if (effectIndex + 1 < _effects.size()) {
-                setEffectIndex(gameObjects, context, effectIndex+1);
+                setEffectIndex(gameObjects, context, effectIndex + 1);
             } else {
                 removeEffectIndex(gameObjects, context);
             }

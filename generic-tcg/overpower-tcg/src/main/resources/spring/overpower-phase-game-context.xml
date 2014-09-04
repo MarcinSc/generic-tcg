@@ -216,7 +216,7 @@
                                                 </bean>
                                             </property>
                                             <property name="effect">
-                                                <bean class="com.gempukku.tcg.generic.effect.GroupEffect">
+                                                <bean class="com.gempukku.tcg.generic.effect.SequenceEffect">
                                                     <property name="effects">
                                                         <util:list>
                                                             <bean id="findPlaceableCards" class="com.gempukku.tcg.generic.stack.ListObjectsInStackEffect">
@@ -246,7 +246,7 @@
                                                                     </bean>
                                                                 </property>
                                                                 <property name="effect">
-                                                                    <bean class="com.gempukku.tcg.generic.effect.GroupEffect">
+                                                                    <bean class="com.gempukku.tcg.generic.effect.SequenceEffect">
                                                                         <property name="indexAttribute" value="placingCardIndex"/>
                                                                         <property name="effects">
                                                                             <util:list>
@@ -284,7 +284,7 @@
                                                                     </bean>
                                                                 </property>
                                                                 <property name="elseEffect">
-                                                                    <bean class="com.gempukku.tcg.generic.effect.GroupEffect">
+                                                                    <bean class="com.gempukku.tcg.generic.effect.SequenceEffect">
                                                                         <property name="indexAttribute" value="elseIndex"/>
                                                                         <property name="effects">
                                                                             <util:list>
