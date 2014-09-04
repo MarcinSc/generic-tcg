@@ -189,7 +189,7 @@
                 <bean class="com.gempukku.tcg.generic.action.GameEffectAction">
                     <property name="effects">
                         <util:list>
-                            <bean id="setPassCounter" class="com.gempukku.tcg.generic.effect.SetActionAttributeEffect">
+                            <bean id="setPassCounter" class="com.gempukku.tcg.generic.effect.SetContextAttributeEffect">
                                 <property name="name" value="passCount"/>
                                 <property name="value" value="0"/>
                             </bean>
@@ -288,7 +288,7 @@
                                                                         <property name="indexAttribute" value="elseIndex"/>
                                                                         <property name="effects">
                                                                             <util:list>
-                                                                                <bean class="com.gempukku.tcg.generic.effect.SetActionAttributeEffect">
+                                                                                <bean class="com.gempukku.tcg.generic.effect.SetContextAttributeEffect">
                                                                                     <property name="name" value="passed.*{player}"/>
                                                                                     <property name="value" value="1"/>
                                                                                 </bean>

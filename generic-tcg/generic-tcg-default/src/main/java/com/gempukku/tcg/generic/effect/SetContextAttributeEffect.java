@@ -4,7 +4,7 @@ import com.gempukku.tcg.GameObjects;
 import com.gempukku.tcg.generic.action.GameActionContext;
 import com.gempukku.tcg.generic.evaluator.StringEvaluator;
 
-public class SetActionAttributeEffect implements GameEffect {
+public class SetContextAttributeEffect implements GameEffect {
     private StringEvaluator _name;
     private StringEvaluator _value;
 
