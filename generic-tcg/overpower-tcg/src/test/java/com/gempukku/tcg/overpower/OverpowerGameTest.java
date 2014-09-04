@@ -159,8 +159,8 @@ public class OverpowerGameTest {
         assertEquals(8, handP2.size());
 
         DecisionHolder decisionHolder = GenericContextObjects.extractGameObject(_gameObjects, GenericContextObjects.DECISION_HOLDER);
-        validateDiscardDecision(decisionHolder.getDecision(P1));
-        validateDiscardDecision(decisionHolder.getDecision(P2));
+        validateDiscardDuplicateDecision(decisionHolder.getDecision(P1));
+        validateDiscardDuplicateDecision(decisionHolder.getDecision(P2));
 
         _gameProcessor.playerSentDecision(_gameObjects, P1, ((ChooseDigitalObjectDecision) decisionHolder.getDecision(P1)).getObjects().get(0).getId());
         _gameProcessor.playerSentDecision(_gameObjects, P2, ((ChooseDigitalObjectDecision) decisionHolder.getDecision(P2)).getObjects().get(0).getId());
@@ -176,7 +176,7 @@ public class OverpowerGameTest {
         assertEquals(1, powerPackZone.getDigitalObjectsInStack(_gameObjects, P2).size());
     }
 
-    private void validateDiscardDecision(AwaitingDecision decision) {
+    private void validateDiscardDuplicateDecision(AwaitingDecision decision) {
         assertTrue(decision instanceof ChooseDigitalObjectDecision);
         ChooseDigitalObjectDecision chooseDuplicateToDiscard = (ChooseDigitalObjectDecision) decision;
         assertEquals(1, chooseDuplicateToDiscard.getMin());
@@ -184,6 +184,45 @@ public class OverpowerGameTest {
         assertEquals(2, chooseDuplicateToDiscard.getObjects().size());
         assertEquals("1-40", getBlueprint(chooseDuplicateToDiscard.getObjects().get(0)));
         assertEquals("1-40", getBlueprint(chooseDuplicateToDiscard.getObjects().get(1)));
+    }
+
+    @Test
+    public void drawAndDiscardPhaseDiscardUnusable() {
+        startSimpleGame();
+
+        _gameProcessor.playerSentDecision(_gameObjects, P1, "0,1,2");
+        _gameProcessor.playerSentDecision(_gameObjects, P2, "0,1,2");
+
+        final PlayerDigitalObjectStackManager handZone = OverpowerContextObjects.extractGameObject(_gameObjects, OverpowerContextObjects.HAND_ZONE);
+        List<DigitalObject> handP1 = handZone.getDigitalObjectsInStack(_gameObjects, P1);
+        List<DigitalObject> handP2 = handZone.getDigitalObjectsInStack(_gameObjects, P2);
+        assertEquals(8, handP1.size());
+        assertEquals(8, handP2.size());
+
+        DecisionHolder decisionHolder = GenericContextObjects.extractGameObject(_gameObjects, GenericContextObjects.DECISION_HOLDER);
+        validateDiscardUnusableDecision(decisionHolder.getDecision(P1));
+        validateDiscardUnusableDecision(decisionHolder.getDecision(P2));
+
+        _gameProcessor.playerSentDecision(_gameObjects, P1, ((ChooseDigitalObjectDecision) decisionHolder.getDecision(P1)).getObjects().get(0).getId());
+        _gameProcessor.playerSentDecision(_gameObjects, P2, ((ChooseDigitalObjectDecision) decisionHolder.getDecision(P2)).getObjects().get(0).getId());
+
+        handP1 = handZone.getDigitalObjectsInStack(_gameObjects, P1);
+        assertEquals(7, handP1.size());
+
+        handP2 = handZone.getDigitalObjectsInStack(_gameObjects, P2);
+        assertEquals(7, handP2.size());
+
+        final PlayerDigitalObjectStackManager deadPileZone = OverpowerContextObjects.extractGameObject(_gameObjects, OverpowerContextObjects.DEAD_PILE_ZONE);
+        assertEquals(1, deadPileZone.getDigitalObjectsInStack(_gameObjects, P1).size());
+        assertEquals(1, deadPileZone.getDigitalObjectsInStack(_gameObjects, P2).size());
+    }
+
+    private void validateDiscardUnusableDecision(AwaitingDecision decision) {
+        assertTrue(decision instanceof ChooseDigitalObjectDecision);
+        ChooseDigitalObjectDecision chooseUnusableDecisions = (ChooseDigitalObjectDecision) decision;
+        assertEquals(0, chooseUnusableDecisions.getMin());
+        assertEquals(8, chooseUnusableDecisions.getMax());
+        assertEquals(8, chooseUnusableDecisions.getObjects().size());
     }
 
     private String getBlueprint(DigitalObject digitalObject) {

@@ -135,7 +135,7 @@
                                             <property name="stack" value="handZone"/>
                                     </bean>
                                     <bean class="com.gempukku.tcg.generic.stack.SelectDigitalObjectsByIdEffect">
-                                        <property name="ids" value="cardsInHand.*{player}"/>
+                                        <property name="ids" value="*{cardsInHand.*{player}}"/>
                                         <property name="player" value="*{player}"/>
                                         <property name="message" value="Choose unusable cards to discard"/>
                                         <property name="attributeName" value="unusableCards.*{player}"/>
@@ -143,7 +143,7 @@
                                         <property name="max" value="1000"/>
                                     </bean>
                                     <bean class="com.gempukku.tcg.generic.stack.MoveObjectsBetweenStacksEffect">
-                                        <property name="ids" value="*{unusableCards.*{player}"/>
+                                        <property name="ids" value="*{unusableCards.*{player}}"/>
                                         <property name="stackFrom" value="handZone"/>
                                         <property name="stackTo" value="deadPileZone"/>
                                         <property name="player" value="*{player}"/>
