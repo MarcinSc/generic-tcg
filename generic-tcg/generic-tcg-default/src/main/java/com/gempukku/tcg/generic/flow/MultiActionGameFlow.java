@@ -16,10 +16,10 @@ import java.util.List;
 import java.util.Map;
 
 public class MultiActionGameFlow implements GameFlow {
-    private List<GameAction> _gameActions;
+    private List<GameAction> _actions;
 
-    public void setGameActions(List<GameAction> gameActions) {
-        _gameActions = gameActions;
+    public void setActions(List<GameAction> gameActions) {
+        _actions = gameActions;
     }
 
     @Override
@@ -34,12 +34,12 @@ public class MultiActionGameFlow implements GameFlow {
         }
 
         DigitalObject actionObject = getActionObject(gameObjects, digitalEnvironment);
-        final GameAction gameAction = _gameActions.get(index);
+        final GameAction gameAction = _actions.get(index);
         GameActionContext context = createContext(gameObjects, actionObject);
         final Map<String, AwaitingDecision> result = gameAction.processNextGameEffect(gameObjects, context);
         if (!gameAction.hasNextGameEffect(gameObjects, context)) {
             digitalEnvironment.destroyObject(actionObject.getId());
-            if (index + 1 < _gameActions.size()) {
+            if (index + 1 < _actions.size()) {
                 DigitalObjects.setSimpleFlag(gameObjects, "subActionIndex", String.valueOf(index + 1));
             } else {
                 DigitalObjects.removeSimpleFlag(gameObjects, "subActionIndex");

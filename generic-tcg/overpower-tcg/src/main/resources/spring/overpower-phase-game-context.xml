@@ -5,7 +5,7 @@
             http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
     <bean id="setupGameFlow" class="com.gempukku.tcg.generic.flow.MultiActionGameFlow">
-        <property name="gameActions">
+        <property name="actions">
             <util:list>
                 <bean class="com.gempukku.tcg.generic.player.ForEachPlayerAction">
                     <property name="playerAttribute" value="player"/>
@@ -84,7 +84,7 @@
     </bean>
 
     <bean id="drawAndDiscardFlow" class="com.gempukku.tcg.generic.flow.MultiActionGameFlow">
-        <property name="gameActions">
+        <property name="actions">
             <util:list>
                 <bean class="com.gempukku.tcg.generic.player.ForEachPlayerAction">
                     <property name="playerAttribute" value="player"/>
@@ -184,7 +184,7 @@
     </bean>
 
     <bean id="placingFlow" class="com.gempukku.tcg.generic.flow.MultiActionGameFlow">
-        <property name="gameActions">
+        <property name="actions">
             <util:list>
                 <bean class="com.gempukku.tcg.generic.action.GameEffectAction">
                     <property name="effects">
@@ -250,6 +250,35 @@
                                                                         <property name="indexAttribute" value="placingCardIndex"/>
                                                                         <property name="effects">
                                                                             <util:list>
+                                                                                <bean class="com.gempukku.tcg.generic.stack.ListObjectsInStackEffect">
+                                                                                    <property name="stack" value="inPlayZone"/>
+                                                                                    <property name="player" value="*{player}"/>
+                                                                                    <property name="attributeName" value="placeableOnCards"/>
+                                                                                    <property name="digitalObjectFilter">
+                                                                                        <bean class="com.gempukku.tcg.overpower.filter.PlaceableOnCardsFilter">
+                                                                                            <property name="id" value="*{cardToPlace}"/>
+                                                                                        </bean>
+                                                                                    </property>
+                                                                                </bean>
+                                                                                <bean class="com.gempukku.tcg.generic.stack.SelectDigitalObjectsByIdEffect">
+                                                                                    <property name="ids" value="*{placeableOnCards}"/>
+                                                                                    <property name="message" value="Choose card to place on"/>
+                                                                                    <property name="min" value="1"/>
+                                                                                    <property name="max" value="1"/>
+                                                                                    <property name="player" value="*{player}"/>
+                                                                                    <property name="attributeName" value="cardToPlaceOn"/>
+                                                                                </bean>
+                                                                                <bean class="com.gempukku.tcg.generic.effect.SetObjectsAttributeEffect">
+                                                                                    <property name="ids" value="*{cardToPlace}"/>
+                                                                                    <property name="attributeName" value="placedOn"/>
+                                                                                    <property name="attributeValue" value="*{cardToPlaceOn}"/>
+                                                                                </bean>
+                                                                                <bean class="com.gempukku.tcg.generic.stack.MoveObjectsBetweenStacksEffect">
+                                                                                    <property name="ids" value="*{cardToPlace}"/>
+                                                                                    <property name="stackFrom" value="handZone"/>
+                                                                                    <property name="stackTo" value="inPlayZone"/>
+                                                                                    <property name="player" value="*{player}"/>
+                                                                                </bean>
                                                                             </util:list>
                                                                         </property>
                                                                     </bean>
