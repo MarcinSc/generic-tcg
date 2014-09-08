@@ -1,9 +1,7 @@
 package com.gempukku.tcg.generic.decision;
 
-import com.gempukku.tcg.GameObjects;
 import com.gempukku.tcg.digital.DigitalObject;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -22,11 +20,6 @@ public abstract class ChooseDigitalObjectDecision implements AwaitingDecision {
 
         _min = Math.min(min, objects.size());
         _max = Math.min(max, objects.size());
-    }
-
-    @Override
-    public void accept(AwaitingDecisionVisitor visitor) {
-        visitor.visit(this);
     }
 
     public String getMessage() {

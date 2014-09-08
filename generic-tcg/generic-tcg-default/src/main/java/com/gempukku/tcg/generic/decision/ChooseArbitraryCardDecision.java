@@ -19,11 +19,6 @@ public abstract class ChooseArbitraryCardDecision implements AwaitingDecision {
         _max = Math.min(max, cardBlueprints.size());
     }
 
-    @Override
-    public void accept(AwaitingDecisionVisitor visitor) {
-        visitor.visit(this);
-    }
-
     public String getMessage() {
         return _message;
     }

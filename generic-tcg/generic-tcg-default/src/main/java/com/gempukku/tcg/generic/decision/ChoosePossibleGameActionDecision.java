@@ -13,11 +13,6 @@ public abstract class ChoosePossibleGameActionDecision implements AwaitingDecisi
         _gameActionPossibilities = gameActionPossibilities;
     }
 
-    @Override
-    public void accept(AwaitingDecisionVisitor visitor) {
-        visitor.visit(this);
-    }
-
     public String getMessage() {
         return _message;
     }

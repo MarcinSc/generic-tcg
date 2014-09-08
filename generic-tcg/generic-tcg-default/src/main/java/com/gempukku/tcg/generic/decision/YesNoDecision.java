@@ -7,11 +7,6 @@ public abstract class YesNoDecision implements AwaitingDecision {
         _question = question;
     }
 
-    @Override
-    public void accept(AwaitingDecisionVisitor visitor) {
-        visitor.visit(this);
-    }
-
     public String getMessage() {
         return _question;
     }
