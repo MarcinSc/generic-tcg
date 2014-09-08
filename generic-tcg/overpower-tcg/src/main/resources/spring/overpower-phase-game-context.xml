@@ -219,7 +219,8 @@
                                                 <bean class="com.gempukku.tcg.generic.effect.SequenceEffect">
                                                     <property name="effects">
                                                         <util:list>
-                                                            <bean id="findPlaceableCards" class="com.gempukku.tcg.generic.stack.ListObjectsInStackEffect">
+                                                            <bean id="findPlaceableCards"
+                                                                  class="com.gempukku.tcg.generic.stack.ListObjectsInStackEffect">
                                                                 <property name="attributeName" value="placeableCards"/>
                                                                 <property name="player" value="*{player}"/>
                                                                 <property name="stack" value="handZone"/>
@@ -239,70 +240,7 @@
                                                                 <property name="min" value="0"/>
                                                                 <property name="max" value="1"/>
                                                             </bean>
-                                                            <bean class="com.gempukku.tcg.generic.effect.ConditionalEffect">
-                                                                <property name="condition">
-                                                                    <bean class="com.gempukku.tcg.generic.condition.HasAttributeSetCondition">
-                                                                        <property name="name" value="cardToPlace"/>
-                                                                    </bean>
-                                                                </property>
-                                                                <property name="effect">
-                                                                    <bean class="com.gempukku.tcg.generic.effect.SequenceEffect">
-                                                                        <property name="indexAttribute" value="placingCardIndex"/>
-                                                                        <property name="effects">
-                                                                            <util:list>
-                                                                                <bean class="com.gempukku.tcg.generic.stack.ListObjectsInStackEffect">
-                                                                                    <property name="stack" value="inPlayZone"/>
-                                                                                    <property name="player" value="*{player}"/>
-                                                                                    <property name="attributeName" value="placeableOnCards"/>
-                                                                                    <property name="digitalObjectFilter">
-                                                                                        <bean class="com.gempukku.tcg.overpower.filter.PlaceableOnCardsFilter">
-                                                                                            <property name="id" value="*{cardToPlace}"/>
-                                                                                        </bean>
-                                                                                    </property>
-                                                                                </bean>
-                                                                                <bean class="com.gempukku.tcg.generic.effect.RemoveContextAttributeEffect">
-                                                                                    <property name="attributeName" value="cardToPlaceOn"/>
-                                                                                </bean>
-                                                                                <bean class="com.gempukku.tcg.generic.stack.SelectDigitalObjectsByIdEffect">
-                                                                                    <property name="ids" value="*{placeableOnCards}"/>
-                                                                                    <property name="message" value="Choose card to place on"/>
-                                                                                    <property name="min" value="1"/>
-                                                                                    <property name="max" value="1"/>
-                                                                                    <property name="player" value="*{player}"/>
-                                                                                    <property name="attributeName" value="cardToPlaceOn"/>
-                                                                                </bean>
-                                                                                <bean class="com.gempukku.tcg.generic.effect.SetObjectsAttributeEffect">
-                                                                                    <property name="ids" value="*{cardToPlace}"/>
-                                                                                    <property name="attributeName" value="placedOn"/>
-                                                                                    <property name="attributeValue" value="*{cardToPlaceOn}"/>
-                                                                                </bean>
-                                                                                <bean class="com.gempukku.tcg.generic.stack.MoveObjectsBetweenStacksEffect">
-                                                                                    <property name="ids" value="*{cardToPlace}"/>
-                                                                                    <property name="stackFrom" value="handZone"/>
-                                                                                    <property name="stackTo" value="inPlayZone"/>
-                                                                                    <property name="player" value="*{player}"/>
-                                                                                </bean>
-                                                                            </util:list>
-                                                                        </property>
-                                                                    </bean>
-                                                                </property>
-                                                                <property name="elseEffect">
-                                                                    <bean class="com.gempukku.tcg.generic.effect.SequenceEffect">
-                                                                        <property name="indexAttribute" value="elseIndex"/>
-                                                                        <property name="effects">
-                                                                            <util:list>
-                                                                                <bean class="com.gempukku.tcg.generic.effect.IncrementContextAttributeEffect">
-                                                                                    <property name="attributeName" value="passCount"/>
-                                                                                </bean>
-                                                                                <bean class="com.gempukku.tcg.generic.effect.SetContextAttributeEffect">
-                                                                                    <property name="name" value="passed.*{player}"/>
-                                                                                    <property name="value" value="1"/>
-                                                                                </bean>
-                                                                            </util:list>
-                                                                        </property>
-                                                                    </bean>
-                                                                </property>
-                                                            </bean>
+                                                            <ref bean="placeSelectedCard"/>
                                                         </util:list>
                                                     </property>
                                                 </bean>
@@ -331,12 +269,103 @@
         </property>
     </bean>
 
+    <bean id="placeSelectedCard" class="com.gempukku.tcg.generic.effect.ConditionalEffect">
+        <property name="condition">
+            <bean class="com.gempukku.tcg.generic.condition.HasAttributeSetCondition">
+                <property name="name" value="cardToPlace"/>
+            </bean>
+        </property>
+        <property name="effect">
+            <bean class="com.gempukku.tcg.generic.effect.SequenceEffect">
+                <property name="indexAttribute"
+                          value="placingCardIndex"/>
+                <property name="effects">
+                    <util:list>
+                        <bean class="com.gempukku.tcg.generic.stack.ListObjectsInStackEffect">
+                            <property name="stack" value="inPlayZone"/>
+                            <property name="player" value="*{player}"/>
+                            <property name="attributeName" value="placeableOnCards"/>
+                            <property name="digitalObjectFilter">
+                                <bean class="com.gempukku.tcg.overpower.filter.PlaceableOnCardsFilter">
+                                    <property name="id" value="*{cardToPlace}"/>
+                                </bean>
+                            </property>
+                        </bean>
+                        <bean class="com.gempukku.tcg.generic.effect.RemoveContextAttributeEffect">
+                            <property name="attributeName" value="cardToPlaceOn"/>
+                        </bean>
+                        <bean class="com.gempukku.tcg.generic.stack.SelectDigitalObjectsByIdEffect">
+                            <property name="ids" value="*{placeableOnCards}"/>
+                            <property name="message" value="Choose card to place on"/>
+                            <property name="min" value="1"/>
+                            <property name="max" value="1"/>
+                            <property name="player" value="*{player}"/>
+                            <property name="attributeName" value="cardToPlaceOn"/>
+                        </bean>
+                        <bean class="com.gempukku.tcg.generic.effect.SetObjectsAttributeEffect">
+                            <property name="ids" value="*{cardToPlace}"/>
+                            <property name="attributeName" value="placedOn"/>
+                            <property name="attributeValue" value="*{cardToPlaceOn}"/>
+                        </bean>
+                        <bean class="com.gempukku.tcg.generic.stack.MoveObjectsBetweenStacksEffect">
+                            <property name="ids" value="*{cardToPlace}"/>
+                            <property name="stackFrom" value="handZone"/>
+                            <property name="stackTo" value="inPlayZone"/>
+                            <property name="player" value="*{player}"/>
+                        </bean>
+                    </util:list>
+                </property>
+            </bean>
+        </property>
+        <property name="elseEffect">
+            <bean class="com.gempukku.tcg.generic.effect.SequenceEffect">
+                <property name="indexAttribute" value="elseIndex"/>
+                <property name="effects">
+                    <util:list>
+                        <bean class="com.gempukku.tcg.generic.effect.IncrementContextAttributeEffect">
+                            <property name="attributeName" value="passCount"/>
+                        </bean>
+                        <bean class="com.gempukku.tcg.generic.effect.SetContextAttributeEffect">
+                            <property name="name" value="passed.*{player}"/S>
+                            <property name="value" value="1"/>
+                        </bean>
+                    </util:list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
     <bean id="ventureFlow" class="com.gempukku.tcg.generic.flow.MultiActionGameFlow">
         <property name="actions">
             <util:list>
                 <bean id="endProcessing" class="com.gempukku.tcg.generic.action.GameEffectAction">
                     <property name="effects">
                         <bean class="com.gempukku.tcg.overpower.effect.EndProcessingTempEffect"/>
+                    </property>
+                </bean>
+                <bean class="com.gempukku.tcg.generic.action.GameEffectAction">
+                    <property name="effects">
+                        <util:list>
+                            <bean class="com.gempukku.tcg.generic.effect.SetContextAttributeEffect">
+                                <property name="name" value="passCount"/>
+                                <property name="value" value="0"/>
+                            </bean>
+                            <bean class="com.gempukku.tcg.generic.order.GetFirstPlayerEffect">
+                                <property name="attribute" value="player"/>
+                            </bean>
+                            <bean class="com.gempukku.tcg.generic.effect.RepeatWhileEffect">
+                                <property name="condition">
+                                    <bean class="com.gempukku.tcg.generic.condition.AttributeLessThanCondition">
+                                        <property name="name" value="passCount"/>
+                                        <property name="value" value="2"/>
+                                    </bean>
+                                </property>
+                                <property name="effects">
+                                    <util:list>
+                                    </util:list>
+                                </property>
+                            </bean>
+                        </util:list>
                     </property>
                 </bean>
             </util:list>
