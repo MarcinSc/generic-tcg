@@ -23,8 +23,7 @@ public class SequenceEffect implements GameEffect {
     public Result execute(GameObjects gameObjects, GameActionContext context) {
         int effectIndex = getEffectIndex(gameObjects, context);
         while (true) {
-            final GameEffect gameEffect = _effects.get(effectIndex);
-            final Result result = gameEffect.execute(gameObjects, context);
+            final Result result = _effects.get(effectIndex).execute(gameObjects, context);
             if (!result._shouldContinue) {
                 effectIndex++;
                 if (effectIndex == _effects.size()) {
