@@ -1,7 +1,7 @@
 package com.gempukku.tcg.overpower.card;
 
 import com.gempukku.tcg.generic.filter.DigitalObjectFilter;
-import com.gempukku.tcg.overpower.filter.OverpowerCardBlueprintFilterFactory;
+import com.gempukku.tcg.overpower.filter.factory.OverpowerCardBlueprintFilterFactory;
 import org.springframework.beans.factory.InitializingBean;
 
 public class OverpowerCardBlueprint implements InitializingBean {

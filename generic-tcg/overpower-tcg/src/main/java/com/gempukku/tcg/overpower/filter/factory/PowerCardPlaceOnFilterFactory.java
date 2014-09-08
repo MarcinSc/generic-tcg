@@ -1,13 +1,14 @@
-package com.gempukku.tcg.overpower.filter;
+package com.gempukku.tcg.overpower.filter.factory;
 
 import com.gempukku.tcg.generic.filter.DigitalObjectFilter;
 import com.gempukku.tcg.generic.filter.Filters;
 import com.gempukku.tcg.overpower.card.OverpowerCardBlueprint;
+import com.gempukku.tcg.overpower.filter.StatAtLeastFilter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PowerCardPlaceOnFilter implements OverpowerCardBlueprintFilterFactory {
+public class PowerCardPlaceOnFilterFactory implements OverpowerCardBlueprintFilterFactory {
     @Override
     public DigitalObjectFilter createFor(OverpowerCardBlueprint blueprint) {
         List<DigitalObjectFilter> filters = new ArrayList<DigitalObjectFilter>();

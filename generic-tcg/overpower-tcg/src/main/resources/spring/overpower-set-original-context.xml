@@ -11,7 +11,7 @@
     <bean abstract="true" id="powerCard" class="com.gempukku.tcg.overpower.card.OverpowerCardBlueprint">
         <property name="cardType" value="power"/>
         <property name="placeOnFilterFactory">
-            <bean class="com.gempukku.tcg.overpower.filter.PowerCardPlaceOnFilter"/>
+            <bean class="com.gempukku.tcg.overpower.filter.factory.PowerCardPlaceOnFilterFactory"/>
         </property>
     </bean>
 

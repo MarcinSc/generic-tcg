@@ -1,4 +1,4 @@
-package com.gempukku.tcg.overpower.filter;
+package com.gempukku.tcg.overpower.filter.factory;
 
 import com.gempukku.tcg.generic.filter.DigitalObjectFilter;
 import com.gempukku.tcg.overpower.card.OverpowerCardBlueprint;
