@@ -92,6 +92,8 @@ public class OverpowerGameTest {
         assertEquals("FrontLine", p2FrontLine.get(2).getAttributes().get("position"));
         assertEquals("1-1", getBlueprint(p2FrontLine.get(3)));
         assertEquals("Reserve", p2FrontLine.get(3).getAttributes().get("position"));
+
+        assertEquals("DrawAndDiscard", GenericContextObjects.extractGameObject(_gameObjects, GenericContextObjects.PHASE_MANAGER).getPhase(_gameObjects));
     }
 
     @Test
@@ -146,6 +148,8 @@ public class OverpowerGameTest {
             assertEquals("1-1", getBlueprint(p2FrontLine.get(3)));
             assertEquals("Reserve", p2FrontLine.get(3).getAttributes().get("position"));
         }
+
+        assertEquals("DrawAndDiscard", GenericContextObjects.extractGameObject(_gameObjects, GenericContextObjects.PHASE_MANAGER).getPhase(_gameObjects));
     }
 
     @Test
@@ -176,6 +180,8 @@ public class OverpowerGameTest {
         final PlayerDigitalObjectStackManager powerPackZone = OverpowerContextObjects.extractGameObject(_gameObjects, OverpowerContextObjects.POWER_PACK_ZONE);
         assertEquals(1, powerPackZone.getDigitalObjectsInStack(_gameObjects, P1).size());
         assertEquals(1, powerPackZone.getDigitalObjectsInStack(_gameObjects, P2).size());
+
+        assertEquals("DrawAndDiscard", GenericContextObjects.extractGameObject(_gameObjects, GenericContextObjects.PHASE_MANAGER).getPhase(_gameObjects));
     }
 
     private void validateDiscardDuplicateDecision(AwaitingDecision decision) {
@@ -216,6 +222,8 @@ public class OverpowerGameTest {
         final PlayerDigitalObjectStackManager deadPileZone = OverpowerContextObjects.extractGameObject(_gameObjects, OverpowerContextObjects.DEAD_PILE_ZONE);
         assertEquals(1, deadPileZone.getDigitalObjectsInStack(_gameObjects, P1).size());
         assertEquals(1, deadPileZone.getDigitalObjectsInStack(_gameObjects, P2).size());
+
+        assertEquals("Placing", GenericContextObjects.extractGameObject(_gameObjects, GenericContextObjects.PHASE_MANAGER).getPhase(_gameObjects));
     }
 
     @Test
@@ -284,6 +292,8 @@ public class OverpowerGameTest {
         assertNull(_decisionHolder.getDecision(secondPlayer));
 
         _gameProcessor.playerSentDecision(_gameObjects, firstPlayer, "");
+
+        assertEquals("Venture", GenericContextObjects.extractGameObject(_gameObjects, GenericContextObjects.PHASE_MANAGER).getPhase(_gameObjects));
     }
 
     private List<DigitalObject> findCardWithBlueprintId(List<DigitalObject> cards, final String blueprintId) {

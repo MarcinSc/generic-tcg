@@ -318,6 +318,22 @@
                         </util:list>
                     </property>
                 </bean>
+                <bean id="endPlacingPhase" class="com.gempukku.tcg.generic.action.GameEffectAction">
+                    <property name="effects">
+                        <util:list>
+                            <bean class="com.gempukku.tcg.generic.phase.SetPhaseEffect">
+                                <property name="value" value="Venture"/>
+                            </bean>
+                        </util:list>
+                    </property>
+                </bean>
+            </util:list>
+        </property>
+    </bean>
+
+    <bean id="ventureFlow" class="com.gempukku.tcg.generic.flow.MultiActionGameFlow">
+        <property name="actions">
+            <util:list>
                 <bean id="endProcessing" class="com.gempukku.tcg.generic.action.GameEffectAction">
                     <property name="effects">
                         <bean class="com.gempukku.tcg.overpower.effect.EndProcessingTempEffect"/>

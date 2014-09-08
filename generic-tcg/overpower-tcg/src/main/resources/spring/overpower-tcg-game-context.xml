@@ -78,6 +78,7 @@
                 <entry key="Setup" value-ref="setupGameFlow"/>
                 <entry key="DrawAndDiscard" value-ref="drawAndDiscardFlow"/>
                 <entry key="Placing" value-ref="placingFlow"/>
+                <entry key="Venture" value-ref="ventureFlow"/>
             </util:map>
         </property>
     </bean>
