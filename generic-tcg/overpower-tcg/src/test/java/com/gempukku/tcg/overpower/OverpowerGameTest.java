@@ -63,15 +63,12 @@ public class OverpowerGameTest {
 
         _gameProcessor.playerSentDecision(_gameObjects, P1, "0,1,2");
 
-        List<DigitalObject> p1FrontLine = inPlayZone.getDigitalObjectsInStack(_gameObjects, P1);
-        assertEquals(0, p1FrontLine.size());
-
         assertNull(_decisionHolder.getDecision(P1));
         assertNotNull(_decisionHolder.getDecision(P2));
 
         _gameProcessor.playerSentDecision(_gameObjects, P2, "1,2,3");
 
-        p1FrontLine = inPlayZone.getDigitalObjectsInStack(_gameObjects, P1);
+        List<DigitalObject> p1FrontLine = inPlayZone.getDigitalObjectsInStack(_gameObjects, P1);
         assertEquals(4, p1FrontLine.size());
         assertEquals("1-1", getBlueprint(p1FrontLine.get(0)));
         assertEquals("FrontLine", p1FrontLine.get(0).getAttributes().get("position"));
@@ -105,15 +102,11 @@ public class OverpowerGameTest {
 
         {
             startNewGame(decks);
-            PlayerDigitalObjectStackManager inPlayZone = OverpowerContextObjects.extractGameObject(_gameObjects, OverpowerContextObjects.IN_PLAY_ZONE);
 
             assertNotNull(_decisionHolder.getDecision(P1));
             assertNotNull(_decisionHolder.getDecision(P2));
 
             _gameProcessor.playerSentDecision(_gameObjects, P1, "0,1,2");
-
-            List<DigitalObject> p1FrontLine = inPlayZone.getDigitalObjectsInStack(_gameObjects, P1);
-            assertEquals(0, p1FrontLine.size());
 
             assertNull(_decisionHolder.getDecision(P1));
             assertNotNull(_decisionHolder.getDecision(P2));
@@ -228,6 +221,7 @@ public class OverpowerGameTest {
 
     @Test
     public void placingPhase() {
+        long start = System.currentTimeMillis();
         startSimpleGame();
 
         _gameProcessor.playerSentDecision(_gameObjects, P1, "0,1,2");
@@ -294,6 +288,8 @@ public class OverpowerGameTest {
         _gameProcessor.playerSentDecision(_gameObjects, firstPlayer, "");
 
         assertEquals("Venture", GenericContextObjects.extractGameObject(_gameObjects, GenericContextObjects.PHASE_MANAGER).getPhase(_gameObjects));
+
+        System.out.println("Time: "+(System.currentTimeMillis()-start));
     }
 
     private List<DigitalObject> findCardWithBlueprintId(List<DigitalObject> cards, final String blueprintId) {

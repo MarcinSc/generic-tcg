@@ -326,7 +326,7 @@
                             <property name="attributeName" value="passCount"/>
                         </bean>
                         <bean class="com.gempukku.tcg.generic.effect.SetContextAttributeEffect">
-                            <property name="name" value="passed.*{player}"/S>
+                            <property name="name" value="passed.*{player}"/>
                             <property name="value" value="1"/>
                         </bean>
                     </util:list>

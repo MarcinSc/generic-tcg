@@ -21,20 +21,23 @@ public class SequenceEffect implements GameEffect {
 
     @Override
     public Result execute(GameObjects gameObjects, GameActionContext context) {
-        final int effectIndex = getEffectIndex(gameObjects, context);
-        final GameEffect gameEffect = _effects.get(effectIndex);
-        final Result result = gameEffect.execute(gameObjects, context);
-        if (!result._shouldContinue) {
-            if (effectIndex + 1 < _effects.size()) {
-                setEffectIndex(gameObjects, context, effectIndex + 1);
-                return new Result(null, true);
+        int effectIndex = getEffectIndex(gameObjects, context);
+        while (true) {
+            final GameEffect gameEffect = _effects.get(effectIndex);
+            final Result result = gameEffect.execute(gameObjects, context);
+            if (!result._shouldContinue) {
+                effectIndex++;
+                if (effectIndex == _effects.size()) {
+                    removeEffectIndex(gameObjects, context);
+                    return new Result(null, false);
+                }
             } else {
-                removeEffectIndex(gameObjects, context);
-                return new Result(null, false);
+                if (result._decisions != null) {
+                    setEffectIndex(gameObjects, context, effectIndex);
+                    return result;
+                }
             }
         }
-
-        return new Result(result._decisions, true);
     }
 
     private int getEffectIndex(GameObjects gameObjects, GameActionContext context) {

@@ -31,12 +31,22 @@ public class GameEffectAction implements GameAction {
     @Override
     public Map<String, AwaitingDecision> processNextGameEffect(GameObjects gameObjects, GameActionContext context) {
         int indexToExecute = getEffectIndex(gameObjects, context);
-        final GameEffect.Result result = _gameObjectEffects.get(indexToExecute).execute(gameObjects, context);
+        while (true) {
+            final GameEffect.Result result = _gameObjectEffects.get(indexToExecute).execute(gameObjects, context);
 
-        if (!result._shouldContinue)
-            setEffectIndex(gameObjects, context, indexToExecute + 1);
+            if (!result._shouldContinue) {
+                indexToExecute++;
+                if (indexToExecute == _gameObjectEffects.size()) {
+                    setEffectIndex(gameObjects, context, indexToExecute);
+                    return result._decisions;
+                }
+            }
 
-        return result._decisions;
+            if (result._decisions != null) {
+                setEffectIndex(gameObjects, context, indexToExecute);
+                return result._decisions;
+            }
+        }
     }
 
     private int getEffectIndex(GameObjects gameObjects, GameActionContext context) {
