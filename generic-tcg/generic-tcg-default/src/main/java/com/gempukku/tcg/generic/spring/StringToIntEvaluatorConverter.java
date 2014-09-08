@@ -8,7 +8,7 @@ public class StringToIntEvaluatorConverter implements Converter<String, IntEvalu
     @Override
     public IntEvaluator convert(String s) {
         final ConstantIntEvaluator evaluator = new ConstantIntEvaluator();
-        evaluator.setValue(Integer.parseInt(s));
+        evaluator.setValue(s);
         return evaluator;
     }
 }

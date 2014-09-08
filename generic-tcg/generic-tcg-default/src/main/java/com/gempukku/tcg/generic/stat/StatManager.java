@@ -27,7 +27,7 @@ public class StatManager implements GameModifierConsumer<StatModifier> {
     }
 
     public int getStatValue(GameObjects gameObjects, GameActionContext context) {
-        int value = _baseEvaluator.getValue(gameObjects, context);
+        int value = _baseEvaluator.getIntValue(gameObjects, context);
         for (StatModifier statModifier : _statModifiers)
             value = statModifier.applyModifier(gameObjects, context, value);
 

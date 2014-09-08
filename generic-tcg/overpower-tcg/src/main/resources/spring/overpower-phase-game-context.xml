@@ -347,7 +347,7 @@
                     <property name="effects">
                         <util:list>
                             <bean class="com.gempukku.tcg.generic.effect.SetContextAttributeEffect">
-                                <property name="name" value="passCount"/>
+                                <property name="name" value="venturedPlayerCount"/>
                                 <property name="value" value="0"/>
                             </bean>
                             <bean class="com.gempukku.tcg.generic.order.GetFirstPlayerEffect">
@@ -356,12 +356,72 @@
                             <bean class="com.gempukku.tcg.generic.effect.RepeatWhileEffect">
                                 <property name="condition">
                                     <bean class="com.gempukku.tcg.generic.condition.AttributeLessThanCondition">
-                                        <property name="name" value="passCount"/>
+                                        <property name="name" value="venturedPlayerCount"/>
                                         <property name="value" value="2"/>
                                     </bean>
                                 </property>
                                 <property name="effects">
                                     <util:list>
+                                        <bean class="com.gempukku.tcg.generic.stack.GetObjectsInStackCountEffect">
+                                            <property name="player" value="*{player}"/>
+                                            <property name="stack" value="completedMissionsZone"/>
+                                            <property name="attributeName" value="completedMissionsCount"/>
+                                        </bean>
+                                        <bean class="com.gempukku.tcg.generic.effect.decision.ChooseNumberEffect">
+                                            <property name="player" value="*{player}"/>
+                                            <property name="message" value="Choose number of missions to venture from Completed Missions"/>
+                                            <property name="min" value="0"/>
+                                            <property name="max" value="*{completedMissionsCount}"/>
+                                            <property name="attributeName" value="venturedCompletedMissionsCount"/>
+                                        </bean>
+                                        <bean class="com.gempukku.tcg.generic.stack.GetObjectsInStackCountEffect">
+                                            <property name="player" value="*{player}"/>
+                                            <property name="stack" value="reserveMissionsZone"/>
+                                            <property name="attributeName" value="reserveMissionsCount"/>
+                                        </bean>
+                                        <bean class="com.gempukku.tcg.generic.effect.decision.ChooseNumberEffect">
+                                            <property name="player" value="*{player}"/>
+                                            <property name="message" value="Choose number of missions to venture from Reserve Missions"/>
+                                            <property name="min" value="0"/>
+                                            <property name="max" value="*{reserveMissionsCount}"/>
+                                            <property name="attributeName" value="venturedReserveMissionsCount"/>
+                                        </bean>
+                                        <bean class="com.gempukku.tcg.generic.effect.SetContextAttributeEffect">
+                                            <property name="name" value="venturedMissionsCount"/>
+                                            <property name="value">
+                                                <bean class="com.gempukku.tcg.generic.evaluator.AddIntEvaluator">
+                                                    <property name="numbers">
+                                                        <util:list>
+                                                            <value>*{venturedCompletedMissionsCount}</value>
+                                                            <value>*{venturedReserveMissionsCount}</value>
+                                                        </util:list>
+                                                    </property>
+                                                </bean>
+                                            </property>
+                                        </bean>
+                                        <bean class="com.gempukku.tcg.generic.effect.ConditionalEffect">
+                                            <property name="condition">
+                                                <bean class="com.gempukku.tcg.generic.condition.AttributeLessThanCondition">
+                                                    <property name="name" value="venturedMissionsCount"/>
+                                                    <property name="value" value="1"/>
+                                                </bean>
+                                            </property>
+                                            <property name="effect">
+                                                <bean class="com.gempukku.tcg.generic.effect.SequenceEffect">
+                                                    <property name="effects">
+                                                        <util:list>
+                                                            <bean class="com.gempukku.tcg.generic.effect.IncrementContextAttributeEffect">
+                                                                <property name="attributeName" value="venturedPlayerCount"/>
+                                                            </bean>
+                                                            <bean class="com.gempukku.tcg.generic.order.GetNextPlayerEffect">
+                                                                <property name="previous" value="*{player}"/>
+                                                                <property name="attribute" value="player"/>
+                                                            </bean>
+                                                        </util:list>
+                                                    </property>
+                                                </bean>
+                                            </property>
+                                        </bean>
                                     </util:list>
                                 </property>
                             </bean>

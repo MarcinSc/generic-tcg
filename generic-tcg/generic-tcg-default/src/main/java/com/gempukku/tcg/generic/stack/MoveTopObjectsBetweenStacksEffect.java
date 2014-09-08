@@ -34,7 +34,7 @@ public class MoveTopObjectsBetweenStacksEffect implements GameEffect {
         final String stackFromName = _stackFrom.getValue(gameObjects, context);
         final String stackToName = _stackTo.getValue(gameObjects, context);
         final String player = _player.getValue(gameObjects, context);
-        final int count = _count.getValue(gameObjects, context);
+        final int count = _count.getIntValue(gameObjects, context);
 
         final PlayerDigitalObjectStackManager stackFrom = (PlayerDigitalObjectStackManager) gameObjects.getGameObject(stackFromName);
         final PlayerDigitalObjectStackManager stackTo = (PlayerDigitalObjectStackManager) gameObjects.getGameObject(stackToName);

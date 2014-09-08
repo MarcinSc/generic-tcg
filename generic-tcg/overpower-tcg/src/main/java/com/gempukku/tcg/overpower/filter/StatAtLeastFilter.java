@@ -38,7 +38,7 @@ public class StatAtLeastFilter implements DigitalObjectFilter {
         OverpowerCardBlueprint cardBlueprint = cardManager.getCardBlueprint(gameObjects, object);
 
         String stat = _stat.getValue(gameObjects, context);
-        int value = _value.getValue(gameObjects, context);
+        int value = _value.getIntValue(gameObjects, context);
         if (stat.equals("energy"))
             return cardBlueprint.getEnergy() >= value;
         else if (stat.equals("fighting"))

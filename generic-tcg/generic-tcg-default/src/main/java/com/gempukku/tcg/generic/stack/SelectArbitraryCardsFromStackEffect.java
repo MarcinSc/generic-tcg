@@ -75,8 +75,8 @@ public class SelectArbitraryCardsFromStackEffect implements GameEffect {
             characterBlueprints.add(cardManager.getBlueprintId(object));
         }
 
-        int min = _min.getValue(gameObjects, context);
-        int max = _max.getValue(gameObjects, context);
+        int min = _min.getIntValue(gameObjects, context);
+        int max = _max.getIntValue(gameObjects, context);
 
         String message = _message.getValue(gameObjects, context);
 

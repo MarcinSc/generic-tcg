@@ -6,7 +6,6 @@ import com.gempukku.tcg.digital.DigitalObject;
 import com.gempukku.tcg.generic.GenericContextObjects;
 import com.gempukku.tcg.generic.action.GameActionContext;
 import com.gempukku.tcg.generic.decision.AwaitingDecision;
-import com.gempukku.tcg.generic.decision.ChooseArbitraryCardDecision;
 import com.gempukku.tcg.generic.decision.ChooseDigitalObjectDecision;
 import com.gempukku.tcg.generic.effect.GameEffect;
 import com.gempukku.tcg.generic.evaluator.IntEvaluator;
@@ -17,7 +16,6 @@ import org.apache.commons.lang.StringUtils;
 
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -63,8 +61,8 @@ public class SelectDigitalObjectsByIdEffect implements GameEffect {
 
         final String playerName = _player.getValue(gameObjects, context);
         final String message = _message.getValue(gameObjects, context);
-        final int min = _min.getValue(gameObjects, context);
-        final int max = _max.getValue(gameObjects, context);
+        final int min = _min.getIntValue(gameObjects, context);
+        final int max = _max.getIntValue(gameObjects, context);
 
         Set<DigitalObject> digitalObjects = new HashSet<DigitalObject>();
         final String[] ids = com.gempukku.tcg.generic.util.StringUtils.correctSplit(_ids.getValue(gameObjects, context), ",");

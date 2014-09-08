@@ -20,7 +20,7 @@ public class AttributeLessThanCondition implements ActionCondition {
     @Override
     public boolean isMet(GameObjects gameObjects, GameActionContext context) {
         final String attributeName = _name.getValue(gameObjects, context);
-        final int compareTo = _value.getValue(gameObjects, context);
+        final int compareTo = _value.getIntValue(gameObjects, context);
         return Integer.parseInt(context.getAttribute(attributeName)) < compareTo;
     }
 }
