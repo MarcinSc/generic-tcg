@@ -15,6 +15,10 @@ public class OverpowerContextObjects {
     public static final GenericObject<PlayerDigitalObjectStackManager> POWER_PACK_ZONE = new GenericObject<PlayerDigitalObjectStackManager>("powerPackZone");
     public static final GenericObject<PlayerDigitalObjectStackManager> DEAD_PILE_ZONE = new GenericObject<PlayerDigitalObjectStackManager>("deadPileZone");
 
+    public static final GenericObject<PlayerDigitalObjectStackManager> COMPLETED_MISSIONS_ZONE = new GenericObject<PlayerDigitalObjectStackManager>("completedMissionsZone");
+    public static final GenericObject<PlayerDigitalObjectStackManager> RESERVE_MISSIONS_ZONE = new GenericObject<PlayerDigitalObjectStackManager>("reserveMissionsZone");
+    public static final GenericObject<PlayerDigitalObjectStackManager> DEFEATED_MISSIONS_ZONE = new GenericObject<PlayerDigitalObjectStackManager>("defeatedMissionsZone");
+
     public static <T> T extractGameObject(GameObjects gameObjects, GenericObject<T> object) {
         return (T) gameObjects.getGameObject(object._name);
     }

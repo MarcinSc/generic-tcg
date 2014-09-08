@@ -28,6 +28,7 @@ public class SetupOverpowerGameProcessor extends InitializingPlayerDeckGameProce
         final CardManager cardManager = GenericContextObjects.extractGameObject(gameObjects, GenericContextObjects.CARD_MANAGER);
         final PlayerDigitalObjectStackManager setupCharacters = OverpowerContextObjects.extractGameObject(gameObjects, OverpowerContextObjects.SETUP_CHARACTERS_ZONE);
         final PlayerDigitalObjectStackManager setupDeck = OverpowerContextObjects.extractGameObject(gameObjects, OverpowerContextObjects.SETUP_DECK_ZONE);
+        final PlayerDigitalObjectStackManager reserveMissionDeck = OverpowerContextObjects.extractGameObject(gameObjects, OverpowerContextObjects.RESERVE_MISSIONS_ZONE);
 
         for (String player : players) {
             final List<String> characters = gameDeckMap.get(player).getCardBlueprints().get("characters");
@@ -35,10 +36,15 @@ public class SetupOverpowerGameProcessor extends InitializingPlayerDeckGameProce
                 final DigitalObject card = cardManager.createCard(gameObjects, character, player);
                 setupCharacters.putOnTop(gameObjects, player, card);
             }
-            final List<String> cardBlueprints = gameDeckMap.get(player).getCardBlueprints().get("deck");
-            for (String cardBlueprint : cardBlueprints) {
-                final DigitalObject card = cardManager.createCard(gameObjects, cardBlueprint, player);
+            final List<String> deckCards = gameDeckMap.get(player).getCardBlueprints().get("deck");
+            for (String deckCard : deckCards) {
+                final DigitalObject card = cardManager.createCard(gameObjects, deckCard, player);
                 setupDeck.putOnTop(gameObjects, player, card);
+            }
+            List<String> missionCards = gameDeckMap.get(player).getCardBlueprints().get("mission");
+            for (String missionCard : missionCards) {
+                final DigitalObject card = cardManager.createCard(gameObjects, missionCard, player);
+                reserveMissionDeck.putOnTop(gameObjects, player, card);
             }
         }
     }

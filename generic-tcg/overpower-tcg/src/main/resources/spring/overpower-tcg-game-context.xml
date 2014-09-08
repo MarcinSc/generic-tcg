@@ -28,6 +28,9 @@
                 <entry key="handZone" value-ref="handZone"/>
                 <entry key="powerPackZone" value-ref="powerPackZone"/>
                 <entry key="deadPileZone" value-ref="deadPileZone"/>
+                <entry key="completedMissionsZone" value-ref="completedMissionsZone"/>
+                <entry key="reserveMissionsZone" value-ref="reserveMissionsZone"/>
+                <entry key="defeatedMissionsZone" value-ref="defeatedMissionsZone"/>
                 <entry key="overpowerCardManager" value-ref="overpowerCardManager"/>
                 <entry key="cardManager" value-ref="cardManager"/>
             </util:map>
@@ -43,6 +46,18 @@
     <bean id="cardManager" class="com.gempukku.tcg.generic.card.CardManager"/>
 
     <bean id="overpowerCardManager" class="com.gempukku.tcg.overpower.card.OverpowerCardManager"/>
+
+    <bean id="completedMissionsZone" class="com.gempukku.tcg.generic.stack.PlayerDigitalObjectStackManager">
+        <property name="stackName" value="completedMissionsZone"/>
+    </bean>
+
+    <bean id="reserveMissionsZone" class="com.gempukku.tcg.generic.stack.PlayerDigitalObjectStackManager">
+        <property name="stackName" value="reserveMissionsZone"/>
+    </bean>
+
+    <bean id="defeatedMissionsZone" class="com.gempukku.tcg.generic.stack.PlayerDigitalObjectStackManager">
+        <property name="stackName" value="defeatedMissionsZone"/>
+    </bean>
 
     <bean id="deadPileZone" class="com.gempukku.tcg.generic.stack.PlayerDigitalObjectStackManager">
         <property name="stackName" value="deadPileZone"/>

@@ -12,6 +12,7 @@ public class OverpowerCardBlueprint implements InitializingBean {
     private int _strength;
     private OverpowerCardBlueprintFilterFactory _placeOnFilterFactory;
     private DigitalObjectFilter _placeOnFilter;
+    private String _mission;
 
     public String getCardType() {
         return _cardType;
@@ -51,6 +52,14 @@ public class OverpowerCardBlueprint implements InitializingBean {
 
     public void setStrength(int strength) {
         _strength = strength;
+    }
+
+    public String getMission() {
+        return _mission;
+    }
+
+    public void setMission(String mission) {
+        _mission = mission;
     }
 
     public DigitalObjectFilter getPlaceOnFilter() {

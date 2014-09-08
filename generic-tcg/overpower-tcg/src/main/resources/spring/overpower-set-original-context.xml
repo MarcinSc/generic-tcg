@@ -15,6 +15,10 @@
         </property>
     </bean>
 
+    <bean abstract="true" id="missionCard" class="com.gempukku.tcg.overpower.card.OverpowerCardBlueprint">
+        <property name="cardType" value="mission"/>
+    </bean>
+
     <bean id="card.1-1" parent="characterCard">
         <property name="name" value="Apocalypse"/>
         <property name="energy" value="6"/>
@@ -161,6 +165,34 @@
         <property name="energy" value="4"/>
         <property name="fighting" value="4"/>
         <property name="strength" value="4"/>
+    </bean>
+
+    <bean id="card.1-68" parent="missionCard">
+        <property name="mission" value="Age of Apocalypse"/>
+    </bean>
+
+    <bean id="card.1-69" parent="missionCard">
+        <property name="mission" value="Age of Apocalypse"/>
+    </bean>
+
+    <bean id="card.1-70" parent="missionCard">
+        <property name="mission" value="Age of Apocalypse"/>
+    </bean>
+
+    <bean id="card.1-71" parent="missionCard">
+        <property name="mission" value="Age of Apocalypse"/>
+    </bean>
+
+    <bean id="card.1-72" parent="missionCard">
+        <property name="mission" value="Age of Apocalypse"/>
+    </bean>
+
+    <bean id="card.1-73" parent="missionCard">
+        <property name="mission" value="Age of Apocalypse"/>
+    </bean>
+
+    <bean id="card.1-74" parent="missionCard">
+        <property name="mission" value="Age of Apocalypse"/>
     </bean>
 
 </beans>

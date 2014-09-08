@@ -376,6 +376,7 @@ public class OverpowerGameTest {
         DefaultGameDeck deck = new DefaultGameDeck();
         deck.addDeckPart("characters", Arrays.asList("1-1", "1-2", "1-3", "1-4"));
         deck.addDeckPart("deck", Arrays.asList("1-40", "1-41", "1-42", "1-43", "1-44", "1-45", "1-46", "1-47"));
+        deck.addDeckPart("mission", Arrays.asList("1-68", "1-69", "1-70", "1-71", "1-72", "1-73", "1-74"));
         return deck;
     }
 }
