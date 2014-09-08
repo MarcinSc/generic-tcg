@@ -1,7 +1,8 @@
-package com.gempukku.tcg.generic.effect;
+package com.gempukku.tcg.generic.effect.context;
 
 import com.gempukku.tcg.GameObjects;
 import com.gempukku.tcg.generic.action.GameActionContext;
+import com.gempukku.tcg.generic.effect.GameEffect;
 import com.gempukku.tcg.generic.evaluator.StringEvaluator;
 
 public class RemoveContextAttributeEffect implements GameEffect {

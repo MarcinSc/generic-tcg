@@ -110,7 +110,7 @@
                                         </property>
                                         <property name="effects">
                                             <util:list>
-                                                <bean class="com.gempukku.tcg.generic.effect.RemoveContextAttributeEffect">
+                                                <bean class="com.gempukku.tcg.generic.effect.context.RemoveContextAttributeEffect">
                                                     <property name="attributeName" value="selectedCards.*{player}"/>
                                                 </bean>
                                                 <bean class="com.gempukku.tcg.overpower.effect.FindDuplicatePowerCardsEffect">
@@ -189,7 +189,7 @@
                 <bean class="com.gempukku.tcg.generic.action.GameEffectAction">
                     <property name="effects">
                         <util:list>
-                            <bean id="setPassCounter" class="com.gempukku.tcg.generic.effect.SetContextAttributeEffect">
+                            <bean id="setPassCounter" class="com.gempukku.tcg.generic.effect.context.SetContextAttributeEffect">
                                 <property name="name" value="passCount"/>
                                 <property name="value" value="0"/>
                             </bean>
@@ -228,7 +228,7 @@
                                                                     <bean class="com.gempukku.tcg.overpower.filter.PlaceableCardsFilter"/>
                                                                 </property>
                                                             </bean>
-                                                            <bean class="com.gempukku.tcg.generic.effect.RemoveContextAttributeEffect">
+                                                            <bean class="com.gempukku.tcg.generic.effect.context.RemoveContextAttributeEffect">
                                                                 <property name="attributeName" value="cardToPlace"/>
                                                             </bean>
                                                             <bean class="com.gempukku.tcg.generic.stack.SelectDigitalObjectsByIdEffect">
@@ -291,7 +291,7 @@
                                 </bean>
                             </property>
                         </bean>
-                        <bean class="com.gempukku.tcg.generic.effect.RemoveContextAttributeEffect">
+                        <bean class="com.gempukku.tcg.generic.effect.context.RemoveContextAttributeEffect">
                             <property name="attributeName" value="cardToPlaceOn"/>
                         </bean>
                         <bean class="com.gempukku.tcg.generic.stack.SelectDigitalObjectsByIdEffect">
@@ -322,10 +322,10 @@
                 <property name="indexAttribute" value="elseIndex"/>
                 <property name="effects">
                     <util:list>
-                        <bean class="com.gempukku.tcg.generic.effect.IncrementContextAttributeEffect">
+                        <bean class="com.gempukku.tcg.generic.effect.context.IncrementContextAttributeEffect">
                             <property name="attributeName" value="passCount"/>
                         </bean>
-                        <bean class="com.gempukku.tcg.generic.effect.SetContextAttributeEffect">
+                        <bean class="com.gempukku.tcg.generic.effect.context.SetContextAttributeEffect">
                             <property name="name" value="passed.*{player}"/>
                             <property name="value" value="1"/>
                         </bean>
@@ -338,15 +338,10 @@
     <bean id="ventureFlow" class="com.gempukku.tcg.generic.flow.MultiActionGameFlow">
         <property name="actions">
             <util:list>
-                <bean id="endProcessing" class="com.gempukku.tcg.generic.action.GameEffectAction">
-                    <property name="effects">
-                        <bean class="com.gempukku.tcg.overpower.effect.EndProcessingTempEffect"/>
-                    </property>
-                </bean>
                 <bean class="com.gempukku.tcg.generic.action.GameEffectAction">
                     <property name="effects">
                         <util:list>
-                            <bean class="com.gempukku.tcg.generic.effect.SetContextAttributeEffect">
+                            <bean class="com.gempukku.tcg.generic.effect.context.SetContextAttributeEffect">
                                 <property name="name" value="venturedPlayerCount"/>
                                 <property name="value" value="0"/>
                             </bean>
@@ -386,7 +381,7 @@
                                             <property name="max" value="*{reserveMissionsCount}"/>
                                             <property name="attributeName" value="venturedReserveMissionsCount"/>
                                         </bean>
-                                        <bean class="com.gempukku.tcg.generic.effect.SetContextAttributeEffect">
+                                        <bean class="com.gempukku.tcg.generic.effect.context.SetContextAttributeEffect">
                                             <property name="name" value="venturedMissionsCount"/>
                                             <property name="value">
                                                 <bean class="com.gempukku.tcg.generic.evaluator.AddIntEvaluator">
@@ -410,7 +405,19 @@
                                                 <bean class="com.gempukku.tcg.generic.effect.SequenceEffect">
                                                     <property name="effects">
                                                         <util:list>
-                                                            <bean class="com.gempukku.tcg.generic.effect.IncrementContextAttributeEffect">
+                                                            <bean class="com.gempukku.tcg.generic.effect.flag.SetFlagEffect">
+                                                                <property name="flagName" value="ventureCompleted.*{player}"/>
+                                                                <property name="flagValue" value="*{venturedCompletedMissionsCount}"/>
+                                                            </bean>
+                                                            <bean class="com.gempukku.tcg.generic.effect.flag.SetFlagEffect">
+                                                                <property name="flagName" value="ventureReserve.*{player}"/>
+                                                                <property name="flagValue" value="*{venturedReserveMissionsCount}"/>
+                                                            </bean>
+                                                            <bean class="com.gempukku.tcg.generic.effect.flag.SetFlagEffect">
+                                                                <property name="flagName" value="ventureTotal.*{player}"/>
+                                                                <property name="flagValue" value="*{venturedMissionsCount}"/>
+                                                            </bean>
+                                                            <bean class="com.gempukku.tcg.generic.effect.context.IncrementContextAttributeEffect">
                                                                 <property name="attributeName" value="venturedPlayerCount"/>
                                                             </bean>
                                                             <bean class="com.gempukku.tcg.generic.order.GetNextPlayerEffect">
@@ -426,6 +433,11 @@
                                 </property>
                             </bean>
                         </util:list>
+                    </property>
+                </bean>
+                <bean id="endProcessing" class="com.gempukku.tcg.generic.action.GameEffectAction">
+                    <property name="effects">
+                        <bean class="com.gempukku.tcg.overpower.effect.EndProcessingTempEffect"/>
                     </property>
                 </bean>
             </util:list>
