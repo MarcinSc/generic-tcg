@@ -260,6 +260,9 @@
                                                                                         </bean>
                                                                                     </property>
                                                                                 </bean>
+                                                                                <bean class="com.gempukku.tcg.generic.effect.RemoveContextAttributeEffect">
+                                                                                    <property name="attributeName" value="cardToPlaceOn"/>
+                                                                                </bean>
                                                                                 <bean class="com.gempukku.tcg.generic.stack.SelectDigitalObjectsByIdEffect">
                                                                                     <property name="ids" value="*{placeableOnCards}"/>
                                                                                     <property name="message" value="Choose card to place on"/>
@@ -288,12 +291,12 @@
                                                                         <property name="indexAttribute" value="elseIndex"/>
                                                                         <property name="effects">
                                                                             <util:list>
+                                                                                <bean class="com.gempukku.tcg.generic.effect.IncrementContextAttributeEffect">
+                                                                                    <property name="attributeName" value="passCount"/>
+                                                                                </bean>
                                                                                 <bean class="com.gempukku.tcg.generic.effect.SetContextAttributeEffect">
                                                                                     <property name="name" value="passed.*{player}"/>
                                                                                     <property name="value" value="1"/>
-                                                                                </bean>
-                                                                                <bean class="com.gempukku.tcg.generic.effect.IncrementContextAttributeEffect">
-                                                                                    <property name="attributeName" value="passCount"/>
                                                                                 </bean>
                                                                             </util:list>
                                                                         </property>

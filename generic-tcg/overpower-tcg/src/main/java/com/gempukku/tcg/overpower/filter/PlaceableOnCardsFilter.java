@@ -29,13 +29,15 @@ public class PlaceableOnCardsFilter implements DigitalObjectFilter {
         final OverpowerCardBlueprint possibleCharacterToPlaceOn = overpowerCardManager.getCardBlueprint(gameObjects, possibleCardToPlaceOn);
         if (!possibleCharacterToPlaceOn.getCardType().equals("character"))
             return false;
-        
+
         final DigitalEnvironment digitalEnvironment = GenericContextObjects.extractGameObject(gameObjects, GenericContextObjects.DIGITAL_ENVIRONMENT);
         final PlayerDigitalObjectStackManager inPlay = OverpowerContextObjects.extractGameObject(gameObjects, OverpowerContextObjects.IN_PLAY_ZONE);
 
         String cardToPlaceId = _id.getValue(gameObjects, context);
         final DigitalObject cardToPlaceObject = digitalEnvironment.getObjectById(cardToPlaceId);
         final OverpowerCardBlueprint cardToPlace = overpowerCardManager.getCardBlueprint(gameObjects, cardToPlaceObject);
+        if (!cardToPlace.getPlaceOnFilter().accept(gameObjects, context, possibleCardToPlaceOn))
+            return false;
 
         final List<DigitalObject> placedOn = DigitalObjectUtils.filter(gameObjects, new PlacedOnFilter(new ConstantStringEvaluator(possibleCardToPlaceOn.getId())), context, inPlay.getDigitalObjectsInStack(gameObjects, possibleCardToPlaceOn.getAttributes().get("owner")));
 

@@ -67,7 +67,7 @@ public class SelectDigitalObjectsByIdEffect implements GameEffect {
         final int max = _max.getValue(gameObjects, context);
 
         Set<DigitalObject> digitalObjects = new HashSet<DigitalObject>();
-        final String[] ids = _ids.getValue(gameObjects, context).split(",");
+        final String[] ids = com.gempukku.tcg.generic.util.StringUtils.correctSplit(_ids.getValue(gameObjects, context), ",");
         for (String id : ids)
             digitalObjects.add(digitalEnvironment.getObjectById(id));
 
@@ -76,17 +76,15 @@ public class SelectDigitalObjectsByIdEffect implements GameEffect {
                 new ChooseDigitalObjectDecision(message, digitalObjects, min, max) {
                     @Override
                     protected void objectsChosen(Set<DigitalObject> object) {
-                        if (object.size() > 0) {
-                            context.setAttribute(attributeName, StringUtils.join(
-                                    Iterables.transform(object,
-                                            new Function<DigitalObject, String>() {
-                                                @Override
-                                                public String apply(DigitalObject input) {
-                                                    return input.getId();
-                                                }
+                        context.setAttribute(attributeName, StringUtils.join(
+                                Iterables.transform(object,
+                                        new Function<DigitalObject, String>() {
+                                            @Override
+                                            public String apply(DigitalObject input) {
+                                                return input.getId();
+                                            }
 
-                                            }).iterator(), ","));
-                        }
+                                        }).iterator(), ","));
                     }
                 });
 

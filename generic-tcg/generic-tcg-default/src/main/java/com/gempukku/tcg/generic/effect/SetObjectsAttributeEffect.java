@@ -5,6 +5,7 @@ import com.gempukku.tcg.digital.DigitalEnvironment;
 import com.gempukku.tcg.generic.GenericContextObjects;
 import com.gempukku.tcg.generic.action.GameActionContext;
 import com.gempukku.tcg.generic.evaluator.StringEvaluator;
+import com.gempukku.tcg.generic.util.StringUtils;
 
 import java.util.Collections;
 
@@ -29,7 +30,7 @@ public class SetObjectsAttributeEffect implements GameEffect {
     public Result execute(GameObjects gameObjects, GameActionContext context) {
         final DigitalEnvironment digitalEnvironment = GenericContextObjects.extractGameObject(gameObjects, GenericContextObjects.DIGITAL_ENVIRONMENT);
 
-        final String[] ids = _ids.getValue(gameObjects, context).split(",");
+        final String[] ids = StringUtils.correctSplit(_ids.getValue(gameObjects, context), ",");
         final String name = _attributeName.getValue(gameObjects, context);
         final String value = _attributeValue.getValue(gameObjects, context);
 

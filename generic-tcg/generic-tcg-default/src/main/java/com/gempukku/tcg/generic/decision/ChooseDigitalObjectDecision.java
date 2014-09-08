@@ -1,6 +1,7 @@
 package com.gempukku.tcg.generic.decision;
 
 import com.gempukku.tcg.digital.DigitalObject;
+import com.gempukku.tcg.generic.util.StringUtils;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -40,7 +41,7 @@ public abstract class ChooseDigitalObjectDecision implements AwaitingDecision {
 
     @Override
     public void processAnswer(String answer) throws InvalidAnswerException {
-        final String[] split = answer.split(",");
+        final String[] split = StringUtils.correctSplit(answer, ",");
         try {
             Set<DigitalObject> objects = new HashSet<DigitalObject>();
 

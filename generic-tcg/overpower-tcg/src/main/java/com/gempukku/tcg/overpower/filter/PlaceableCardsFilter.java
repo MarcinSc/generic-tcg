@@ -26,19 +26,8 @@ public class PlaceableCardsFilter implements DigitalObjectFilter {
         placeableOnCardsFilter.setId(new ConstantStringEvaluator(object.getId()));
         final List<DigitalObject> cardsInPlay = inPlay.getDigitalObjectsInStack(gameObjects, object.getAttributes().get("owner"));
         for (DigitalObject cardInPlayObj : cardsInPlay) {
-            final OverpowerCardBlueprint cardInPlay = overpowerCardManager.getCardBlueprint(gameObjects, cardInPlayObj);
-            if (cardInPlay.getCardType().equals("character")) {
-                final int energyReq = possibleCardToPlace.getEnergy();
-                final int fightingReq = possibleCardToPlace.getFighting();
-                final int strengthReq = possibleCardToPlace.getStrength();
-                // Has to match any of the requirements
-                if ((energyReq != 0 && energyReq <= cardInPlay.getEnergy())
-                        || (fightingReq != 0 && fightingReq <= cardInPlay.getFighting())
-                        || (strengthReq != 0 && strengthReq <= cardInPlay.getStrength())) {
-                    if (placeableOnCardsFilter.accept(gameObjects, context, cardInPlayObj))
-                        return true;
-                }
-            }
+            if (placeableOnCardsFilter.accept(gameObjects, context, cardInPlayObj))
+                return true;
         }
 
         return false;

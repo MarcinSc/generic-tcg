@@ -12,7 +12,11 @@ import com.gempukku.tcg.generic.decision.AwaitingDecision;
 import com.gempukku.tcg.generic.decision.ChooseDigitalObjectDecision;
 import com.gempukku.tcg.generic.decision.DecisionHolder;
 import com.gempukku.tcg.generic.deck.DefaultGameDeck;
+import com.gempukku.tcg.generic.filter.PredicateFilter;
+import com.gempukku.tcg.generic.order.PlayerOrder;
 import com.gempukku.tcg.generic.stack.PlayerDigitalObjectStackManager;
+import com.gempukku.tcg.generic.util.DigitalObjectUtils;
+import com.google.common.base.Predicate;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -36,6 +40,7 @@ public class OverpowerGameTest {
     private GameProcessor _gameProcessor;
     private GameObjects _gameObjects;
     private DigitalEnvironment _digitalEnvironment;
+    private DecisionHolder _decisionHolder;
 
     @BeforeClass
     public static void setupFactory() {
@@ -53,17 +58,16 @@ public class OverpowerGameTest {
 
         final PlayerDigitalObjectStackManager inPlayZone = OverpowerContextObjects.extractGameObject(_gameObjects, OverpowerContextObjects.IN_PLAY_ZONE);
 
-        DecisionHolder decisionHolder = GenericContextObjects.extractGameObject(_gameObjects, GenericContextObjects.DECISION_HOLDER);
-        assertNotNull(decisionHolder.getDecision(P1));
-        assertNotNull(decisionHolder.getDecision(P2));
+        assertNotNull(_decisionHolder.getDecision(P1));
+        assertNotNull(_decisionHolder.getDecision(P2));
 
         _gameProcessor.playerSentDecision(_gameObjects, P1, "0,1,2");
 
         List<DigitalObject> p1FrontLine = inPlayZone.getDigitalObjectsInStack(_gameObjects, P1);
         assertEquals(0, p1FrontLine.size());
 
-        assertNull(decisionHolder.getDecision(P1));
-        assertNotNull(decisionHolder.getDecision(P2));
+        assertNull(_decisionHolder.getDecision(P1));
+        assertNotNull(_decisionHolder.getDecision(P2));
 
         _gameProcessor.playerSentDecision(_gameObjects, P2, "1,2,3");
 
@@ -100,18 +104,17 @@ public class OverpowerGameTest {
         {
             startNewGame(decks);
             PlayerDigitalObjectStackManager inPlayZone = OverpowerContextObjects.extractGameObject(_gameObjects, OverpowerContextObjects.IN_PLAY_ZONE);
-            DecisionHolder decisionHolder = GenericContextObjects.extractGameObject(_gameObjects, GenericContextObjects.DECISION_HOLDER);
 
-            assertNotNull(decisionHolder.getDecision(P1));
-            assertNotNull(decisionHolder.getDecision(P2));
+            assertNotNull(_decisionHolder.getDecision(P1));
+            assertNotNull(_decisionHolder.getDecision(P2));
 
             _gameProcessor.playerSentDecision(_gameObjects, P1, "0,1,2");
 
             List<DigitalObject> p1FrontLine = inPlayZone.getDigitalObjectsInStack(_gameObjects, P1);
             assertEquals(0, p1FrontLine.size());
 
-            assertNull(decisionHolder.getDecision(P1));
-            assertNotNull(decisionHolder.getDecision(P2));
+            assertNull(_decisionHolder.getDecision(P1));
+            assertNotNull(_decisionHolder.getDecision(P2));
         }
 
         {
@@ -158,12 +161,11 @@ public class OverpowerGameTest {
         assertEquals(8, handP1.size());
         assertEquals(8, handP2.size());
 
-        DecisionHolder decisionHolder = GenericContextObjects.extractGameObject(_gameObjects, GenericContextObjects.DECISION_HOLDER);
-        validateDiscardDuplicateDecision(decisionHolder.getDecision(P1));
-        validateDiscardDuplicateDecision(decisionHolder.getDecision(P2));
+        validateDiscardDuplicateDecision(_decisionHolder.getDecision(P1));
+        validateDiscardDuplicateDecision(_decisionHolder.getDecision(P2));
 
-        _gameProcessor.playerSentDecision(_gameObjects, P1, ((ChooseDigitalObjectDecision) decisionHolder.getDecision(P1)).getObjects().get(0).getId());
-        _gameProcessor.playerSentDecision(_gameObjects, P2, ((ChooseDigitalObjectDecision) decisionHolder.getDecision(P2)).getObjects().get(0).getId());
+        _gameProcessor.playerSentDecision(_gameObjects, P1, ((ChooseDigitalObjectDecision) _decisionHolder.getDecision(P1)).getObjects().get(0).getId());
+        _gameProcessor.playerSentDecision(_gameObjects, P2, ((ChooseDigitalObjectDecision) _decisionHolder.getDecision(P2)).getObjects().get(0).getId());
 
         handP1 = handZone.getDigitalObjectsInStack(_gameObjects, P1);
         assertEquals(7, handP1.size());
@@ -199,12 +201,11 @@ public class OverpowerGameTest {
         assertEquals(8, handP1.size());
         assertEquals(8, handP2.size());
 
-        DecisionHolder decisionHolder = GenericContextObjects.extractGameObject(_gameObjects, GenericContextObjects.DECISION_HOLDER);
-        validateDiscardUnusableDecision(decisionHolder.getDecision(P1));
-        validateDiscardUnusableDecision(decisionHolder.getDecision(P2));
+        validateDiscardUnusableDecision(_decisionHolder.getDecision(P1));
+        validateDiscardUnusableDecision(_decisionHolder.getDecision(P2));
 
-        _gameProcessor.playerSentDecision(_gameObjects, P1, ((ChooseDigitalObjectDecision) decisionHolder.getDecision(P1)).getObjects().get(0).getId());
-        _gameProcessor.playerSentDecision(_gameObjects, P2, ((ChooseDigitalObjectDecision) decisionHolder.getDecision(P2)).getObjects().get(0).getId());
+        _gameProcessor.playerSentDecision(_gameObjects, P1, ((ChooseDigitalObjectDecision) _decisionHolder.getDecision(P1)).getObjects().get(0).getId());
+        _gameProcessor.playerSentDecision(_gameObjects, P2, ((ChooseDigitalObjectDecision) _decisionHolder.getDecision(P2)).getObjects().get(0).getId());
 
         handP1 = handZone.getDigitalObjectsInStack(_gameObjects, P1);
         assertEquals(7, handP1.size());
@@ -217,6 +218,106 @@ public class OverpowerGameTest {
         assertEquals(1, deadPileZone.getDigitalObjectsInStack(_gameObjects, P2).size());
     }
 
+    @Test
+    public void placingPhase() {
+        startSimpleGame();
+
+        _gameProcessor.playerSentDecision(_gameObjects, P1, "0,1,2");
+        _gameProcessor.playerSentDecision(_gameObjects, P2, "0,1,2");
+
+        _gameProcessor.playerSentDecision(_gameObjects, P1, "");
+        _gameProcessor.playerSentDecision(_gameObjects, P2, "");
+
+        String firstPlayer = getFirstPlayer();
+        String secondPlayer = getNextPlayer(firstPlayer);
+
+        ChooseDigitalObjectDecision firstPlaceCardDecision = (ChooseDigitalObjectDecision) _decisionHolder.getDecision(firstPlayer);
+
+        assertNotNull(firstPlaceCardDecision);
+        validatePlaceDecision(firstPlaceCardDecision, 6);
+        assertNull(_decisionHolder.getDecision(secondPlayer));
+
+        List<DigitalObject> energyOne = findCardWithBlueprintId(firstPlaceCardDecision.getObjects(), "1-40");
+
+        // Choose to place power card with Energy=1
+        _gameProcessor.playerSentDecision(_gameObjects, firstPlayer, energyOne.get(0).getId());
+
+        ChooseDigitalObjectDecision firstPlaceOnCardDecision = (ChooseDigitalObjectDecision) _decisionHolder.getDecision(firstPlayer);
+
+        assertNotNull(firstPlaceOnCardDecision);
+        validatePlaceOnDecision(firstPlaceOnCardDecision, 4);
+
+        List<DigitalObject> apocalypse = findCardWithBlueprintId(firstPlaceOnCardDecision.getObjects(), "1-1");
+
+        // Choose to place on Apocalypse
+        _gameProcessor.playerSentDecision(_gameObjects, firstPlayer, apocalypse.get(0).getId());
+
+        assertNull(_decisionHolder.getDecision(firstPlayer));
+        ChooseDigitalObjectDecision secondPlaceCardDecision = (ChooseDigitalObjectDecision) _decisionHolder.getDecision(secondPlayer);
+        validatePlaceDecision(secondPlaceCardDecision, 6);
+
+        // Place chooses to pass
+        _gameProcessor.playerSentDecision(_gameObjects, secondPlayer, "");
+
+        firstPlaceCardDecision = (ChooseDigitalObjectDecision) _decisionHolder.getDecision(firstPlayer);
+        assertNotNull(firstPlaceCardDecision);
+        validatePlaceDecision(firstPlaceCardDecision, 5);
+        assertNull(_decisionHolder.getDecision(secondPlayer));
+
+        List<DigitalObject> energySix = findCardWithBlueprintId(firstPlaceCardDecision.getObjects(), "1-45");
+
+        // Choose to place power card with Energy=6
+        _gameProcessor.playerSentDecision(_gameObjects, firstPlayer, energySix.get(0).getId());
+
+        firstPlaceOnCardDecision = (ChooseDigitalObjectDecision) _decisionHolder.getDecision(firstPlayer);
+
+        assertNotNull(firstPlaceOnCardDecision);
+        validatePlaceOnDecision(firstPlaceOnCardDecision, 1);
+
+        // Choose to place on the only available character without power card and energy>=6 (Cable)
+        _gameProcessor.playerSentDecision(_gameObjects, firstPlayer, firstPlaceOnCardDecision.getObjects().get(0).getId());
+
+        // Second player already passed
+        firstPlaceCardDecision = (ChooseDigitalObjectDecision) _decisionHolder.getDecision(firstPlayer);
+        assertNotNull(firstPlaceCardDecision);
+        validatePlaceDecision(firstPlaceCardDecision, 4);
+        assertNull(_decisionHolder.getDecision(secondPlayer));
+
+        _gameProcessor.playerSentDecision(_gameObjects, firstPlayer, "");
+    }
+
+    private List<DigitalObject> findCardWithBlueprintId(List<DigitalObject> cards, final String blueprintId) {
+        return DigitalObjectUtils.filter(_gameObjects, new PredicateFilter(
+                new Predicate<DigitalObject>() {
+                    @Override
+                    public boolean apply(DigitalObject input) {
+                        return blueprintId.equals(input.getAttributes().get("blueprintId"));
+                    }
+                }), null, cards);
+    }
+
+    private void validatePlaceOnDecision(ChooseDigitalObjectDecision decision, int characterCount) {
+        assertEquals(1, decision.getMin());
+        assertEquals(1, decision.getMax());
+        assertEquals(characterCount, decision.getObjects().size());
+    }
+
+    private void validatePlaceDecision(ChooseDigitalObjectDecision decision, int cardCount) {
+        assertEquals(0, decision.getMin());
+        assertEquals(1, decision.getMax());
+        assertEquals(cardCount, decision.getObjects().size());
+    }
+
+    private String getNextPlayer(String currentPlayer) {
+        PlayerOrder playerOrder = GenericContextObjects.extractGameObject(_gameObjects, GenericContextObjects.PLAYER_ORDER);
+        return playerOrder.getNextPlayerAfter(_gameObjects, currentPlayer);
+    }
+
+    private String getFirstPlayer() {
+        PlayerOrder playerOrder = GenericContextObjects.extractGameObject(_gameObjects, GenericContextObjects.PLAYER_ORDER);
+        return playerOrder.getFirstPlayer(_gameObjects);
+    }
+
     private void validateDiscardUnusableDecision(AwaitingDecision decision) {
         assertTrue(decision instanceof ChooseDigitalObjectDecision);
         ChooseDigitalObjectDecision chooseUnusableDecisions = (ChooseDigitalObjectDecision) decision;
@@ -227,14 +328,6 @@ public class OverpowerGameTest {
 
     private String getBlueprint(DigitalObject digitalObject) {
         return digitalObject.getAttributes().get("blueprintId");
-    }
-
-    private void loadGame(DigitalEnvironment digitalEnvironment, Set<String> players) {
-        GameBuilder gameBuilder = _gameBuilderFactory.continueLoadedGame(digitalEnvironment, players);
-
-        _gameProcessor = gameBuilder.getGameProcessor();
-        _gameObjects = gameBuilder.getGameObjects();
-        _digitalEnvironment = gameBuilder.getDigitalEnvironment();
     }
 
     private void startSimpleGame() {
@@ -257,9 +350,20 @@ public class OverpowerGameTest {
     private void startNewGame(Map<String, GameDeck> decks) {
         GameBuilder gameBuilder = _gameBuilderFactory.startNewGame(decks);
 
+        initFromGameBuilder(gameBuilder);
+    }
+
+    private void loadGame(DigitalEnvironment digitalEnvironment, Set<String> players) {
+        GameBuilder gameBuilder = _gameBuilderFactory.continueLoadedGame(digitalEnvironment, players);
+
+        initFromGameBuilder(gameBuilder);
+    }
+
+    private void initFromGameBuilder(GameBuilder gameBuilder) {
         _gameProcessor = gameBuilder.getGameProcessor();
         _gameObjects = gameBuilder.getGameObjects();
         _digitalEnvironment = gameBuilder.getDigitalEnvironment();
+        _decisionHolder = GenericContextObjects.extractGameObject(_gameObjects, GenericContextObjects.DECISION_HOLDER);
     }
 
     private DefaultGameDeck createDeck() {

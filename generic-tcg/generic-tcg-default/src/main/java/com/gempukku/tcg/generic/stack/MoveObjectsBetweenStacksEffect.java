@@ -5,6 +5,7 @@ import com.gempukku.tcg.digital.DigitalObject;
 import com.gempukku.tcg.generic.action.GameActionContext;
 import com.gempukku.tcg.generic.effect.GameEffect;
 import com.gempukku.tcg.generic.evaluator.StringEvaluator;
+import com.gempukku.tcg.generic.util.StringUtils;
 
 import java.util.List;
 
@@ -40,7 +41,7 @@ public class MoveObjectsBetweenStacksEffect implements GameEffect {
         final PlayerDigitalObjectStackManager stackTo = (PlayerDigitalObjectStackManager) gameObjects.getGameObject(stackToName);
 
         if (_ids != null) {
-            final String[] ids = _ids.getValue(gameObjects, context).split(",");
+            final String[] ids = StringUtils.correctSplit(_ids.getValue(gameObjects, context), ",");
 
             for (String id : ids) {
                 final DigitalObject object = stackFrom.removeObjectFromStack(gameObjects, player, id);

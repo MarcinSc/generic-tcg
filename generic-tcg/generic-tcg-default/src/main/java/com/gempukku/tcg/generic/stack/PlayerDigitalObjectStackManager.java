@@ -100,7 +100,7 @@ public class PlayerDigitalObjectStackManager implements GamePlayerStateInitializ
         final String ids = playerStack.getAttributes().get("ids");
         if (ids == null)
             return new String[0];
-        return ids.split(",");
+        return com.gempukku.tcg.generic.util.StringUtils.correctSplit(ids, ",");
     }
 
     private String convertToString(ArrayList<String> ids) {

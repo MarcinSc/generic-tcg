@@ -14,6 +14,6 @@ public class HasAttributeSetCondition implements ActionCondition {
     @Override
     public boolean isMet(GameObjects gameObjects, GameActionContext context) {
         final String name = _name.getValue(gameObjects, context);
-        return context.getAttribute(name) != null;
+        return context.getAttribute(name) != null && !context.getAttribute(name).equals("");
     }
 }

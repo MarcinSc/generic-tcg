@@ -1,5 +1,7 @@
 package com.gempukku.tcg.generic.decision;
 
+import com.gempukku.tcg.generic.util.StringUtils;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -37,7 +39,7 @@ public abstract class ChooseArbitraryCardDecision implements AwaitingDecision {
 
     @Override
     public void processAnswer(String answer) throws InvalidAnswerException {
-        final String[] split = answer.split(",");
+        final String[] split = StringUtils.correctSplit(answer, ",");
         if (split.length < _min || split.length > _max)
             throw new InvalidAnswerException("Invalid number of objects selected");
 

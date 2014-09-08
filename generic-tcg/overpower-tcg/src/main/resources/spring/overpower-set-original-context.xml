@@ -10,6 +10,9 @@
     
     <bean abstract="true" id="powerCard" class="com.gempukku.tcg.overpower.card.OverpowerCardBlueprint">
         <property name="cardType" value="power"/>
+        <property name="placeOnFilterFactory">
+            <bean class="com.gempukku.tcg.overpower.filter.PowerCardPlaceOnFilter"/>
+        </property>
     </bean>
 
     <bean id="card.1-1" parent="characterCard">

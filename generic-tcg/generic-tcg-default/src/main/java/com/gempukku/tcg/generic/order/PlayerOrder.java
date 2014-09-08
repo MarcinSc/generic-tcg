@@ -35,12 +35,12 @@ public class PlayerOrder implements GameStateInitializing {
 
     public String getFirstPlayer(GameObjects gameObjects) {
         final DigitalObject turnOrder = DigitalObjects.extractObject(gameObjects, TYPE);
-        return turnOrder.getAttributes().get("order").split(",")[0];
+        return com.gempukku.tcg.generic.util.StringUtils.correctSplit(turnOrder.getAttributes().get("order"), ",")[0];
     }
 
     public String getNextPlayerAfter(GameObjects gameObjects, String player) {
         final DigitalObject turnOrder = DigitalObjects.extractObject(gameObjects, TYPE);
-        ArrayList<String> players = new ArrayList<String>(Arrays.asList(turnOrder.getAttributes().get("order").split(",")));
+        ArrayList<String> players = new ArrayList<String>(Arrays.asList(com.gempukku.tcg.generic.util.StringUtils.correctSplit(turnOrder.getAttributes().get("order"), ",")));
         final int index = players.indexOf(player);
         if (index + 1 == players.size())
             return players.get(0);

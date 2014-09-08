@@ -9,7 +9,7 @@ import java.util.List;
 
 public class SequenceEffect implements GameEffect {
     private List<? extends GameEffect> _effects;
-    private StringEvaluator _indexAttribute = new ConstantStringEvaluator("groupEffectIndex");
+    private StringEvaluator _indexAttribute = new ConstantStringEvaluator("sequenceEffectIndex");
 
     public void setEffects(List<? extends GameEffect> gameObjectEffects) {
         _effects = gameObjectEffects;
@@ -27,12 +27,14 @@ public class SequenceEffect implements GameEffect {
         if (!result._shouldContinue) {
             if (effectIndex + 1 < _effects.size()) {
                 setEffectIndex(gameObjects, context, effectIndex + 1);
+                return new Result(null, true);
             } else {
                 removeEffectIndex(gameObjects, context);
+                return new Result(null, false);
             }
         }
 
-        return result;
+        return new Result(result._decisions, true);
     }
 
     private int getEffectIndex(GameObjects gameObjects, GameActionContext context) {

@@ -18,4 +18,18 @@ public class Filters {
             }
         };
     }
+
+    public static DigitalObjectFilter or(final DigitalObjectFilter ... filters) {
+        return new DigitalObjectFilter() {
+            @Override
+            public boolean accept(GameObjects gameObjects, GameActionContext context, DigitalObject object) {
+                for (DigitalObjectFilter filter : filters) {
+                    if (filter.accept(gameObjects, context, object))
+                        return true;
+                }
+
+                return false;
+            }
+        };
+    }
 }
