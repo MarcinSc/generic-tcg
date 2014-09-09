@@ -4,6 +4,7 @@ import com.gempukku.tcg.GameObjects;
 import com.gempukku.tcg.generic.action.GameActionContext;
 import com.gempukku.tcg.generic.effect.GameEffect;
 import com.gempukku.tcg.generic.evaluator.StringEvaluator;
+import com.gempukku.tcg.generic.util.StringUtils;
 
 public class RemoveContextAttributeEffect implements GameEffect {
     private StringEvaluator _attributeName;
@@ -15,7 +16,8 @@ public class RemoveContextAttributeEffect implements GameEffect {
     @Override
     public Result execute(GameObjects gameObjects, GameActionContext context) {
         final String attributeName = _attributeName.getValue(gameObjects, context);
-        context.removeAttribute(attributeName);
+        for (String attribute : StringUtils.correctSplit(attributeName, ","))
+            context.removeAttribute(attribute);
         
         return Result.pass();
     }

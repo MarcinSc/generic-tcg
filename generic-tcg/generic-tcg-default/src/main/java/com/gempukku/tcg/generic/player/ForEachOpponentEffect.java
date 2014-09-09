@@ -14,7 +14,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class ForEachOpponentEffect implements GameEffect {
-    private StringEvaluator _indexAttribute = new ConstantStringEvaluator("remainingPlayers");
+    private StringEvaluator _indexAttribute = new ConstantStringEvaluator("remainingOpponents");
     private StringEvaluator _player;
     private GameEffect _gameEffect;
     private StringEvaluator _attributeName;

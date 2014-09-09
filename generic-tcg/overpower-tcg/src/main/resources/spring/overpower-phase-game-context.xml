@@ -357,77 +357,208 @@
                                 </property>
                                 <property name="effects">
                                     <util:list>
-                                        <bean class="com.gempukku.tcg.generic.stack.GetObjectsInStackCountEffect">
-                                            <property name="player" value="*{player}"/>
-                                            <property name="stack" value="completedMissionsZone"/>
-                                            <property name="attributeName" value="completedMissionsCount"/>
-                                        </bean>
-                                        <bean class="com.gempukku.tcg.generic.effect.decision.ChooseNumberEffect">
-                                            <property name="player" value="*{player}"/>
-                                            <property name="message" value="Choose number of missions to venture from Completed Missions"/>
-                                            <property name="min" value="0"/>
-                                            <property name="max" value="*{completedMissionsCount}"/>
-                                            <property name="attributeName" value="venturedCompletedMissionsCount"/>
-                                        </bean>
-                                        <bean class="com.gempukku.tcg.generic.stack.GetObjectsInStackCountEffect">
-                                            <property name="player" value="*{player}"/>
-                                            <property name="stack" value="reserveMissionsZone"/>
-                                            <property name="attributeName" value="reserveMissionsCount"/>
-                                        </bean>
-                                        <bean class="com.gempukku.tcg.generic.effect.decision.ChooseNumberEffect">
-                                            <property name="player" value="*{player}"/>
-                                            <property name="message" value="Choose number of missions to venture from Reserve Missions"/>
-                                            <property name="min" value="0"/>
-                                            <property name="max" value="*{reserveMissionsCount}"/>
-                                            <property name="attributeName" value="venturedReserveMissionsCount"/>
+                                        <bean class="com.gempukku.tcg.generic.effect.context.RemoveContextAttributeEffect">
+                                            <property name="attributeName" value="venturedCompletedMissionsCount,venturedReserveMissionsCount,venturedMissionsCount,venturing"/>
                                         </bean>
                                         <bean class="com.gempukku.tcg.generic.effect.context.SetContextAttributeEffect">
                                             <property name="name" value="venturedMissionsCount"/>
-                                            <property name="value">
-                                                <bean class="com.gempukku.tcg.generic.evaluator.AddIntEvaluator">
-                                                    <property name="numbers">
-                                                        <util:list>
-                                                            <value>*{venturedCompletedMissionsCount}</value>
-                                                            <value>*{venturedReserveMissionsCount}</value>
-                                                        </util:list>
-                                                    </property>
-                                                </bean>
-                                            </property>
+                                            <property name="value" value="0"/>
                                         </bean>
-                                        <bean class="com.gempukku.tcg.generic.effect.ConditionalEffect">
+                                        <bean class="com.gempukku.tcg.generic.effect.RepeatWhileEffect">
+                                            <property name="indexAttribute" value="venturing"/>
                                             <property name="condition">
                                                 <bean class="com.gempukku.tcg.generic.condition.AttributeLessThanCondition">
                                                     <property name="name" value="venturedMissionsCount"/>
                                                     <property name="value" value="1"/>
                                                 </bean>
                                             </property>
+                                            <property name="effects">
+                                                <util:list>
+                                                    <bean class="com.gempukku.tcg.generic.stack.GetObjectsInStackCountEffect">
+                                                        <property name="player" value="*{player}"/>
+                                                        <property name="stack" value="completedMissionsZone"/>
+                                                        <property name="attributeName" value="completedMissionsCount"/>
+                                                    </bean>
+                                                    <bean class="com.gempukku.tcg.generic.effect.decision.ChooseNumberEffect">
+                                                        <property name="player" value="*{player}"/>
+                                                        <property name="message" value="Choose number of missions to venture from Completed Missions"/>
+                                                        <property name="min" value="0"/>
+                                                        <property name="max" value="*{completedMissionsCount}"/>
+                                                        <property name="attributeName" value="venturedCompletedMissionsCount"/>
+                                                    </bean>
+                                                    <bean class="com.gempukku.tcg.generic.stack.GetObjectsInStackCountEffect">
+                                                        <property name="player" value="*{player}"/>
+                                                        <property name="stack" value="reserveMissionsZone"/>
+                                                        <property name="attributeName" value="reserveMissionsCount"/>
+                                                    </bean>
+                                                    <bean class="com.gempukku.tcg.generic.effect.decision.ChooseNumberEffect">
+                                                        <property name="player" value="*{player}"/>
+                                                        <property name="message" value="Choose number of missions to venture from Reserve Missions"/>
+                                                        <property name="min" value="0"/>
+                                                        <property name="max" value="*{reserveMissionsCount}"/>
+                                                        <property name="attributeName" value="venturedReserveMissionsCount"/>
+                                                    </bean>
+                                                    <bean class="com.gempukku.tcg.generic.effect.context.SetContextAttributeEffect">
+                                                        <property name="name" value="venturedMissionsCount"/>
+                                                        <property name="value">
+                                                            <bean class="com.gempukku.tcg.generic.evaluator.AddIntEvaluator">
+                                                                <property name="numbers">
+                                                                    <util:list>
+                                                                        <value>*{venturedCompletedMissionsCount}</value>
+                                                                        <value>*{venturedReserveMissionsCount}</value>
+                                                                    </util:list>
+                                                                </property>
+                                                            </bean>
+                                                        </property>
+                                                    </bean>
+                                                </util:list>
+                                            </property>
+                                        </bean>
+                                        <bean class="com.gempukku.tcg.generic.effect.flag.SetFlagEffect">
+                                            <property name="flagName" value="ventureCompleted.*{player}"/>
+                                            <property name="flagValue" value="*{venturedCompletedMissionsCount}"/>
+                                        </bean>
+                                        <bean class="com.gempukku.tcg.generic.effect.flag.SetFlagEffect">
+                                            <property name="flagName" value="ventureReserve.*{player}"/>
+                                            <property name="flagValue" value="*{venturedReserveMissionsCount}"/>
+                                        </bean>
+                                        <bean class="com.gempukku.tcg.generic.effect.flag.SetFlagEffect">
+                                            <property name="flagName" value="ventureTotal.*{player}"/>
+                                            <property name="flagValue" value="*{venturedMissionsCount}"/>
+                                        </bean>
+                                        <bean class="com.gempukku.tcg.generic.effect.ConditionalEffect">
+                                            <property name="condition">
+                                                <bean class="com.gempukku.tcg.generic.condition.AttributeMoreThanCondition">
+                                                    <property name="name" value="venturedMissionsCount"/>
+                                                    <property name="value" value="2"/>
+                                                </bean>
+                                            </property>
                                             <property name="effect">
-                                                <bean class="com.gempukku.tcg.generic.effect.SequenceEffect">
-                                                    <property name="effects">
-                                                        <util:list>
-                                                            <bean class="com.gempukku.tcg.generic.effect.flag.SetFlagEffect">
-                                                                <property name="flagName" value="ventureCompleted.*{player}"/>
-                                                                <property name="flagValue" value="*{venturedCompletedMissionsCount}"/>
-                                                            </bean>
-                                                            <bean class="com.gempukku.tcg.generic.effect.flag.SetFlagEffect">
-                                                                <property name="flagName" value="ventureReserve.*{player}"/>
-                                                                <property name="flagValue" value="*{venturedReserveMissionsCount}"/>
-                                                            </bean>
-                                                            <bean class="com.gempukku.tcg.generic.effect.flag.SetFlagEffect">
-                                                                <property name="flagName" value="ventureTotal.*{player}"/>
-                                                                <property name="flagValue" value="*{venturedMissionsCount}"/>
-                                                            </bean>
-                                                            <bean class="com.gempukku.tcg.generic.effect.context.IncrementContextAttributeEffect">
-                                                                <property name="attributeName" value="venturedPlayerCount"/>
-                                                            </bean>
-                                                            <bean class="com.gempukku.tcg.generic.order.GetNextPlayerEffect">
-                                                                <property name="previous" value="*{player}"/>
-                                                                <property name="attribute" value="player"/>
-                                                            </bean>
-                                                        </util:list>
+                                                <bean class="com.gempukku.tcg.generic.player.ForEachOpponentEffect">
+                                                    <property name="player" value="*{player}"/>
+                                                    <property name="attributeName" value="opponent"/>
+                                                    <property name="gameEffect">
+                                                        <bean class="com.gempukku.tcg.generic.effect.SequenceEffect">
+                                                            <property name="effects">
+                                                                <util:list>
+                                                                    <bean class="com.gempukku.tcg.generic.effect.context.SetContextAttributeEffect">
+                                                                        <property name="name" value="cardsToDraw"/>
+                                                                        <property name="value">
+                                                                            <bean class="com.gempukku.tcg.generic.evaluator.SubtractIntEvaluator">
+                                                                                <property name="base" value="*{venturedMissionsCount}"/>
+                                                                                <property name="numbers" value="2"/>
+                                                                            </bean>
+                                                                        </property>
+                                                                    </bean>
+                                                                    <bean class="com.gempukku.tcg.generic.effect.context.RemoveContextAttributeEffect">
+                                                                        <property name="attributeName" value="wantsToDraw"/>
+                                                                    </bean>
+                                                                    <bean class="com.gempukku.tcg.generic.effect.decision.ChoiceEffect">
+                                                                        <property name="player" value="*{opponent}"/>
+                                                                        <property name="message" value="Would you like to draw *{cardsToDraw} cards?"/>
+                                                                        <property name="attributeName" value="wantsToDraw"/>
+                                                                    </bean>
+                                                                    <bean class="com.gempukku.tcg.generic.effect.ConditionalEffect">
+                                                                        <property name="condition">
+                                                                            <bean class="com.gempukku.tcg.generic.condition.AttributeEqualCondition">
+                                                                                <property name="name" value="wantsToDraw"/>
+                                                                                <property name="value" value="yes"/>
+                                                                            </bean>
+                                                                        </property>
+                                                                        <property name="effect">
+                                                                            <bean class="com.gempukku.tcg.generic.effect.SequenceEffect">
+                                                                                <property name="indexAttribute" value="drawAndDiscardIndex"/>
+                                                                                <property name="effects">
+                                                                                    <util:list>
+                                                                                        <bean class="com.gempukku.tcg.generic.stack.MoveTopObjectsBetweenStacksEffect">
+                                                                                            <property name="stackFrom" value="deckZone"/>
+                                                                                            <property name="stackTo" value="handZone"/>
+                                                                                            <property name="count" value="*{cardsToDraw}"/>
+                                                                                            <property name="player" value="*{opponent}"/>
+                                                                                        </bean>
+                                                                                        <bean
+                                                                                              class="com.gempukku.tcg.generic.effect.RepeatWhileEffect">
+                                                                                            <property name="indexAttribute" value="repeatIndex.*{opponent}"/>
+                                                                                            <property name="condition">
+                                                                                                <bean class="com.gempukku.tcg.overpower.condition.HasDuplicatePowerCardsCondition">
+                                                                                                    <property name="player" value="*{opponent}"/>
+                                                                                                </bean>
+                                                                                            </property>
+                                                                                            <property name="effects">
+                                                                                                <util:list>
+                                                                                                    <bean class="com.gempukku.tcg.generic.effect.context.RemoveContextAttributeEffect">
+                                                                                                        <property name="attributeName" value="selectedCards.*{opponent}"/>
+                                                                                                    </bean>
+                                                                                                    <bean class="com.gempukku.tcg.overpower.effect.FindDuplicatePowerCardsEffect">
+                                                                                                        <property name="player" value="*{opponent}"/>
+                                                                                                        <property name="attributeName"
+                                                                                                                  value="duplicateCharacters.*{opponent}"/>
+                                                                                                    </bean>
+                                                                                                    <bean class="com.gempukku.tcg.generic.stack.SelectDigitalObjectsByIdEffect">
+                                                                                                        <property name="ids" value="*{duplicateCharacters.*{opponent}}"/>
+                                                                                                        <property name="player" value="*{opponent}"/>
+                                                                                                        <property name="message"
+                                                                                                                  value="Choose duplicate power card to discard"/>
+                                                                                                        <property name="attributeName" value="selectedCards.*{opponent}"/>
+                                                                                                        <property name="min" value="1"/>
+                                                                                                        <property name="max" value="1"/>
+                                                                                                    </bean>
+                                                                                                    <bean class="com.gempukku.tcg.generic.stack.MoveObjectsBetweenStacksEffect">
+                                                                                                        <property name="stackFrom" value="handZone"/>
+                                                                                                        <property name="stackTo" value="powerPackZone"/>
+                                                                                                        <property name="player" value="*{opponent}"/>
+                                                                                                        <property name="ids" value="*{selectedCards.*{opponent}}"/>
+                                                                                                    </bean>
+                                                                                                </util:list>
+                                                                                            </property>
+                                                                                        </bean>
+                                                                                        <bean
+                                                                                              class="com.gempukku.tcg.generic.stack.ListObjectsInStackEffect">
+                                                                                            <property name="attributeName" value="cardsInHand.*{opponent}"/>
+                                                                                            <property name="player" value="*{opponent}"/>
+                                                                                            <property name="stack" value="handZone"/>
+                                                                                        </bean>
+                                                                                        <bean class="com.gempukku.tcg.generic.stack.SelectDigitalObjectsByIdEffect">
+                                                                                            <property name="ids" value="*{cardsInHand.*{opponent}}"/>
+                                                                                            <property name="player" value="*{opponent}"/>
+                                                                                            <property name="message" value="Choose unusable cards to discard"/>
+                                                                                            <property name="attributeName" value="unusableCards.*{opponent}"/>
+                                                                                            <property name="min" value="0"/>
+                                                                                            <property name="max" value="1000"/>
+                                                                                        </bean>
+                                                                                        <bean class="com.gempukku.tcg.generic.effect.ConditionalEffect">
+                                                                                            <property name="condition">
+                                                                                                <bean class="com.gempukku.tcg.generic.condition.HasAttributeSetCondition">
+                                                                                                    <property name="name" value="unusableCards.*{opponent}"/>
+                                                                                                </bean>
+                                                                                            </property>
+                                                                                            <property name="effect">
+                                                                                                <bean class="com.gempukku.tcg.generic.stack.MoveObjectsBetweenStacksEffect">
+                                                                                                    <property name="ids" value="*{unusableCards.*{opponent}}"/>
+                                                                                                    <property name="stackFrom" value="handZone"/>
+                                                                                                    <property name="stackTo" value="deadPileZone"/>
+                                                                                                    <property name="player" value="*{opponent}"/>
+                                                                                                </bean>
+                                                                                            </property>
+                                                                                        </bean>
+                                                                                    </util:list>
+                                                                                </property>
+                                                                            </bean>
+                                                                        </property>
+                                                                    </bean>
+                                                                </util:list>
+                                                            </property>
+                                                        </bean>
                                                     </property>
                                                 </bean>
                                             </property>
+                                        </bean>
+                                        <bean class="com.gempukku.tcg.generic.effect.context.IncrementContextAttributeEffect">
+                                            <property name="attributeName" value="venturedPlayerCount"/>
+                                        </bean>
+                                        <bean class="com.gempukku.tcg.generic.order.GetNextPlayerEffect">
+                                            <property name="previous" value="*{player}"/>
+                                            <property name="attribute" value="player"/>
                                         </bean>
                                     </util:list>
                                 </property>
