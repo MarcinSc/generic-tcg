@@ -458,7 +458,7 @@
                                                                     </bean>
                                                                     <bean class="com.gempukku.tcg.generic.effect.decision.ChoiceEffect">
                                                                         <property name="player" value="*{opponent}"/>
-                                                                        <property name="message" value="Would you like to draw *{cardsToDraw} cards?"/>
+                                                                        <property name="message" value="Would you like to draw *{cardsToDraw} card(s)?"/>
                                                                         <property name="attributeName" value="wantsToDraw"/>
                                                                     </bean>
                                                                     <bean class="com.gempukku.tcg.generic.effect.ConditionalEffect">

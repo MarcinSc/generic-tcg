@@ -16,7 +16,7 @@ public class AddIntEvaluator implements IntEvaluator {
     public int getIntValue(GameObjects gameObjects, GameActionContext context) {
         int result = 0;
         for (IntEvaluator number : _numbers) {
-            result+=number.getIntValue(gameObjects, context);
+            result += number.getIntValue(gameObjects, context);
         }
 
         return result;

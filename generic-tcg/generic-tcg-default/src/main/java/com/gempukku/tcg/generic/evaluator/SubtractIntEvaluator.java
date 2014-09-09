@@ -21,7 +21,7 @@ public class SubtractIntEvaluator implements IntEvaluator {
     public int getIntValue(GameObjects gameObjects, GameActionContext context) {
         int result = _base.getIntValue(gameObjects, context);
         for (IntEvaluator number : _numbers) {
-            result+=number.getIntValue(gameObjects, context);
+            result -= number.getIntValue(gameObjects, context);
         }
 
         return result;
