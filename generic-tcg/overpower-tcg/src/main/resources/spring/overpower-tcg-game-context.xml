@@ -94,6 +94,7 @@
                 <entry key="DrawAndDiscard" value-ref="drawAndDiscardFlow"/>
                 <entry key="Placing" value-ref="placingFlow"/>
                 <entry key="Venture" value-ref="ventureFlow"/>
+                <entry key="Battle" value-ref="battleFlow"/>
             </util:map>
         </property>
     </bean>

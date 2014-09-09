@@ -492,6 +492,77 @@ public class OverpowerGameTest {
         System.out.println("Time: " + (System.currentTimeMillis() - start));
     }
 
+    @Test
+    public void venturePhaseAskForConcede() {
+        startSimpleGame();
+
+        _gameProcessor.playerSentDecision(_gameObjects, P1, "0,1,2");
+        _gameProcessor.playerSentDecision(_gameObjects, P2, "0,1,2");
+
+        _gameProcessor.playerSentDecision(_gameObjects, P1, "");
+        _gameProcessor.playerSentDecision(_gameObjects, P2, "");
+
+        String firstPlayer = getFirstPlayer();
+        String secondPlayer = getNextPlayer(firstPlayer);
+
+        _gameProcessor.playerSentDecision(_gameObjects, firstPlayer, "");
+        _gameProcessor.playerSentDecision(_gameObjects, secondPlayer, "");
+
+        // venture 0+1
+        _gameProcessor.playerSentDecision(_gameObjects, firstPlayer, "0");
+        _gameProcessor.playerSentDecision(_gameObjects, firstPlayer, "1");
+
+        // venture 0+1
+        _gameProcessor.playerSentDecision(_gameObjects, secondPlayer, "0");
+        _gameProcessor.playerSentDecision(_gameObjects, secondPlayer, "1");
+
+        YesNoDecision concedeDecision = (YesNoDecision) _decisionHolder.getDecision(firstPlayer);
+        assertNotNull(concedeDecision);
+
+        _gameProcessor.playerSentDecision(_gameObjects, firstPlayer, "no");
+
+        concedeDecision = (YesNoDecision) _decisionHolder.getDecision(secondPlayer);
+        assertNotNull(concedeDecision);
+
+        _gameProcessor.playerSentDecision(_gameObjects, secondPlayer, "no");
+
+        assertEquals("Battle", GenericContextObjects.extractGameObject(_gameObjects, GenericContextObjects.PHASE_MANAGER).getPhase(_gameObjects));
+    }
+
+    @Test
+    public void venturePhaseConcede() {
+        startSimpleGame();
+
+        _gameProcessor.playerSentDecision(_gameObjects, P1, "0,1,2");
+        _gameProcessor.playerSentDecision(_gameObjects, P2, "0,1,2");
+
+        _gameProcessor.playerSentDecision(_gameObjects, P1, "");
+        _gameProcessor.playerSentDecision(_gameObjects, P2, "");
+
+        String firstPlayer = getFirstPlayer();
+        String secondPlayer = getNextPlayer(firstPlayer);
+
+        _gameProcessor.playerSentDecision(_gameObjects, firstPlayer, "");
+        _gameProcessor.playerSentDecision(_gameObjects, secondPlayer, "");
+
+        // venture 0+1
+        _gameProcessor.playerSentDecision(_gameObjects, firstPlayer, "0");
+        _gameProcessor.playerSentDecision(_gameObjects, firstPlayer, "1");
+
+        // venture 0+1
+        _gameProcessor.playerSentDecision(_gameObjects, secondPlayer, "0");
+        _gameProcessor.playerSentDecision(_gameObjects, secondPlayer, "1");
+
+        YesNoDecision concedeDecision = (YesNoDecision) _decisionHolder.getDecision(firstPlayer);
+        assertNotNull(concedeDecision);
+
+        _gameProcessor.playerSentDecision(_gameObjects, firstPlayer, "yes");
+
+        assertEquals(firstPlayer, DigitalObjects.getSimpleFlag(_gameObjects, "concedingPlayer"));
+
+        assertEquals("Battle", GenericContextObjects.extractGameObject(_gameObjects, GenericContextObjects.PHASE_MANAGER).getPhase(_gameObjects));
+    }
+
     private List<DigitalObject> findCardWithBlueprintId(List<DigitalObject> cards, final String blueprintId) {
         return DigitalObjectUtils.filter(_gameObjects, new PredicateFilter(
                 new Predicate<DigitalObject>() {
