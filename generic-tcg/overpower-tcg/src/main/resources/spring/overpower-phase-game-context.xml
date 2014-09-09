@@ -374,6 +374,9 @@
                                             </property>
                                             <property name="effects">
                                                 <util:list>
+                                                    <bean class="com.gempukku.tcg.generic.effect.context.RemoveContextAttributeEffect">
+                                                        <property name="attributeName" value="venturedCompletedMissionsCount,venturedReserveMissionsCount"/>
+                                                    </bean>
                                                     <bean class="com.gempukku.tcg.generic.stack.GetObjectsInStackCountEffect">
                                                         <property name="player" value="*{player}"/>
                                                         <property name="stack" value="completedMissionsZone"/>
