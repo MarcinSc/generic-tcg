@@ -46,7 +46,7 @@ public class GetObjectsInStackCountEffect implements GameEffect {
         String attributeName = _attributeName.getValue(gameObjects, context);
         context.setAttribute(attributeName, String.valueOf(matchingObjects.size()));
 
-        return new Result(null, false);
+        return Result.pass();
     }
 
 }

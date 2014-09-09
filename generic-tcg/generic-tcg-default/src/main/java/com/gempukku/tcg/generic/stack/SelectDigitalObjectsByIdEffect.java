@@ -55,7 +55,7 @@ public class SelectDigitalObjectsByIdEffect implements GameEffect {
     public Result execute(GameObjects gameObjects, final GameActionContext context) {
         final String attributeName = _attributeName.getValue(gameObjects, context);
         if (context.getAttribute(attributeName) != null)
-            return new Result(null, false);
+            return Result.pass();
 
         final DigitalEnvironment digitalEnvironment = GenericContextObjects.extractGameObject(gameObjects, GenericContextObjects.DIGITAL_ENVIRONMENT);
 
@@ -86,6 +86,6 @@ public class SelectDigitalObjectsByIdEffect implements GameEffect {
                     }
                 });
 
-        return new Result(decisions, true);
+        return Result.decisions(decisions);
     }
 }

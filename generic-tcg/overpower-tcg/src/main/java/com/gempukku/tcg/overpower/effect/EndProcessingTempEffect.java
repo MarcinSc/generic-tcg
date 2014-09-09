@@ -16,6 +16,6 @@ public class EndProcessingTempEffect implements GameEffect {
         decision.put("end", new YesNoDecision("Finished!") {
             
         });
-        return new Result(decision, false);
+        return Result.decisions(decision);
     }
 }

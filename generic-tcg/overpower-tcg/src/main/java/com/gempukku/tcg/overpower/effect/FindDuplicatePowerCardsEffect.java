@@ -74,6 +74,6 @@ public class FindDuplicatePowerCardsEffect implements GameEffect {
             context.setAttribute(attributeName, StringUtils.join(duplicateCards, ","));
         }
 
-        return new Result(null, false);
+        return Result.pass();
     }
 }

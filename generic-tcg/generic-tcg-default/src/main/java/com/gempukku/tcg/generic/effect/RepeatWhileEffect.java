@@ -45,7 +45,7 @@ public class RepeatWhileEffect implements GameEffect {
         }
 
         removeEffectIndex(gameObjects, context);
-        return new Result(null, false);
+        return Result.pass();
     }
 
     private int getEffectIndex(GameObjects gameObjects, GameActionContext context) {

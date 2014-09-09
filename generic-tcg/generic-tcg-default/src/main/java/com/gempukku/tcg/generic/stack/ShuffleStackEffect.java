@@ -24,6 +24,6 @@ public class ShuffleStackEffect implements GameEffect {
 
         final PlayerDigitalObjectStackManager stack = (PlayerDigitalObjectStackManager) gameObjects.getGameObject(stackName);
         stack.shuffleItemsInStack(gameObjects, player);
-        return new Result(null, false);
+        return Result.pass();
     }
 }

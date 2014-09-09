@@ -28,7 +28,7 @@ public class SequenceEffect implements GameEffect {
                 effectIndex++;
                 if (effectIndex == _effects.size()) {
                     removeEffectIndex(gameObjects, context);
-                    return new Result(null, false);
+                    return Result.pass();
                 }
             } else {
                 if (result._decisions != null) {

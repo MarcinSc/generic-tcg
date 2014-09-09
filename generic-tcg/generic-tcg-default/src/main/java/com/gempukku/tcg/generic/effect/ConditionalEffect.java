@@ -28,6 +28,6 @@ public class ConditionalEffect implements GameEffect {
         else if (_elseEffect != null)
             return _elseEffect.execute(gameObjects, context);
         else
-            return new Result(null, false);
+            return Result.pass();
     }
 }

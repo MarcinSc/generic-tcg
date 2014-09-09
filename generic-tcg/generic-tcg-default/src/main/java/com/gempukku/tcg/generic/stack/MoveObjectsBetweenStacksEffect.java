@@ -54,6 +54,6 @@ public class MoveObjectsBetweenStacksEffect implements GameEffect {
                 stackTo.putOnTop(gameObjects, player, object);
         }
 
-        return new Result(null, false);
+        return Result.pass();
     }
 }

@@ -17,6 +17,6 @@ public class RemoveContextAttributeEffect implements GameEffect {
         final String attributeName = _attributeName.getValue(gameObjects, context);
         context.removeAttribute(attributeName);
         
-        return new Result(null, false);
+        return Result.pass();
     }
 }

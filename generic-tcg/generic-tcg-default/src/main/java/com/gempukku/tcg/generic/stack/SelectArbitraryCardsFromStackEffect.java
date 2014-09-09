@@ -62,7 +62,7 @@ public class SelectArbitraryCardsFromStackEffect implements GameEffect {
     public Result execute(final GameObjects gameObjects, final GameActionContext context) {
         final String attributeName = _attributeName.getValue(gameObjects, context);
         if (context.getAttribute(attributeName) != null)
-            return new Result(null, false);
+            return Result.pass();
 
         final CardManager cardManager = GenericContextObjects.extractGameObject(gameObjects, GenericContextObjects.CARD_MANAGER);
         final PlayerDigitalObjectStackManager stack = (PlayerDigitalObjectStackManager) gameObjects.getGameObject(_stack.getValue(gameObjects, context));
@@ -99,6 +99,6 @@ public class SelectArbitraryCardsFromStackEffect implements GameEffect {
                     }
                 });
 
-        return new Result(decisions, true);
+        return Result.decisions(decisions);
     }
 }

@@ -18,7 +18,21 @@ public interface GameEffect {
         public final boolean _shouldContinue;
         public final Map<String, AwaitingDecision> _decisions;
 
-        public Result(Map<String, AwaitingDecision> decisions, boolean shouldContinue) {
+        public static Result decisions(Map<String, AwaitingDecision> decisions) {
+            return new Result(decisions, true);
+        }
+
+        public static Result cont() {
+            return new Result(null, true);
+        }
+
+        public static Result pass() {
+            return new Result(null, false);
+        }
+
+        private Result(Map<String, AwaitingDecision> decisions, boolean shouldContinue) {
+            if (decisions != null && !shouldContinue)
+                throw new IllegalArgumentException("Can't contain decisions and not continue");
             _decisions = decisions;
             _shouldContinue = shouldContinue;
         }

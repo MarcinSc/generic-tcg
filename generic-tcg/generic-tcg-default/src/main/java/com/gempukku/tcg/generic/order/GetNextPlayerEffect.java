@@ -25,6 +25,6 @@ public class GetNextPlayerEffect implements GameEffect {
         final String previous = _previous.getValue(gameObjects, context);
         context.setAttribute(attribute, playerOrder.getNextPlayerAfter(gameObjects, previous));
 
-        return new Result(null, false);
+        return Result.pass();
     }
 }

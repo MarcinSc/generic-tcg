@@ -42,7 +42,7 @@ public class ChooseNumberEffect implements GameEffect {
     public Result execute(GameObjects gameObjects, final GameActionContext context) {
         final String attributeName = _attributeName.getValue(gameObjects, context);
         if (context.getAttribute(attributeName) != null)
-            return new Result(null, false);
+            return Result.pass();
 
         Map<String, AwaitingDecision> decisions = new HashMap<String, AwaitingDecision>();
 
@@ -58,6 +58,6 @@ public class ChooseNumberEffect implements GameEffect {
                     }
                 });
 
-        return new Result(decisions, true);
+        return Result.decisions(decisions);
     }
 }

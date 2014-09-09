@@ -16,6 +16,6 @@ public class SetPhaseEffect implements GameEffect {
     public Result execute(GameObjects gameObjects, GameActionContext context) {
         final PhaseManager phaseManager = GenericContextObjects.extractGameObject(gameObjects, GenericContextObjects.PHASE_MANAGER);
         phaseManager.setPhase(gameObjects, _value);
-        return new Result(null, false);
+        return Result.pass();
     }
 }

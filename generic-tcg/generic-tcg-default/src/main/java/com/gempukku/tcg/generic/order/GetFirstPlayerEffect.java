@@ -19,6 +19,6 @@ public class GetFirstPlayerEffect implements GameEffect {
         final String attribute = _attribute.getValue(gameObjects, context);
         context.setAttribute(attribute, playerOrder.getFirstPlayer(gameObjects));
 
-        return new Result(null, false);
+        return Result.pass();
     }
 }

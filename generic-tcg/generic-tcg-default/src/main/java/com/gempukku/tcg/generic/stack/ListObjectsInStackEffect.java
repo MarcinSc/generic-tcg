@@ -53,7 +53,7 @@ public class ListObjectsInStackEffect implements GameEffect {
                             }
                         }), ","));
 
-        return new Result(null, false);
+        return Result.pass();
     }
 
 }

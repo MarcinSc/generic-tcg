@@ -22,6 +22,6 @@ public class SetContextAttributeEffect implements GameEffect {
         final String name = _name.getValue(gameObjects, context);
         final String value = _value.getValue(gameObjects, context);
         context.setAttribute(name, value);
-        return new Result(null, false);
+        return Result.pass();
     }
 }

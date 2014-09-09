@@ -25,6 +25,6 @@ public class SetFlagEffect implements GameEffect {
 
         DigitalObjects.setSimpleFlag(gameObjects, name, value);
         
-        return new Result(null, false);
+        return Result.pass();
     }
 }

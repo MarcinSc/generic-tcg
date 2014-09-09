@@ -37,6 +37,6 @@ public class SetObjectsAttributeEffect implements GameEffect {
         for (String id : ids)
             digitalEnvironment.updateObject(id, Collections.singletonMap(name, value), false);
 
-        return new Result(null, false);
+        return Result.pass();
     }
 }

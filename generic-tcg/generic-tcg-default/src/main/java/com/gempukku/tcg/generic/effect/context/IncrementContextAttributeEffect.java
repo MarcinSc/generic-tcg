@@ -17,6 +17,6 @@ public class IncrementContextAttributeEffect implements GameEffect {
         String attributeName = _attributeName.getValue(gameObjects, context);
         int value = Integer.parseInt(context.getAttribute(attributeName));
         context.setAttribute(attributeName, String.valueOf(value+1));
-        return new Result(null, false);
+        return Result.pass();
     }
 }
