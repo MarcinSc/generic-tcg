@@ -19,179 +19,179 @@
         <property name="cardType" value="mission"/>
     </bean>
 
-    <bean id="card.1-1" parent="characterCard">
+    <bean id="card.c10" parent="characterCard">
         <property name="name" value="Apocalypse"/>
         <property name="energy" value="6"/>
         <property name="fighting" value="4"/>
         <property name="strength" value="4"/>
     </bean>
 
-    <bean id="card.1-2" parent="characterCard">
+    <bean id="card.c24" parent="characterCard">
         <property name="name" value="Beast"/>
         <property name="energy" value="1"/>
         <property name="fighting" value="5"/>
         <property name="strength" value="6"/>
     </bean>
 
-    <bean id="card.1-3" parent="characterCard">
+    <bean id="card.c29" parent="characterCard">
         <property name="name" value="Bishop"/>
         <property name="energy" value="5"/>
         <property name="fighting" value="6"/>
         <property name="strength" value="4"/>
     </bean>
 
-    <bean id="card.1-4" parent="characterCard">
+    <bean id="card.c47" parent="characterCard">
         <property name="name" value="Cable"/>
         <property name="energy" value="6"/>
         <property name="fighting" value="5"/>
         <property name="strength" value="6"/>
     </bean>
 
-    <bean id="card.1-40" parent="powerCard">
+    <bean id="card.p1" parent="powerCard">
         <property name="energy" value="1"/>
     </bean>
 
-    <bean id="card.1-41" parent="powerCard">
+    <bean id="card.p2" parent="powerCard">
         <property name="energy" value="2"/>
     </bean>
 
-    <bean id="card.1-42" parent="powerCard">
+    <bean id="card.p3" parent="powerCard">
         <property name="energy" value="3"/>
     </bean>
 
-    <bean id="card.1-43" parent="powerCard">
+    <bean id="card.p4" parent="powerCard">
         <property name="energy" value="4"/>
     </bean>
 
-    <bean id="card.1-44" parent="powerCard">
+    <bean id="card.p5" parent="powerCard">
         <property name="energy" value="5"/>
     </bean>
 
-    <bean id="card.1-45" parent="powerCard">
+    <bean id="card.p6" parent="powerCard">
         <property name="energy" value="6"/>
     </bean>
 
-    <bean id="card.1-46" parent="powerCard">
+    <bean id="card.p7" parent="powerCard">
         <property name="energy" value="7"/>
     </bean>
 
-    <bean id="card.1-47" parent="powerCard">
+    <bean id="card.p8" parent="powerCard">
         <property name="energy" value="8"/>
     </bean>
 
-    <bean id="card.1-48" parent="powerCard">
+    <bean id="card.p9" parent="powerCard">
         <property name="fighting" value="1"/>
     </bean>
 
-    <bean id="card.1-49" parent="powerCard">
+    <bean id="card.p10" parent="powerCard">
         <property name="fighting" value="2"/>
     </bean>
 
-    <bean id="card.1-50" parent="powerCard">
+    <bean id="card.p11" parent="powerCard">
         <property name="fighting" value="3"/>
     </bean>
 
-    <bean id="card.1-51" parent="powerCard">
+    <bean id="card.p12" parent="powerCard">
         <property name="fighting" value="4"/>
     </bean>
 
-    <bean id="card.1-52" parent="powerCard">
+    <bean id="card.p13" parent="powerCard">
         <property name="fighting" value="5"/>
     </bean>
 
-    <bean id="card.1-53" parent="powerCard">
+    <bean id="card.p14" parent="powerCard">
         <property name="fighting" value="6"/>
     </bean>
 
-    <bean id="card.1-54" parent="powerCard">
+    <bean id="card.p15" parent="powerCard">
         <property name="fighting" value="7"/>
     </bean>
 
-    <bean id="card.1-55" parent="powerCard">
+    <bean id="card.p16" parent="powerCard">
         <property name="fighting" value="8"/>
     </bean>
 
-    <bean id="card.1-56" parent="powerCard">
+    <bean id="card.p17" parent="powerCard">
         <property name="strength" value="1"/>
     </bean>
 
-    <bean id="card.1-57" parent="powerCard">
+    <bean id="card.p18" parent="powerCard">
         <property name="strength" value="2"/>
     </bean>
 
-    <bean id="card.1-58" parent="powerCard">
+    <bean id="card.p19" parent="powerCard">
         <property name="strength" value="3"/>
     </bean>
 
-    <bean id="card.1-59" parent="powerCard">
+    <bean id="card.p20" parent="powerCard">
         <property name="strength" value="4"/>
     </bean>
 
-    <bean id="card.1-60" parent="powerCard">
+    <bean id="card.p21" parent="powerCard">
         <property name="strength" value="5"/>
     </bean>
 
-    <bean id="card.1-61" parent="powerCard">
+    <bean id="card.p22" parent="powerCard">
         <property name="strength" value="6"/>
     </bean>
 
-    <bean id="card.1-62" parent="powerCard">
+    <bean id="card.p23" parent="powerCard">
         <property name="strength" value="7"/>
     </bean>
 
-    <bean id="card.1-63" parent="powerCard">
+    <bean id="card.p24" parent="powerCard">
         <property name="strength" value="8"/>
     </bean>
 
-    <bean id="card.1-64" parent="powerCard">
+    <bean id="card.p25" parent="powerCard">
         <property name="energy" value="1"/>
         <property name="fighting" value="1"/>
         <property name="strength" value="1"/>
     </bean>
 
-    <bean id="card.1-65" parent="powerCard">
+    <bean id="card.p26" parent="powerCard">
         <property name="energy" value="2"/>
         <property name="fighting" value="2"/>
         <property name="strength" value="2"/>
     </bean>
 
-    <bean id="card.1-66" parent="powerCard">
+    <bean id="card.p27" parent="powerCard">
         <property name="energy" value="3"/>
         <property name="fighting" value="3"/>
         <property name="strength" value="3"/>
     </bean>
 
-    <bean id="card.1-67" parent="powerCard">
+    <bean id="card.p28" parent="powerCard">
         <property name="energy" value="4"/>
         <property name="fighting" value="4"/>
         <property name="strength" value="4"/>
     </bean>
 
-    <bean id="card.1-68" parent="missionCard">
+    <bean id="card.m1" parent="missionCard">
         <property name="mission" value="Age of Apocalypse"/>
     </bean>
 
-    <bean id="card.1-69" parent="missionCard">
+    <bean id="card.m2" parent="missionCard">
         <property name="mission" value="Age of Apocalypse"/>
     </bean>
 
-    <bean id="card.1-70" parent="missionCard">
+    <bean id="card.m3" parent="missionCard">
         <property name="mission" value="Age of Apocalypse"/>
     </bean>
 
-    <bean id="card.1-71" parent="missionCard">
+    <bean id="card.m4" parent="missionCard">
         <property name="mission" value="Age of Apocalypse"/>
     </bean>
 
-    <bean id="card.1-72" parent="missionCard">
+    <bean id="card.m5" parent="missionCard">
         <property name="mission" value="Age of Apocalypse"/>
     </bean>
 
-    <bean id="card.1-73" parent="missionCard">
+    <bean id="card.m6" parent="missionCard">
         <property name="mission" value="Age of Apocalypse"/>
     </bean>
 
-    <bean id="card.1-74" parent="missionCard">
+    <bean id="card.m7" parent="missionCard">
         <property name="mission" value="Age of Apocalypse"/>
     </bean>
 
