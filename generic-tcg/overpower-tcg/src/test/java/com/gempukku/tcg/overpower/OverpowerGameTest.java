@@ -1,5 +1,6 @@
 package com.gempukku.tcg.overpower;
 
+import com.carrotsearch.junitbenchmarks.BenchmarkRule;
 import com.gempukku.tcg.GameBuilder;
 import com.gempukku.tcg.GameDeck;
 import com.gempukku.tcg.GameObjects;
@@ -21,7 +22,9 @@ import com.gempukku.tcg.generic.stack.PlayerDigitalObjectStackManager;
 import com.gempukku.tcg.generic.util.DigitalObjectUtils;
 import com.google.common.base.Predicate;
 import org.junit.BeforeClass;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TestRule;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -44,6 +47,9 @@ public class OverpowerGameTest {
     private GameObjects _gameObjects;
     private DigitalEnvironment _digitalEnvironment;
     private DecisionHolder _decisionHolder;
+
+    @Rule
+    public TestRule benchmarkRun = new BenchmarkRule();
 
     @BeforeClass
     public static void setupFactory() {
@@ -458,7 +464,6 @@ public class OverpowerGameTest {
 
     @Test
     public void venturePhaseInvalid() {
-        long start = System.currentTimeMillis();
         startSimpleGame();
 
         _gameProcessor.playerSentDecision(_gameObjects, P1, "0,1,2");
@@ -488,8 +493,6 @@ public class OverpowerGameTest {
         ventureCompleted = (ChooseNumberDecision) _decisionHolder.getDecision(firstPlayer);
         assertEquals(0, ventureCompleted.getMin());
         assertEquals(0, ventureCompleted.getMax());
-
-        System.out.println("Time: " + (System.currentTimeMillis() - start));
     }
 
     @Test
