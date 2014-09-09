@@ -13,6 +13,7 @@ import com.gempukku.tcg.generic.decision.AwaitingDecision;
 import com.gempukku.tcg.generic.decision.ChooseDigitalObjectDecision;
 import com.gempukku.tcg.generic.decision.ChooseNumberDecision;
 import com.gempukku.tcg.generic.decision.DecisionHolder;
+import com.gempukku.tcg.generic.decision.YesNoDecision;
 import com.gempukku.tcg.generic.deck.DefaultGameDeck;
 import com.gempukku.tcg.generic.filter.PredicateFilter;
 import com.gempukku.tcg.generic.order.PlayerOrder;
@@ -341,6 +342,121 @@ public class OverpowerGameTest {
     }
 
     @Test
+    public void venturePhaseValidWithDraw() {
+        startSimpleGame();
+
+        _gameProcessor.playerSentDecision(_gameObjects, P1, "0,1,2");
+        _gameProcessor.playerSentDecision(_gameObjects, P2, "0,1,2");
+
+        _gameProcessor.playerSentDecision(_gameObjects, P1, "");
+        _gameProcessor.playerSentDecision(_gameObjects, P2, "");
+
+        String firstPlayer = getFirstPlayer();
+        String secondPlayer = getNextPlayer(firstPlayer);
+
+        _gameProcessor.playerSentDecision(_gameObjects, firstPlayer, "");
+        _gameProcessor.playerSentDecision(_gameObjects, secondPlayer, "");
+
+        ChooseNumberDecision ventureCompleted = (ChooseNumberDecision) _decisionHolder.getDecision(firstPlayer);
+        assertEquals(0, ventureCompleted.getMin());
+        assertEquals(0, ventureCompleted.getMax());
+
+        _gameProcessor.playerSentDecision(_gameObjects, firstPlayer, "0");
+
+        ChooseNumberDecision ventureReserve = (ChooseNumberDecision) _decisionHolder.getDecision(firstPlayer);
+        assertEquals(0, ventureReserve.getMin());
+        assertEquals(7, ventureReserve.getMax());
+
+        _gameProcessor.playerSentDecision(_gameObjects, firstPlayer, "3");
+
+        assertEquals("0", DigitalObjects.getSimpleFlag(_gameObjects, "ventureCompleted."+firstPlayer));
+        assertEquals("3", DigitalObjects.getSimpleFlag(_gameObjects, "ventureReserve."+firstPlayer));
+        assertEquals("3", DigitalObjects.getSimpleFlag(_gameObjects, "ventureTotal."+firstPlayer));
+
+        YesNoDecision drawCardsDecision = (YesNoDecision) _decisionHolder.getDecision(secondPlayer);
+        assertNotNull(drawCardsDecision);
+
+        _gameProcessor.playerSentDecision(_gameObjects, secondPlayer, "yes");
+
+        ChooseDigitalObjectDecision discardUnusable = (ChooseDigitalObjectDecision) _decisionHolder.getDecision(secondPlayer);
+        assertEquals(0, discardUnusable.getMin());
+        assertEquals(8, discardUnusable.getMax());
+        assertEquals(8, discardUnusable.getObjects().size());
+
+        _gameProcessor.playerSentDecision(_gameObjects, secondPlayer, "");
+
+        ventureCompleted = (ChooseNumberDecision) _decisionHolder.getDecision(secondPlayer);
+        assertEquals(0, ventureCompleted.getMin());
+        assertEquals(0, ventureCompleted.getMax());
+
+        _gameProcessor.playerSentDecision(_gameObjects, secondPlayer, "0");
+
+        ventureReserve = (ChooseNumberDecision) _decisionHolder.getDecision(secondPlayer);
+        assertEquals(0, ventureReserve.getMin());
+        assertEquals(7, ventureReserve.getMax());
+
+        _gameProcessor.playerSentDecision(_gameObjects, secondPlayer, "1");
+
+        assertEquals("0", DigitalObjects.getSimpleFlag(_gameObjects, "ventureCompleted."+secondPlayer));
+        assertEquals("1", DigitalObjects.getSimpleFlag(_gameObjects, "ventureReserve."+secondPlayer));
+        assertEquals("1", DigitalObjects.getSimpleFlag(_gameObjects, "ventureTotal."+secondPlayer));
+    }
+
+    @Test
+    public void venturePhaseValidWithDrawNoDrawing() {
+        startSimpleGame();
+
+        _gameProcessor.playerSentDecision(_gameObjects, P1, "0,1,2");
+        _gameProcessor.playerSentDecision(_gameObjects, P2, "0,1,2");
+
+        _gameProcessor.playerSentDecision(_gameObjects, P1, "");
+        _gameProcessor.playerSentDecision(_gameObjects, P2, "");
+
+        String firstPlayer = getFirstPlayer();
+        String secondPlayer = getNextPlayer(firstPlayer);
+
+        _gameProcessor.playerSentDecision(_gameObjects, firstPlayer, "");
+        _gameProcessor.playerSentDecision(_gameObjects, secondPlayer, "");
+
+        ChooseNumberDecision ventureCompleted = (ChooseNumberDecision) _decisionHolder.getDecision(firstPlayer);
+        assertEquals(0, ventureCompleted.getMin());
+        assertEquals(0, ventureCompleted.getMax());
+
+        _gameProcessor.playerSentDecision(_gameObjects, firstPlayer, "0");
+
+        ChooseNumberDecision ventureReserve = (ChooseNumberDecision) _decisionHolder.getDecision(firstPlayer);
+        assertEquals(0, ventureReserve.getMin());
+        assertEquals(7, ventureReserve.getMax());
+
+        _gameProcessor.playerSentDecision(_gameObjects, firstPlayer, "3");
+
+        assertEquals("0", DigitalObjects.getSimpleFlag(_gameObjects, "ventureCompleted."+firstPlayer));
+        assertEquals("3", DigitalObjects.getSimpleFlag(_gameObjects, "ventureReserve."+firstPlayer));
+        assertEquals("3", DigitalObjects.getSimpleFlag(_gameObjects, "ventureTotal."+firstPlayer));
+
+        YesNoDecision drawCardsDecision = (YesNoDecision) _decisionHolder.getDecision(secondPlayer);
+        assertNotNull(drawCardsDecision);
+
+        _gameProcessor.playerSentDecision(_gameObjects, secondPlayer, "no");
+
+        ventureCompleted = (ChooseNumberDecision) _decisionHolder.getDecision(secondPlayer);
+        assertEquals(0, ventureCompleted.getMin());
+        assertEquals(0, ventureCompleted.getMax());
+
+        _gameProcessor.playerSentDecision(_gameObjects, secondPlayer, "0");
+
+        ventureReserve = (ChooseNumberDecision) _decisionHolder.getDecision(secondPlayer);
+        assertEquals(0, ventureReserve.getMin());
+        assertEquals(7, ventureReserve.getMax());
+
+        _gameProcessor.playerSentDecision(_gameObjects, secondPlayer, "1");
+
+        assertEquals("0", DigitalObjects.getSimpleFlag(_gameObjects, "ventureCompleted."+secondPlayer));
+        assertEquals("1", DigitalObjects.getSimpleFlag(_gameObjects, "ventureReserve."+secondPlayer));
+        assertEquals("1", DigitalObjects.getSimpleFlag(_gameObjects, "ventureTotal."+secondPlayer));
+    }
+
+    @Test
     public void venturePhaseInvalid() {
         long start = System.currentTimeMillis();
         startSimpleGame();
@@ -373,7 +489,7 @@ public class OverpowerGameTest {
         assertEquals(0, ventureCompleted.getMin());
         assertEquals(0, ventureCompleted.getMax());
 
-        System.out.println("Time: "+(System.currentTimeMillis()-start));
+        System.out.println("Time: " + (System.currentTimeMillis() - start));
     }
 
     private List<DigitalObject> findCardWithBlueprintId(List<DigitalObject> cards, final String blueprintId) {
