@@ -2,6 +2,7 @@ package com.gempukku.tcg.generic;
 
 import com.gempukku.tcg.GameObjects;
 import com.gempukku.tcg.digital.DigitalEnvironment;
+import com.gempukku.tcg.generic.action.GameActionResolver;
 import com.gempukku.tcg.generic.card.CardManager;
 import com.gempukku.tcg.generic.decision.DecisionHolder;
 import com.gempukku.tcg.generic.event.GameEventEngine;
@@ -20,6 +21,8 @@ public class GenericContextObjects {
     public static final GenericObject<PlayerManager> PLAYER_MANAGER = new GenericObject<PlayerManager>("playerManager");
     public static final GenericObject<PlayerOrder> PLAYER_ORDER = new GenericObject<PlayerOrder>("playerOrder");
     public static final GenericObject<PhaseManager> PHASE_MANAGER = new GenericObject<PhaseManager>("phaseManager");
+    public static final GenericObject<GameActionResolver> GAME_ACTION_RESOLVER = new GenericObject<GameActionResolver>("gameActionResolver");
+
 
     public static <T> T extractGameObject(GameObjects gameObjects, GenericObject<T> object) {
         return (T) gameObjects.getGameObject(object._name);

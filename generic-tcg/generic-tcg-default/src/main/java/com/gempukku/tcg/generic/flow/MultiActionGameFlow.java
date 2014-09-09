@@ -10,7 +10,6 @@ import com.gempukku.tcg.generic.action.GameAction;
 import com.gempukku.tcg.generic.action.GameActionContext;
 import com.gempukku.tcg.generic.decision.AwaitingDecision;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,7 +34,7 @@ public class MultiActionGameFlow implements GameFlow {
 
         DigitalObject actionObject = getActionObject(gameObjects, digitalEnvironment);
         final GameAction gameAction = _actions.get(index);
-        GameActionContext context = createContext(gameObjects, actionObject);
+        GameActionContext context = new ObjectGameActionContext(gameObjects, actionObject);
         final Map<String, AwaitingDecision> result = gameAction.processNextGameEffect(gameObjects, context);
         if (!gameAction.hasNextGameEffect(gameObjects, context)) {
             digitalEnvironment.destroyObject(actionObject.getId());
@@ -48,31 +47,11 @@ public class MultiActionGameFlow implements GameFlow {
         return result;
     }
 
-    private GameActionContext createContext(final GameObjects gameObjects, final DigitalObject gameAction) {
-        return new GameActionContext() {
-            @Override
-            public void setAttribute(String name, String value) {
-                final DigitalEnvironment digitalEnvironment = GenericContextObjects.extractGameObject(gameObjects, GenericContextObjects.DIGITAL_ENVIRONMENT);
-                digitalEnvironment.updateObject(gameAction.getId(), Collections.singletonMap(name, value), false);
-            }
-
-            @Override
-            public void removeAttribute(String name) {
-                setAttribute(name, null);
-            }
-
-            @Override
-            public String getAttribute(String name) {
-                return gameAction.getAttributes().get(name);
-            }
-        };
-    }
-
     private DigitalObject getActionObject(GameObjects gameObjects, DigitalEnvironment digitalEnvironment) {
-        DigitalObject actionObject = DigitalObjects.extractObject(gameObjects, "actionObject");
+        DigitalObject actionObject = DigitalObjects.extractObject(gameObjects, "multiActionObject");
         if (actionObject == null) {
             Map<String, String> attrs = new HashMap<String, String>();
-            attrs.put("type", "actionObject");
+            attrs.put("type", "multiActionObject");
             actionObject = digitalEnvironment.createObject(attrs);
         }
         return actionObject;
