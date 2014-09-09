@@ -10,7 +10,7 @@ import com.gempukku.tcg.generic.evaluator.StringEvaluator;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ForEachPlayerSimultaneouslyAction implements GameAction {
+public class ForEachPlayerSimultaneousAction implements GameAction {
     private GameAction _gameAction;
     private StringEvaluator _playerAttribute;
 

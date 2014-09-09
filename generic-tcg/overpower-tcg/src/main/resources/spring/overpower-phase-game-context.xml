@@ -7,7 +7,7 @@
     <bean id="setupGameFlow" class="com.gempukku.tcg.generic.flow.MultiActionGameFlow">
         <property name="actions">
             <util:list>
-                <bean class="com.gempukku.tcg.generic.player.ForEachPlayerSimultaneouslyAction">
+                <bean class="com.gempukku.tcg.generic.player.ForEachPlayerSimultaneousAction">
                     <property name="playerAttribute" value="player"/>
                     <property name="gameAction">
                         <bean class="com.gempukku.tcg.generic.action.GameEffectAction">
@@ -86,7 +86,7 @@
     <bean id="drawAndDiscardFlow" class="com.gempukku.tcg.generic.flow.MultiActionGameFlow">
         <property name="actions">
             <util:list>
-                <bean class="com.gempukku.tcg.generic.player.ForEachPlayerSimultaneouslyAction">
+                <bean class="com.gempukku.tcg.generic.player.ForEachPlayerSimultaneousAction">
                     <property name="playerAttribute" value="player"/>
                     <property name="gameAction">
                         <bean class="com.gempukku.tcg.generic.action.GameEffectAction">
