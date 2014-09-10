@@ -1,7 +1,7 @@
 package com.gempukku.tcg.generic.effect.decision;
 
 import com.gempukku.tcg.GameObjects;
-import com.gempukku.tcg.generic.action.GameActionContext;
+import com.gempukku.tcg.generic.effect.GameEffectContext;
 import com.gempukku.tcg.generic.decision.AwaitingDecision;
 import com.gempukku.tcg.generic.decision.YesNoDecision;
 import com.gempukku.tcg.generic.effect.GameEffect;
@@ -28,7 +28,7 @@ public class ChoiceEffect implements GameEffect {
     }
 
     @Override
-    public Result execute(GameObjects gameObjects, final GameActionContext context) {
+    public Result execute(GameObjects gameObjects, final GameEffectContext context) {
         final String attributeName = _attributeName.getValue(gameObjects, context);
         if (context.getAttribute(attributeName) != null)
             return Result.pass();

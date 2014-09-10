@@ -67,17 +67,20 @@ public class OverpowerGameTest {
 
         final PlayerDigitalObjectStackManager inPlayZone = OverpowerContextObjects.extractGameObject(_gameObjects, OverpowerContextObjects.IN_PLAY_ZONE);
 
-        assertNotNull(_decisionHolder.getDecision(P1));
-        assertNotNull(_decisionHolder.getDecision(P2));
+        String firstPlayer = getFirstPlayer();
+        String secondPlayer = getNextPlayer(firstPlayer);
 
-        _gameProcessor.playerSentDecision(_gameObjects, P1, "0,1,2");
+        assertNotNull(_decisionHolder.getDecision(firstPlayer));
+        assertNull(_decisionHolder.getDecision(secondPlayer));
 
-        assertNull(_decisionHolder.getDecision(P1));
-        assertNotNull(_decisionHolder.getDecision(P2));
+        _gameProcessor.playerSentDecision(_gameObjects, firstPlayer, "0,1,2");
 
-        _gameProcessor.playerSentDecision(_gameObjects, P2, "1,2,3");
+        assertNull(_decisionHolder.getDecision(firstPlayer));
+        assertNotNull(_decisionHolder.getDecision(secondPlayer));
 
-        List<DigitalObject> p1FrontLine = inPlayZone.getDigitalObjectsInStack(_gameObjects, P1);
+        _gameProcessor.playerSentDecision(_gameObjects, secondPlayer, "1,2,3");
+
+        List<DigitalObject> p1FrontLine = inPlayZone.getDigitalObjectsInStack(_gameObjects, firstPlayer);
         assertEquals(4, p1FrontLine.size());
         assertEquals("c10", getBlueprint(p1FrontLine.get(0)));
         assertEquals("FrontLine", p1FrontLine.get(0).getAttributes().get("position"));
@@ -88,7 +91,7 @@ public class OverpowerGameTest {
         assertEquals("c47", getBlueprint(p1FrontLine.get(3)));
         assertEquals("Reserve", p1FrontLine.get(3).getAttributes().get("position"));
 
-        final List<DigitalObject> p2FrontLine = inPlayZone.getDigitalObjectsInStack(_gameObjects, P2);
+        final List<DigitalObject> p2FrontLine = inPlayZone.getDigitalObjectsInStack(_gameObjects, secondPlayer);
         assertEquals(4, p2FrontLine.size());
         assertEquals("c24", getBlueprint(p2FrontLine.get(0)));
         assertEquals("FrontLine", p2FrontLine.get(0).getAttributes().get("position"));
@@ -112,23 +115,29 @@ public class OverpowerGameTest {
         {
             startNewGame(decks);
 
-            assertNotNull(_decisionHolder.getDecision(P1));
-            assertNotNull(_decisionHolder.getDecision(P2));
+            String firstPlayer = getFirstPlayer();
+            String secondPlayer = getNextPlayer(firstPlayer);
 
-            _gameProcessor.playerSentDecision(_gameObjects, P1, "0,1,2");
+            assertNotNull(_decisionHolder.getDecision(firstPlayer));
+            assertNull(_decisionHolder.getDecision(secondPlayer));
 
-            assertNull(_decisionHolder.getDecision(P1));
-            assertNotNull(_decisionHolder.getDecision(P2));
+            _gameProcessor.playerSentDecision(_gameObjects, firstPlayer, "0,1,2");
+
+            assertNull(_decisionHolder.getDecision(firstPlayer));
+            assertNotNull(_decisionHolder.getDecision(secondPlayer));
         }
 
         {
             loadGame(_digitalEnvironment, decks.keySet());
 
+            String firstPlayer = getFirstPlayer();
+            String secondPlayer = getNextPlayer(firstPlayer);
+
             PlayerDigitalObjectStackManager inPlayZone = OverpowerContextObjects.extractGameObject(_gameObjects, OverpowerContextObjects.IN_PLAY_ZONE);
 
-            _gameProcessor.playerSentDecision(_gameObjects, P2, "1,2,3");
+            _gameProcessor.playerSentDecision(_gameObjects, secondPlayer, "1,2,3");
 
-            List<DigitalObject> p1FrontLine = inPlayZone.getDigitalObjectsInStack(_gameObjects, P1);
+            List<DigitalObject> p1FrontLine = inPlayZone.getDigitalObjectsInStack(_gameObjects, firstPlayer);
             assertEquals(4, p1FrontLine.size());
             assertEquals("c10", getBlueprint(p1FrontLine.get(0)));
             assertEquals("FrontLine", p1FrontLine.get(0).getAttributes().get("position"));
@@ -139,7 +148,7 @@ public class OverpowerGameTest {
             assertEquals("c47", getBlueprint(p1FrontLine.get(3)));
             assertEquals("Reserve", p1FrontLine.get(3).getAttributes().get("position"));
 
-            final List<DigitalObject> p2FrontLine = inPlayZone.getDigitalObjectsInStack(_gameObjects, P2);
+            final List<DigitalObject> p2FrontLine = inPlayZone.getDigitalObjectsInStack(_gameObjects, secondPlayer);
             assertEquals(4, p2FrontLine.size());
             assertEquals("c24", getBlueprint(p2FrontLine.get(0)));
             assertEquals("FrontLine", p2FrontLine.get(0).getAttributes().get("position"));
@@ -158,8 +167,11 @@ public class OverpowerGameTest {
     public void drawAndDiscardPhaseWithDuplicateOnHand() {
         startSimpleGame(Collections.singletonMap("deck", Arrays.asList("p1", "p2", "p3", "p4", "p5", "p6", "p7", "p1")));
 
-        _gameProcessor.playerSentDecision(_gameObjects, P1, "0,1,2");
-        _gameProcessor.playerSentDecision(_gameObjects, P2, "0,1,2");
+        String firstPlayer = getFirstPlayer();
+        String secondPlayer = getNextPlayer(firstPlayer);
+
+        _gameProcessor.playerSentDecision(_gameObjects, firstPlayer, "0,1,2");
+        _gameProcessor.playerSentDecision(_gameObjects, secondPlayer, "0,1,2");
 
         final PlayerDigitalObjectStackManager handZone = OverpowerContextObjects.extractGameObject(_gameObjects, OverpowerContextObjects.HAND_ZONE);
         List<DigitalObject> handP1 = handZone.getDigitalObjectsInStack(_gameObjects, P1);
@@ -167,11 +179,15 @@ public class OverpowerGameTest {
         assertEquals(8, handP1.size());
         assertEquals(8, handP2.size());
 
-        validateDiscardDuplicateDecision(_decisionHolder.getDecision(P1));
-        validateDiscardDuplicateDecision(_decisionHolder.getDecision(P2));
+        final PlayerDigitalObjectStackManager powerPackZone = OverpowerContextObjects.extractGameObject(_gameObjects, OverpowerContextObjects.POWER_PACK_ZONE);
 
-        _gameProcessor.playerSentDecision(_gameObjects, P1, ((ChooseDigitalObjectDecision) _decisionHolder.getDecision(P1)).getObjects().get(0).getId());
-        _gameProcessor.playerSentDecision(_gameObjects, P2, ((ChooseDigitalObjectDecision) _decisionHolder.getDecision(P2)).getObjects().get(0).getId());
+        validateDiscardDuplicateDecision(_decisionHolder.getDecision(firstPlayer));
+
+        _gameProcessor.playerSentDecision(_gameObjects, firstPlayer, ((ChooseDigitalObjectDecision) _decisionHolder.getDecision(firstPlayer)).getObjects().get(0).getId());
+
+        validateDiscardDuplicateDecision(_decisionHolder.getDecision(secondPlayer));
+
+        _gameProcessor.playerSentDecision(_gameObjects, secondPlayer, ((ChooseDigitalObjectDecision) _decisionHolder.getDecision(secondPlayer)).getObjects().get(0).getId());
 
         handP1 = handZone.getDigitalObjectsInStack(_gameObjects, P1);
         assertEquals(7, handP1.size());
@@ -179,7 +195,6 @@ public class OverpowerGameTest {
         handP2 = handZone.getDigitalObjectsInStack(_gameObjects, P2);
         assertEquals(7, handP2.size());
 
-        final PlayerDigitalObjectStackManager powerPackZone = OverpowerContextObjects.extractGameObject(_gameObjects, OverpowerContextObjects.POWER_PACK_ZONE);
         assertEquals(1, powerPackZone.getDigitalObjectsInStack(_gameObjects, P1).size());
         assertEquals(1, powerPackZone.getDigitalObjectsInStack(_gameObjects, P2).size());
 
@@ -200,8 +215,11 @@ public class OverpowerGameTest {
     public void drawAndDiscardPhaseDiscardUnusable() {
         startSimpleGame();
 
-        _gameProcessor.playerSentDecision(_gameObjects, P1, "0,1,2");
-        _gameProcessor.playerSentDecision(_gameObjects, P2, "0,1,2");
+        String firstPlayer = getFirstPlayer();
+        String secondPlayer = getNextPlayer(firstPlayer);
+
+        _gameProcessor.playerSentDecision(_gameObjects, firstPlayer, "0,1,2");
+        _gameProcessor.playerSentDecision(_gameObjects, secondPlayer, "0,1,2");
 
         final PlayerDigitalObjectStackManager handZone = OverpowerContextObjects.extractGameObject(_gameObjects, OverpowerContextObjects.HAND_ZONE);
         List<DigitalObject> handP1 = handZone.getDigitalObjectsInStack(_gameObjects, P1);
@@ -209,11 +227,13 @@ public class OverpowerGameTest {
         assertEquals(8, handP1.size());
         assertEquals(8, handP2.size());
 
-        validateDiscardUnusableDecision(_decisionHolder.getDecision(P1));
-        validateDiscardUnusableDecision(_decisionHolder.getDecision(P2));
+        validateDiscardUnusableDecision(_decisionHolder.getDecision(firstPlayer));
 
-        _gameProcessor.playerSentDecision(_gameObjects, P1, ((ChooseDigitalObjectDecision) _decisionHolder.getDecision(P1)).getObjects().get(0).getId());
-        _gameProcessor.playerSentDecision(_gameObjects, P2, ((ChooseDigitalObjectDecision) _decisionHolder.getDecision(P2)).getObjects().get(0).getId());
+        _gameProcessor.playerSentDecision(_gameObjects, firstPlayer, ((ChooseDigitalObjectDecision) _decisionHolder.getDecision(firstPlayer)).getObjects().get(0).getId());
+
+        validateDiscardUnusableDecision(_decisionHolder.getDecision(secondPlayer));
+
+        _gameProcessor.playerSentDecision(_gameObjects, secondPlayer, ((ChooseDigitalObjectDecision) _decisionHolder.getDecision(secondPlayer)).getObjects().get(0).getId());
 
         handP1 = handZone.getDigitalObjectsInStack(_gameObjects, P1);
         assertEquals(7, handP1.size());
@@ -232,14 +252,14 @@ public class OverpowerGameTest {
     public void placingPhase() {
         startSimpleGame();
 
-        _gameProcessor.playerSentDecision(_gameObjects, P1, "0,1,2");
-        _gameProcessor.playerSentDecision(_gameObjects, P2, "0,1,2");
-
-        _gameProcessor.playerSentDecision(_gameObjects, P1, "");
-        _gameProcessor.playerSentDecision(_gameObjects, P2, "");
-
         String firstPlayer = getFirstPlayer();
         String secondPlayer = getNextPlayer(firstPlayer);
+
+        _gameProcessor.playerSentDecision(_gameObjects, firstPlayer, "0,1,2");
+        _gameProcessor.playerSentDecision(_gameObjects, secondPlayer, "0,1,2");
+
+        _gameProcessor.playerSentDecision(_gameObjects, firstPlayer, "");
+        _gameProcessor.playerSentDecision(_gameObjects, secondPlayer, "");
 
         ChooseDigitalObjectDecision firstPlaceCardDecision = (ChooseDigitalObjectDecision) _decisionHolder.getDecision(firstPlayer);
 
@@ -302,14 +322,14 @@ public class OverpowerGameTest {
     public void venturePhaseValid() {
         startSimpleGame();
 
-        _gameProcessor.playerSentDecision(_gameObjects, P1, "0,1,2");
-        _gameProcessor.playerSentDecision(_gameObjects, P2, "0,1,2");
-
-        _gameProcessor.playerSentDecision(_gameObjects, P1, "");
-        _gameProcessor.playerSentDecision(_gameObjects, P2, "");
-
         String firstPlayer = getFirstPlayer();
         String secondPlayer = getNextPlayer(firstPlayer);
+
+        _gameProcessor.playerSentDecision(_gameObjects, firstPlayer, "0,1,2");
+        _gameProcessor.playerSentDecision(_gameObjects, secondPlayer, "0,1,2");
+
+        _gameProcessor.playerSentDecision(_gameObjects, firstPlayer, "");
+        _gameProcessor.playerSentDecision(_gameObjects, secondPlayer, "");
 
         _gameProcessor.playerSentDecision(_gameObjects, firstPlayer, "");
         _gameProcessor.playerSentDecision(_gameObjects, secondPlayer, "");
@@ -351,14 +371,14 @@ public class OverpowerGameTest {
     public void venturePhaseValidWithDraw() {
         startSimpleGame();
 
-        _gameProcessor.playerSentDecision(_gameObjects, P1, "0,1,2");
-        _gameProcessor.playerSentDecision(_gameObjects, P2, "0,1,2");
-
-        _gameProcessor.playerSentDecision(_gameObjects, P1, "");
-        _gameProcessor.playerSentDecision(_gameObjects, P2, "");
-
         String firstPlayer = getFirstPlayer();
         String secondPlayer = getNextPlayer(firstPlayer);
+
+        _gameProcessor.playerSentDecision(_gameObjects, firstPlayer, "0,1,2");
+        _gameProcessor.playerSentDecision(_gameObjects, secondPlayer, "0,1,2");
+
+        _gameProcessor.playerSentDecision(_gameObjects, firstPlayer, "");
+        _gameProcessor.playerSentDecision(_gameObjects, secondPlayer, "");
 
         _gameProcessor.playerSentDecision(_gameObjects, firstPlayer, "");
         _gameProcessor.playerSentDecision(_gameObjects, secondPlayer, "");
@@ -412,14 +432,14 @@ public class OverpowerGameTest {
     public void venturePhaseValidWithDrawNoDrawing() {
         startSimpleGame();
 
-        _gameProcessor.playerSentDecision(_gameObjects, P1, "0,1,2");
-        _gameProcessor.playerSentDecision(_gameObjects, P2, "0,1,2");
-
-        _gameProcessor.playerSentDecision(_gameObjects, P1, "");
-        _gameProcessor.playerSentDecision(_gameObjects, P2, "");
-
         String firstPlayer = getFirstPlayer();
         String secondPlayer = getNextPlayer(firstPlayer);
+
+        _gameProcessor.playerSentDecision(_gameObjects, firstPlayer, "0,1,2");
+        _gameProcessor.playerSentDecision(_gameObjects, secondPlayer, "0,1,2");
+
+        _gameProcessor.playerSentDecision(_gameObjects, firstPlayer, "");
+        _gameProcessor.playerSentDecision(_gameObjects, secondPlayer, "");
 
         _gameProcessor.playerSentDecision(_gameObjects, firstPlayer, "");
         _gameProcessor.playerSentDecision(_gameObjects, secondPlayer, "");
@@ -466,14 +486,14 @@ public class OverpowerGameTest {
     public void venturePhaseInvalid() {
         startSimpleGame();
 
-        _gameProcessor.playerSentDecision(_gameObjects, P1, "0,1,2");
-        _gameProcessor.playerSentDecision(_gameObjects, P2, "0,1,2");
-
-        _gameProcessor.playerSentDecision(_gameObjects, P1, "");
-        _gameProcessor.playerSentDecision(_gameObjects, P2, "");
-
         String firstPlayer = getFirstPlayer();
         String secondPlayer = getNextPlayer(firstPlayer);
+
+        _gameProcessor.playerSentDecision(_gameObjects, firstPlayer, "0,1,2");
+        _gameProcessor.playerSentDecision(_gameObjects, secondPlayer, "0,1,2");
+
+        _gameProcessor.playerSentDecision(_gameObjects, firstPlayer, "");
+        _gameProcessor.playerSentDecision(_gameObjects, secondPlayer, "");
 
         _gameProcessor.playerSentDecision(_gameObjects, firstPlayer, "");
         _gameProcessor.playerSentDecision(_gameObjects, secondPlayer, "");
@@ -499,14 +519,14 @@ public class OverpowerGameTest {
     public void venturePhaseAskForConcede() {
         startSimpleGame();
 
-        _gameProcessor.playerSentDecision(_gameObjects, P1, "0,1,2");
-        _gameProcessor.playerSentDecision(_gameObjects, P2, "0,1,2");
-
-        _gameProcessor.playerSentDecision(_gameObjects, P1, "");
-        _gameProcessor.playerSentDecision(_gameObjects, P2, "");
-
         String firstPlayer = getFirstPlayer();
         String secondPlayer = getNextPlayer(firstPlayer);
+
+        _gameProcessor.playerSentDecision(_gameObjects, firstPlayer, "0,1,2");
+        _gameProcessor.playerSentDecision(_gameObjects, secondPlayer, "0,1,2");
+
+        _gameProcessor.playerSentDecision(_gameObjects, firstPlayer, "");
+        _gameProcessor.playerSentDecision(_gameObjects, secondPlayer, "");
 
         _gameProcessor.playerSentDecision(_gameObjects, firstPlayer, "");
         _gameProcessor.playerSentDecision(_gameObjects, secondPlayer, "");
@@ -536,14 +556,14 @@ public class OverpowerGameTest {
     public void venturePhaseConcede() {
         startSimpleGame();
 
-        _gameProcessor.playerSentDecision(_gameObjects, P1, "0,1,2");
-        _gameProcessor.playerSentDecision(_gameObjects, P2, "0,1,2");
-
-        _gameProcessor.playerSentDecision(_gameObjects, P1, "");
-        _gameProcessor.playerSentDecision(_gameObjects, P2, "");
-
         String firstPlayer = getFirstPlayer();
         String secondPlayer = getNextPlayer(firstPlayer);
+
+        _gameProcessor.playerSentDecision(_gameObjects, firstPlayer, "0,1,2");
+        _gameProcessor.playerSentDecision(_gameObjects, secondPlayer, "0,1,2");
+
+        _gameProcessor.playerSentDecision(_gameObjects, firstPlayer, "");
+        _gameProcessor.playerSentDecision(_gameObjects, secondPlayer, "");
 
         _gameProcessor.playerSentDecision(_gameObjects, firstPlayer, "");
         _gameProcessor.playerSentDecision(_gameObjects, secondPlayer, "");

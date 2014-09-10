@@ -2,7 +2,7 @@ package com.gempukku.tcg.generic.order;
 
 import com.gempukku.tcg.GameObjects;
 import com.gempukku.tcg.generic.GenericContextObjects;
-import com.gempukku.tcg.generic.action.GameActionContext;
+import com.gempukku.tcg.generic.effect.GameEffectContext;
 import com.gempukku.tcg.generic.effect.GameEffect;
 import com.gempukku.tcg.generic.evaluator.StringEvaluator;
 
@@ -19,7 +19,7 @@ public class GetNextPlayerEffect implements GameEffect {
     }
 
     @Override
-    public Result execute(GameObjects gameObjects, GameActionContext context) {
+    public Result execute(GameObjects gameObjects, GameEffectContext context) {
         final PlayerOrder playerOrder = GenericContextObjects.extractGameObject(gameObjects, GenericContextObjects.PLAYER_ORDER);
         final String attribute = _attribute.getValue(gameObjects, context);
         final String previous = _previous.getValue(gameObjects, context);

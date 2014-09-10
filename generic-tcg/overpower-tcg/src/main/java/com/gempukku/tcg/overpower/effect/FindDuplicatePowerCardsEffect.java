@@ -2,7 +2,7 @@ package com.gempukku.tcg.overpower.effect;
 
 import com.gempukku.tcg.GameObjects;
 import com.gempukku.tcg.digital.DigitalObject;
-import com.gempukku.tcg.generic.action.GameActionContext;
+import com.gempukku.tcg.generic.effect.GameEffectContext;
 import com.gempukku.tcg.generic.effect.GameEffect;
 import com.gempukku.tcg.generic.evaluator.StringEvaluator;
 import com.gempukku.tcg.generic.filter.Filters;
@@ -36,7 +36,7 @@ public class FindDuplicatePowerCardsEffect implements GameEffect {
     }
 
     @Override
-    public Result execute(GameObjects gameObjects, GameActionContext context) {
+    public Result execute(GameObjects gameObjects, GameEffectContext context) {
         final OverpowerCardManager overpowerCardManager = OverpowerContextObjects.extractGameObject(gameObjects, OverpowerContextObjects.OVERPOWER_CARD_MANAGER);
         final PlayerDigitalObjectStackManager inPlayZone = OverpowerContextObjects.extractGameObject(gameObjects, OverpowerContextObjects.IN_PLAY_ZONE);
 

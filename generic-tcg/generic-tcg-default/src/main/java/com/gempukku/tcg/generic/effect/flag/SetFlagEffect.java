@@ -2,7 +2,7 @@ package com.gempukku.tcg.generic.effect.flag;
 
 import com.gempukku.tcg.GameObjects;
 import com.gempukku.tcg.generic.DigitalObjects;
-import com.gempukku.tcg.generic.action.GameActionContext;
+import com.gempukku.tcg.generic.effect.GameEffectContext;
 import com.gempukku.tcg.generic.effect.GameEffect;
 import com.gempukku.tcg.generic.evaluator.StringEvaluator;
 
@@ -19,7 +19,7 @@ public class SetFlagEffect implements GameEffect {
     }
 
     @Override
-    public Result execute(GameObjects gameObjects, GameActionContext context) {
+    public Result execute(GameObjects gameObjects, GameEffectContext context) {
         String name = _flagName.getValue(gameObjects, context);
         String value = _flagValue.getValue(gameObjects, context);
 

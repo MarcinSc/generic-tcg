@@ -1,7 +1,6 @@
 package com.gempukku.tcg.generic.effect;
 
 import com.gempukku.tcg.GameObjects;
-import com.gempukku.tcg.generic.action.GameActionContext;
 import com.gempukku.tcg.generic.condition.ActionCondition;
 
 public class ConditionalEffect implements GameEffect {
@@ -22,7 +21,7 @@ public class ConditionalEffect implements GameEffect {
     }
 
     @Override
-    public Result execute(GameObjects gameObjects, GameActionContext context) {
+    public Result execute(GameObjects gameObjects, GameEffectContext context) {
         if (_condition.isMet(gameObjects, context))
             return _effect.execute(gameObjects, context);
         else if (_elseEffect != null)

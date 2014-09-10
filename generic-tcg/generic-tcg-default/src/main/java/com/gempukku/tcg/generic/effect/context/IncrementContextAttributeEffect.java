@@ -1,7 +1,7 @@
 package com.gempukku.tcg.generic.effect.context;
 
 import com.gempukku.tcg.GameObjects;
-import com.gempukku.tcg.generic.action.GameActionContext;
+import com.gempukku.tcg.generic.effect.GameEffectContext;
 import com.gempukku.tcg.generic.effect.GameEffect;
 import com.gempukku.tcg.generic.evaluator.StringEvaluator;
 
@@ -13,7 +13,7 @@ public class IncrementContextAttributeEffect implements GameEffect {
     }
 
     @Override
-    public Result execute(GameObjects gameObjects, GameActionContext context) {
+    public Result execute(GameObjects gameObjects, GameEffectContext context) {
         String attributeName = _attributeName.getValue(gameObjects, context);
         int value = Integer.parseInt(context.getAttribute(attributeName));
         context.setAttribute(attributeName, String.valueOf(value+1));

@@ -4,7 +4,7 @@ import com.gempukku.tcg.GameObjects;
 import com.gempukku.tcg.digital.DigitalEnvironment;
 import com.gempukku.tcg.digital.DigitalObject;
 import com.gempukku.tcg.generic.GenericContextObjects;
-import com.gempukku.tcg.generic.action.GameActionContext;
+import com.gempukku.tcg.generic.effect.GameEffectContext;
 import com.gempukku.tcg.generic.decision.AwaitingDecision;
 import com.gempukku.tcg.generic.decision.ChooseDigitalObjectDecision;
 import com.gempukku.tcg.generic.effect.GameEffect;
@@ -52,7 +52,7 @@ public class SelectDigitalObjectsByIdEffect implements GameEffect {
     }
 
     @Override
-    public Result execute(GameObjects gameObjects, final GameActionContext context) {
+    public Result execute(GameObjects gameObjects, final GameEffectContext context) {
         final String attributeName = _attributeName.getValue(gameObjects, context);
         if (context.getAttribute(attributeName) != null)
             return Result.pass();

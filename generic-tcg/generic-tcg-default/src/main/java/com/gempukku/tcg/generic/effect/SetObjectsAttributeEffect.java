@@ -3,7 +3,6 @@ package com.gempukku.tcg.generic.effect;
 import com.gempukku.tcg.GameObjects;
 import com.gempukku.tcg.digital.DigitalEnvironment;
 import com.gempukku.tcg.generic.GenericContextObjects;
-import com.gempukku.tcg.generic.action.GameActionContext;
 import com.gempukku.tcg.generic.evaluator.StringEvaluator;
 import com.gempukku.tcg.generic.util.StringUtils;
 
@@ -27,7 +26,7 @@ public class SetObjectsAttributeEffect implements GameEffect {
     }
 
     @Override
-    public Result execute(GameObjects gameObjects, GameActionContext context) {
+    public Result execute(GameObjects gameObjects, GameEffectContext context) {
         final DigitalEnvironment digitalEnvironment = GenericContextObjects.extractGameObject(gameObjects, GenericContextObjects.DIGITAL_ENVIRONMENT);
 
         final String[] ids = StringUtils.correctSplit(_ids.getValue(gameObjects, context), ",");

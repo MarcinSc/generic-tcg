@@ -2,7 +2,7 @@ package com.gempukku.tcg.generic.stack;
 
 import com.gempukku.tcg.GameObjects;
 import com.gempukku.tcg.digital.DigitalObject;
-import com.gempukku.tcg.generic.action.GameActionContext;
+import com.gempukku.tcg.generic.effect.GameEffectContext;
 import com.gempukku.tcg.generic.effect.GameEffect;
 import com.gempukku.tcg.generic.evaluator.StringEvaluator;
 import com.gempukku.tcg.generic.util.StringUtils;
@@ -32,7 +32,7 @@ public class MoveObjectsBetweenStacksEffect implements GameEffect {
     }
 
     @Override
-    public Result execute(GameObjects gameObjects, GameActionContext context) {
+    public Result execute(GameObjects gameObjects, GameEffectContext context) {
         final String stackFromName = _stackFrom.getValue(gameObjects, context);
         final String stackToName = _stackTo.getValue(gameObjects, context);
         final String player = _player.getValue(gameObjects, context);

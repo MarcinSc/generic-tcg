@@ -4,11 +4,11 @@ import com.gempukku.tcg.GameObjects;
 import com.gempukku.tcg.digital.DigitalEnvironment;
 import com.gempukku.tcg.digital.DigitalObject;
 import com.gempukku.tcg.generic.GenericContextObjects;
-import com.gempukku.tcg.generic.action.GameActionContext;
+import com.gempukku.tcg.generic.effect.GameEffectContext;
 
 import java.util.Collections;
 
-public class ObjectGameActionContext implements GameActionContext {
+public class ObjectGameActionContext implements GameEffectContext {
     private GameObjects _gameObjects;
     private DigitalObject _digitalObject;
 

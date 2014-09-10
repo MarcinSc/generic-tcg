@@ -2,11 +2,10 @@ package com.gempukku.tcg.overpower.condition;
 
 import com.gempukku.tcg.GameObjects;
 import com.gempukku.tcg.digital.DigitalObject;
-import com.gempukku.tcg.generic.action.GameActionContext;
+import com.gempukku.tcg.generic.effect.GameEffectContext;
 import com.gempukku.tcg.generic.condition.ActionCondition;
 import com.gempukku.tcg.generic.evaluator.StringEvaluator;
 import com.gempukku.tcg.generic.filter.Filters;
-import com.gempukku.tcg.generic.filter.PredicateFilter;
 import com.gempukku.tcg.generic.stack.PlayerDigitalObjectStackManager;
 import com.gempukku.tcg.generic.util.DigitalObjectUtils;
 import com.gempukku.tcg.overpower.OverpowerContextObjects;
@@ -31,7 +30,7 @@ public class HasDuplicatePowerCardsCondition implements ActionCondition {
     }
 
     @Override
-    public boolean isMet(GameObjects gameObjects, GameActionContext context) {
+    public boolean isMet(GameObjects gameObjects, GameEffectContext context) {
         final OverpowerCardManager overpowerCardManager = OverpowerContextObjects.extractGameObject(gameObjects, OverpowerContextObjects.OVERPOWER_CARD_MANAGER);
         final PlayerDigitalObjectStackManager inPlayZone = OverpowerContextObjects.extractGameObject(gameObjects, OverpowerContextObjects.IN_PLAY_ZONE);
 

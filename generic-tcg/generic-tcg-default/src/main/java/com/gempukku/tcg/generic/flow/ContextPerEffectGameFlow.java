@@ -6,19 +6,19 @@ import com.gempukku.tcg.digital.DigitalObject;
 import com.gempukku.tcg.generic.DigitalObjects;
 import com.gempukku.tcg.generic.GameFlow;
 import com.gempukku.tcg.generic.GenericContextObjects;
-import com.gempukku.tcg.generic.action.GameAction;
-import com.gempukku.tcg.generic.action.GameActionContext;
+import com.gempukku.tcg.generic.effect.GameEffect;
+import com.gempukku.tcg.generic.effect.GameEffectContext;
 import com.gempukku.tcg.generic.decision.AwaitingDecision;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MultiActionGameFlow implements GameFlow {
-    private List<GameAction> _actions;
+public class ContextPerEffectGameFlow implements GameFlow {
+    private List<GameEffect> _effects;
 
-    public void setActions(List<GameAction> gameActions) {
-        _actions = gameActions;
+    public void setEffects(List<GameEffect> effects) {
+        _effects = effects;
     }
 
     @Override
@@ -33,18 +33,18 @@ public class MultiActionGameFlow implements GameFlow {
         }
 
         DigitalObject actionObject = getActionObject(gameObjects, digitalEnvironment);
-        final GameAction gameAction = _actions.get(index);
-        GameActionContext context = new ObjectGameActionContext(gameObjects, actionObject);
-        final Map<String, AwaitingDecision> result = gameAction.processNextGameEffect(gameObjects, context);
-        if (!gameAction.hasNextGameEffect(gameObjects, context)) {
+        final GameEffect gameAction = _effects.get(index);
+        GameEffectContext context = new ObjectGameActionContext(gameObjects, actionObject);
+        final GameEffect.Result result = gameAction.execute(gameObjects, context);
+        if (!result._shouldContinue) {
             digitalEnvironment.destroyObject(actionObject.getId());
-            if (index + 1 < _actions.size()) {
+            if (index + 1 < _effects.size()) {
                 DigitalObjects.setSimpleFlag(gameObjects, "subActionIndex", String.valueOf(index + 1));
             } else {
                 DigitalObjects.removeSimpleFlag(gameObjects, "subActionIndex");
             }
         }
-        return result;
+        return result._decisions;
     }
 
     private DigitalObject getActionObject(GameObjects gameObjects, DigitalEnvironment digitalEnvironment) {

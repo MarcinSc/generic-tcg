@@ -1,7 +1,7 @@
 package com.gempukku.tcg.generic.evaluator;
 
 import com.gempukku.tcg.GameObjects;
-import com.gempukku.tcg.generic.action.GameActionContext;
+import com.gempukku.tcg.generic.effect.GameEffectContext;
 
 import java.util.List;
 
@@ -18,7 +18,7 @@ public class SubtractIntEvaluator implements IntEvaluator {
     }
 
     @Override
-    public int getIntValue(GameObjects gameObjects, GameActionContext context) {
+    public int getIntValue(GameObjects gameObjects, GameEffectContext context) {
         int result = _base.getIntValue(gameObjects, context);
         for (IntEvaluator number : _numbers) {
             result -= number.getIntValue(gameObjects, context);
@@ -28,7 +28,7 @@ public class SubtractIntEvaluator implements IntEvaluator {
     }
 
     @Override
-    public String getValue(GameObjects gameObjects, GameActionContext context) {
+    public String getValue(GameObjects gameObjects, GameEffectContext context) {
         return String.valueOf(getIntValue(gameObjects, context));
     }
 }

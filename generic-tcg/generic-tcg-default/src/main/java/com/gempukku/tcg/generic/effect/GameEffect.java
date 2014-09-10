@@ -1,7 +1,6 @@
 package com.gempukku.tcg.generic.effect;
 
 import com.gempukku.tcg.GameObjects;
-import com.gempukku.tcg.generic.action.GameActionContext;
 import com.gempukku.tcg.generic.decision.AwaitingDecision;
 
 import java.util.Map;
@@ -12,7 +11,7 @@ import java.util.Map;
  * method execution, the effect serie is considered "done" its job. 
  */
 public interface GameEffect {
-    public Result execute(GameObjects gameObjects, GameActionContext context);
+    public Result execute(GameObjects gameObjects, GameEffectContext context);
 
     public class Result {
         public final boolean _shouldContinue;

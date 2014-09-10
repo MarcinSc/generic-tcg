@@ -1,7 +1,7 @@
 package com.gempukku.tcg.generic.evaluator;
 
 import com.gempukku.tcg.GameObjects;
-import com.gempukku.tcg.generic.action.GameActionContext;
+import com.gempukku.tcg.generic.effect.GameEffectContext;
 import com.gempukku.tcg.generic.util.DigitalObjectUtils;
 
 public class ConstantIntEvaluator implements IntEvaluator {
@@ -19,12 +19,12 @@ public class ConstantIntEvaluator implements IntEvaluator {
     }
 
     @Override
-    public int getIntValue(GameObjects gameObjects, GameActionContext context) {
+    public int getIntValue(GameObjects gameObjects, GameEffectContext context) {
         return Integer.parseInt(DigitalObjectUtils.resolveObjectProperty(context, _value));
     }
 
     @Override
-    public String getValue(GameObjects gameObjects, GameActionContext context) {
+    public String getValue(GameObjects gameObjects, GameEffectContext context) {
         return String.valueOf(getIntValue(gameObjects, context));
     }
 }

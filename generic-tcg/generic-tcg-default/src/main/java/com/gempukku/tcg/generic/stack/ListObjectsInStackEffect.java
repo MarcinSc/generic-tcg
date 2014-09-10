@@ -2,7 +2,7 @@ package com.gempukku.tcg.generic.stack;
 
 import com.gempukku.tcg.GameObjects;
 import com.gempukku.tcg.digital.DigitalObject;
-import com.gempukku.tcg.generic.action.GameActionContext;
+import com.gempukku.tcg.generic.effect.GameEffectContext;
 import com.gempukku.tcg.generic.effect.GameEffect;
 import com.gempukku.tcg.generic.evaluator.StringEvaluator;
 import com.gempukku.tcg.generic.filter.DigitalObjectFilter;
@@ -36,7 +36,7 @@ public class ListObjectsInStackEffect implements GameEffect {
     }
 
     @Override
-    public Result execute(final GameObjects gameObjects, final GameActionContext context) {
+    public Result execute(final GameObjects gameObjects, final GameEffectContext context) {
         final PlayerDigitalObjectStackManager stack = (PlayerDigitalObjectStackManager) gameObjects.getGameObject(_stack.getValue(gameObjects, context));
 
         final String playerName = _player.getValue(gameObjects, context);

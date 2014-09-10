@@ -2,13 +2,12 @@ package com.gempukku.tcg.generic.player;
 
 import com.gempukku.tcg.GameObjects;
 import com.gempukku.tcg.generic.GenericContextObjects;
-import com.gempukku.tcg.generic.action.GameActionContext;
+import com.gempukku.tcg.generic.effect.GameEffectContext;
 import com.gempukku.tcg.generic.effect.GameEffect;
 import com.gempukku.tcg.generic.evaluator.ConstantStringEvaluator;
 import com.gempukku.tcg.generic.evaluator.StringEvaluator;
 import com.gempukku.tcg.generic.util.StringUtils;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -36,7 +35,7 @@ public class ForEachOpponentEffect implements GameEffect {
     }
 
     @Override
-    public Result execute(GameObjects gameObjects, GameActionContext context) {
+    public Result execute(GameObjects gameObjects, GameEffectContext context) {
         String indexAttribute = _indexAttribute.getValue(gameObjects, context);
         String attributeName = _attributeName.getValue(gameObjects, context);
 
@@ -57,7 +56,7 @@ public class ForEachOpponentEffect implements GameEffect {
         return Result.pass();
     }
 
-    private List<String> getOpponents(GameObjects gameObjects, GameActionContext context, String indexAttribute) {
+    private List<String> getOpponents(GameObjects gameObjects, GameEffectContext context, String indexAttribute) {
         String attribute = context.getAttribute(indexAttribute);
         if (attribute != null)
             return new LinkedList<String>(Arrays.asList(StringUtils.correctSplit(attribute, ",")));

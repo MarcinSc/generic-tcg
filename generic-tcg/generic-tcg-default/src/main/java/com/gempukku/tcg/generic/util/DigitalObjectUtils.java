@@ -2,7 +2,7 @@ package com.gempukku.tcg.generic.util;
 
 import com.gempukku.tcg.GameObjects;
 import com.gempukku.tcg.digital.DigitalObject;
-import com.gempukku.tcg.generic.action.GameActionContext;
+import com.gempukku.tcg.generic.effect.GameEffectContext;
 import com.gempukku.tcg.generic.filter.DigitalObjectFilter;
 
 import java.util.ArrayList;
@@ -10,7 +10,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class DigitalObjectUtils {
-    public static String resolveObjectProperty(GameActionContext context, String property) {
+    public static String resolveObjectProperty(GameEffectContext context, String property) {
         if (property == null)
             return null;
         int indexStart = 0;
@@ -50,7 +50,7 @@ public class DigitalObjectUtils {
         return resolveObjectProperty(context, currentList);
     }
 
-    private static String resolveObjectProperty(GameActionContext context, List list) {
+    private static String resolveObjectProperty(GameEffectContext context, List list) {
         StringBuilder result = new StringBuilder();
         for (Object o : list) {
             if (o instanceof String) {
@@ -62,7 +62,7 @@ public class DigitalObjectUtils {
         return result.toString();
     }
 
-    public static List<DigitalObject> filter(GameObjects gameObjects, DigitalObjectFilter filter, GameActionContext context, List<DigitalObject> objects) {
+    public static List<DigitalObject> filter(GameObjects gameObjects, DigitalObjectFilter filter, GameEffectContext context, List<DigitalObject> objects) {
         List<DigitalObject> result = new ArrayList<DigitalObject>();
         for (DigitalObject object : objects) {
             if (filter == null || filter.accept(gameObjects, context, object))
@@ -71,7 +71,7 @@ public class DigitalObjectUtils {
         return result;
     }
 
-    private static String extractProperty(GameActionContext context, String property) {
+    private static String extractProperty(GameEffectContext context, String property) {
         return context.getAttribute(property);
     }
 }

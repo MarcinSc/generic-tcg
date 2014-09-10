@@ -1,7 +1,7 @@
 package com.gempukku.tcg.generic.condition;
 
 import com.gempukku.tcg.GameObjects;
-import com.gempukku.tcg.generic.action.GameActionContext;
+import com.gempukku.tcg.generic.effect.GameEffectContext;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ public class AndCondition implements ActionCondition {
     }
 
     @Override
-    public boolean isMet(GameObjects gameObjects, GameActionContext context) {
+    public boolean isMet(GameObjects gameObjects, GameEffectContext context) {
         for (ActionCondition condition : _conditions) {
             if (!condition.isMet(gameObjects, context))
                 return false;

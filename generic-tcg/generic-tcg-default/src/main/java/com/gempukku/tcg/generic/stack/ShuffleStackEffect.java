@@ -1,7 +1,7 @@
 package com.gempukku.tcg.generic.stack;
 
 import com.gempukku.tcg.GameObjects;
-import com.gempukku.tcg.generic.action.GameActionContext;
+import com.gempukku.tcg.generic.effect.GameEffectContext;
 import com.gempukku.tcg.generic.effect.GameEffect;
 import com.gempukku.tcg.generic.evaluator.StringEvaluator;
 
@@ -18,7 +18,7 @@ public class ShuffleStackEffect implements GameEffect {
     }
 
     @Override
-    public Result execute(GameObjects gameObjects, GameActionContext context) {
+    public Result execute(GameObjects gameObjects, GameEffectContext context) {
         final String stackName = _stack.getValue(gameObjects, context);
         final String player = _player.getValue(gameObjects, context);
 
