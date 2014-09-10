@@ -88,6 +88,16 @@ public class DigitalObjectZoneManager implements GamePlayerStateInitializing, Ga
         return digitalEnvironment.getObjectById(removedId);
     }
 
+    public DigitalObject getTopObject(GameObjects gameObjects, String player) {
+        validatePlayer(player);
+        final DigitalEnvironment digitalEnvironment = GenericContextObjects.extractGameObject(gameObjects, GenericContextObjects.DIGITAL_ENVIRONMENT);
+        final DigitalObject playerZone = getZone(gameObjects, player);
+        String[] ids = getIds(playerZone);
+        if (ids.length == 0)
+            return null;
+        return digitalEnvironment.getObjectById(ids[ids.length-1]);
+    }
+
     public List<DigitalObject> getDigitalObjectsInZone(GameObjects gameObjects, String player) {
         validatePlayer(player);
         final DigitalEnvironment digitalEnvironment = GenericContextObjects.extractGameObject(gameObjects, GenericContextObjects.DIGITAL_ENVIRONMENT);

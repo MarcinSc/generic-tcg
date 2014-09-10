@@ -8,11 +8,11 @@ import com.gempukku.tcg.generic.effect.GameEffectContext;
 
 import java.util.Collections;
 
-public class ObjectGameActionContext implements GameEffectContext {
+public class ObjectGameEffectContext implements GameEffectContext {
     private GameObjects _gameObjects;
     private DigitalObject _digitalObject;
 
-    public ObjectGameActionContext(GameObjects gameObjects, DigitalObject digitalObject) {
+    public ObjectGameEffectContext(GameObjects gameObjects, DigitalObject digitalObject) {
         _gameObjects = gameObjects;
         _digitalObject = digitalObject;
     }

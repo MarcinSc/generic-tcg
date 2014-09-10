@@ -21,7 +21,7 @@ public class GenericContextObjects {
     public static final GenericObject<PlayerManager> PLAYER_MANAGER = new GenericObject<PlayerManager>("playerManager");
     public static final GenericObject<PlayerOrder> PLAYER_ORDER = new GenericObject<PlayerOrder>("playerOrder");
     public static final GenericObject<PhaseManager> PHASE_MANAGER = new GenericObject<PhaseManager>("phaseManager");
-    public static final GenericObject<GameEffectResolver> GAME_ACTION_RESOLVER = new GenericObject<GameEffectResolver>("gameActionResolver");
+    public static final GenericObject<GameEffectResolver> GAME_EFFECT_RESOLVER = new GenericObject<GameEffectResolver>("gameActionResolver");
 
 
     public static <T> T extractGameObject(GameObjects gameObjects, GenericObject<T> object) {

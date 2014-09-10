@@ -34,7 +34,7 @@ public class ContextPerEffectGameFlow implements GameFlow {
 
         DigitalObject actionObject = getActionObject(gameObjects, digitalEnvironment);
         final GameEffect gameAction = _effects.get(index);
-        GameEffectContext context = new ObjectGameActionContext(gameObjects, actionObject);
+        GameEffectContext context = new ObjectGameEffectContext(gameObjects, actionObject);
         final GameEffect.Result result = gameAction.execute(gameObjects, context);
         if (!result._shouldContinue) {
             digitalEnvironment.destroyObject(actionObject.getId());
