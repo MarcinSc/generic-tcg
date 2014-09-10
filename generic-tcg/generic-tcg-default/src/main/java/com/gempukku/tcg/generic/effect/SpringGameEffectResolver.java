@@ -4,7 +4,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
-public class SpringGameActionResolver implements GameEffectResolver, ApplicationContextAware {
+public class SpringGameEffectResolver implements GameEffectResolver, ApplicationContextAware {
     private ApplicationContext _applicationContext;
 
     @Override
