@@ -1,4 +1,4 @@
-package com.gempukku.tcg.generic.stack;
+package com.gempukku.tcg.generic.zone;
 
 import com.gempukku.tcg.GameObjects;
 import com.gempukku.tcg.digital.DigitalObject;
@@ -7,14 +7,11 @@ import com.gempukku.tcg.generic.effect.GameEffect;
 import com.gempukku.tcg.generic.evaluator.StringEvaluator;
 import com.gempukku.tcg.generic.filter.DigitalObjectFilter;
 import com.gempukku.tcg.generic.util.DigitalObjectUtils;
-import com.google.common.base.Function;
-import com.google.common.collect.Iterators;
-import org.apache.commons.lang.StringUtils;
 
 import java.util.List;
 
-public class ListObjectsInStackEffect implements GameEffect {
-    private StringEvaluator _stack;
+public class GetObjectsInZoneCountEffect implements GameEffect {
+    private StringEvaluator _zone;
     private DigitalObjectFilter _digitalObjectFilter;
     private StringEvaluator _attributeName;
     private StringEvaluator _player;
@@ -31,27 +28,20 @@ public class ListObjectsInStackEffect implements GameEffect {
         _player = player;
     }
 
-    public void setStack(StringEvaluator stackType) {
-        _stack = stackType;
+    public void setZone(StringEvaluator zone) {
+        _zone = zone;
     }
 
     @Override
     public Result execute(final GameObjects gameObjects, final GameEffectContext context) {
-        final PlayerDigitalObjectStackManager stack = (PlayerDigitalObjectStackManager) gameObjects.getGameObject(_stack.getValue(gameObjects, context));
+        final PlayerDigitalObjectZoneManager zone = (PlayerDigitalObjectZoneManager) gameObjects.getGameObject(_zone.getValue(gameObjects, context));
 
         final String playerName = _player.getValue(gameObjects, context);
 
-        final List<DigitalObject> matchingObjects = DigitalObjectUtils.filter(gameObjects, _digitalObjectFilter, context, stack.getDigitalObjectsInStack(gameObjects, playerName));
+        final List<DigitalObject> matchingObjects = DigitalObjectUtils.filter(gameObjects, _digitalObjectFilter, context, zone.getDigitalObjectsInZone(gameObjects, playerName));
 
         String attributeName = _attributeName.getValue(gameObjects, context);
-        context.setAttribute(attributeName, StringUtils.join(
-                Iterators.transform(matchingObjects.iterator(),
-                        new Function<DigitalObject, String>() {
-                            @Override
-                            public String apply(DigitalObject input) {
-                                return input.getId();
-                            }
-                        }), ","));
+        context.setAttribute(attributeName, String.valueOf(matchingObjects.size()));
 
         return Result.pass();
     }

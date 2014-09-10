@@ -27,12 +27,12 @@
                                 <property name="effects">
                                     <util:list>
                                         <bean id="selectStartingCharacters"
-                                              class="com.gempukku.tcg.generic.stack.SelectArbitraryCardsFromStackEffect">
+                                              class="com.gempukku.tcg.generic.zone.SelectArbitraryCardsFromZoneEffect">
                                             <property name="attributeName" value="selectedCharacters.*{player}"/>
                                             <property name="min" value="3"/>
                                             <property name="max" value="3"/>
                                             <property name="player" value="*{player}"/>
-                                            <property name="stack" value="setupCharactersZone"/>
+                                            <property name="zone" value="setupCharactersZone"/>
                                             <property name="message" value="Choose starting characters"/>
                                         </bean>
                                         <bean id="setAsFrontLine"
@@ -42,17 +42,17 @@
                                             <property name="attributeValue" value="FrontLine"/>
                                         </bean>
                                         <bean id="putStartingCharactersInFrontLine"
-                                              class="com.gempukku.tcg.generic.stack.MoveObjectsBetweenStacksEffect">
+                                              class="com.gempukku.tcg.generic.zone.MoveObjectsBetweenZonesEffect">
                                             <property name="player" value="*{player}"/>
-                                            <property name="stackFrom" value="setupCharactersZone"/>
-                                            <property name="stackTo" value="inPlayZone"/>
+                                            <property name="zoneFrom" value="setupCharactersZone"/>
+                                            <property name="zoneTo" value="inPlayZone"/>
                                             <property name="ids" value="*{selectedCharacters.*{player}}"/>
                                         </bean>
                                         <bean id="listRemainingStartingCharacters"
-                                              class="com.gempukku.tcg.generic.stack.ListObjectsInStackEffect">
+                                              class="com.gempukku.tcg.generic.zone.ListObjectsInZoneEffect">
                                             <property name="attributeName" value="remainingCharacters.*{player}"/>
                                             <property name="player" value="*{player}"/>
-                                            <property name="stack" value="setupCharactersZone"/>
+                                            <property name="zone" value="setupCharactersZone"/>
                                         </bean>
                                         <bean id="setAsReserve"
                                               class="com.gempukku.tcg.generic.effect.SetObjectsAttributeEffect">
@@ -61,22 +61,22 @@
                                             <property name="attributeValue" value="Reserve"/>
                                         </bean>
                                         <bean id="putRemainingCharactersInReserve"
-                                              class="com.gempukku.tcg.generic.stack.MoveObjectsBetweenStacksEffect">
+                                              class="com.gempukku.tcg.generic.zone.MoveObjectsBetweenZonesEffect">
                                             <property name="player" value="*{player}"/>
-                                            <property name="stackFrom" value="setupCharactersZone"/>
-                                            <property name="stackTo" value="inPlayZone"/>
+                                            <property name="zoneFrom" value="setupCharactersZone"/>
+                                            <property name="zoneTo" value="inPlayZone"/>
                                             <property name="ids" value="*{remainingCharacters.*{player}}"/>
                                         </bean>
                                         <bean id="setupDeck"
-                                              class="com.gempukku.tcg.generic.stack.MoveObjectsBetweenStacksEffect">
+                                              class="com.gempukku.tcg.generic.zone.MoveObjectsBetweenZonesEffect">
                                             <property name="player" value="*{player}"/>
-                                            <property name="stackFrom" value="setupDeckZone"/>
-                                            <property name="stackTo" value="deckZone"/>
+                                            <property name="zoneFrom" value="setupDeckZone"/>
+                                            <property name="zoneTo" value="deckZone"/>
                                         </bean>
                                         <bean id="shuffleDeck"
-                                              class="com.gempukku.tcg.generic.stack.ShuffleStackEffect">
+                                              class="com.gempukku.tcg.generic.zone.ShuffleZoneEffect">
                                             <property name="player" value="*{player}"/>
-                                            <property name="stack" value="deckZone"/>
+                                            <property name="zone" value="deckZone"/>
                                         </bean>
                                         <bean class="com.gempukku.tcg.generic.effect.context.IncrementContextAttributeEffect">
                                             <property name="attributeName" value="playedCount"/>
@@ -121,9 +121,9 @@
                                 <property name="effects">
                                     <util:list>
                                         <bean id="drawEightCards"
-                                              class="com.gempukku.tcg.generic.stack.MoveTopObjectsBetweenStacksEffect">
-                                            <property name="stackFrom" value="deckZone"/>
-                                            <property name="stackTo" value="handZone"/>
+                                              class="com.gempukku.tcg.generic.zone.MoveTopObjectsBetweenZonesEffect">
+                                            <property name="zoneFrom" value="deckZone"/>
+                                            <property name="zoneTo" value="handZone"/>
                                             <property name="count" value="8"/>
                                             <property name="player" value="*{player}"/>
                                         </bean>
@@ -177,7 +177,7 @@
                                                         <property name="attributeName"
                                                                   value="duplicateCharacters.*{player}"/>
                                                     </bean>
-                                                    <bean class="com.gempukku.tcg.generic.stack.SelectDigitalObjectsByIdEffect">
+                                                    <bean class="com.gempukku.tcg.generic.effect.decision.SelectDigitalObjectsByIdEffect">
                                                         <property name="ids" value="*{duplicateCharacters.*{player}}"/>
                                                         <property name="player" value="*{player}"/>
                                                         <property name="message"
@@ -186,9 +186,9 @@
                                                         <property name="min" value="1"/>
                                                         <property name="max" value="1"/>
                                                     </bean>
-                                                    <bean class="com.gempukku.tcg.generic.stack.MoveObjectsBetweenStacksEffect">
-                                                        <property name="stackFrom" value="handZone"/>
-                                                        <property name="stackTo" value="powerPackZone"/>
+                                                    <bean class="com.gempukku.tcg.generic.zone.MoveObjectsBetweenZonesEffect">
+                                                        <property name="zoneFrom" value="handZone"/>
+                                                        <property name="zoneTo" value="powerPackZone"/>
                                                         <property name="player" value="*{player}"/>
                                                         <property name="ids" value="*{selectedCards.*{player}}"/>
                                                     </bean>
@@ -228,12 +228,12 @@
                                 <property name="effects">
                                     <util:list>
                                         <bean id="listAllCardsInHand"
-                                              class="com.gempukku.tcg.generic.stack.ListObjectsInStackEffect">
+                                              class="com.gempukku.tcg.generic.zone.ListObjectsInZoneEffect">
                                             <property name="attributeName" value="cardsInHand.*{player}"/>
                                             <property name="player" value="*{player}"/>
-                                            <property name="stack" value="handZone"/>
+                                            <property name="zone" value="handZone"/>
                                         </bean>
-                                        <bean class="com.gempukku.tcg.generic.stack.SelectDigitalObjectsByIdEffect">
+                                        <bean class="com.gempukku.tcg.generic.effect.decision.SelectDigitalObjectsByIdEffect">
                                             <property name="ids" value="*{cardsInHand.*{player}}"/>
                                             <property name="player" value="*{player}"/>
                                             <property name="message" value="Choose unusable cards to discard"/>
@@ -248,10 +248,10 @@
                                                 </bean>
                                             </property>
                                             <property name="effect">
-                                                <bean class="com.gempukku.tcg.generic.stack.MoveObjectsBetweenStacksEffect">
+                                                <bean class="com.gempukku.tcg.generic.zone.MoveObjectsBetweenZonesEffect">
                                                     <property name="ids" value="*{unusableCards.*{player}}"/>
-                                                    <property name="stackFrom" value="handZone"/>
-                                                    <property name="stackTo" value="deadPileZone"/>
+                                                    <property name="zoneFrom" value="handZone"/>
+                                                    <property name="zoneTo" value="deadPileZone"/>
                                                     <property name="player" value="*{player}"/>
                                                 </bean>
                                             </property>
@@ -315,10 +315,10 @@
                                                     <property name="effects">
                                                         <util:list>
                                                             <bean id="findPlaceableCards"
-                                                                  class="com.gempukku.tcg.generic.stack.ListObjectsInStackEffect">
+                                                                  class="com.gempukku.tcg.generic.zone.ListObjectsInZoneEffect">
                                                                 <property name="attributeName" value="placeableCards"/>
                                                                 <property name="player" value="*{player}"/>
-                                                                <property name="stack" value="handZone"/>
+                                                                <property name="zone" value="handZone"/>
                                                                 <property name="digitalObjectFilter">
                                                                     <bean class="com.gempukku.tcg.overpower.filter.PlaceableCardsFilter"/>
                                                                 </property>
@@ -326,7 +326,7 @@
                                                             <bean class="com.gempukku.tcg.generic.effect.context.RemoveContextAttributeEffect">
                                                                 <property name="attributeName" value="cardToPlace"/>
                                                             </bean>
-                                                            <bean class="com.gempukku.tcg.generic.stack.SelectDigitalObjectsByIdEffect">
+                                                            <bean class="com.gempukku.tcg.generic.effect.decision.SelectDigitalObjectsByIdEffect">
                                                                 <property name="ids" value="*{placeableCards}"/>
                                                                 <property name="player" value="*{player}"/>
                                                                 <property name="message"
@@ -370,8 +370,8 @@
                           value="placingCardIndex"/>
                 <property name="effects">
                     <util:list>
-                        <bean class="com.gempukku.tcg.generic.stack.ListObjectsInStackEffect">
-                            <property name="stack" value="inPlayZone"/>
+                        <bean class="com.gempukku.tcg.generic.zone.ListObjectsInZoneEffect">
+                            <property name="zone" value="inPlayZone"/>
                             <property name="player" value="*{player}"/>
                             <property name="attributeName" value="placeableOnCards"/>
                             <property name="digitalObjectFilter">
@@ -383,7 +383,7 @@
                         <bean class="com.gempukku.tcg.generic.effect.context.RemoveContextAttributeEffect">
                             <property name="attributeName" value="cardToPlaceOn"/>
                         </bean>
-                        <bean class="com.gempukku.tcg.generic.stack.SelectDigitalObjectsByIdEffect">
+                        <bean class="com.gempukku.tcg.generic.effect.decision.SelectDigitalObjectsByIdEffect">
                             <property name="ids" value="*{placeableOnCards}"/>
                             <property name="message" value="Choose card to place on"/>
                             <property name="min" value="1"/>
@@ -396,10 +396,10 @@
                             <property name="attributeName" value="placedOn"/>
                             <property name="attributeValue" value="*{cardToPlaceOn}"/>
                         </bean>
-                        <bean class="com.gempukku.tcg.generic.stack.MoveObjectsBetweenStacksEffect">
+                        <bean class="com.gempukku.tcg.generic.zone.MoveObjectsBetweenZonesEffect">
                             <property name="ids" value="*{cardToPlace}"/>
-                            <property name="stackFrom" value="handZone"/>
-                            <property name="stackTo" value="inPlayZone"/>
+                            <property name="zoneFrom" value="handZone"/>
+                            <property name="zoneTo" value="inPlayZone"/>
                             <property name="player" value="*{player}"/>
                         </bean>
                     </util:list>
@@ -468,9 +468,9 @@
                                                         <property name="attributeName"
                                                                   value="venturedCompletedMissionsCount,venturedReserveMissionsCount"/>
                                                     </bean>
-                                                    <bean class="com.gempukku.tcg.generic.stack.GetObjectsInStackCountEffect">
+                                                    <bean class="com.gempukku.tcg.generic.zone.GetObjectsInZoneCountEffect">
                                                         <property name="player" value="*{player}"/>
-                                                        <property name="stack" value="completedMissionsZone"/>
+                                                        <property name="zone" value="completedMissionsZone"/>
                                                         <property name="attributeName" value="completedMissionsCount"/>
                                                     </bean>
                                                     <bean class="com.gempukku.tcg.generic.effect.decision.ChooseNumberEffect">
@@ -482,9 +482,9 @@
                                                         <property name="attributeName"
                                                                   value="venturedCompletedMissionsCount"/>
                                                     </bean>
-                                                    <bean class="com.gempukku.tcg.generic.stack.GetObjectsInStackCountEffect">
+                                                    <bean class="com.gempukku.tcg.generic.zone.GetObjectsInZoneCountEffect">
                                                         <property name="player" value="*{player}"/>
-                                                        <property name="stack" value="reserveMissionsZone"/>
+                                                        <property name="zone" value="reserveMissionsZone"/>
                                                         <property name="attributeName" value="reserveMissionsCount"/>
                                                     </bean>
                                                     <bean class="com.gempukku.tcg.generic.effect.decision.ChooseNumberEffect">
@@ -575,10 +575,10 @@
                                                                                           value="drawAndDiscardIndex"/>
                                                                                 <property name="effects">
                                                                                     <util:list>
-                                                                                        <bean class="com.gempukku.tcg.generic.stack.MoveTopObjectsBetweenStacksEffect">
-                                                                                            <property name="stackFrom"
+                                                                                        <bean class="com.gempukku.tcg.generic.zone.MoveTopObjectsBetweenZonesEffect">
+                                                                                            <property name="zoneFrom"
                                                                                                       value="deckZone"/>
-                                                                                            <property name="stackTo"
+                                                                                            <property name="zoneTo"
                                                                                                       value="handZone"/>
                                                                                             <property name="count"
                                                                                                       value="*{cardsToDraw}"/>
@@ -612,7 +612,7 @@
                                                                                                                 name="attributeName"
                                                                                                                 value="duplicateCharacters.*{opponent}"/>
                                                                                                     </bean>
-                                                                                                    <bean class="com.gempukku.tcg.generic.stack.SelectDigitalObjectsByIdEffect">
+                                                                                                    <bean class="com.gempukku.tcg.generic.effect.decision.SelectDigitalObjectsByIdEffect">
                                                                                                         <property
                                                                                                                 name="ids"
                                                                                                                 value="*{duplicateCharacters.*{opponent}}"/>
@@ -632,12 +632,12 @@
                                                                                                                 name="max"
                                                                                                                 value="1"/>
                                                                                                     </bean>
-                                                                                                    <bean class="com.gempukku.tcg.generic.stack.MoveObjectsBetweenStacksEffect">
+                                                                                                    <bean class="com.gempukku.tcg.generic.zone.MoveObjectsBetweenZonesEffect">
                                                                                                         <property
-                                                                                                                name="stackFrom"
+                                                                                                                name="zoneFrom"
                                                                                                                 value="handZone"/>
                                                                                                         <property
-                                                                                                                name="stackTo"
+                                                                                                                name="zoneTo"
                                                                                                                 value="powerPackZone"/>
                                                                                                         <property
                                                                                                                 name="player"
@@ -650,16 +650,16 @@
                                                                                             </property>
                                                                                         </bean>
                                                                                         <bean
-                                                                                                class="com.gempukku.tcg.generic.stack.ListObjectsInStackEffect">
+                                                                                                class="com.gempukku.tcg.generic.zone.ListObjectsInZoneEffect">
                                                                                             <property
                                                                                                     name="attributeName"
                                                                                                     value="cardsInHand.*{opponent}"/>
                                                                                             <property name="player"
                                                                                                       value="*{opponent}"/>
-                                                                                            <property name="stack"
+                                                                                            <property name="zone"
                                                                                                       value="handZone"/>
                                                                                         </bean>
-                                                                                        <bean class="com.gempukku.tcg.generic.stack.SelectDigitalObjectsByIdEffect">
+                                                                                        <bean class="com.gempukku.tcg.generic.effect.decision.SelectDigitalObjectsByIdEffect">
                                                                                             <property name="ids"
                                                                                                       value="*{cardsInHand.*{opponent}}"/>
                                                                                             <property name="player"
@@ -683,14 +683,14 @@
                                                                                                 </bean>
                                                                                             </property>
                                                                                             <property name="effect">
-                                                                                                <bean class="com.gempukku.tcg.generic.stack.MoveObjectsBetweenStacksEffect">
+                                                                                                <bean class="com.gempukku.tcg.generic.zone.MoveObjectsBetweenZonesEffect">
                                                                                                     <property name="ids"
                                                                                                               value="*{unusableCards.*{opponent}}"/>
                                                                                                     <property
-                                                                                                            name="stackFrom"
+                                                                                                            name="zoneFrom"
                                                                                                             value="handZone"/>
                                                                                                     <property
-                                                                                                            name="stackTo"
+                                                                                                            name="zoneTo"
                                                                                                             value="deadPileZone"/>
                                                                                                     <property
                                                                                                             name="player"

@@ -8,7 +8,7 @@ import com.gempukku.tcg.generic.effect.GameEffectContext;
 import com.gempukku.tcg.generic.evaluator.ConstantStringEvaluator;
 import com.gempukku.tcg.generic.evaluator.StringEvaluator;
 import com.gempukku.tcg.generic.filter.DigitalObjectFilter;
-import com.gempukku.tcg.generic.stack.PlayerDigitalObjectStackManager;
+import com.gempukku.tcg.generic.zone.PlayerDigitalObjectZoneManager;
 import com.gempukku.tcg.generic.util.DigitalObjectUtils;
 import com.gempukku.tcg.overpower.OverpowerContextObjects;
 import com.gempukku.tcg.overpower.card.OverpowerCardBlueprint;
@@ -31,7 +31,7 @@ public class PlaceableOnCardsFilter implements DigitalObjectFilter {
             return false;
 
         final DigitalEnvironment digitalEnvironment = GenericContextObjects.extractGameObject(gameObjects, GenericContextObjects.DIGITAL_ENVIRONMENT);
-        final PlayerDigitalObjectStackManager inPlay = OverpowerContextObjects.extractGameObject(gameObjects, OverpowerContextObjects.IN_PLAY_ZONE);
+        final PlayerDigitalObjectZoneManager inPlay = OverpowerContextObjects.extractGameObject(gameObjects, OverpowerContextObjects.IN_PLAY_ZONE);
 
         String cardToPlaceId = _id.getValue(gameObjects, context);
         final DigitalObject cardToPlaceObject = digitalEnvironment.getObjectById(cardToPlaceId);
@@ -39,7 +39,7 @@ public class PlaceableOnCardsFilter implements DigitalObjectFilter {
         if (!cardToPlace.getPlaceOnFilter().accept(gameObjects, context, possibleCardToPlaceOn))
             return false;
 
-        final List<DigitalObject> placedOn = DigitalObjectUtils.filter(gameObjects, new PlacedOnFilter(new ConstantStringEvaluator(possibleCardToPlaceOn.getId())), context, inPlay.getDigitalObjectsInStack(gameObjects, possibleCardToPlaceOn.getAttributes().get("owner")));
+        final List<DigitalObject> placedOn = DigitalObjectUtils.filter(gameObjects, new PlacedOnFilter(new ConstantStringEvaluator(possibleCardToPlaceOn.getId())), context, inPlay.getDigitalObjectsInZone(gameObjects, possibleCardToPlaceOn.getAttributes().get("owner")));
 
         for (DigitalObject cardPlacedOnCharacter : placedOn) {
             // Check if the card already has card of this type placed

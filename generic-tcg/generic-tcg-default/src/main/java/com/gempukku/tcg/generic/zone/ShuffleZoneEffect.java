@@ -1,16 +1,16 @@
-package com.gempukku.tcg.generic.stack;
+package com.gempukku.tcg.generic.zone;
 
 import com.gempukku.tcg.GameObjects;
 import com.gempukku.tcg.generic.effect.GameEffectContext;
 import com.gempukku.tcg.generic.effect.GameEffect;
 import com.gempukku.tcg.generic.evaluator.StringEvaluator;
 
-public class ShuffleStackEffect implements GameEffect {
-    private StringEvaluator _stack;
+public class ShuffleZoneEffect implements GameEffect {
+    private StringEvaluator _zone;
     private StringEvaluator _player;
 
-    public void setStack(StringEvaluator stack) {
-        _stack = stack;
+    public void setZone(StringEvaluator zone) {
+        _zone = zone;
     }
 
     public void setPlayer(StringEvaluator player) {
@@ -19,11 +19,11 @@ public class ShuffleStackEffect implements GameEffect {
 
     @Override
     public Result execute(GameObjects gameObjects, GameEffectContext context) {
-        final String stackName = _stack.getValue(gameObjects, context);
+        final String zoneName = _zone.getValue(gameObjects, context);
         final String player = _player.getValue(gameObjects, context);
 
-        final PlayerDigitalObjectStackManager stack = (PlayerDigitalObjectStackManager) gameObjects.getGameObject(stackName);
-        stack.shuffleItemsInStack(gameObjects, player);
+        final PlayerDigitalObjectZoneManager zone = (PlayerDigitalObjectZoneManager) gameObjects.getGameObject(zoneName);
+        zone.shuffleItemsInZone(gameObjects, player);
         return Result.pass();
     }
 }

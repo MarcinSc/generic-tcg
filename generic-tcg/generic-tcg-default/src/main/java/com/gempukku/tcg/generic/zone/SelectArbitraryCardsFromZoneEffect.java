@@ -1,4 +1,4 @@
-package com.gempukku.tcg.generic.stack;
+package com.gempukku.tcg.generic.zone;
 
 import com.gempukku.tcg.GameObjects;
 import com.gempukku.tcg.digital.DigitalObject;
@@ -21,8 +21,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SelectArbitraryCardsFromStackEffect implements GameEffect {
-    private StringEvaluator _stack;
+public class SelectArbitraryCardsFromZoneEffect implements GameEffect {
+    private StringEvaluator _zone;
     private DigitalObjectFilter _digitalObjectFilter;
     private IntEvaluator _min;
     private IntEvaluator _max;
@@ -50,8 +50,8 @@ public class SelectArbitraryCardsFromStackEffect implements GameEffect {
         _player = player;
     }
 
-    public void setStack(StringEvaluator stackType) {
-        _stack = stackType;
+    public void setZone(StringEvaluator zone) {
+        _zone = zone;
     }
 
     public void setMessage(StringEvaluator message) {
@@ -65,11 +65,11 @@ public class SelectArbitraryCardsFromStackEffect implements GameEffect {
             return Result.pass();
 
         final CardManager cardManager = GenericContextObjects.extractGameObject(gameObjects, GenericContextObjects.CARD_MANAGER);
-        final PlayerDigitalObjectStackManager stack = (PlayerDigitalObjectStackManager) gameObjects.getGameObject(_stack.getValue(gameObjects, context));
+        final PlayerDigitalObjectZoneManager zone = (PlayerDigitalObjectZoneManager) gameObjects.getGameObject(_zone.getValue(gameObjects, context));
 
         final String playerName = _player.getValue(gameObjects, context);
 
-        final List<DigitalObject> matchingObjects = DigitalObjectUtils.filter(gameObjects, _digitalObjectFilter, context, stack.getDigitalObjectsInStack(gameObjects, playerName));
+        final List<DigitalObject> matchingObjects = DigitalObjectUtils.filter(gameObjects, _digitalObjectFilter, context, zone.getDigitalObjectsInZone(gameObjects, playerName));
         List<String> characterBlueprints = new ArrayList<String>();
         for (DigitalObject object : matchingObjects) {
             characterBlueprints.add(cardManager.getBlueprintId(object));

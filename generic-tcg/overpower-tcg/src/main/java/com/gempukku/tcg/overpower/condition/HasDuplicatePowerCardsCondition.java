@@ -6,7 +6,7 @@ import com.gempukku.tcg.generic.effect.GameEffectContext;
 import com.gempukku.tcg.generic.condition.ActionCondition;
 import com.gempukku.tcg.generic.evaluator.StringEvaluator;
 import com.gempukku.tcg.generic.filter.Filters;
-import com.gempukku.tcg.generic.stack.PlayerDigitalObjectStackManager;
+import com.gempukku.tcg.generic.zone.PlayerDigitalObjectZoneManager;
 import com.gempukku.tcg.generic.util.DigitalObjectUtils;
 import com.gempukku.tcg.overpower.OverpowerContextObjects;
 import com.gempukku.tcg.overpower.card.OverpowerCardBlueprint;
@@ -32,11 +32,11 @@ public class HasDuplicatePowerCardsCondition implements ActionCondition {
     @Override
     public boolean isMet(GameObjects gameObjects, GameEffectContext context) {
         final OverpowerCardManager overpowerCardManager = OverpowerContextObjects.extractGameObject(gameObjects, OverpowerContextObjects.OVERPOWER_CARD_MANAGER);
-        final PlayerDigitalObjectStackManager inPlayZone = OverpowerContextObjects.extractGameObject(gameObjects, OverpowerContextObjects.IN_PLAY_ZONE);
+        final PlayerDigitalObjectZoneManager inPlayZone = OverpowerContextObjects.extractGameObject(gameObjects, OverpowerContextObjects.IN_PLAY_ZONE);
 
         final String player = _player.getValue(gameObjects, context);
 
-        final List<DigitalObject> powerCardsInPlay = DigitalObjectUtils.filter(gameObjects, Filters.and(new IsPlacedOnFilter(), new CardTypeFilter("power")), context, inPlayZone.getDigitalObjectsInStack(gameObjects, player));
+        final List<DigitalObject> powerCardsInPlay = DigitalObjectUtils.filter(gameObjects, Filters.and(new IsPlacedOnFilter(), new CardTypeFilter("power")), context, inPlayZone.getDigitalObjectsInZone(gameObjects, player));
         Set<Integer> placedPowerCardsPowers = new HashSet<Integer>();
         for (DigitalObject powerCardInPlay : powerCardsInPlay) {
             final OverpowerCardBlueprint cardBlueprint = overpowerCardManager.getCardBlueprint(gameObjects, powerCardInPlay);
@@ -44,8 +44,8 @@ public class HasDuplicatePowerCardsCondition implements ActionCondition {
             placedPowerCardsPowers.add(maxValue);
         }
 
-        final PlayerDigitalObjectStackManager stack = (PlayerDigitalObjectStackManager) gameObjects.getGameObject("handZone");
-        final List<DigitalObject> objects = stack.getDigitalObjectsInStack(gameObjects, player);
+        final PlayerDigitalObjectZoneManager zone = (PlayerDigitalObjectZoneManager) gameObjects.getGameObject("handZone");
+        final List<DigitalObject> objects = zone.getDigitalObjectsInZone(gameObjects, player);
 
         Multimap<Integer, String> powerCardsByPower = HashMultimap.create();
         for (DigitalObject card : objects) {

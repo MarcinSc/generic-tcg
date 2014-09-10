@@ -1,4 +1,4 @@
-package com.gempukku.tcg.generic.stack;
+package com.gempukku.tcg.generic.zone;
 
 import com.gempukku.tcg.GameObjects;
 import com.gempukku.tcg.digital.DigitalEnvironment;
@@ -16,19 +16,19 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public class PlayerDigitalObjectStackManager implements GamePlayerStateInitializing {
-    private String _stackName;
+public class PlayerDigitalObjectZoneManager implements GamePlayerStateInitializing {
+    private String _zone;
 
-    public void setStackName(String stackName) {
-        _stackName = stackName;
+    public void setZone(String zone) {
+        _zone = zone;
     }
 
     @Override
     public void setupGameState(GameObjects gameObjects, String player) {
-        if (DigitalObjects.extractPlayerObject(gameObjects, _stackName, player) == null) {
+        if (DigitalObjects.extractPlayerObject(gameObjects, _zone, player) == null) {
             final DigitalEnvironment digitalEnvironment = GenericContextObjects.extractGameObject(gameObjects, GenericContextObjects.DIGITAL_ENVIRONMENT);
             Map<String, String> attrs = new HashMap<String, String>();
-            attrs.put("type", _stackName);
+            attrs.put("type", _zone);
             attrs.put("owner", player);
             digitalEnvironment.createObject(attrs);
         }
@@ -36,68 +36,68 @@ public class PlayerDigitalObjectStackManager implements GamePlayerStateInitializ
 
     public void putOnTop(GameObjects gameObjects, String player, DigitalObject ... object) {
         final DigitalEnvironment digitalEnvironment = GenericContextObjects.extractGameObject(gameObjects, GenericContextObjects.DIGITAL_ENVIRONMENT);
-        final DigitalObject playerStack = DigitalObjects.extractPlayerObject(gameObjects, _stackName, player);
-        final ArrayList<String> ids = new ArrayList<String>(Arrays.asList(getIds(playerStack)));
+        final DigitalObject playerZone = DigitalObjects.extractPlayerObject(gameObjects, _zone, player);
+        final ArrayList<String> ids = new ArrayList<String>(Arrays.asList(getIds(playerZone)));
         for (DigitalObject obj : object) {
             ids.add(obj.getId());
         }
 
-        digitalEnvironment.updateObject(playerStack.getId(), Collections.singletonMap("ids", convertToString(ids)), false);
+        digitalEnvironment.updateObject(playerZone.getId(), Collections.singletonMap("ids", convertToString(ids)), false);
     }
 
     public DigitalObject removeTopObject(GameObjects gameObjects, String player) {
         final DigitalEnvironment digitalEnvironment = GenericContextObjects.extractGameObject(gameObjects, GenericContextObjects.DIGITAL_ENVIRONMENT);
-        final DigitalObject playerStack = DigitalObjects.extractPlayerObject(gameObjects, _stackName, player);
-        final ArrayList<String> ids = new ArrayList<String>(Arrays.asList(getIds(playerStack)));
+        final DigitalObject playerZone = DigitalObjects.extractPlayerObject(gameObjects, _zone, player);
+        final ArrayList<String> ids = new ArrayList<String>(Arrays.asList(getIds(playerZone)));
         if (ids.size() == 0) {
             return null;
         }
         final String removedId = ids.remove(ids.size() - 1);
-        digitalEnvironment.updateObject(playerStack.getId(), Collections.singletonMap("ids", convertToString(ids)), false);
+        digitalEnvironment.updateObject(playerZone.getId(), Collections.singletonMap("ids", convertToString(ids)), false);
 
         return digitalEnvironment.getObjectById(removedId);
     }
 
-    public List<DigitalObject> getDigitalObjectsInStack(GameObjects gameObjects, String player) {
+    public List<DigitalObject> getDigitalObjectsInZone(GameObjects gameObjects, String player) {
         final DigitalEnvironment digitalEnvironment = GenericContextObjects.extractGameObject(gameObjects, GenericContextObjects.DIGITAL_ENVIRONMENT);
-        final DigitalObject playerStack = DigitalObjects.extractPlayerObject(gameObjects, _stackName, player);
+        final DigitalObject playerZone = DigitalObjects.extractPlayerObject(gameObjects, _zone, player);
         List<DigitalObject> result = new LinkedList<DigitalObject>();
-        for (String id : getIds(playerStack)) {
+        for (String id : getIds(playerZone)) {
             result.add(digitalEnvironment.getObjectById(id));
         }
         return result;
     }
 
-    public void removeAllObjectsInStack(GameObjects gameObjects, String player) {
+    public void removeAllObjectsInZone(GameObjects gameObjects, String player) {
         final DigitalEnvironment digitalEnvironment = GenericContextObjects.extractGameObject(gameObjects, GenericContextObjects.DIGITAL_ENVIRONMENT);
-        final DigitalObject playerStack = DigitalObjects.extractPlayerObject(gameObjects, _stackName, player);
-        digitalEnvironment.updateObject(playerStack.getId(), Collections.singletonMap("ids", ""), false);
+        final DigitalObject playerZone = DigitalObjects.extractPlayerObject(gameObjects, _zone, player);
+        digitalEnvironment.updateObject(playerZone.getId(), Collections.singletonMap("ids", ""), false);
     }
 
-    public DigitalObject removeObjectFromStack(GameObjects gameObjects, String player, String id) {
+    public DigitalObject removeObjectFromZone(GameObjects gameObjects, String player, String id) {
         final DigitalEnvironment digitalEnvironment = GenericContextObjects.extractGameObject(gameObjects, GenericContextObjects.DIGITAL_ENVIRONMENT);
-        final DigitalObject playerStack = DigitalObjects.extractPlayerObject(gameObjects, _stackName, player);
-        final ArrayList<String> ids = new ArrayList<String>(Arrays.asList(getIds(playerStack)));
+        final DigitalObject playerZone = DigitalObjects.extractPlayerObject(gameObjects, _zone, player);
+        final ArrayList<String> ids = new ArrayList<String>(Arrays.asList(getIds(playerZone)));
         final boolean removed = ids.remove(id);
         if (!removed)
             return null;
 
-        digitalEnvironment.updateObject(playerStack.getId(), Collections.singletonMap("ids", convertToString(ids)), false);
+        digitalEnvironment.updateObject(playerZone.getId(), Collections.singletonMap("ids", convertToString(ids)), false);
 
         return digitalEnvironment.getObjectById(id);
     }
 
-    public void shuffleItemsInStack(GameObjects gameObjects, String player) {
+    public void shuffleItemsInZone(GameObjects gameObjects, String player) {
         final DigitalEnvironment digitalEnvironment = GenericContextObjects.extractGameObject(gameObjects, GenericContextObjects.DIGITAL_ENVIRONMENT);
-        final DigitalObject playerStack = DigitalObjects.extractPlayerObject(gameObjects, _stackName, player);
-        final ArrayList<String> ids = new ArrayList<String>(Arrays.asList(getIds(playerStack)));
+        final DigitalObject playerZone = DigitalObjects.extractPlayerObject(gameObjects, _zone, player);
+        final ArrayList<String> ids = new ArrayList<String>(Arrays.asList(getIds(playerZone)));
         Collections.shuffle(ids);
 
-        digitalEnvironment.updateObject(playerStack.getId(), Collections.singletonMap("ids", convertToString(ids)), false);
+        digitalEnvironment.updateObject(playerZone.getId(), Collections.singletonMap("ids", convertToString(ids)), false);
     }
 
-    private String[] getIds(DigitalObject playerStack) {
-        final String ids = playerStack.getAttributes().get("ids");
+    private String[] getIds(DigitalObject playerZone) {
+        final String ids = playerZone.getAttributes().get("ids");
         if (ids == null)
             return new String[0];
         return com.gempukku.tcg.generic.util.StringUtils.correctSplit(ids, ",");

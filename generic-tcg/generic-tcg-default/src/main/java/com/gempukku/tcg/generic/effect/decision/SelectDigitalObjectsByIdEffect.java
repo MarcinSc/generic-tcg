@@ -1,4 +1,4 @@
-package com.gempukku.tcg.generic.stack;
+package com.gempukku.tcg.generic.effect.decision;
 
 import com.gempukku.tcg.GameObjects;
 import com.gempukku.tcg.digital.DigitalEnvironment;

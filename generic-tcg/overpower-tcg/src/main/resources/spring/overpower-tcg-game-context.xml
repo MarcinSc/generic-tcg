@@ -47,44 +47,44 @@
 
     <bean id="overpowerCardManager" class="com.gempukku.tcg.overpower.card.OverpowerCardManager"/>
 
-    <bean id="completedMissionsZone" class="com.gempukku.tcg.generic.stack.PlayerDigitalObjectStackManager">
-        <property name="stackName" value="completedMissionsZone"/>
+    <bean id="completedMissionsZone" class="com.gempukku.tcg.generic.zone.PlayerDigitalObjectZoneManager">
+        <property name="zone" value="completedMissionsZone"/>
     </bean>
 
-    <bean id="reserveMissionsZone" class="com.gempukku.tcg.generic.stack.PlayerDigitalObjectStackManager">
-        <property name="stackName" value="reserveMissionsZone"/>
+    <bean id="reserveMissionsZone" class="com.gempukku.tcg.generic.zone.PlayerDigitalObjectZoneManager">
+        <property name="zone" value="reserveMissionsZone"/>
     </bean>
 
-    <bean id="defeatedMissionsZone" class="com.gempukku.tcg.generic.stack.PlayerDigitalObjectStackManager">
-        <property name="stackName" value="defeatedMissionsZone"/>
+    <bean id="defeatedMissionsZone" class="com.gempukku.tcg.generic.zone.PlayerDigitalObjectZoneManager">
+        <property name="zone" value="defeatedMissionsZone"/>
     </bean>
 
-    <bean id="deadPileZone" class="com.gempukku.tcg.generic.stack.PlayerDigitalObjectStackManager">
-        <property name="stackName" value="deadPileZone"/>
+    <bean id="deadPileZone" class="com.gempukku.tcg.generic.zone.PlayerDigitalObjectZoneManager">
+        <property name="zone" value="deadPileZone"/>
     </bean>
 
-    <bean id="powerPackZone" class="com.gempukku.tcg.generic.stack.PlayerDigitalObjectStackManager">
-        <property name="stackName" value="powerPackZone"/>
+    <bean id="powerPackZone" class="com.gempukku.tcg.generic.zone.PlayerDigitalObjectZoneManager">
+        <property name="zone" value="powerPackZone"/>
     </bean>
 
-    <bean id="deckZone" class="com.gempukku.tcg.generic.stack.PlayerDigitalObjectStackManager">
-        <property name="stackName" value="deckZone"/>
+    <bean id="deckZone" class="com.gempukku.tcg.generic.zone.PlayerDigitalObjectZoneManager">
+        <property name="zone" value="deckZone"/>
     </bean>
 
-    <bean id="handZone" class="com.gempukku.tcg.generic.stack.PlayerDigitalObjectStackManager">
-        <property name="stackName" value="handZone"/>
+    <bean id="handZone" class="com.gempukku.tcg.generic.zone.PlayerDigitalObjectZoneManager">
+        <property name="zone" value="handZone"/>
     </bean>
 
-    <bean id="setupCharactersZone" class="com.gempukku.tcg.generic.stack.PlayerDigitalObjectStackManager">
-        <property name="stackName" value="setupCharactersZone"/>
+    <bean id="setupCharactersZone" class="com.gempukku.tcg.generic.zone.PlayerDigitalObjectZoneManager">
+        <property name="zone" value="setupCharactersZone"/>
     </bean>
 
-    <bean id="setupDeckZone" class="com.gempukku.tcg.generic.stack.PlayerDigitalObjectStackManager">
-        <property name="stackName" value="setupDeckZone"/>
+    <bean id="setupDeckZone" class="com.gempukku.tcg.generic.zone.PlayerDigitalObjectZoneManager">
+        <property name="zone" value="setupDeckZone"/>
     </bean>
 
-    <bean id="inPlayZone" class="com.gempukku.tcg.generic.stack.PlayerDigitalObjectStackManager">
-        <property name="stackName" value="inPlayZone"/>
+    <bean id="inPlayZone" class="com.gempukku.tcg.generic.zone.PlayerDigitalObjectZoneManager">
+        <property name="zone" value="inPlayZone"/>
     </bean>
 
     <bean id="phaseGameFlow" class="com.gempukku.tcg.generic.phase.PhaseGameFlow">
