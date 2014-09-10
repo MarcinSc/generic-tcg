@@ -12,12 +12,7 @@ import com.gempukku.tcg.generic.flow.ObjectGameEffectContext;
 import com.gempukku.tcg.generic.zone.player.DigitalObjectZoneManager;
 
 public class StackResolveEffect implements GameEffect {
-    private StringEvaluator _zone;
     private GameEffect _gameEffect;
-
-    public void setZone(StringEvaluator zone) {
-        _zone = zone;
-    }
 
     public void setGameEffect(GameEffect gameEffect) {
         _gameEffect = gameEffect;
@@ -28,8 +23,7 @@ public class StackResolveEffect implements GameEffect {
         DigitalEnvironment digitalEnvironment = GenericContextObjects.extractGameObject(gameObjects, GenericContextObjects.DIGITAL_ENVIRONMENT);
         GameEffectResolver gameEffectResolver = GenericContextObjects.extractGameObject(gameObjects, GenericContextObjects.GAME_EFFECT_RESOLVER);
 
-        String zoneName = _zone.getValue(gameObjects, context);
-        DigitalObjectZoneManager stackZone = (DigitalObjectZoneManager) gameObjects.getGameObject(zoneName);
+        DigitalObjectZoneManager stackZone = GenericContextObjects.extractGameObject(gameObjects, GenericContextObjects.STACK_ZONE);
 
         DigitalObject topAction;
         while ((topAction = stackZone.getTopObject(gameObjects, null)) != null) {

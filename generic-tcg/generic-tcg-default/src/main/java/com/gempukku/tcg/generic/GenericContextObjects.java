@@ -10,6 +10,7 @@ import com.gempukku.tcg.generic.keyword.KeywordManager;
 import com.gempukku.tcg.generic.order.PlayerOrder;
 import com.gempukku.tcg.generic.phase.PhaseManager;
 import com.gempukku.tcg.generic.player.PlayerManager;
+import com.gempukku.tcg.generic.zone.player.DigitalObjectZoneManager;
 
 public class GenericContextObjects {
     public static final GenericObject<DigitalEnvironment> DIGITAL_ENVIRONMENT = new GenericObject<DigitalEnvironment>("digitalEnvironment");
@@ -22,6 +23,8 @@ public class GenericContextObjects {
     public static final GenericObject<PlayerOrder> PLAYER_ORDER = new GenericObject<PlayerOrder>("playerOrder");
     public static final GenericObject<PhaseManager> PHASE_MANAGER = new GenericObject<PhaseManager>("phaseManager");
     public static final GenericObject<GameEffectResolver> GAME_EFFECT_RESOLVER = new GenericObject<GameEffectResolver>("gameActionResolver");
+    
+    public static final GenericObject<DigitalObjectZoneManager> STACK_ZONE = new GenericObject<DigitalObjectZoneManager>("stackZone");
 
 
     public static <T> T extractGameObject(GameObjects gameObjects, GenericObject<T> object) {

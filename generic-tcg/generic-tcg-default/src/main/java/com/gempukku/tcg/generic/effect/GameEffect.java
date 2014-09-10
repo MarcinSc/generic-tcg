@@ -21,7 +21,7 @@ public interface GameEffect {
             return new Result(decisions, true);
         }
 
-        public static Result cont() {
+        public static Result continueThis() {
             return new Result(null, true);
         }
 
