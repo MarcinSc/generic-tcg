@@ -27,7 +27,7 @@
                                 <property name="effects">
                                     <util:list>
                                         <bean id="selectStartingCharacters"
-                                              class="com.gempukku.tcg.generic.zone.SelectArbitraryCardsFromZoneEffect">
+                                              class="com.gempukku.tcg.generic.zone.player.SelectArbitraryCardsFromZoneEffect">
                                             <property name="attributeName" value="selectedCharacters.*{player}"/>
                                             <property name="min" value="3"/>
                                             <property name="max" value="3"/>
@@ -42,14 +42,14 @@
                                             <property name="attributeValue" value="FrontLine"/>
                                         </bean>
                                         <bean id="putStartingCharactersInFrontLine"
-                                              class="com.gempukku.tcg.generic.zone.MoveObjectsBetweenZonesEffect">
-                                            <property name="player" value="*{player}"/>
+                                              class="com.gempukku.tcg.generic.zone.player.MoveObjectsBetweenZonesEffect">
+                                            <property name="playerFrom" value="*{player}"/>
                                             <property name="zoneFrom" value="setupCharactersZone"/>
                                             <property name="zoneTo" value="inPlayZone"/>
                                             <property name="ids" value="*{selectedCharacters.*{player}}"/>
                                         </bean>
                                         <bean id="listRemainingStartingCharacters"
-                                              class="com.gempukku.tcg.generic.zone.ListObjectsInZoneEffect">
+                                              class="com.gempukku.tcg.generic.zone.player.ListObjectsInZoneEffect">
                                             <property name="attributeName" value="remainingCharacters.*{player}"/>
                                             <property name="player" value="*{player}"/>
                                             <property name="zone" value="setupCharactersZone"/>
@@ -61,20 +61,21 @@
                                             <property name="attributeValue" value="Reserve"/>
                                         </bean>
                                         <bean id="putRemainingCharactersInReserve"
-                                              class="com.gempukku.tcg.generic.zone.MoveObjectsBetweenZonesEffect">
-                                            <property name="player" value="*{player}"/>
+                                              class="com.gempukku.tcg.generic.zone.player.MoveObjectsBetweenZonesEffect">
+                                            <property name="playerFrom" value="*{player}"/>
                                             <property name="zoneFrom" value="setupCharactersZone"/>
                                             <property name="zoneTo" value="inPlayZone"/>
                                             <property name="ids" value="*{remainingCharacters.*{player}}"/>
                                         </bean>
                                         <bean id="setupDeck"
-                                              class="com.gempukku.tcg.generic.zone.MoveObjectsBetweenZonesEffect">
-                                            <property name="player" value="*{player}"/>
+                                              class="com.gempukku.tcg.generic.zone.player.MoveObjectsBetweenZonesEffect">
+                                            <property name="playerFrom" value="*{player}"/>
+                                            <property name="playerTo" value="*{player}"/>
                                             <property name="zoneFrom" value="setupDeckZone"/>
                                             <property name="zoneTo" value="deckZone"/>
                                         </bean>
                                         <bean id="shuffleDeck"
-                                              class="com.gempukku.tcg.generic.zone.ShuffleZoneEffect">
+                                              class="com.gempukku.tcg.generic.zone.player.ShuffleZoneEffect">
                                             <property name="player" value="*{player}"/>
                                             <property name="zone" value="deckZone"/>
                                         </bean>
@@ -121,11 +122,12 @@
                                 <property name="effects">
                                     <util:list>
                                         <bean id="drawEightCards"
-                                              class="com.gempukku.tcg.generic.zone.MoveTopObjectsBetweenZonesEffect">
+                                              class="com.gempukku.tcg.generic.zone.player.MoveTopObjectsBetweenZonesEffect">
                                             <property name="zoneFrom" value="deckZone"/>
                                             <property name="zoneTo" value="handZone"/>
                                             <property name="count" value="8"/>
-                                            <property name="player" value="*{player}"/>
+                                            <property name="playerFrom" value="*{player}"/>
+                                            <property name="playerTo" value="*{player}"/>
                                         </bean>
                                         <bean class="com.gempukku.tcg.generic.effect.context.IncrementContextAttributeEffect">
                                             <property name="attributeName" value="playedCount"/>
@@ -186,10 +188,11 @@
                                                         <property name="min" value="1"/>
                                                         <property name="max" value="1"/>
                                                     </bean>
-                                                    <bean class="com.gempukku.tcg.generic.zone.MoveObjectsBetweenZonesEffect">
+                                                    <bean class="com.gempukku.tcg.generic.zone.player.MoveObjectsBetweenZonesEffect">
                                                         <property name="zoneFrom" value="handZone"/>
                                                         <property name="zoneTo" value="powerPackZone"/>
-                                                        <property name="player" value="*{player}"/>
+                                                        <property name="playerFrom" value="*{player}"/>
+                                                        <property name="playerTo" value="*{player}"/>
                                                         <property name="ids" value="*{selectedCards.*{player}}"/>
                                                     </bean>
                                                 </util:list>
@@ -228,7 +231,7 @@
                                 <property name="effects">
                                     <util:list>
                                         <bean id="listAllCardsInHand"
-                                              class="com.gempukku.tcg.generic.zone.ListObjectsInZoneEffect">
+                                              class="com.gempukku.tcg.generic.zone.player.ListObjectsInZoneEffect">
                                             <property name="attributeName" value="cardsInHand.*{player}"/>
                                             <property name="player" value="*{player}"/>
                                             <property name="zone" value="handZone"/>
@@ -248,11 +251,12 @@
                                                 </bean>
                                             </property>
                                             <property name="effect">
-                                                <bean class="com.gempukku.tcg.generic.zone.MoveObjectsBetweenZonesEffect">
+                                                <bean class="com.gempukku.tcg.generic.zone.player.MoveObjectsBetweenZonesEffect">
                                                     <property name="ids" value="*{unusableCards.*{player}}"/>
                                                     <property name="zoneFrom" value="handZone"/>
                                                     <property name="zoneTo" value="deadPileZone"/>
-                                                    <property name="player" value="*{player}"/>
+                                                    <property name="playerFrom" value="*{player}"/>
+                                                    <property name="playerTo" value="*{player}"/>
                                                 </bean>
                                             </property>
                                         </bean>
@@ -315,7 +319,7 @@
                                                     <property name="effects">
                                                         <util:list>
                                                             <bean id="findPlaceableCards"
-                                                                  class="com.gempukku.tcg.generic.zone.ListObjectsInZoneEffect">
+                                                                  class="com.gempukku.tcg.generic.zone.player.ListObjectsInZoneEffect">
                                                                 <property name="attributeName" value="placeableCards"/>
                                                                 <property name="player" value="*{player}"/>
                                                                 <property name="zone" value="handZone"/>
@@ -370,9 +374,8 @@
                           value="placingCardIndex"/>
                 <property name="effects">
                     <util:list>
-                        <bean class="com.gempukku.tcg.generic.zone.ListObjectsInZoneEffect">
+                        <bean class="com.gempukku.tcg.generic.zone.player.ListObjectsInZoneEffect">
                             <property name="zone" value="inPlayZone"/>
-                            <property name="player" value="*{player}"/>
                             <property name="attributeName" value="placeableOnCards"/>
                             <property name="digitalObjectFilter">
                                 <bean class="com.gempukku.tcg.overpower.filter.PlaceableOnCardsFilter">
@@ -396,11 +399,11 @@
                             <property name="attributeName" value="placedOn"/>
                             <property name="attributeValue" value="*{cardToPlaceOn}"/>
                         </bean>
-                        <bean class="com.gempukku.tcg.generic.zone.MoveObjectsBetweenZonesEffect">
+                        <bean class="com.gempukku.tcg.generic.zone.player.MoveObjectsBetweenZonesEffect">
                             <property name="ids" value="*{cardToPlace}"/>
                             <property name="zoneFrom" value="handZone"/>
                             <property name="zoneTo" value="inPlayZone"/>
-                            <property name="player" value="*{player}"/>
+                            <property name="playerFrom" value="*{player}"/>
                         </bean>
                     </util:list>
                 </property>
@@ -468,7 +471,7 @@
                                                         <property name="attributeName"
                                                                   value="venturedCompletedMissionsCount,venturedReserveMissionsCount"/>
                                                     </bean>
-                                                    <bean class="com.gempukku.tcg.generic.zone.GetObjectsInZoneCountEffect">
+                                                    <bean class="com.gempukku.tcg.generic.zone.player.GetObjectsInZoneCountEffect">
                                                         <property name="player" value="*{player}"/>
                                                         <property name="zone" value="completedMissionsZone"/>
                                                         <property name="attributeName" value="completedMissionsCount"/>
@@ -482,7 +485,7 @@
                                                         <property name="attributeName"
                                                                   value="venturedCompletedMissionsCount"/>
                                                     </bean>
-                                                    <bean class="com.gempukku.tcg.generic.zone.GetObjectsInZoneCountEffect">
+                                                    <bean class="com.gempukku.tcg.generic.zone.player.GetObjectsInZoneCountEffect">
                                                         <property name="player" value="*{player}"/>
                                                         <property name="zone" value="reserveMissionsZone"/>
                                                         <property name="attributeName" value="reserveMissionsCount"/>
@@ -575,15 +578,15 @@
                                                                                           value="drawAndDiscardIndex"/>
                                                                                 <property name="effects">
                                                                                     <util:list>
-                                                                                        <bean class="com.gempukku.tcg.generic.zone.MoveTopObjectsBetweenZonesEffect">
+                                                                                        <bean class="com.gempukku.tcg.generic.zone.player.MoveTopObjectsBetweenZonesEffect">
                                                                                             <property name="zoneFrom"
                                                                                                       value="deckZone"/>
                                                                                             <property name="zoneTo"
                                                                                                       value="handZone"/>
                                                                                             <property name="count"
                                                                                                       value="*{cardsToDraw}"/>
-                                                                                            <property name="player"
-                                                                                                      value="*{opponent}"/>
+                                                                                            <property name="playerFrom" value="*{opponent}"/>
+                                                                                            <property name="playerTo" value="*{opponent}"/>
                                                                                         </bean>
                                                                                         <bean
                                                                                                 class="com.gempukku.tcg.generic.effect.RepeatWhileEffect">
@@ -632,16 +635,15 @@
                                                                                                                 name="max"
                                                                                                                 value="1"/>
                                                                                                     </bean>
-                                                                                                    <bean class="com.gempukku.tcg.generic.zone.MoveObjectsBetweenZonesEffect">
+                                                                                                    <bean class="com.gempukku.tcg.generic.zone.player.MoveObjectsBetweenZonesEffect">
                                                                                                         <property
                                                                                                                 name="zoneFrom"
                                                                                                                 value="handZone"/>
                                                                                                         <property
                                                                                                                 name="zoneTo"
                                                                                                                 value="powerPackZone"/>
-                                                                                                        <property
-                                                                                                                name="player"
-                                                                                                                value="*{opponent}"/>
+                                                                                                        <property name="playerFrom" value="*{opponent}"/>
+                                                                                                        <property name="playerTo" value="*{opponent}"/>
                                                                                                         <property
                                                                                                                 name="ids"
                                                                                                                 value="*{selectedCards.*{opponent}}"/>
@@ -650,7 +652,7 @@
                                                                                             </property>
                                                                                         </bean>
                                                                                         <bean
-                                                                                                class="com.gempukku.tcg.generic.zone.ListObjectsInZoneEffect">
+                                                                                                class="com.gempukku.tcg.generic.zone.player.ListObjectsInZoneEffect">
                                                                                             <property
                                                                                                     name="attributeName"
                                                                                                     value="cardsInHand.*{opponent}"/>
@@ -683,7 +685,7 @@
                                                                                                 </bean>
                                                                                             </property>
                                                                                             <property name="effect">
-                                                                                                <bean class="com.gempukku.tcg.generic.zone.MoveObjectsBetweenZonesEffect">
+                                                                                                <bean class="com.gempukku.tcg.generic.zone.player.MoveObjectsBetweenZonesEffect">
                                                                                                     <property name="ids"
                                                                                                               value="*{unusableCards.*{opponent}}"/>
                                                                                                     <property
@@ -692,9 +694,8 @@
                                                                                                     <property
                                                                                                             name="zoneTo"
                                                                                                             value="deadPileZone"/>
-                                                                                                    <property
-                                                                                                            name="player"
-                                                                                                            value="*{opponent}"/>
+                                                                                                    <property name="playerFrom" value="*{opponent}"/>
+                                                                                                    <property name="playerTo" value="*{opponent}"/>
                                                                                                 </bean>
                                                                                             </property>
                                                                                         </bean>

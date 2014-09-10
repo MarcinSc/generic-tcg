@@ -1,4 +1,4 @@
-package com.gempukku.tcg.generic.zone;
+package com.gempukku.tcg.generic.zone.player;
 
 import com.gempukku.tcg.GameObjects;
 import com.gempukku.tcg.digital.DigitalObject;
@@ -34,7 +34,7 @@ public class GetObjectsInZoneCountEffect implements GameEffect {
 
     @Override
     public Result execute(final GameObjects gameObjects, final GameEffectContext context) {
-        final PlayerDigitalObjectZoneManager zone = (PlayerDigitalObjectZoneManager) gameObjects.getGameObject(_zone.getValue(gameObjects, context));
+        final DigitalObjectZoneManager zone = (DigitalObjectZoneManager) gameObjects.getGameObject(_zone.getValue(gameObjects, context));
 
         final String playerName = _player.getValue(gameObjects, context);
 

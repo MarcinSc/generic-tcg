@@ -47,43 +47,53 @@
 
     <bean id="overpowerCardManager" class="com.gempukku.tcg.overpower.card.OverpowerCardManager"/>
 
-    <bean id="completedMissionsZone" class="com.gempukku.tcg.generic.zone.PlayerDigitalObjectZoneManager">
+    <bean id="completedMissionsZone" class="com.gempukku.tcg.generic.zone.player.DigitalObjectZoneManager">
+        <property name="playerOnly" value="true"/>
         <property name="zone" value="completedMissionsZone"/>
     </bean>
 
-    <bean id="reserveMissionsZone" class="com.gempukku.tcg.generic.zone.PlayerDigitalObjectZoneManager">
+    <bean id="reserveMissionsZone" class="com.gempukku.tcg.generic.zone.player.DigitalObjectZoneManager">
+        <property name="playerOnly" value="true"/>
         <property name="zone" value="reserveMissionsZone"/>
     </bean>
 
-    <bean id="defeatedMissionsZone" class="com.gempukku.tcg.generic.zone.PlayerDigitalObjectZoneManager">
+    <bean id="defeatedMissionsZone" class="com.gempukku.tcg.generic.zone.player.DigitalObjectZoneManager">
+        <property name="playerOnly" value="true"/>
         <property name="zone" value="defeatedMissionsZone"/>
     </bean>
 
-    <bean id="deadPileZone" class="com.gempukku.tcg.generic.zone.PlayerDigitalObjectZoneManager">
+    <bean id="deadPileZone" class="com.gempukku.tcg.generic.zone.player.DigitalObjectZoneManager">
+        <property name="playerOnly" value="true"/>
         <property name="zone" value="deadPileZone"/>
     </bean>
 
-    <bean id="powerPackZone" class="com.gempukku.tcg.generic.zone.PlayerDigitalObjectZoneManager">
+    <bean id="powerPackZone" class="com.gempukku.tcg.generic.zone.player.DigitalObjectZoneManager">
+        <property name="playerOnly" value="true"/>
         <property name="zone" value="powerPackZone"/>
     </bean>
 
-    <bean id="deckZone" class="com.gempukku.tcg.generic.zone.PlayerDigitalObjectZoneManager">
+    <bean id="deckZone" class="com.gempukku.tcg.generic.zone.player.DigitalObjectZoneManager">
+        <property name="playerOnly" value="true"/>
         <property name="zone" value="deckZone"/>
     </bean>
 
-    <bean id="handZone" class="com.gempukku.tcg.generic.zone.PlayerDigitalObjectZoneManager">
+    <bean id="handZone" class="com.gempukku.tcg.generic.zone.player.DigitalObjectZoneManager">
+        <property name="playerOnly" value="true"/>
         <property name="zone" value="handZone"/>
     </bean>
 
-    <bean id="setupCharactersZone" class="com.gempukku.tcg.generic.zone.PlayerDigitalObjectZoneManager">
+    <bean id="setupCharactersZone" class="com.gempukku.tcg.generic.zone.player.DigitalObjectZoneManager">
+        <property name="playerOnly" value="true"/>
         <property name="zone" value="setupCharactersZone"/>
     </bean>
 
-    <bean id="setupDeckZone" class="com.gempukku.tcg.generic.zone.PlayerDigitalObjectZoneManager">
+    <bean id="setupDeckZone" class="com.gempukku.tcg.generic.zone.player.DigitalObjectZoneManager">
+        <property name="playerOnly" value="true"/>
         <property name="zone" value="setupDeckZone"/>
     </bean>
 
-    <bean id="inPlayZone" class="com.gempukku.tcg.generic.zone.PlayerDigitalObjectZoneManager">
+    <bean id="inPlayZone" class="com.gempukku.tcg.generic.zone.player.DigitalObjectZoneManager">
+        <property name="playerOnly" value="false"/>
         <property name="zone" value="inPlayZone"/>
     </bean>
 

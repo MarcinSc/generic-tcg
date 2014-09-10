@@ -18,7 +18,8 @@ import com.gempukku.tcg.generic.decision.YesNoDecision;
 import com.gempukku.tcg.generic.deck.DefaultGameDeck;
 import com.gempukku.tcg.generic.filter.PredicateFilter;
 import com.gempukku.tcg.generic.order.PlayerOrder;
-import com.gempukku.tcg.generic.zone.PlayerDigitalObjectZoneManager;
+import com.gempukku.tcg.generic.predicate.OwnerPredicate;
+import com.gempukku.tcg.generic.zone.player.DigitalObjectZoneManager;
 import com.gempukku.tcg.generic.util.DigitalObjectUtils;
 import com.google.common.base.Predicate;
 import org.junit.BeforeClass;
@@ -65,7 +66,7 @@ public class OverpowerGameTest {
     public void setupGameTest() {
         startSimpleGame();
 
-        final PlayerDigitalObjectZoneManager inPlayZone = OverpowerContextObjects.extractGameObject(_gameObjects, OverpowerContextObjects.IN_PLAY_ZONE);
+        final DigitalObjectZoneManager inPlayZone = OverpowerContextObjects.extractGameObject(_gameObjects, OverpowerContextObjects.IN_PLAY_ZONE);
 
         String firstPlayer = getFirstPlayer();
         String secondPlayer = getNextPlayer(firstPlayer);
@@ -80,7 +81,9 @@ public class OverpowerGameTest {
 
         _gameProcessor.playerSentDecision(_gameObjects, secondPlayer, "1,2,3");
 
-        List<DigitalObject> p1FrontLine = inPlayZone.getDigitalObjectsInZone(_gameObjects, firstPlayer);
+        List<DigitalObject> cardsInPlay = inPlayZone.getDigitalObjectsInZone(_gameObjects, null);
+
+        List<DigitalObject> p1FrontLine = DigitalObjectUtils.filter(_gameObjects, new PredicateFilter(new OwnerPredicate(firstPlayer)), null, cardsInPlay);
         assertEquals(4, p1FrontLine.size());
         assertEquals("c10", getBlueprint(p1FrontLine.get(0)));
         assertEquals("FrontLine", p1FrontLine.get(0).getAttributes().get("position"));
@@ -91,7 +94,7 @@ public class OverpowerGameTest {
         assertEquals("c47", getBlueprint(p1FrontLine.get(3)));
         assertEquals("Reserve", p1FrontLine.get(3).getAttributes().get("position"));
 
-        final List<DigitalObject> p2FrontLine = inPlayZone.getDigitalObjectsInZone(_gameObjects, secondPlayer);
+        final List<DigitalObject> p2FrontLine = DigitalObjectUtils.filter(_gameObjects, new PredicateFilter(new OwnerPredicate(secondPlayer)), null, cardsInPlay);
         assertEquals(4, p2FrontLine.size());
         assertEquals("c24", getBlueprint(p2FrontLine.get(0)));
         assertEquals("FrontLine", p2FrontLine.get(0).getAttributes().get("position"));
@@ -133,11 +136,13 @@ public class OverpowerGameTest {
             String firstPlayer = getFirstPlayer();
             String secondPlayer = getNextPlayer(firstPlayer);
 
-            PlayerDigitalObjectZoneManager inPlayZone = OverpowerContextObjects.extractGameObject(_gameObjects, OverpowerContextObjects.IN_PLAY_ZONE);
+            DigitalObjectZoneManager inPlayZone = OverpowerContextObjects.extractGameObject(_gameObjects, OverpowerContextObjects.IN_PLAY_ZONE);
 
             _gameProcessor.playerSentDecision(_gameObjects, secondPlayer, "1,2,3");
 
-            List<DigitalObject> p1FrontLine = inPlayZone.getDigitalObjectsInZone(_gameObjects, firstPlayer);
+            List<DigitalObject> cardsInPlay = inPlayZone.getDigitalObjectsInZone(_gameObjects, null);
+
+            List<DigitalObject> p1FrontLine = DigitalObjectUtils.filter(_gameObjects, new PredicateFilter(new OwnerPredicate(firstPlayer)), null, cardsInPlay);
             assertEquals(4, p1FrontLine.size());
             assertEquals("c10", getBlueprint(p1FrontLine.get(0)));
             assertEquals("FrontLine", p1FrontLine.get(0).getAttributes().get("position"));
@@ -148,7 +153,7 @@ public class OverpowerGameTest {
             assertEquals("c47", getBlueprint(p1FrontLine.get(3)));
             assertEquals("Reserve", p1FrontLine.get(3).getAttributes().get("position"));
 
-            final List<DigitalObject> p2FrontLine = inPlayZone.getDigitalObjectsInZone(_gameObjects, secondPlayer);
+            final List<DigitalObject> p2FrontLine = DigitalObjectUtils.filter(_gameObjects, new PredicateFilter(new OwnerPredicate(secondPlayer)), null, cardsInPlay);
             assertEquals(4, p2FrontLine.size());
             assertEquals("c24", getBlueprint(p2FrontLine.get(0)));
             assertEquals("FrontLine", p2FrontLine.get(0).getAttributes().get("position"));
@@ -173,13 +178,13 @@ public class OverpowerGameTest {
         _gameProcessor.playerSentDecision(_gameObjects, firstPlayer, "0,1,2");
         _gameProcessor.playerSentDecision(_gameObjects, secondPlayer, "0,1,2");
 
-        final PlayerDigitalObjectZoneManager handZone = OverpowerContextObjects.extractGameObject(_gameObjects, OverpowerContextObjects.HAND_ZONE);
+        final DigitalObjectZoneManager handZone = OverpowerContextObjects.extractGameObject(_gameObjects, OverpowerContextObjects.HAND_ZONE);
         List<DigitalObject> handP1 = handZone.getDigitalObjectsInZone(_gameObjects, P1);
         List<DigitalObject> handP2 = handZone.getDigitalObjectsInZone(_gameObjects, P2);
         assertEquals(8, handP1.size());
         assertEquals(8, handP2.size());
 
-        final PlayerDigitalObjectZoneManager powerPackZone = OverpowerContextObjects.extractGameObject(_gameObjects, OverpowerContextObjects.POWER_PACK_ZONE);
+        final DigitalObjectZoneManager powerPackZone = OverpowerContextObjects.extractGameObject(_gameObjects, OverpowerContextObjects.POWER_PACK_ZONE);
 
         validateDiscardDuplicateDecision(_decisionHolder.getDecision(firstPlayer));
 
@@ -221,7 +226,7 @@ public class OverpowerGameTest {
         _gameProcessor.playerSentDecision(_gameObjects, firstPlayer, "0,1,2");
         _gameProcessor.playerSentDecision(_gameObjects, secondPlayer, "0,1,2");
 
-        final PlayerDigitalObjectZoneManager handZone = OverpowerContextObjects.extractGameObject(_gameObjects, OverpowerContextObjects.HAND_ZONE);
+        final DigitalObjectZoneManager handZone = OverpowerContextObjects.extractGameObject(_gameObjects, OverpowerContextObjects.HAND_ZONE);
         List<DigitalObject> handP1 = handZone.getDigitalObjectsInZone(_gameObjects, P1);
         List<DigitalObject> handP2 = handZone.getDigitalObjectsInZone(_gameObjects, P2);
         assertEquals(8, handP1.size());
@@ -241,7 +246,7 @@ public class OverpowerGameTest {
         handP2 = handZone.getDigitalObjectsInZone(_gameObjects, P2);
         assertEquals(7, handP2.size());
 
-        final PlayerDigitalObjectZoneManager deadPileZone = OverpowerContextObjects.extractGameObject(_gameObjects, OverpowerContextObjects.DEAD_PILE_ZONE);
+        final DigitalObjectZoneManager deadPileZone = OverpowerContextObjects.extractGameObject(_gameObjects, OverpowerContextObjects.DEAD_PILE_ZONE);
         assertEquals(1, deadPileZone.getDigitalObjectsInZone(_gameObjects, P1).size());
         assertEquals(1, deadPileZone.getDigitalObjectsInZone(_gameObjects, P2).size());
 

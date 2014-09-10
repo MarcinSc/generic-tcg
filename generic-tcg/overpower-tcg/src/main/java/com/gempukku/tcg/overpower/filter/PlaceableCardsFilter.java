@@ -5,7 +5,11 @@ import com.gempukku.tcg.digital.DigitalObject;
 import com.gempukku.tcg.generic.effect.GameEffectContext;
 import com.gempukku.tcg.generic.evaluator.ConstantStringEvaluator;
 import com.gempukku.tcg.generic.filter.DigitalObjectFilter;
-import com.gempukku.tcg.generic.zone.PlayerDigitalObjectZoneManager;
+import com.gempukku.tcg.generic.filter.Filters;
+import com.gempukku.tcg.generic.filter.PredicateFilter;
+import com.gempukku.tcg.generic.predicate.OwnerPredicate;
+import com.gempukku.tcg.generic.util.DigitalObjectUtils;
+import com.gempukku.tcg.generic.zone.player.DigitalObjectZoneManager;
 import com.gempukku.tcg.overpower.OverpowerContextObjects;
 import com.gempukku.tcg.overpower.card.OverpowerCardBlueprint;
 import com.gempukku.tcg.overpower.card.OverpowerCardManager;
@@ -20,12 +24,12 @@ public class PlaceableCardsFilter implements DigitalObjectFilter {
         if (!possibleCardToPlace.getCardType().equals("power"))
             return false;
 
-        final PlayerDigitalObjectZoneManager inPlay = OverpowerContextObjects.extractGameObject(gameObjects, OverpowerContextObjects.IN_PLAY_ZONE);
+        final DigitalObjectZoneManager inPlay = OverpowerContextObjects.extractGameObject(gameObjects, OverpowerContextObjects.IN_PLAY_ZONE);
 
         PlaceableOnCardsFilter placeableOnCardsFilter = new PlaceableOnCardsFilter();
         placeableOnCardsFilter.setId(new ConstantStringEvaluator(object.getId()));
-        final List<DigitalObject> cardsInPlay = inPlay.getDigitalObjectsInZone(gameObjects, object.getAttributes().get("owner"));
-        for (DigitalObject cardInPlayObj : cardsInPlay) {
+        final List<DigitalObject> cardsInPlay = inPlay.getDigitalObjectsInZone(gameObjects, null);
+        for (DigitalObject cardInPlayObj : DigitalObjectUtils.filter(gameObjects, new PredicateFilter(new OwnerPredicate(object.getAttributes().get("owner"))), context, cardsInPlay)) {
             if (placeableOnCardsFilter.accept(gameObjects, context, cardInPlayObj))
                 return true;
         }

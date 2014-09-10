@@ -1,4 +1,4 @@
-package com.gempukku.tcg.generic.zone;
+package com.gempukku.tcg.generic.zone.player;
 
 import com.gempukku.tcg.GameObjects;
 import com.gempukku.tcg.generic.effect.GameEffectContext;
@@ -22,7 +22,7 @@ public class ShuffleZoneEffect implements GameEffect {
         final String zoneName = _zone.getValue(gameObjects, context);
         final String player = _player.getValue(gameObjects, context);
 
-        final PlayerDigitalObjectZoneManager zone = (PlayerDigitalObjectZoneManager) gameObjects.getGameObject(zoneName);
+        final DigitalObjectZoneManager zone = (DigitalObjectZoneManager) gameObjects.getGameObject(zoneName);
         zone.shuffleItemsInZone(gameObjects, player);
         return Result.pass();
     }

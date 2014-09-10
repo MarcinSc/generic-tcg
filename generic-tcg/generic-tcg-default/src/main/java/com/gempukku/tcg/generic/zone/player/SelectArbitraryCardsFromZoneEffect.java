@@ -1,4 +1,4 @@
-package com.gempukku.tcg.generic.zone;
+package com.gempukku.tcg.generic.zone.player;
 
 import com.gempukku.tcg.GameObjects;
 import com.gempukku.tcg.digital.DigitalObject;
@@ -65,7 +65,7 @@ public class SelectArbitraryCardsFromZoneEffect implements GameEffect {
             return Result.pass();
 
         final CardManager cardManager = GenericContextObjects.extractGameObject(gameObjects, GenericContextObjects.CARD_MANAGER);
-        final PlayerDigitalObjectZoneManager zone = (PlayerDigitalObjectZoneManager) gameObjects.getGameObject(_zone.getValue(gameObjects, context));
+        final DigitalObjectZoneManager zone = (DigitalObjectZoneManager) gameObjects.getGameObject(_zone.getValue(gameObjects, context));
 
         final String playerName = _player.getValue(gameObjects, context);
 

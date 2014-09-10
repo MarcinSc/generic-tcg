@@ -6,7 +6,7 @@ import com.gempukku.tcg.digital.DigitalObject;
 import com.gempukku.tcg.generic.GenericContextObjects;
 import com.gempukku.tcg.generic.InitializingPlayerDeckGameProcessor;
 import com.gempukku.tcg.generic.card.CardManager;
-import com.gempukku.tcg.generic.zone.PlayerDigitalObjectZoneManager;
+import com.gempukku.tcg.generic.zone.player.DigitalObjectZoneManager;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,9 +26,9 @@ public class SetupOverpowerGameProcessor extends InitializingPlayerDeckGameProce
         GenericContextObjects.extractGameObject(gameObjects, GenericContextObjects.PLAYER_ORDER).setTurnOrder(gameObjects, firstPlayer, secondPlayer);
 
         final CardManager cardManager = GenericContextObjects.extractGameObject(gameObjects, GenericContextObjects.CARD_MANAGER);
-        final PlayerDigitalObjectZoneManager setupCharacters = OverpowerContextObjects.extractGameObject(gameObjects, OverpowerContextObjects.SETUP_CHARACTERS_ZONE);
-        final PlayerDigitalObjectZoneManager setupDeck = OverpowerContextObjects.extractGameObject(gameObjects, OverpowerContextObjects.SETUP_DECK_ZONE);
-        final PlayerDigitalObjectZoneManager reserveMissionDeck = OverpowerContextObjects.extractGameObject(gameObjects, OverpowerContextObjects.RESERVE_MISSIONS_ZONE);
+        final DigitalObjectZoneManager setupCharacters = OverpowerContextObjects.extractGameObject(gameObjects, OverpowerContextObjects.SETUP_CHARACTERS_ZONE);
+        final DigitalObjectZoneManager setupDeck = OverpowerContextObjects.extractGameObject(gameObjects, OverpowerContextObjects.SETUP_DECK_ZONE);
+        final DigitalObjectZoneManager reserveMissionDeck = OverpowerContextObjects.extractGameObject(gameObjects, OverpowerContextObjects.RESERVE_MISSIONS_ZONE);
 
         for (String player : players) {
             final List<String> characters = gameDeckMap.get(player).getCardBlueprints().get("characters");
